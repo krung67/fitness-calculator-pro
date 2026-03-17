@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Calorías y Macros Gratis (Precisa y Rápida)</title>
+  <meta name="description" content="Calcula tus calorías, metabolismo basal y macronutrientes de forma precisa. Empieza tu cambio físico hoy.">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #0f172a, #020617);
+      color: white;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #22c55e;
+    }
+
+    .subtitle {
+      color: #cbd5f5;
+      margin-top: 10px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #22c55e;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #16a34a;
+    }
+
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #38bdf8;
+      font-size: 18px;
+    }
+
+    .steps {
+      background: #020617;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Calculadora de Calorías y Macros</h1>
+  <p class="subtitle">Descubre exactamente cuántas calorías necesitas para definir, ganar músculo o mantenerte.</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>🔥 Metabolismo Basal (BMR)</h2>
+    <input type="number" id="edad" placeholder="Edad">
+    <select id="sexo">
+      <option value="">Sexo</option>
+      <option value="hombre">Hombre</option>
+      <option value="mujer">Mujer</option>
+    </select>
+    <input type="number" id="peso" placeholder="Peso (kg)">
+    <input type="number" id="altura" placeholder="Altura (cm)">
+    <button onclick="calcularBMR()">Calcular BMR</button>
+    <div class="result" id="resultadoBMR"></div>
+  </div>
+
+  <div class="card">
+    <h2>⚡ Calorías de Mantenimiento</h2>
+    <input type="number" id="bmrInput" placeholder="Tu BMR">
+    <select id="actividad">
+      <option value="">Nivel de actividad</option>
+      <option value="1.2">Sedentario</option>
+      <option value="1.375">Ligero</option>
+      <option value="1.55">Moderado</option>
+      <option value="1.725">Alto</option>
+      <option value="1.9">Muy alto</option>
+    </select>
+    <button onclick="calcularMantenimiento()">Calcular mantenimiento</button>
+    <div class="result" id="resultadoMantenimiento"></div>
+  </div>
+
+  <div class="card">
+    <h2>⚖️ Déficit / Volumen</h2>
+    <input type="number" id="mantenimiento" placeholder="Calorías mantenimiento">
+    <select id="objetivo">
+      <option value="">Objetivo</option>
+      <option value="deficit">Definición</option>
+      <option value="mantenimiento">Mantenimiento</option>
+      <option value="volumen">Volumen</option>
+    </select>
+    <button onclick="calcularObjetivo()">Calcular objetivo</button>
+    <div class="result" id="resultadoObjetivo"></div>
+  </div>
+
+  <div class="card">
+    <h2>🍗 Macronutrientes</h2>
+    <input type="number" id="pesoMacro" placeholder="Peso (kg)">
+    <select id="objetivoMacro">
+      <option value="">Objetivo</option>
+      <option value="deficit">Definición</option>
+      <option value="volumen">Volumen</option>
+    </select>
+    <button onclick="calcularMacros()">Calcular macros</button>
+    <div class="result" id="resultadoMacros"></div>
+  </div>
+
+  <div class="steps">
+    <h3>📊 Cómo usar la calculadora</h3>
+    <p>1. Calcula tu metabolismo basal</p>
+    <p>2. Calcula tus calorías de mantenimiento</p>
+    <p>3. Ajusta según tu objetivo</p>
+    <p>4. Calcula tus macronutrientes</p>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Calculadora Fitness | Empieza tu cambio hoy
+</footer>
+
+<script>
+function calcularBMR() {
+  let edad = document.getElementById("edad").value;
+  let sexo = document.getElementById("sexo").value;
+  let peso = document.getElementById("peso").value;
+  let altura = document.getElementById("altura").value;
+
+  if (!edad || !sexo || !peso || !altura) return alert("Completa todos los campos");
+
+  let bmr = sexo === "hombre"
+    ? 10*peso + 6.25*altura - 5*edad + 5
+    : 10*peso + 6.25*altura - 5*edad - 161;
+
+  document.getElementById("resultadoBMR").innerText = "Tu BMR es: " + Math.round(bmr);
+  document.getElementById("bmrInput").value = Math.round(bmr);
+}
+
+function calcularMantenimiento() {
+  let bmr = document.getElementById("bmrInput").value;
+  let actividad = document.getElementById("actividad").value;
+
+  if (!bmr || !actividad) return alert("Completa todos los campos");
+
+  let mantenimiento = bmr * actividad;
+  document.getElementById("resultadoMantenimiento").innerText = "Mantenimiento: " + Math.round(mantenimiento);
+  document.getElementById("mantenimiento").value = Math.round(mantenimiento);
+}
+
+function calcularObjetivo() {
+  let mantenimiento = document.getElementById("mantenimiento").value;
+  let objetivo = document.getElementById("objetivo").value;
+
+  if (!mantenimiento || !objetivo) return alert("Completa todos los campos");
+
+  let resultado = objetivo === "deficit" ? mantenimiento*0.8 : objetivo === "volumen" ? mantenimiento*1.15 : mantenimiento;
+
+  document.getElementById("resultadoObjetivo").innerText = "Calorías objetivo: " + Math.round(resultado);
+}
+
+function calcularMacros() {
+  let peso = document.getElementById("pesoMacro").value;
+  let objetivo = document.getElementById("objetivoMacro").value;
+
+  if (!peso || !objetivo) return alert("Completa todos los campos");
+
+  let prote = peso * 2;
+  let grasa = peso * 0.8;
+  let kcal = objetivo === "deficit" ? peso*30 : peso*35;
+
+  let carbs = (kcal - (prote*4 + grasa*9)) / 4;
+
+  document.getElementById("resultadoMacros").innerText = `Proteínas: ${Math.round(prote)}g | Grasas: ${Math.round(grasa)}g | Carbs: ${Math.round(carbs)}g`;
+}
+</script>
+
+</body>
+</html>
