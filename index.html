@@ -240,57 +240,98 @@
 </footer>
 
 <script>
-  // FUNCIONES DE CALCULO
+  <script>
+  // -------------------------
+  // 1️⃣ CALCULO BMR (Mifflin-St Jeor)
+  // -------------------------
   function calcularBMR() {
     const edad = parseInt(document.getElementById('edad').value);
     const peso = parseFloat(document.getElementById('peso').value);
     const altura = parseFloat(document.getElementById('altura').value);
     const sexo = document.getElementById('sexo').value;
+
     if (!edad || !peso || !altura || !sexo) return alert('Completa todos los campos');
-    let bmr = sexo === 'hombre' 
-      ? 88.36 + (13.4 * peso) + (4.8 * altura) - (5.7 * edad)
-      : 447.6 + (9.2 * peso) + (3.1 * altura) - (4.3 * edad);
-    document.getElementById('resultadoBMR').textContent = `${bmr.toFixed(2)} kcal/día`;
-    document.getElementById('bmrInput').value = bmr.toFixed(2);
+
+    let bmr;
+    if (sexo === 'hombre') {
+      bmr = 10 * peso + 6.25 * altura - 5 * edad + 5;
+    } else {
+      bmr = 10 * peso + 6.25 * altura - 5 * edad - 161;
+    }
+
+    document.getElementById('resultadoBMR').textContent = `${bmr.toFixed(0)} kcal/día`;
+    document.getElementById('bmrInput').value = bmr.toFixed(0);
   }
 
+  // -------------------------
+  // 2️⃣ CALCULO TDEE / MANTENIMIENTO
+  // -------------------------
   function calcularMantenimiento() {
     const bmr = parseFloat(document.getElementById('bmrInput').value);
     const actividad = parseFloat(document.getElementById('actividad').value);
+
     if (!bmr || !actividad) return alert('Completa todos los campos');
+
     const mantenimiento = bmr * actividad;
     document.getElementById('resultadoMantenimiento').textContent = `${mantenimiento.toFixed(0)} kcal/día`;
     document.getElementById('mantenimiento').value = mantenimiento.toFixed(0);
   }
 
+  // -------------------------
+  // 3️⃣ AJUSTE SEGÚN OBJETIVO
+  // -------------------------
   function calcularObjetivo() {
     const mantenimiento = parseFloat(document.getElementById('mantenimiento').value);
     const objetivo = document.getElementById('objetivo').value;
+
     if (!mantenimiento || !objetivo) return alert('Completa todos los campos');
+
     let calorias;
-    if (objetivo === 'deficit') calorias = mantenimiento * 0.85;
-    else if (objetivo === 'volumen') calorias = mantenimiento * 1.15;
+    if (objetivo === 'deficit') calorias = mantenimiento * 0.8; // 20% déficit
+    else if (objetivo === 'volumen') calorias = mantenimiento * 1.15; // +15% volumen limpio
     else calorias = mantenimiento;
+
     document.getElementById('resultadoObjetivo').textContent = `${calorias.toFixed(0)} kcal/día`;
+    document.getElementById('pesoMacro').value = document.getElementById('peso').value; // Auto-fill peso para macros
   }
 
+  // -------------------------
+  // 4️⃣ MACRONUTRIENTES REALISTAS
+  // -------------------------
   function calcularMacros() {
     const peso = parseFloat(document.getElementById('pesoMacro').value);
     const objetivo = document.getElementById('objetivoMacro').value;
-    if (!peso || !objetivo) return alert('Completa todos los campos');
-    let proteina = peso * (objetivo === 'volumen' ? 2.2 : 2);
-    let grasa = peso * (objetivo === 'volumen' ? 1 : 0.8);
-    let carbos = (objetivo === 'volumen' ? 40 : 35) * peso;
-    document.getElementById('resultadoMacros').textContent = `Proteína: ${proteina.toFixed(0)} g, Grasas: ${grasa.toFixed(0)} g, Carbohidratos: ${carbos.toFixed(0)} g`;
+    const calorias = parseFloat(document.getElementById('mantenimiento').value) * 
+                     (objetivo === 'volumen' ? 1.15 : objetivo === 'deficit' ? 0.8 : 1);
+
+    if (!peso || !objetivo || !calorias) return alert('Completa todos los campos');
+
+    // Rangos científicos por kg
+    let proteina = peso * 2; // g
+    let grasa = peso * 0.9;  // g
+    let calProte = proteina * 4;
+    let calGrasa = grasa * 9;
+
+    // Carbohidratos = calorías restantes
+    let calCarbo = calorias - (calProte + calGrasa);
+    if (calCarbo < 0) calCarbo = 0; // No negativo
+    let carbos = calCarbo / 4; // g
+
+    document.getElementById('resultadoMacros').textContent = 
+      `Proteína: ${proteina.toFixed(0)} g, Grasas: ${grasa.toFixed(0)} g, Carbohidratos: ${carbos.toFixed(0)} g`;
   }
 
-  // HISTORIAL
+  // -------------------------
+  // 5️⃣ HISTORIAL
+  // -------------------------
   function guardarHistorial() {
     const bmr = document.getElementById('resultadoBMR').textContent;
     const mantenimiento = document.getElementById('resultadoMantenimiento').textContent;
     const objetivo = document.getElementById('resultadoObjetivo').textContent;
     const macros = document.getElementById('resultadoMacros').textContent;
+
     if (!bmr) return alert('Calcula algo antes de guardar');
+
     let historial = JSON.parse(localStorage.getItem('historial')) || [];
     historial.push({bmr, mantenimiento, objetivo, macros, fecha: new Date().toLocaleString()});
     localStorage.setItem('historial', JSON.stringify(historial));
@@ -305,7 +346,119 @@
   function mostrarHistorial() {
     const historialDiv = document.getElementById('historial');
     const historial = JSON.parse(localStorage.getItem('historial')) || [];
-    historialDiv.innerHTML = historial.map(h => `<p>${h.fecha} | BMR: ${h.bmr}, Mant.: ${h.mantenimiento}, Objetivo: ${h.objetivo}, Macros: ${h.macros}</p>`).join('');
+    historialDiv.innerHTML = historial.map(h => 
+      `<p>${h.fecha} | BMR: ${h.bmr}, Mant.: ${h.mantenimiento}, Objetivo: ${h.objetivo}, Macros: ${h.macros}</p>`).join('');
+  }
+
+  mostrarHistorial();
+</script><script>
+  // -------------------------
+  // 1️⃣ CALCULO BMR (Mifflin-St Jeor)
+  // -------------------------
+  function calcularBMR() {
+    const edad = parseInt(document.getElementById('edad').value);
+    const peso = parseFloat(document.getElementById('peso').value);
+    const altura = parseFloat(document.getElementById('altura').value);
+    const sexo = document.getElementById('sexo').value;
+
+    if (!edad || !peso || !altura || !sexo) return alert('Completa todos los campos');
+
+    let bmr;
+    if (sexo === 'hombre') {
+      bmr = 10 * peso + 6.25 * altura - 5 * edad + 5;
+    } else {
+      bmr = 10 * peso + 6.25 * altura - 5 * edad - 161;
+    }
+
+    document.getElementById('resultadoBMR').textContent = `${bmr.toFixed(0)} kcal/día`;
+    document.getElementById('bmrInput').value = bmr.toFixed(0);
+  }
+
+  // -------------------------
+  // 2️⃣ CALCULO TDEE / MANTENIMIENTO
+  // -------------------------
+  function calcularMantenimiento() {
+    const bmr = parseFloat(document.getElementById('bmrInput').value);
+    const actividad = parseFloat(document.getElementById('actividad').value);
+
+    if (!bmr || !actividad) return alert('Completa todos los campos');
+
+    const mantenimiento = bmr * actividad;
+    document.getElementById('resultadoMantenimiento').textContent = `${mantenimiento.toFixed(0)} kcal/día`;
+    document.getElementById('mantenimiento').value = mantenimiento.toFixed(0);
+  }
+
+  // -------------------------
+  // 3️⃣ AJUSTE SEGÚN OBJETIVO
+  // -------------------------
+  function calcularObjetivo() {
+    const mantenimiento = parseFloat(document.getElementById('mantenimiento').value);
+    const objetivo = document.getElementById('objetivo').value;
+
+    if (!mantenimiento || !objetivo) return alert('Completa todos los campos');
+
+    let calorias;
+    if (objetivo === 'deficit') calorias = mantenimiento * 0.8; // 20% déficit
+    else if (objetivo === 'volumen') calorias = mantenimiento * 1.15; // +15% volumen limpio
+    else calorias = mantenimiento;
+
+    document.getElementById('resultadoObjetivo').textContent = `${calorias.toFixed(0)} kcal/día`;
+    document.getElementById('pesoMacro').value = document.getElementById('peso').value; // Auto-fill peso para macros
+  }
+
+  // -------------------------
+  // 4️⃣ MACRONUTRIENTES REALISTAS
+  // -------------------------
+  function calcularMacros() {
+    const peso = parseFloat(document.getElementById('pesoMacro').value);
+    const objetivo = document.getElementById('objetivoMacro').value;
+    const calorias = parseFloat(document.getElementById('mantenimiento').value) * 
+                     (objetivo === 'volumen' ? 1.15 : objetivo === 'deficit' ? 0.8 : 1);
+
+    if (!peso || !objetivo || !calorias) return alert('Completa todos los campos');
+
+    // Rangos científicos por kg
+    let proteina = peso * 2; // g
+    let grasa = peso * 0.9;  // g
+    let calProte = proteina * 4;
+    let calGrasa = grasa * 9;
+
+    // Carbohidratos = calorías restantes
+    let calCarbo = calorias - (calProte + calGrasa);
+    if (calCarbo < 0) calCarbo = 0; // No negativo
+    let carbos = calCarbo / 4; // g
+
+    document.getElementById('resultadoMacros').textContent = 
+      `Proteína: ${proteina.toFixed(0)} g, Grasas: ${grasa.toFixed(0)} g, Carbohidratos: ${carbos.toFixed(0)} g`;
+  }
+
+  // -------------------------
+  // 5️⃣ HISTORIAL
+  // -------------------------
+  function guardarHistorial() {
+    const bmr = document.getElementById('resultadoBMR').textContent;
+    const mantenimiento = document.getElementById('resultadoMantenimiento').textContent;
+    const objetivo = document.getElementById('resultadoObjetivo').textContent;
+    const macros = document.getElementById('resultadoMacros').textContent;
+
+    if (!bmr) return alert('Calcula algo antes de guardar');
+
+    let historial = JSON.parse(localStorage.getItem('historial')) || [];
+    historial.push({bmr, mantenimiento, objetivo, macros, fecha: new Date().toLocaleString()});
+    localStorage.setItem('historial', JSON.stringify(historial));
+    mostrarHistorial();
+  }
+
+  function borrarHistorial() {
+    localStorage.removeItem('historial');
+    mostrarHistorial();
+  }
+
+  function mostrarHistorial() {
+    const historialDiv = document.getElementById('historial');
+    const historial = JSON.parse(localStorage.getItem('historial')) || [];
+    historialDiv.innerHTML = historial.map(h => 
+      `<p>${h.fecha} | BMR: ${h.bmr}, Mant.: ${h.mantenimiento}, Objetivo: ${h.objetivo}, Macros: ${h.macros}</p>`).join('');
   }
 
   mostrarHistorial();
