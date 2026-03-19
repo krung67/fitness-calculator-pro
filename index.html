@@ -170,6 +170,15 @@
       <li><a href="https://amzn.to/4sKXI8D" target="_blank">👉 Báscula digital para seguimiento</a></li>
     </ul>
   </div>
+  <div class="card">
+  <h2>📊 Tu historial</h2>
+  <p>Se guardan automáticamente tus últimos cálculos en este dispositivo.</p>
+
+  <button onclick="guardarHistorial()">Guardar resultado actual</button>
+  <button onclick="borrarHistorial()" style="margin-top:10px;background:#ef4444;">Borrar historial</button>
+
+  <div id="historial" class="result" style="margin-top:15px;"></div>
+</div>
 
   <div class="steps">
     <h3>📊 Cómo usar la calculadora</h3>
@@ -240,6 +249,65 @@ function calcularMacros() {
 
   document.getElementById("resultadoMacros").innerText = `Proteínas: ${Math.round(prote)}g | Grasas: ${Math.round(grasa)}g | Carbs: ${Math.round(carbs)}g`;
 }
+</script>
+  <script>
+// Guardar en historial
+function guardarHistorial() {
+  let bmr = document.getElementById("resultadoBMR").innerText;
+  let mantenimiento = document.getElementById("resultadoMantenimiento").innerText;
+  let objetivo = document.getElementById("resultadoObjetivo").innerText;
+  let macros = document.getElementById("resultadoMacros").innerText;
+
+  if (!bmr && !mantenimiento && !objetivo && !macros) {
+    return alert("Primero haz algún cálculo");
+  }
+
+  let historial = JSON.parse(localStorage.getItem("historial")) || [];
+
+  let nuevo = {
+    fecha: new Date().toLocaleDateString(),
+    bmr,
+    mantenimiento,
+    objetivo,
+    macros
+  };
+
+  historial.push(nuevo);
+
+  localStorage.setItem("historial", JSON.stringify(historial));
+
+  mostrarHistorial();
+}
+
+// Mostrar historial
+function mostrarHistorial() {
+  let historial = JSON.parse(localStorage.getItem("historial")) || [];
+  let contenedor = document.getElementById("historial");
+
+  if (historial.length === 0) {
+    contenedor.innerHTML = "No hay datos guardados";
+    return;
+  }
+
+  contenedor.innerHTML = historial.map(item => `
+    <div style="margin-bottom:10px;">
+      📅 ${item.fecha}<br>
+      ${item.bmr}<br>
+      ${item.mantenimiento}<br>
+      ${item.objetivo}<br>
+      ${item.macros}
+    </div>
+  `).reverse().join("");
+}
+
+// Borrar historial
+function borrarHistorial() {
+  localStorage.removeItem("historial");
+  mostrarHistorial();
+}
+
+// Cargar al entrar
+window.onload = mostrarHistorial;
 </script>
 
 </body>
