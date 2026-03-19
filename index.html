@@ -3,110 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <!-- FRAGMENTO DE VERIFICACIÓN ADSENSE -->
- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6100190147209730"
-     crossorigin="anonymous"></script>
+  <!-- FRAGMENTO DE VERIFICACIÓN ADSENSE -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6100190147209730"
+      crossorigin="anonymous"></script>
+
   <title>Calculadora de Calorías y Macros Gratis (Precisa y Rápida)</title>
   <meta name="description" content="Calcula tus calorías, metabolismo basal y macronutrientes de forma precisa. Empieza tu cambio físico hoy.">
 
   <style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    background: radial-gradient(circle at top, #0f172a, #020617);
-    color: white;
-  }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      color: white;
+    }
 
-  header {
-    text-align: center;
-    padding: 50px 20px 30px;
-  }
+    header {
+      text-align: center;
+      padding: 50px 20px 30px;
+    }
 
-  h1 {
-    font-size: 2.4rem;
-    color: #22c55e;
-  }
+    h1 {
+      font-size: 2.4rem;
+      color: #22c55e;
+    }
 
-  .subtitle {
-    color: #94a3b8;
-  }
+    .subtitle {
+      color: #94a3b8;
+    }
 
-  .container {
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
-  }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
 
-  .card {
-    background: rgba(30, 41, 59, 0.9);
-    padding: 25px;
-    margin-bottom: 25px;
-    border-radius: 18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    transition: 0.25s;
-  }
+    .card {
+      background: rgba(30, 41, 59, 0.9);
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 18px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      transition: 0.25s;
+    }
 
-  .card:hover {
-    transform: translateY(-5px);
-  }
+    .card:hover {
+      transform: translateY(-5px);
+    }
 
-  input, select {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0 12px;
-    border-radius: 10px;
-    border: none;
-    background: #020617;
-    color: white;
-  }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 12px;
+      border-radius: 10px;
+      border: none;
+      background: #020617;
+      color: white;
+    }
 
-  input:focus, select:focus {
-    outline: none;
-    box-shadow: 0 0 10px #22c55e;
-  }
+    input:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 10px #22c55e;
+    }
 
-  button {
-    width: 100%;
-    padding: 13px;
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-  }
+    button {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
 
-  button:hover {
-    transform: scale(1.03);
-  }
+    button:hover {
+      transform: scale(1.03);
+    }
 
-  .result {
-    margin-top: 15px;
-    font-weight: bold;
-    font-size: 18px;
-    background: rgba(56,189,248,0.1);
-    padding: 10px;
-    border-radius: 10px;
-    color: #38bdf8;
-  }
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+      background: rgba(56,189,248,0.1);
+      padding: 10px;
+      border-radius: 10px;
+      color: #38bdf8;
+      word-wrap: break-word;
+    }
 
-  footer {
-    text-align: center;
-    padding: 30px;
-    color: #64748b;
-  }
-</style>
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #64748b;
+    }
+
+    a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
   <h1>Calculadora de Calorías y Macros</h1>
-  <p class="subtitle">Descubre exactamente cuántas calorías necesitas para definir, ganar músculo o mantenerte.</p>
+  <p class="subtitle">Descubre exactamente cuántas calorías necesitas para definir, ganar músculo o mantenerte. Empieza tu cambio físico hoy.</p>
 </header>
 
 <div class="container">
 
+  <!-- METABOLISMO BASAL -->
   <div class="card">
     <h2>🔥 Metabolismo Basal (BMR)</h2>
     <input type="number" id="edad" placeholder="Edad">
@@ -121,6 +134,7 @@
     <div class="result" id="resultadoBMR"></div>
   </div>
 
+  <!-- CALORÍAS DE MANTENIMIENTO -->
   <div class="card">
     <h2>⚡ Calorías de Mantenimiento</h2>
     <input type="number" id="bmrInput" placeholder="Tu BMR">
@@ -136,6 +150,7 @@
     <div class="result" id="resultadoMantenimiento"></div>
   </div>
 
+  <!-- OBJETIVO CALÓRICO -->
   <div class="card">
     <h2>⚖️ Déficit / Volumen</h2>
     <input type="number" id="mantenimiento" placeholder="Calorías mantenimiento">
@@ -149,6 +164,7 @@
     <div class="result" id="resultadoObjetivo"></div>
   </div>
 
+  <!-- MACRONUTRIENTES -->
   <div class="card">
     <h2>🍗 Macronutrientes</h2>
     <input type="number" id="pesoMacro" placeholder="Peso (kg)">
@@ -160,7 +176,8 @@
     <button onclick="calcularMacros()">Calcular macros</button>
     <div class="result" id="resultadoMacros"></div>
   </div>
-    <!-- BLOQUE DE AFILIADOS -->
+
+  <!-- PRODUCTOS RECOMENDADOS -->
   <div class="card">
     <h2>💪 Productos recomendados</h2>
     <p>Para mejorar tus resultados, estos productos te ayudarán según tu objetivo:</p>
@@ -170,911 +187,128 @@
       <li><a href="https://amzn.to/4sKXI8D" target="_blank">👉 Báscula digital para seguimiento</a></li>
     </ul>
   </div>
+
+  <!-- HISTORIAL DEL USUARIO -->
   <div class="card">
-  <h2>📊 Tu historial</h2>
-  <p>Se guardan automáticamente tus últimos cálculos en este dispositivo.</p>
+    <h2>📊 Tu historial</h2>
+    <p>Se guardan automáticamente tus últimos cálculos en este dispositivo.</p>
+    <button onclick="guardarHistorial()">Guardar resultado actual</button>
+    <button onclick="borrarHistorial()" style="margin-top:10px;background:#ef4444;">Borrar historial</button>
+    <div id="historial" class="result" style="margin-top:15px;"></div>
+  </div>
 
-  <button onclick="guardarHistorial()">Guardar resultado actual</button>
-  <button onclick="borrarHistorial()" style="margin-top:10px;background:#ef4444;">Borrar historial</button>
-
-  <div id="historial" class="result" style="margin-top:15px;"></div>
-</div>
-
-  <div class="steps">
+  <!-- PASOS DE USO -->
+  <div class="card">
     <h3>📊 Cómo usar la calculadora</h3>
     <p>1. Calcula tu metabolismo basal</p>
     <p>2. Calcula tus calorías de mantenimiento</p>
     <p>3. Ajusta según tu objetivo</p>
     <p>4. Calcula tus macronutrientes</p>
   </div>
-  <div id="mc_embed_shell">
-      <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
-  <style type="text/css">
-        #mc_embed_signup{background:#fff; false;clear:left; font:14px Helvetica,Arial,sans-serif; width: 600px;}
-        /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-           We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-</style>
-<div id="mc_embed_signup">
-    <form action="https://calculadora-fit.us7.list-manage.com/subscribe/post?u=77be65ca2b1909877f9244c08&amp;id=914684be82&amp;f_id=00589ae0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
-        <div id="mc_embed_signup_scroll"><h2>Actualiza tu cálculo cada mes</h2>
-            <div class="indicates-required"><span class="asterisk">*</span> indica que es obligatorio</div>
-            <div class="mc-field-group"><label for="mce-EMAIL">Dirección de correo electrónico <span class="asterisk">*</span></label><input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="" value=""></div>
-<div hidden=""><input type="hidden" name="tags" value="3547367"></div>
-        <div id="mce-responses" class="clear">
-            <div class="response" id="mce-error-response" style="display: none;"></div>
-            <div class="response" id="mce-success-response" style="display: none;"></div>
-        </div><div aria-hidden="true" style="position: absolute; left: -5000px;"><input type="text" name="b_77be65ca2b1909877f9244c08_914684be82" tabindex="-1" value=""></div><div class="clear"><input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe"></div>
+
+  <!-- FORMULARIO MAILCHIMP -->
+  <div class="card" id="mc_embed_shell">
+    <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
+    <div id="mc_embed_signup">
+      <form action="https://calculadora-fit.us7.list-manage.com/subscribe/post?u=77be65ca2b1909877f9244c08&amp;id=914684be82&amp;f_id=00589ae0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+        <div id="mc_embed_signup_scroll">
+          <h2>Actualiza tu cálculo cada mes</h2>
+          <div class="mc-field-group">
+            <label for="mce-EMAIL">Dirección de correo electrónico <span class="asterisk">*</span></label>
+            <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required value="">
+          </div>
+          <div hidden><input type="hidden" name="tags" value="3547367"></div>
+          <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+          </div>
+          <div aria-hidden="true" style="position:absolute; left:-5000px;">
+            <input type="text" name="b_77be65ca2b1909877f9244c08_914684be82" tabindex="-1" value="">
+          </div>
+          <div class="clear">
+            <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
+          </div>
+        </div>
+      </form>
     </div>
-</form>
-</div>
-<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script><script type="text/javascript">(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='BIRTHDAY';ftypes[5]='birthday';fnames[6]='COMPANY';ftypes[6]='text';}(jQuery));var $mcj = jQuery.noConflict(true);
-    // SMS Phone Multi-Country Functionality
-    if(!window.MC) {
-      window.MC = {};
-    }
-    window.MC.smsPhoneData = {
-      defaultCountryCode: 'ES',
-      programs: [],
-      smsProgramDataCountryNames: []
-    };
-
-    function getCountryUnicodeFlag(countryCode) {
-       return countryCode.toUpperCase().replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
-    };
-
-    // HTML sanitization function to prevent XSS
-    function sanitizeHtml(str) {
-      if (typeof str !== 'string') return '';
-      return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#x27;')
-        .replace(/\//g, '&#x2F;');
-    }
-
-    // URL sanitization function to prevent javascript: and data: URLs
-    function sanitizeUrl(url) {
-      if (typeof url !== 'string') return '';
-      const trimmedUrl = url.trim().toLowerCase();
-      if (trimmedUrl.startsWith('javascript:') || trimmedUrl.startsWith('data:') || trimmedUrl.startsWith('vbscript:')) {
-        return '#';
-      }
-      return url;
-    }
-
-    const getBrowserLanguage = () => {
-      if (!window?.navigator?.language?.split('-')[1]) {
-        return window?.navigator?.language?.toUpperCase();
-      }
-      return window?.navigator?.language?.split('-')[1];
-    };
-
-    function getDefaultCountryProgram(defaultCountryCode, smsProgramData) {
-      if (!smsProgramData || smsProgramData.length === 0) {
-        return null;
-      }
-
-      const browserLanguage = getBrowserLanguage();
-
-      if (browserLanguage) {
-        const foundProgram = smsProgramData.find(
-          (program) => program?.countryCode === browserLanguage,
-        );
-        if (foundProgram) {
-          return foundProgram;
-        }
-      }
-
-      if (defaultCountryCode) {
-        const foundProgram = smsProgramData.find(
-          (program) => program?.countryCode === defaultCountryCode,
-        );
-        if (foundProgram) {
-          return foundProgram;
-        }
-      }
-
-      return smsProgramData[0];
-    }
-
-    function updateSmsLegalText(countryCode, fieldName) {
-      if (!countryCode || !fieldName) {
-        return;
-      }
-      
-      const programs = window?.MC?.smsPhoneData?.programs;
-      if (!programs || !Array.isArray(programs)) {
-        return;
-      }
-      
-      const program = programs.find(program => program?.countryCode === countryCode);
-      if (!program || !program.requiredTemplate) {
-        return;
-      }
-      
-      const legalTextElement = document.querySelector('#legal-text-' + fieldName);
-      if (!legalTextElement) {
-        return;
-      }
-      
-      // Remove HTML tags and clean up the text
-      const divRegex = new RegExp('</?[div][^>]*>', 'gi');
-      const fullAnchorRegex = new RegExp('<a.*?</a>', 'g');
-      const anchorRegex = new RegExp('<a href="(.*?)" target="(.*?)">(.*?)</a>');
-      
-      const template = program.requiredTemplate.replace(divRegex, '');
-      
-      
-
-      legalTextElement.textContent = '';
-      const parts = template.split(/(<a href=".*?" target=".*?">.*?<\/a>)/g);
-      parts.forEach(function(part) {
-        if (!part) {
-          return;
-        }
-        const anchorMatch = part.match(/<a href="(.*?)" target="(.*?)">(.*?)<\/a>/);
-        if (anchorMatch) {
-          const linkElement = document.createElement('a');
-          linkElement.href = sanitizeUrl(anchorMatch[1]);
-          linkElement.target = sanitizeHtml(anchorMatch[2]);
-          linkElement.textContent = sanitizeHtml(anchorMatch[3]);
-          legalTextElement.appendChild(linkElement);
-        } else {
-          legalTextElement.appendChild(document.createTextNode(part));
-        }
-      });
-          
-    }
-
-    function generateDropdownOptions(smsProgramData) {
-      if (!smsProgramData || smsProgramData.length === 0) {
-        return '';
-      }
-      
-      return smsProgramData.map(program => {
-        const flag = getCountryUnicodeFlag(program.countryCode);
-        const countryName = getCountryName(program.countryCode);
-        const callingCode = program.countryCallingCode || '';
-        // Sanitize all values to prevent XSS
-        const sanitizedCountryCode = sanitizeHtml(program.countryCode || '');
-        const sanitizedCountryName = sanitizeHtml(countryName || '');
-        const sanitizedCallingCode = sanitizeHtml(callingCode || '');
-        return '<option value="' + sanitizedCountryCode + '">' + sanitizedCountryName + ' ' + sanitizedCallingCode + '</option>';
-      }).join('');
-    }
-
-    function getCountryName(countryCode) {
-      if (window.MC?.smsPhoneData?.smsProgramDataCountryNames && Array.isArray(window.MC.smsPhoneData.smsProgramDataCountryNames)) {
-        for (let i = 0; i < window.MC.smsPhoneData.smsProgramDataCountryNames.length; i++) {
-          if (window.MC.smsPhoneData.smsProgramDataCountryNames[i].code === countryCode) {
-            return window.MC.smsPhoneData.smsProgramDataCountryNames[i].name;
-          }
-        }
-      }
-      return countryCode;
-    }
-
-    function getDefaultPlaceholder(countryCode) {
-      if (!countryCode || typeof countryCode !== 'string') {
-        return '+1 000 000 0000'; // Default US placeholder
-      }
-      
-            var mockPlaceholders = [
-        {
-          countryCode: 'US',
-          placeholder: '+1 000 000 0000',
-          helpText: 'Include the US country code +1 before the phone number',
-        },
-        {
-          countryCode: 'GB',
-          placeholder: '+44 0000 000000',
-          helpText: 'Include the GB country code +44 before the phone number',
-        },
-        {
-          countryCode: 'CA',
-          placeholder: '+1 000 000 0000',
-          helpText: 'Include the CA country code +1 before the phone number',
-        },
-        {
-          countryCode: 'AU',
-          placeholder: '+61 000 000 000',
-          helpText: 'Include the AU country code +61 before the phone number',
-        },
-        {
-          countryCode: 'DE',
-          placeholder: '+49 000 0000000',
-          helpText: 'Fügen Sie vor der Telefonnummer die DE-Ländervorwahl +49 ein',
-        },
-        {
-          countryCode: 'FR',
-          placeholder: '+33 0 00 00 00 00',
-          helpText: 'Incluez le code pays FR +33 avant le numéro de téléphone',
-        },
-        {
-          countryCode: 'ES',
-          placeholder: '+34 000 000 000',
-          helpText: 'Incluya el código de país ES +34 antes del número de teléfono',
-        },
-        {
-          countryCode: 'NL',
-          placeholder: '+31 0 00000000',
-          helpText: 'Voeg de NL-landcode +31 toe vóór het telefoonnummer',
-        },
-        {
-          countryCode: 'BE',
-          placeholder: '+32 000 00 00 00',
-          helpText: 'Incluez le code pays BE +32 avant le numéro de téléphone',
-        },
-        {
-          countryCode: 'CH',
-          placeholder: '+41 00 000 00 00',
-          helpText: 'Fügen Sie vor der Telefonnummer die CH-Ländervorwahl +41 ein',
-        },
-        {
-          countryCode: 'AT',
-          placeholder: '+43 000 000 0000',
-          helpText: 'Fügen Sie vor der Telefonnummer die AT-Ländervorwahl +43 ein',
-        },
-        {
-          countryCode: 'IE',
-          placeholder: '+353 00 000 0000',
-          helpText: 'Include the IE country code +353 before the phone number',
-        },
-        {
-          countryCode: 'IT',
-          placeholder: '+39 000 000 0000',
-          helpText: 'Includere il prefisso internazionale IT +39 prima del numero di telefono',
-        },
-        {
-          countryCode: 'NO',
-          placeholder: '+47 000 00 000',
-          helpText: 'Inkluder NO landskode +47 før telefonnummeret',
-        },
-        {
-          countryCode: 'SE',
-          placeholder: '+46 00 000 00 00',
-          helpText: 'Inkludera SE landskod +46 före telefonnumret',
-        },
-        {
-          countryCode: 'DK',
-          placeholder: '+45 00 00 00 00',
-          helpText: 'Inkluder DK landekode +45 før telefonnummeret',
-        },
-        {
-          countryCode: 'FI',
-          placeholder: '+358 00 000 0000',
-          helpText: 'Sisällytä FI-maakoodi +358 ennen puhelinnumeroa',
-        },
-        {
-          countryCode: 'EE',
-          placeholder: '+372 0000 0000',
-          helpText: 'Lisage EE riigikood +372 telefoninumbri ette',
-        },
-        {
-          countryCode: 'PL',
-          placeholder: '+48 000 000 000',
-          helpText: 'Podaj numer kierunkowy PL +48 przed numerem telefonu',
-        },
-        {
-          countryCode: 'SK',
-          placeholder: '+421 000 000 000',
-          helpText: 'Pred telefónne číslo uveďte kód krajiny SK +421',
-        },
-        {
-          countryCode: 'LV',
-          placeholder: '+371 0000 0000',
-          helpText: 'Iekļaujiet LV valsts kodu +371 pirms tālruņa numura',
-        },
-        {
-          countryCode: 'LT',
-          placeholder: '+370 0000 0000',
-          helpText: 'Įtraukite LT šalies kodą +370 prieš telefono numerį',
-        },
-        {
-          countryCode: 'GR',
-          placeholder: '+30 000 000 0000',
-          helpText: 'Συμπεριλάβετε τον κωδικό χώρας GR +30 πριν από τον αριθμό τηλεφώνου',
-        },
-        {
-          countryCode: 'PT',
-          placeholder: '+351 000 000 000',
-          helpText: 'Inclua o código de país PT +351 antes do número de telefone',
-        },
-        {
-          countryCode: 'HR',
-          placeholder: '+385 00 000 0000',
-          helpText: 'Uključite HR pozivni broj države +385 prije telefonskog broja',
-        },
-        {
-          countryCode: 'SI',
-          placeholder: '+386 00 000 000',
-          helpText: 'Vključite SI kodo države +386 pred telefonsko številko',
-        },
-        {
-          countryCode: 'IS',
-          placeholder: '+354 000 0000',
-          helpText: 'Láttu IS landsnúmer +354 fylgja á undan símanúmerinu',
-        },
-        {
-          countryCode: 'LU',
-          placeholder: '+352 000 000 000',
-          helpText: 'Incluez le code pays LU +352 avant le numéro de téléphone',
-        },
-        {
-          countryCode: 'MC',
-          placeholder: '+377 00 00 00 00',
-          helpText: 'Incluez le code pays MC +377 avant le numéro de téléphone',
-        },
-        {
-          countryCode: 'AD',
-          placeholder: '+376 000 000',
-          helpText: 'Incloeu el codi de país AD +376 abans del número de telèfon',
-        },
-        {
-          countryCode: 'JE',
-          placeholder: '+44 0000 000000',
-          helpText: 'Include the JE country code +44 before the phone number',
-        },
-        {
-          countryCode: 'IM',
-          placeholder: '+44 0000 000000',
-          helpText: 'Include the IM country code +44 before the phone number',
-        },
-        {
-          countryCode: 'GG',
-          placeholder: '+44 0000 000000',
-          helpText: 'Include the GG country code +44 before the phone number',
-        },
-        {
-          countryCode: 'AL',
-          placeholder: '+355 00 000 0000',
-          helpText: 'Përfshini kodin e vendit AL +355 para numrit të telefonit',
-        },
-        {
-          countryCode: 'SM',
-          placeholder: '+378 0000 000000',
-          helpText: 'Includere il prefisso internazionale SM +378 prima del numero di telefono',
-        },
-        {
-          countryCode: 'FO',
-          placeholder: '+298 000000',
-          helpText: 'Inkluder FO landekode +298 før telefonnummeret',
-        },
-        {
-          countryCode: 'MT',
-          placeholder: '+356 0000 0000',
-          helpText: 'Include the MT country code +356 before the phone number',
-        },
-        {
-          countryCode: 'LI',
-          placeholder: '+423 000 0000',
-          helpText: 'Fügen Sie vor der Telefonnummer die LI-Ländervorwahl +423 ein',
-        },
-        {
-          countryCode: 'GI',
-          placeholder: '+350 000 00000',
-          helpText: 'Include the GI country code +350 before the phone number',
-        },
-        {
-          countryCode: 'MD',
-          placeholder: '+373 00 000 000',
-          helpText: 'Includeți codul de țară MD +373 înaintea numărului de telefon',
-        },
-        {
-          countryCode: 'HU',
-          placeholder: '+36 00 000 0000',
-          helpText: 'A telefonszám előtt adja meg a HU országkódot +36',
-        },
-        {
-          countryCode: 'NZ',
-          placeholder: '+64 00 000 0000',
-          helpText: 'Include the NZ country code +64 before the phone number',
-        },
-        {
-          countryCode: 'ME',
-          placeholder: '+382 00 000 000',
-          helpText: 'Uključite ME pozivni broj države +382 prije telefonskog broja',
-        },
-      ];
-
-      const selectedPlaceholder = mockPlaceholders.find(function(item) {
-        return item && item.countryCode === countryCode;
-      });
-      
-      return selectedPlaceholder ? selectedPlaceholder.placeholder : mockPlaceholders[0].placeholder;
-    }
-
-    function updatePlaceholder(countryCode, fieldName) {
-      if (!countryCode || !fieldName) {
-        return;
-      }
-      
-      const phoneInput = document.querySelector('#mce-' + fieldName);
-      if (!phoneInput) {
-        return;
-      }
-      
-      const placeholder = getDefaultPlaceholder(countryCode);
-      if (placeholder) {
-        phoneInput.placeholder = placeholder;
-      }
-    }
-
-    function updateCountryCodeInstruction(countryCode, fieldName) {
-      updatePlaceholder(countryCode, fieldName);
-      
-    }
-
-    function getDefaultHelpText(countryCode) {
-      var mockPlaceholders = [
-        {
-          countryCode: 'US',
-          placeholder: '+1 000 000 0000',
-          helpText: 'Include the US country code +1 before the phone number',
-        },
-        {
-          countryCode: 'GB',
-          placeholder: '+44 0000 000000',
-          helpText: 'Include the GB country code +44 before the phone number',
-        },
-        {
-          countryCode: 'CA',
-          placeholder: '+1 000 000 0000',
-          helpText: 'Include the CA country code +1 before the phone number',
-        },
-        {
-          countryCode: 'AU',
-          placeholder: '+61 000 000 000',
-          helpText: 'Include the AU country code +61 before the phone number',
-        },
-        {
-          countryCode: 'DE',
-          placeholder: '+49 000 0000000',
-          helpText: 'Fügen Sie vor der Telefonnummer die DE-Ländervorwahl +49 ein',
-        },
-        {
-          countryCode: 'FR',
-          placeholder: '+33 0 00 00 00 00',
-          helpText: 'Incluez le code pays FR +33 avant le numéro de téléphone',
-        },
-        {
-          countryCode: 'ES',
-          placeholder: '+34 000 000 000',
-          helpText: 'Incluya el código de país ES +34 antes del número de teléfono',
-        },
-        {
-          countryCode: 'NL',
-          placeholder: '+31 0 00000000',
-          helpText: 'Voeg de NL-landcode +31 toe vóór het telefoonnummer',
-        },
-        {
-          countryCode: 'BE',
-          placeholder: '+32 000 00 00 00',
-          helpText: 'Incluez le code pays BE +32 avant le numéro de téléphone',
-        },
-        {
-          countryCode: 'CH',
-          placeholder: '+41 00 000 00 00',
-          helpText: 'Fügen Sie vor der Telefonnummer die CH-Ländervorwahl +41 ein',
-        },
-        {
-          countryCode: 'AT',
-          placeholder: '+43 000 000 0000',
-          helpText: 'Fügen Sie vor der Telefonnummer die AT-Ländervorwahl +43 ein',
-        },
-        {
-          countryCode: 'IE',
-          placeholder: '+353 00 000 0000',
-          helpText: 'Include the IE country code +353 before the phone number',
-        },
-        {
-          countryCode: 'IT',
-          placeholder: '+39 000 000 0000',
-          helpText: 'Includere il prefisso internazionale IT +39 prima del numero di telefono',
-        },
-        {
-          countryCode: 'NO',
-          placeholder: '+47 000 00 000',
-          helpText: 'Inkluder NO landskode +47 før telefonnummeret',
-        },
-        {
-          countryCode: 'SE',
-          placeholder: '+46 00 000 00 00',
-          helpText: 'Inkludera SE landskod +46 före telefonnumret',
-        },
-        {
-          countryCode: 'DK',
-          placeholder: '+45 00 00 00 00',
-          helpText: 'Inkluder DK landekode +45 før telefonnummeret',
-        },
-        {
-          countryCode: 'FI',
-          placeholder: '+358 00 000 0000',
-          helpText: 'Sisällytä FI-maakoodi +358 ennen puhelinnumeroa',
-        },
-        {
-          countryCode: 'EE',
-          placeholder: '+372 0000 0000',
-          helpText: 'Lisage EE riigikood +372 telefoninumbri ette',
-        },
-        {
-          countryCode: 'PL',
-          placeholder: '+48 000 000 000',
-          helpText: 'Podaj numer kierunkowy PL +48 przed numerem telefonu',
-        },
-        {
-          countryCode: 'SK',
-          placeholder: '+421 000 000 000',
-          helpText: 'Pred telefónne číslo uveďte kód krajiny SK +421',
-        },
-        {
-          countryCode: 'LV',
-          placeholder: '+371 0000 0000',
-          helpText: 'Iekļaujiet LV valsts kodu +371 pirms tālruņa numura',
-        },
-        {
-          countryCode: 'LT',
-          placeholder: '+370 0000 0000',
-          helpText: 'Įtraukite LT šalies kodą +370 prieš telefono numerį',
-        },
-        {
-          countryCode: 'GR',
-          placeholder: '+30 000 000 0000',
-          helpText: 'Συμπεριλάβετε τον κωδικό χώρας GR +30 πριν από τον αριθμό τηλεφώνου',
-        },
-        {
-          countryCode: 'PT',
-          placeholder: '+351 000 000 000',
-          helpText: 'Inclua o código de país PT +351 antes do número de telefone',
-        },
-        {
-          countryCode: 'HR',
-          placeholder: '+385 00 000 0000',
-          helpText: 'Uključite HR pozivni broj države +385 prije telefonskog broja',
-        },
-        {
-          countryCode: 'SI',
-          placeholder: '+386 00 000 000',
-          helpText: 'Vključite SI kodo države +386 pred telefonsko številko',
-        },
-        {
-          countryCode: 'IS',
-          placeholder: '+354 000 0000',
-          helpText: 'Láttu IS landsnúmer +354 fylgja á undan símanúmerinu',
-        },
-        {
-          countryCode: 'LU',
-          placeholder: '+352 000 000 000',
-          helpText: 'Incluez le code pays LU +352 avant le numéro de téléphone',
-        },
-        {
-          countryCode: 'MC',
-          placeholder: '+377 00 00 00 00',
-          helpText: 'Incluez le code pays MC +377 avant le numéro de téléphone',
-        },
-        {
-          countryCode: 'AD',
-          placeholder: '+376 000 000',
-          helpText: 'Incloeu el codi de país AD +376 abans del número de telèfon',
-        },
-        {
-          countryCode: 'JE',
-          placeholder: '+44 0000 000000',
-          helpText: 'Include the JE country code +44 before the phone number',
-        },
-        {
-          countryCode: 'IM',
-          placeholder: '+44 0000 000000',
-          helpText: 'Include the IM country code +44 before the phone number',
-        },
-        {
-          countryCode: 'GG',
-          placeholder: '+44 0000 000000',
-          helpText: 'Include the GG country code +44 before the phone number',
-        },
-        {
-          countryCode: 'AL',
-          placeholder: '+355 00 000 0000',
-          helpText: 'Përfshini kodin e vendit AL +355 para numrit të telefonit',
-        },
-        {
-          countryCode: 'SM',
-          placeholder: '+378 0000 000000',
-          helpText: 'Includere il prefisso internazionale SM +378 prima del numero di telefono',
-        },
-        {
-          countryCode: 'FO',
-          placeholder: '+298 000000',
-          helpText: 'Inkluder FO landekode +298 før telefonnummeret',
-        },
-        {
-          countryCode: 'MT',
-          placeholder: '+356 0000 0000',
-          helpText: 'Include the MT country code +356 before the phone number',
-        },
-        {
-          countryCode: 'LI',
-          placeholder: '+423 000 0000',
-          helpText: 'Fügen Sie vor der Telefonnummer die LI-Ländervorwahl +423 ein',
-        },
-        {
-          countryCode: 'GI',
-          placeholder: '+350 000 00000',
-          helpText: 'Include the GI country code +350 before the phone number',
-        },
-        {
-          countryCode: 'MD',
-          placeholder: '+373 00 000 000',
-          helpText: 'Includeți codul de țară MD +373 înaintea numărului de telefon',
-        },
-        {
-          countryCode: 'HU',
-          placeholder: '+36 00 000 0000',
-          helpText: 'A telefonszám előtt adja meg a HU országkódot +36',
-        },
-        {
-          countryCode: 'NZ',
-          placeholder: '+64 00 000 0000',
-          helpText: 'Include the NZ country code +64 before the phone number',
-        },
-        {
-          countryCode: 'ME',
-          placeholder: '+382 00 000 000',
-          helpText: 'Uključite ME pozivni broj države +382 prije telefonskog broja',
-        },
-      ];
-      
-      if (!countryCode || typeof countryCode !== 'string') {
-        return mockPlaceholders[0].helpText;
-      }
-      
-      const selectedHelpText = mockPlaceholders.find(function(item) {
-          return item && item.countryCode === countryCode;
-        });
-        
-        return selectedHelpText ? selectedHelpText.helpText : mockPlaceholders[0].helpText;
-    }
-
-    function setDefaultHelpText(countryCode) {
-      const helpTextSpan = document.querySelector('#help-text');
-      if (!helpTextSpan) {
-        return;
-      }
-
-        
-    }
-
-    function updateHelpTextCountryCode(countryCode, fieldName) {
-      if (!countryCode || !fieldName) {
-        return;
-      }
-      
-      setDefaultHelpText(countryCode);
-    }
-
-    function initializeSmsPhoneDropdown(fieldName) {
-      if (!fieldName || typeof fieldName !== 'string') {
-        return;
-      }
-      
-      const dropdown = document.querySelector('#country-select-' + fieldName);
-      const displayFlag = document.querySelector('#flag-display-' + fieldName);
-      
-      if (!dropdown || !displayFlag) {
-        return;
-      }
-
-      const smsPhoneData = window.MC?.smsPhoneData;
-      if (smsPhoneData && smsPhoneData.programs && Array.isArray(smsPhoneData.programs)) {
-        dropdown.innerHTML = generateDropdownOptions(smsPhoneData.programs);
-      }
-
-      const defaultProgram = getDefaultCountryProgram(smsPhoneData?.defaultCountryCode, smsPhoneData?.programs);
-      if (defaultProgram && defaultProgram.countryCode) {
-        dropdown.value = defaultProgram.countryCode;
-        
-        const flagSpan = displayFlag?.querySelector('#flag-emoji-' + fieldName);
-        if (flagSpan) {
-          flagSpan.textContent = getCountryUnicodeFlag(defaultProgram.countryCode);
-          flagSpan.setAttribute('aria-label', sanitizeHtml(defaultProgram.countryCode) + ' flag');
-        }
-        
-        updateSmsLegalText(defaultProgram.countryCode, fieldName);
-        updatePlaceholder(defaultProgram.countryCode, fieldName);
-        updateCountryCodeInstruction(defaultProgram.countryCode, fieldName);
-      }
-
-     
-      var smsNotRequiredRemoveCountryCodeEnabled = true;
-      var smsField = Object.values({"EMAIL":{"name":"EMAIL","label":"Dirección de correo electrónico","helper_text":"","merge_id":0,"type":"email","required":true,"audience_field_name":"Dirección de correo electrónico","field_type":"merge","enabled":true,"order":null},"FNAME":{"name":"FNAME","label":"Nombre","helper_text":"","type":"text","required":false,"audience_field_name":"Nombre","enabled":false,"order":null,"field_type":"merge","merge_id":1},"LNAME":{"name":"LNAME","label":"Apellidos","helper_text":"","type":"text","required":false,"audience_field_name":"Apellidos","enabled":false,"order":null,"field_type":"merge","merge_id":2},"ADDRESS":{"name":"ADDRESS","label":"Dirección","helper_text":"","type":"address","required":false,"audience_field_name":"Dirección","enabled":false,"order":null,"field_type":"merge","merge_id":3,"countries":{"2":"Albania","3":"Algeria","4":"Andorra","5":"Angola","6":"Argentina","7":"Armenia","8":"Australia","9":"Austria","10":"Azerbaijan","11":"Bahamas","12":"Bahrain","13":"Bangladesh","14":"Barbados","15":"Belarus","16":"Belgium","17":"Belize","18":"Benin","19":"Bermuda","20":"Bhutan","21":"Bolivia","22":"Bosnia and Herzegovina","23":"Botswana","24":"Brazil","25":"Bulgaria","26":"Burkina Faso","27":"Burundi","28":"Cambodia","29":"Cameroon","30":"Canada","31":"Cape Verde","32":"Cayman Islands","33":"Central African Republic","34":"Chad","35":"Chile","36":"China","37":"Colombia","38":"Congo","40":"Croatia","41":"Cyprus","42":"Czech Republic","43":"Denmark","44":"Djibouti","45":"Ecuador","46":"Egypt","47":"El Salvador","48":"Equatorial Guinea","49":"Eritrea","50":"Estonia","51":"Ethiopia","52":"Fiji","53":"Finland","54":"France","56":"Gabon","57":"Gambia","58":"Georgia","59":"Germany","60":"Ghana","61":"Greece","62":"Guam","63":"Guinea","64":"Guinea-Bissau","65":"Guyana","66":"Honduras","67":"Hong Kong","68":"Hungary","69":"Iceland","70":"India","71":"Indonesia","74":"Ireland","75":"Israel","76":"Italy","78":"Japan","79":"Jordan","80":"Kazakhstan","81":"Kenya","82":"Kuwait","83":"Kyrgyzstan","84":"Lao People's Democratic Republic","85":"Latvia","86":"Lebanon","87":"Lesotho","88":"Liberia","90":"Liechtenstein","91":"Lithuania","92":"Luxembourg","93":"Macedonia","94":"Madagascar","95":"Malawi","96":"Malaysia","97":"Maldives","98":"Mali","99":"Malta","100":"Mauritania","101":"Mexico","102":"Moldova","103":"Monaco","104":"Mongolia","105":"Morocco","106":"Mozambique","107":"Namibia","108":"Nepal","109":"Netherlands","110":"Netherlands Antilles","111":"New Zealand","112":"Nicaragua","113":"Niger","114":"Nigeria","116":"Norway","117":"Oman","118":"Pakistan","119":"Panama","120":"Paraguay","121":"Peru","122":"Philippines","123":"Poland","124":"Portugal","126":"Qatar","127":"Reunion","128":"Romania","129":"Russia","130":"Rwanda","132":"Samoa (Independent)","133":"Saudi Arabia","134":"Senegal","135":"Seychelles","136":"Sierra Leone","137":"Singapore","138":"Slovakia","139":"Slovenia","140":"Somalia","141":"South Africa","142":"South Korea","143":"Spain","144":"Sri Lanka","146":"Suriname","147":"Swaziland","148":"Sweden","149":"Switzerland","152":"Taiwan","153":"Tanzania","154":"Thailand","155":"Togo","156":"Tunisia","157":"Turkiye","158":"Turkmenistan","159":"Uganda","161":"Ukraine","162":"United Arab Emirates","163":"Uruguay","164":"USA","165":"Uzbekistan","166":"Vatican City State (Holy See)","167":"Venezuela","168":"Vietnam","169":"Virgin Islands (British)","170":"Yemen","173":"Zambia","174":"Zimbabwe","175":"Antigua And Barbuda","176":"Anguilla","178":"American Samoa","179":"Aruba","180":"Brunei Darussalam","181":"Bouvet Island","183":"Cook Islands","185":"Christmas Island","187":"Dominican Republic","188":"Western Sahara","189":"Falkland Islands","191":"Faroe Islands","192":"Grenada","193":"French Guiana","194":"Gibraltar","195":"Greenland","196":"Guadeloupe","198":"Guatemala","200":"Haiti","202":"Jamaica","203":"Kiribati","204":"Comoros","205":"Saint Kitts and Nevis","206":"Saint Lucia","207":"Marshall Islands","208":"Macau","210":"Martinique","212":"Mauritius","213":"New Caledonia","214":"Norfolk Island","215":"Nauru","217":"Niue","219":"Papua New Guinea","221":"Pitcairn","222":"Palau","223":"Solomon Islands","225":"Svalbard and Jan Mayen Islands","227":"San Marino","232":"Tonga","233":"Timor-Leste","234":"Trinidad and Tobago","235":"Tuvalu","237":"Saint Vincent and the Grenadines","238":"Virgin Islands (U.S.)","239":"Vanuatu","241":"Mayotte","242":"Myanmar","255":"Sao Tome and Principe","257":"South Georgia and the South Sandwich Islands","260":"Tajikistan","262":"United Kingdom","268":"Costa Rica","270":"Guernsey","272":"North Korea","274":"Afghanistan","275":"Cote D'Ivoire","276":"Cuba","277":"French Polynesia","278":"Iran","279":"Iraq","281":"Libya","282":"Palestine","285":"Syria","286":"Aaland Islands","287":"Turks & Caicos Islands","288":"Jersey  (Channel Islands)","289":"Dominica","290":"Montenegro","293":"Sudan","294":"Montserrat","298":"Curacao","302":"Sint Maarten","311":"South Sudan","315":"Republic of Kosovo","318":"Congo, Democratic Republic of the","323":"Isle of Man","324":"Saint Martin","325":"Bonaire, Saint Eustatius and Saba","326":"Serbia"},"defaultcountry":164},"PHONE":{"name":"PHONE","label":"Número de teléfono","helper_text":"","type":"phone","required":false,"audience_field_name":"Número de teléfono","phoneformat":"","enabled":false,"order":null,"field_type":"merge","merge_id":4},"BIRTHDAY":{"name":"BIRTHDAY","label":"Birthday","helper_text":"","type":"birthday","required":false,"audience_field_name":"Birthday","dateformat":"MM/DD","enabled":false,"order":null,"field_type":"merge","merge_id":5},"COMPANY":{"name":"COMPANY","label":"Company","helper_text":"","type":"text","required":false,"audience_field_name":"Company","enabled":false,"order":null,"field_type":"merge","merge_id":6}}).find(function(f) { return f.name === fieldName && f.type === 'smsphone'; });
-      var isRequired = smsField ? smsField.required : false;
-      var shouldAppendCountryCode = smsNotRequiredRemoveCountryCodeEnabled ? isRequired : true;
-      
-      var phoneInput = document.querySelector('#mce-' + fieldName);
-      if (phoneInput && defaultProgram.countryCallingCode && shouldAppendCountryCode) {
-        phoneInput.value = defaultProgram.countryCallingCode;
-      }
-      
-
-
-      displayFlag?.addEventListener('click', function(e) {
-        dropdown.focus();
-      });
-
-
-      dropdown?.addEventListener('change', function() {
-        const selectedCountry = this.value;
-        
-        if (!selectedCountry || typeof selectedCountry !== 'string') {
-          return;
-        }
-        
-        const flagSpan = displayFlag?.querySelector('#flag-emoji-' + fieldName);
-        if (flagSpan) {
-          flagSpan.textContent = getCountryUnicodeFlag(selectedCountry);
-          flagSpan.setAttribute('aria-label', sanitizeHtml(selectedCountry) + ' flag');
-        }
-
-         
-        const selectedProgram = window.MC?.smsPhoneData?.programs.find(function(program) {
-          return program && program.countryCode === selectedCountry;
-        });
-
-        var smsNotRequiredRemoveCountryCodeEnabled = true;
-        var smsField = Object.values({"EMAIL":{"name":"EMAIL","label":"Dirección de correo electrónico","helper_text":"","merge_id":0,"type":"email","required":true,"audience_field_name":"Dirección de correo electrónico","field_type":"merge","enabled":true,"order":null},"FNAME":{"name":"FNAME","label":"Nombre","helper_text":"","type":"text","required":false,"audience_field_name":"Nombre","enabled":false,"order":null,"field_type":"merge","merge_id":1},"LNAME":{"name":"LNAME","label":"Apellidos","helper_text":"","type":"text","required":false,"audience_field_name":"Apellidos","enabled":false,"order":null,"field_type":"merge","merge_id":2},"ADDRESS":{"name":"ADDRESS","label":"Dirección","helper_text":"","type":"address","required":false,"audience_field_name":"Dirección","enabled":false,"order":null,"field_type":"merge","merge_id":3,"countries":{"2":"Albania","3":"Algeria","4":"Andorra","5":"Angola","6":"Argentina","7":"Armenia","8":"Australia","9":"Austria","10":"Azerbaijan","11":"Bahamas","12":"Bahrain","13":"Bangladesh","14":"Barbados","15":"Belarus","16":"Belgium","17":"Belize","18":"Benin","19":"Bermuda","20":"Bhutan","21":"Bolivia","22":"Bosnia and Herzegovina","23":"Botswana","24":"Brazil","25":"Bulgaria","26":"Burkina Faso","27":"Burundi","28":"Cambodia","29":"Cameroon","30":"Canada","31":"Cape Verde","32":"Cayman Islands","33":"Central African Republic","34":"Chad","35":"Chile","36":"China","37":"Colombia","38":"Congo","40":"Croatia","41":"Cyprus","42":"Czech Republic","43":"Denmark","44":"Djibouti","45":"Ecuador","46":"Egypt","47":"El Salvador","48":"Equatorial Guinea","49":"Eritrea","50":"Estonia","51":"Ethiopia","52":"Fiji","53":"Finland","54":"France","56":"Gabon","57":"Gambia","58":"Georgia","59":"Germany","60":"Ghana","61":"Greece","62":"Guam","63":"Guinea","64":"Guinea-Bissau","65":"Guyana","66":"Honduras","67":"Hong Kong","68":"Hungary","69":"Iceland","70":"India","71":"Indonesia","74":"Ireland","75":"Israel","76":"Italy","78":"Japan","79":"Jordan","80":"Kazakhstan","81":"Kenya","82":"Kuwait","83":"Kyrgyzstan","84":"Lao People's Democratic Republic","85":"Latvia","86":"Lebanon","87":"Lesotho","88":"Liberia","90":"Liechtenstein","91":"Lithuania","92":"Luxembourg","93":"Macedonia","94":"Madagascar","95":"Malawi","96":"Malaysia","97":"Maldives","98":"Mali","99":"Malta","100":"Mauritania","101":"Mexico","102":"Moldova","103":"Monaco","104":"Mongolia","105":"Morocco","106":"Mozambique","107":"Namibia","108":"Nepal","109":"Netherlands","110":"Netherlands Antilles","111":"New Zealand","112":"Nicaragua","113":"Niger","114":"Nigeria","116":"Norway","117":"Oman","118":"Pakistan","119":"Panama","120":"Paraguay","121":"Peru","122":"Philippines","123":"Poland","124":"Portugal","126":"Qatar","127":"Reunion","128":"Romania","129":"Russia","130":"Rwanda","132":"Samoa (Independent)","133":"Saudi Arabia","134":"Senegal","135":"Seychelles","136":"Sierra Leone","137":"Singapore","138":"Slovakia","139":"Slovenia","140":"Somalia","141":"South Africa","142":"South Korea","143":"Spain","144":"Sri Lanka","146":"Suriname","147":"Swaziland","148":"Sweden","149":"Switzerland","152":"Taiwan","153":"Tanzania","154":"Thailand","155":"Togo","156":"Tunisia","157":"Turkiye","158":"Turkmenistan","159":"Uganda","161":"Ukraine","162":"United Arab Emirates","163":"Uruguay","164":"USA","165":"Uzbekistan","166":"Vatican City State (Holy See)","167":"Venezuela","168":"Vietnam","169":"Virgin Islands (British)","170":"Yemen","173":"Zambia","174":"Zimbabwe","175":"Antigua And Barbuda","176":"Anguilla","178":"American Samoa","179":"Aruba","180":"Brunei Darussalam","181":"Bouvet Island","183":"Cook Islands","185":"Christmas Island","187":"Dominican Republic","188":"Western Sahara","189":"Falkland Islands","191":"Faroe Islands","192":"Grenada","193":"French Guiana","194":"Gibraltar","195":"Greenland","196":"Guadeloupe","198":"Guatemala","200":"Haiti","202":"Jamaica","203":"Kiribati","204":"Comoros","205":"Saint Kitts and Nevis","206":"Saint Lucia","207":"Marshall Islands","208":"Macau","210":"Martinique","212":"Mauritius","213":"New Caledonia","214":"Norfolk Island","215":"Nauru","217":"Niue","219":"Papua New Guinea","221":"Pitcairn","222":"Palau","223":"Solomon Islands","225":"Svalbard and Jan Mayen Islands","227":"San Marino","232":"Tonga","233":"Timor-Leste","234":"Trinidad and Tobago","235":"Tuvalu","237":"Saint Vincent and the Grenadines","238":"Virgin Islands (U.S.)","239":"Vanuatu","241":"Mayotte","242":"Myanmar","255":"Sao Tome and Principe","257":"South Georgia and the South Sandwich Islands","260":"Tajikistan","262":"United Kingdom","268":"Costa Rica","270":"Guernsey","272":"North Korea","274":"Afghanistan","275":"Cote D'Ivoire","276":"Cuba","277":"French Polynesia","278":"Iran","279":"Iraq","281":"Libya","282":"Palestine","285":"Syria","286":"Aaland Islands","287":"Turks & Caicos Islands","288":"Jersey  (Channel Islands)","289":"Dominica","290":"Montenegro","293":"Sudan","294":"Montserrat","298":"Curacao","302":"Sint Maarten","311":"South Sudan","315":"Republic of Kosovo","318":"Congo, Democratic Republic of the","323":"Isle of Man","324":"Saint Martin","325":"Bonaire, Saint Eustatius and Saba","326":"Serbia"},"defaultcountry":164},"PHONE":{"name":"PHONE","label":"Número de teléfono","helper_text":"","type":"phone","required":false,"audience_field_name":"Número de teléfono","phoneformat":"","enabled":false,"order":null,"field_type":"merge","merge_id":4},"BIRTHDAY":{"name":"BIRTHDAY","label":"Birthday","helper_text":"","type":"birthday","required":false,"audience_field_name":"Birthday","dateformat":"MM/DD","enabled":false,"order":null,"field_type":"merge","merge_id":5},"COMPANY":{"name":"COMPANY","label":"Company","helper_text":"","type":"text","required":false,"audience_field_name":"Company","enabled":false,"order":null,"field_type":"merge","merge_id":6}}).find(function(f) { return f.name === fieldName && f.type === 'smsphone'; });
-        var isRequired = smsField ? smsField.required : false;
-        var shouldAppendCountryCode = smsNotRequiredRemoveCountryCodeEnabled ? isRequired : true;
-        
-        var phoneInput = document.querySelector('#mce-' + fieldName);
-        if (phoneInput && selectedProgram.countryCallingCode && shouldAppendCountryCode) {
-          phoneInput.value = selectedProgram.countryCallingCode;
-        }
-        
-        
-        updateSmsLegalText(selectedCountry, fieldName);
-        updatePlaceholder(selectedCountry, fieldName);
-        updateCountryCodeInstruction(selectedCountry, fieldName);
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const smsPhoneFields = document.querySelectorAll('[id^="country-select-"]');
-      
-      smsPhoneFields.forEach(function(dropdown) {
-        const fieldName = dropdown?.id.replace('country-select-', '');
-        initializeSmsPhoneDropdown(fieldName);
-      });
-    });
-    </script></div>
-  <div id="mc_embed_shell">
-  <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
-  <style type="text/css">
-    #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width: 600px;}
-    
- <style>
+  </div>
 
 </div>
 
 <footer>
-  © 2026 Calculadora Fitness | Empieza tu cambio hoy  
-  <br>
-  <span style="font-size: 0.8rem; opacity: 0.7;">Hecho por Enrique</span>
+   <p>© 2026 Calculadora Fit. Todos los derechos reservados.</p> Hecho por Enrique
 </footer>
 
 <script>
-function calcularBMR() {
-  let edad = document.getElementById("edad").value;
-  let sexo = document.getElementById("sexo").value;
-  let peso = document.getElementById("peso").value;
-  let altura = document.getElementById("altura").value;
-
-  if (!edad || !sexo || !peso || !altura) return alert("Completa todos los campos");
-
-  let bmr = sexo === "hombre"
-    ? 10*peso + 6.25*altura - 5*edad + 5
-    : 10*peso + 6.25*altura - 5*edad - 161;
-
-  document.getElementById("resultadoBMR").innerText = "Tu BMR es: " + Math.round(bmr);
-  document.getElementById("bmrInput").value = Math.round(bmr);
-}
-
-function calcularMantenimiento() {
-  let bmr = document.getElementById("bmrInput").value;
-  let actividad = document.getElementById("actividad").value;
-
-  if (!bmr || !actividad) return alert("Completa todos los campos");
-
-  let mantenimiento = bmr * actividad;
-  document.getElementById("resultadoMantenimiento").innerText = "Mantenimiento: " + Math.round(mantenimiento);
-  document.getElementById("mantenimiento").value = Math.round(mantenimiento);
-}
-
-function calcularObjetivo() {
-  let mantenimiento = document.getElementById("mantenimiento").value;
-  let objetivo = document.getElementById("objetivo").value;
-
-  if (!mantenimiento || !objetivo) return alert("Completa todos los campos");
-
-  let resultado = objetivo === "deficit" ? mantenimiento*0.8 : objetivo === "volumen" ? mantenimiento*1.15 : mantenimiento;
-
-  document.getElementById("resultadoObjetivo").innerText = "Calorías objetivo: " + Math.round(resultado);
-}
-
-function calcularMacros() {
-  let peso = document.getElementById("pesoMacro").value;
-  let objetivo = document.getElementById("objetivoMacro").value;
-
-  if (!peso || !objetivo) return alert("Completa todos los campos");
-
-  let prote = peso * 2;
-  let grasa = peso * 0.8;
-  let kcal = objetivo === "deficit" ? peso*30 : peso*35;
-
-  let carbs = (kcal - (prote*4 + grasa*9)) / 4;
-
-  document.getElementById("resultadoMacros").innerText = `Proteínas: ${Math.round(prote)}g | Grasas: ${Math.round(grasa)}g | Carbs: ${Math.round(carbs)}g`;
-}
-</script>
-  <script>
-// Guardar en historial
-function guardarHistorial() {
-  let bmr = document.getElementById("resultadoBMR").innerText;
-  let mantenimiento = document.getElementById("resultadoMantenimiento").innerText;
-  let objetivo = document.getElementById("resultadoObjetivo").innerText;
-  let macros = document.getElementById("resultadoMacros").innerText;
-
-  if (!bmr && !mantenimiento && !objetivo && !macros) {
-    return alert("Primero haz algún cálculo");
+  // FUNCIONES DE CALCULO
+  function calcularBMR() {
+    const edad = parseInt(document.getElementById('edad').value);
+    const peso = parseFloat(document.getElementById('peso').value);
+    const altura = parseFloat(document.getElementById('altura').value);
+    const sexo = document.getElementById('sexo').value;
+    if (!edad || !peso || !altura || !sexo) return alert('Completa todos los campos');
+    let bmr = sexo === 'hombre' 
+      ? 88.36 + (13.4 * peso) + (4.8 * altura) - (5.7 * edad)
+      : 447.6 + (9.2 * peso) + (3.1 * altura) - (4.3 * edad);
+    document.getElementById('resultadoBMR').textContent = `${bmr.toFixed(2)} kcal/día`;
+    document.getElementById('bmrInput').value = bmr.toFixed(2);
   }
 
-  let historial = JSON.parse(localStorage.getItem("historial")) || [];
-
-  let nuevo = {
-    fecha: new Date().toLocaleDateString(),
-    bmr,
-    mantenimiento,
-    objetivo,
-    macros
-  };
-
-  historial.push(nuevo);
-
-  localStorage.setItem("historial", JSON.stringify(historial));
-
-  mostrarHistorial();
-}
-
-// Mostrar historial
-function mostrarHistorial() {
-  let historial = JSON.parse(localStorage.getItem("historial")) || [];
-  let contenedor = document.getElementById("historial");
-
-  if (historial.length === 0) {
-    contenedor.innerHTML = "No hay datos guardados";
-    return;
+  function calcularMantenimiento() {
+    const bmr = parseFloat(document.getElementById('bmrInput').value);
+    const actividad = parseFloat(document.getElementById('actividad').value);
+    if (!bmr || !actividad) return alert('Completa todos los campos');
+    const mantenimiento = bmr * actividad;
+    document.getElementById('resultadoMantenimiento').textContent = `${mantenimiento.toFixed(0)} kcal/día`;
+    document.getElementById('mantenimiento').value = mantenimiento.toFixed(0);
   }
 
-  contenedor.innerHTML = historial.map(item => `
-    <div style="margin-bottom:10px;">
-      📅 ${item.fecha}<br>
-      ${item.bmr}<br>
-      ${item.mantenimiento}<br>
-      ${item.objetivo}<br>
-      ${item.macros}
-    </div>
-  `).reverse().join("");
-}
+  function calcularObjetivo() {
+    const mantenimiento = parseFloat(document.getElementById('mantenimiento').value);
+    const objetivo = document.getElementById('objetivo').value;
+    if (!mantenimiento || !objetivo) return alert('Completa todos los campos');
+    let calorias;
+    if (objetivo === 'deficit') calorias = mantenimiento * 0.85;
+    else if (objetivo === 'volumen') calorias = mantenimiento * 1.15;
+    else calorias = mantenimiento;
+    document.getElementById('resultadoObjetivo').textContent = `${calorias.toFixed(0)} kcal/día`;
+  }
 
-// Borrar historial
-function borrarHistorial() {
-  localStorage.removeItem("historial");
+  function calcularMacros() {
+    const peso = parseFloat(document.getElementById('pesoMacro').value);
+    const objetivo = document.getElementById('objetivoMacro').value;
+    if (!peso || !objetivo) return alert('Completa todos los campos');
+    let proteina = peso * (objetivo === 'volumen' ? 2.2 : 2);
+    let grasa = peso * (objetivo === 'volumen' ? 1 : 0.8);
+    let carbos = (objetivo === 'volumen' ? 40 : 35) * peso;
+    document.getElementById('resultadoMacros').textContent = `Proteína: ${proteina.toFixed(0)} g, Grasas: ${grasa.toFixed(0)} g, Carbohidratos: ${carbos.toFixed(0)} g`;
+  }
+
+  // HISTORIAL
+  function guardarHistorial() {
+    const bmr = document.getElementById('resultadoBMR').textContent;
+    const mantenimiento = document.getElementById('resultadoMantenimiento').textContent;
+    const objetivo = document.getElementById('resultadoObjetivo').textContent;
+    const macros = document.getElementById('resultadoMacros').textContent;
+    if (!bmr) return alert('Calcula algo antes de guardar');
+    let historial = JSON.parse(localStorage.getItem('historial')) || [];
+    historial.push({bmr, mantenimiento, objetivo, macros, fecha: new Date().toLocaleString()});
+    localStorage.setItem('historial', JSON.stringify(historial));
+    mostrarHistorial();
+  }
+
+  function borrarHistorial() {
+    localStorage.removeItem('historial');
+    mostrarHistorial();
+  }
+
+  function mostrarHistorial() {
+    const historialDiv = document.getElementById('historial');
+    const historial = JSON.parse(localStorage.getItem('historial')) || [];
+    historialDiv.innerHTML = historial.map(h => `<p>${h.fecha} | BMR: ${h.bmr}, Mant.: ${h.mantenimiento}, Objetivo: ${h.objetivo}, Macros: ${h.macros}</p>`).join('');
+  }
+
   mostrarHistorial();
-}
-
-// Cargar al entrar
-window.onload = mostrarHistorial;
 </script>
 
 </body>
