@@ -10,92 +10,92 @@
   <meta name="description" content="Calcula tus calorías, metabolismo basal y macronutrientes de forma precisa. Empieza tu cambio físico hoy.">
 
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      background: linear-gradient(135deg, #0f172a, #020617);
-      color: white;
-    }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: radial-gradient(circle at top, #0f172a, #020617);
+    color: white;
+  }
 
-    header {
-      text-align: center;
-      padding: 40px 20px;
-    }
+  header {
+    text-align: center;
+    padding: 50px 20px 30px;
+  }
 
-    h1 {
-      font-size: 2.2rem;
-      color: #22c55e;
-    }
+  h1 {
+    font-size: 2.4rem;
+    color: #22c55e;
+  }
 
-    .subtitle {
-      color: #cbd5f5;
-      margin-top: 10px;
-    }
+  .subtitle {
+    color: #94a3b8;
+  }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
+  .container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+  }
 
-    .card {
-      background: #1e293b;
-      padding: 25px;
-      margin-bottom: 25px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      transition: transform 0.2s;
-    }
+  .card {
+    background: rgba(30, 41, 59, 0.9);
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    transition: 0.25s;
+  }
 
-    .card:hover {
-      transform: translateY(-5px);
-    }
+  .card:hover {
+    transform: translateY(-5px);
+  }
 
-    input, select {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0 12px;
-      border-radius: 8px;
-      border: none;
-      font-size: 15px;
-    }
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 12px;
+    border-radius: 10px;
+    border: none;
+    background: #020617;
+    color: white;
+  }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #22c55e;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+  input:focus, select:focus {
+    outline: none;
+    box-shadow: 0 0 10px #22c55e;
+  }
 
-    button:hover {
-      background: #16a34a;
-    }
+  button {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
 
-    .result {
-      margin-top: 15px;
-      font-weight: bold;
-      color: #38bdf8;
-      font-size: 18px;
-    }
+  button:hover {
+    transform: scale(1.03);
+  }
 
-    .steps {
-      background: #020617;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 30px;
-    }
+  .result {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    background: rgba(56,189,248,0.1);
+    padding: 10px;
+    border-radius: 10px;
+    color: #38bdf8;
+  }
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #94a3b8;
-    }
-  </style>
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+  }
+</style>
 </head>
 
 <body>
@@ -182,7 +182,9 @@
 </div>
 
 <footer>
-  © 2026 Calculadora Fitness | Empieza tu cambio hoy
+  © 2026 Calculadora Fitness | Empieza tu cambio hoy  
+  <br>
+  <span style="font-size: 0.8rem; opacity: 0.7;">Hecho por Enrique</span>
 </footer>
 
 <script>
