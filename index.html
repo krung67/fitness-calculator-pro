@@ -298,29 +298,51 @@
   // -------------------------
   // 4️⃣ MACRONUTRIENTES REALISTAS
   // -------------------------
-  function calcularMacros() {
-    const peso = parseFloat(document.getElementById('pesoMacro').value);
-    const objetivo = document.getElementById('objetivoMacro').value;
-    const calorias = parseFloat(document.getElementById('mantenimiento').value) * 
-                     (objetivo === 'volumen' ? 1.15 : objetivo === 'deficit' ? 0.8 : 1);
+ function calcularMacros() {
+  const peso = parseFloat(document.getElementById('pesoMacro').value);
+  const objetivo = document.getElementById('objetivoMacro').value;
+  const mantenimiento = parseFloat(document.getElementById('mantenimiento').value);
 
-    if (!peso || !objetivo || !calorias) return alert('Completa todos los campos');
+  if (!peso || !objetivo || !mantenimiento) return alert('Completa todos los campos');
 
-    // Rangos científicos por kg
-    let proteina = peso * 2; // g
-    let grasa = peso * 0.9;  // g
-    let calProte = proteina * 4;
-    let calGrasa = grasa * 9;
+  // Ajuste calórico según objetivo
+  let calorias;
+  if (objetivo === 'deficit') calorias = mantenimiento * 0.8;
+  else if (objetivo === 'volumen') calorias = mantenimiento * 1.15;
+  else calorias = mantenimiento;
 
-    // Carbohidratos = calorías restantes
-    let calCarbo = calorias - (calProte + calGrasa);
-    if (calCarbo < 0) calCarbo = 0; // No negativo
-    let carbos = calCarbo / 4; // g
+  // 🔥 NUEVA LÓGICA SEGÚN OBJETIVO
+  let proteinaPorKg, grasaPorKg;
 
-    document.getElementById('resultadoMacros').textContent = 
-      `Proteína: ${proteina.toFixed(0)} g, Grasas: ${grasa.toFixed(0)} g, Carbohidratos: ${carbos.toFixed(0)} g`;
+  if (objetivo === 'deficit') {
+    proteinaPorKg = 1.2;
+    grasaPorKg = 0.5;
+  } 
+  else if (objetivo === 'volumen') {
+    proteinaPorKg = 1.6;
+    grasaPorKg = 0.8;
+  } 
+  else if (objetivo === 'mantenimiento') {
+    proteinaPorKg = 1.4;
+    grasaPorKg = 0.6;
   }
 
+  // Cálculo macros
+  const proteina = peso * proteinaPorKg;
+  const grasa = peso * grasaPorKg;
+
+  const calProte = proteina * 4;
+  const calGrasa = grasa * 9;
+
+  // Carbohidratos = lo restante
+  let calCarbo = calorias - (calProte + calGrasa);
+  if (calCarbo < 0) calCarbo = 0;
+
+  const carbos = calCarbo / 4;
+
+  document.getElementById('resultadoMacros').textContent = 
+    `Proteína: ${proteina.toFixed(0)} g, Grasas: ${grasa.toFixed(0)} g, Carbohidratos: ${carbos.toFixed(0)} g`;
+}
   // -------------------------
   // 5️⃣ HISTORIAL
   // -------------------------
