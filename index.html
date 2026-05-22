@@ -1,490 +1,814 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- FRAGMENTO DE VERIFICACIÓN ADSENSE -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6100190147209730"
-      crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Fit — Calorías y Macros Gratis</title>
+<meta name="description" content="Calcula tus calorías, metabolismo basal y macronutrientes de forma precisa. Empieza tu cambio físico hoy en calculadora-fit.com">
 
-  <title>Calculadora de Calorías y Macros Gratis (Precisa y Rápida)</title>
-  <meta name="description" content="Calcula tus calorías, metabolismo basal y macronutrientes de forma precisa. Empieza tu cambio físico hoy.">
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      background: radial-gradient(circle at top, #0f172a, #020617);
-      color: white;
-    }
+<!-- AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6100190147209730" crossorigin="anonymous"></script>
 
-    header {
-      text-align: center;
-      padding: 50px 20px 30px;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
 
-    h1 {
-      font-size: 2.4rem;
-      color: #22c55e;
-    }
+:root{
+  --lime:#c8f135;
+  --lime-dim:#a8d020;
+  --lime-deep:#2d3d08;
+  --bg:#07090b;
+  --bg2:#0d1014;
+  --bg3:#131920;
+  --bg4:#1a2330;
+  --border:#1f2e1f;
+  --border2:#263326;
+  --muted:#4d6b5a;
+  --text:#eef3f0;
+  --text2:#8fa89a;
+}
 
-    .subtitle {
-      color: #94a3b8;
-    }
+body{
+  font-family:'Sora',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
+/* ── HERO ── */
+.hero{
+  position:relative;
+  padding:4rem 1.5rem 3rem;
+  text-align:center;
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+.hero-glow{
+  position:absolute;
+  top:-120px;left:50%;transform:translateX(-50%);
+  width:600px;height:300px;
+  background:radial-gradient(ellipse,rgba(200,241,53,0.13) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-ring{
+  position:absolute;
+  top:-60px;left:50%;transform:translateX(-50%);
+  width:400px;height:400px;
+  border-radius:50%;
+  border:1px solid rgba(200,241,53,0.07);
+  pointer-events:none;
+}
+.site-badge{
+  display:inline-block;
+  font-family:'Sora',sans-serif;
+  font-size:0.65rem;
+  font-weight:600;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--lime-dim);
+  background:var(--lime-deep);
+  border:1px solid rgba(200,241,53,0.2);
+  border-radius:100px;
+  padding:5px 14px;
+  margin-bottom:1.4rem;
+}
+h1{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(2.8rem,8vw,5rem);
+  font-weight:800;
+  line-height:0.95;
+  letter-spacing:-1px;
+  color:var(--lime);
+  text-transform:uppercase;
+  margin-bottom:0.6rem;
+}
+.hero-sub{
+  font-size:0.88rem;
+  color:var(--text2);
+  letter-spacing:1px;
+  max-width:420px;
+  margin:0 auto 2rem;
+  line-height:1.6;
+}
+.hero-stats{
+  display:flex;
+  justify-content:center;
+  gap:2.5rem;
+  flex-wrap:wrap;
+}
+.hero-stat span{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.6rem;
+  font-weight:700;
+  color:var(--lime);
+  letter-spacing:1px;
+  display:block;
+}
+.hero-stat small{
+  font-size:0.68rem;
+  color:var(--muted);
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
 
-    .card {
-      background: rgba(30, 41, 59, 0.9);
-      padding: 25px;
-      margin-bottom: 25px;
-      border-radius: 18px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-      transition: 0.25s;
-    }
+/* ── LAYOUT ── */
+.wrap{max-width:780px;margin:0 auto;padding:0 1.25rem}
 
-    .card:hover {
-      transform: translateY(-5px);
-    }
+/* ── STEP NAV ── */
+.step-rail{
+  display:flex;
+  gap:0;
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;
+  scrollbar-width:none;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.step-rail::-webkit-scrollbar{display:none}
+.srail-btn{
+  flex-shrink:0;
+  display:flex;align-items:center;gap:8px;
+  padding:0.85rem 1.1rem;
+  background:none;border:none;
+  border-bottom:2px solid transparent;
+  color:var(--muted);
+  font-family:'Sora',sans-serif;
+  font-size:0.7rem;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.18s;
+  white-space:nowrap;
+}
+.srail-btn:hover{color:var(--text)}
+.srail-btn.active{color:var(--lime);border-bottom-color:var(--lime)}
+.srail-btn.done{color:var(--lime-dim)}
+.snum{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--bg4);
+  font-size:0.65rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);transition:all 0.18s;
+}
+.srail-btn.active .snum{background:var(--lime);color:#000}
+.srail-btn.done .snum{background:var(--lime-deep);color:var(--lime)}
 
-    input, select {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0 12px;
-      border-radius: 10px;
-      border: none;
-      background: #020617;
-      color: white;
-    }
+/* ── PROGRESS BAR ── */
+.prog-bar{height:2px;background:var(--bg3)}
+.prog-fill{height:100%;background:var(--lime);transition:width 0.4s cubic-bezier(.4,0,.2,1);width:20%}
 
-    input:focus, select:focus {
-      outline: none;
-      box-shadow: 0 0 10px #22c55e;
-    }
+/* ── PANELS ── */
+.panel{display:none;padding:2.5rem 0 2rem}
+.panel.active{display:block}
 
-    button {
-      width: 100%;
-      padding: 13px;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      border: none;
-      border-radius: 10px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
+.sec-label{
+  font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin-bottom:6px;
+}
+.sec-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:2.2rem;font-weight:700;
+  color:var(--lime);letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:1.5rem;
+}
 
-    button:hover {
-      transform: scale(1.03);
-    }
+/* ── FORM ── */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.fgrid.solo{grid-template-columns:1fr}
+@media(max-width:480px){.fgrid{grid-template-columns:1fr}}
+.field label{
+  display:block;
+  font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin-bottom:7px;
+}
+input[type=number],select,input[type=email]{
+  width:100%;padding:0.8rem 1rem;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  color:var(--text);
+  font-family:'Sora',sans-serif;font-size:0.9rem;
+  outline:none;transition:border-color 0.2s,box-shadow 0.2s;
+  appearance:none;-webkit-appearance:none;
+}
+input:focus,select:focus{
+  border-color:var(--lime);
+  box-shadow:0 0 0 3px rgba(200,241,53,0.08);
+}
+select option{background:#0d1014}
 
-    .result {
-      margin-top: 15px;
-      font-weight: bold;
-      font-size: 18px;
-      background: rgba(56,189,248,0.1);
-      padding: 10px;
-      border-radius: 10px;
-      color: #38bdf8;
-      word-wrap: break-word;
-    }
+/* ── BUTTONS ── */
+.btn-main{
+  width:100%;padding:0.9rem 1.5rem;
+  background:var(--lime);
+  border:none;border-radius:10px;
+  color:#000;
+  font-family:'Sora',sans-serif;
+  font-size:0.8rem;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.18s;
+  margin-top:0.5rem;
+}
+.btn-main:hover{background:#d6ff3a;transform:translateY(-1px)}
+.btn-main:active{transform:translateY(0)}
+.btn-ghost{
+  width:100%;padding:0.8rem;
+  background:transparent;
+  border:1px solid var(--border2);
+  border-radius:10px;
+  color:var(--lime);
+  font-family:'Sora',sans-serif;font-size:0.78rem;
+  font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.18s;
+  margin-top:0.75rem;display:none;
+}
+.btn-ghost.show{display:block}
+.btn-ghost:hover{background:var(--lime-deep);border-color:var(--lime)}
+.btn-danger{
+  background:transparent;border:1px solid #3d1a1a;
+  color:#c45a5a;border-radius:10px;
+  padding:0.65rem 1rem;font-family:'Sora',sans-serif;
+  font-size:0.75rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.18s;width:100%;margin-top:8px;
+}
+.btn-danger:hover{background:#1a0808;border-color:#7a2a2a}
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #64748b;
-    }
+/* ── RESULT CARD ── */
+.rcard{
+  margin-top:1.5rem;
+  background:linear-gradient(135deg,#0f1f09 0%,#111a0a 100%);
+  border:1px solid rgba(200,241,53,0.22);
+  border-radius:14px;
+  padding:1.5rem;
+  display:none;
+  animation:fadeUp 0.3s ease;
+}
+.rcard.show{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.rc-label{font-size:0.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--lime-dim);font-weight:600;margin-bottom:5px}
+.rc-big{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:2.8rem;font-weight:800;
+  color:var(--lime);letter-spacing:1px;line-height:1;
+}
+.rc-unit{font-size:1.3rem;color:var(--muted)}
+.rc-desc{font-size:0.8rem;color:#7a9a6a;margin-top:8px;line-height:1.6}
 
-    a {
-      color: #38bdf8;
-      text-decoration: none;
-    }
+/* ── MACRO TILES ── */
+.macro-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  margin-top:1.5rem;display:none;
+}
+.macro-row.show{display:grid}
+.mtile{
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:12px;
+  padding:1.1rem 0.8rem;
+  text-align:center;
+}
+.mtile-icon{font-size:1.5rem;margin-bottom:6px}
+.mtile-g{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:2rem;font-weight:700;
+  color:var(--lime);letter-spacing:1px;
+}
+.mtile-name{
+  font-size:0.63rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-top:3px;
+}
+.mtile-kcal{font-size:0.7rem;color:var(--lime-dim);margin-top:2px}
 
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+/* ── SUMMARY ── */
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+.stile{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:12px;padding:1.1rem;
+}
+.stile-label{font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.stile-val{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.7rem;font-weight:700;
+  color:var(--lime);letter-spacing:1px;
+}
+.stile-unit{font-size:0.85rem;color:var(--muted)}
+
+/* ── HISTORIAL ── */
+.hist-wrap{margin-top:2.5rem}
+.hist-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.5rem;font-weight:700;
+  color:var(--text);letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:1rem;
+}
+.hist-empty{
+  font-size:0.82rem;color:var(--muted);
+  padding:1.5rem;text-align:center;
+  background:var(--bg3);border-radius:10px;
+  border:1px dashed var(--border2);
+}
+.hist-entry{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:10px;padding:1rem 1.1rem;
+  margin-bottom:8px;
+}
+.hist-date{font-size:0.67rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.hist-row{
+  display:flex;flex-wrap:wrap;gap:10px;font-size:0.78rem;
+}
+.hist-chip{
+  background:var(--bg4);border-radius:6px;
+  padding:3px 10px;color:var(--text2);
+}
+.hist-chip strong{color:var(--lime);font-weight:600}
+
+/* ── EMAIL SUB ── */
+.sub-section{
+  margin-top:2.5rem;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:16px;
+  padding:2rem 1.5rem;
+}
+.sub-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.6rem;font-weight:700;
+  color:var(--text);letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+.sub-desc{font-size:0.82rem;color:var(--muted);margin-bottom:1.3rem;line-height:1.6}
+.sub-row{display:flex;gap:10px;flex-wrap:wrap}
+.sub-row input[type=email]{flex:1;min-width:180px}
+.btn-sub{
+  padding:0.8rem 1.4rem;
+  background:var(--lime);border:none;border-radius:10px;
+  color:#000;font-family:'Sora',sans-serif;
+  font-size:0.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  cursor:pointer;white-space:nowrap;transition:all 0.18s;
+  flex-shrink:0;
+}
+.btn-sub:hover{background:#d6ff3a}
+.sub-note{font-size:0.7rem;color:var(--muted);margin-top:0.75rem}
+.sub-ok{
+  display:none;font-size:0.82rem;color:var(--lime);
+  margin-top:0.75rem;padding:0.7rem 1rem;
+  background:var(--lime-deep);border-radius:8px;
+  border:1px solid rgba(200,241,53,0.2);
+}
+
+/* ── PRODUCTS ── */
+.prod-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:12px;margin-top:1rem;
+}
+.prod-card{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:12px;padding:1rem;
+  text-decoration:none;color:var(--text);
+  transition:border-color 0.18s,transform 0.18s;
+  display:block;
+}
+.prod-card:hover{border-color:var(--lime);transform:translateY(-2px)}
+.prod-icon{font-size:1.4rem;margin-bottom:8px}
+.prod-name{font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.prod-tag{
+  font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--lime-dim);
+}
+
+/* ── FOOTER ── */
+footer{
+  margin-top:4rem;
+  padding:2rem 1.5rem;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:0.75rem;
+  color:var(--muted);
+}
+footer a{color:var(--lime-dim);text-decoration:none}
+footer a:hover{color:var(--lime)}
+
+/* ── TIP BOX ── */
+.tip{
+  border-left:3px solid var(--lime-dim);
+  border-radius:0 8px 8px 0;
+  padding:0.8rem 1rem;
+  background:var(--bg3);
+  font-size:0.8rem;color:var(--text2);
+  line-height:1.6;margin-bottom:1rem;
+}
+</style>
 </head>
-
 <body>
 
-<header>
-  <h1>Calculadora de Calorías y Macros</h1>
-  <p class="subtitle">Descubre exactamente cuántas calorías necesitas para definir, ganar músculo o mantenerte. Empieza tu cambio físico hoy.</p>
-</header>
-
-<div class="container">
-
-  <!-- METABOLISMO BASAL -->
-  <div class="card">
-    <h2>🔥 Metabolismo Basal (BMR)</h2>
-    <input type="number" id="edad" placeholder="Edad">
-    <select id="sexo">
-      <option value="">Sexo</option>
-      <option value="hombre">Hombre</option>
-      <option value="mujer">Mujer</option>
-    </select>
-    <input type="number" id="peso" placeholder="Peso (kg)">
-    <input type="number" id="altura" placeholder="Altura (cm)">
-    <button onclick="calcularBMR()">Calcular BMR</button>
-    <div class="result" id="resultadoBMR"></div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-ring"></div>
+  <div class="site-badge">calculadora-fit.com</div>
+  <h1>Calculadora<br>Calorías &amp; Macros</h1>
+  <p class="hero-sub">Descubre exactamente cuántas calorías necesitas para definir, ganar músculo o mantenerte.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span>100%</span><small>Gratis</small></div>
+    <div class="hero-stat"><span>4 pasos</span><small>Resultado</small></div>
+    <div class="hero-stat"><span>Mifflin</span><small>Fórmula</small></div>
   </div>
+</div>
 
-  <!-- CALORÍAS DE MANTENIMIENTO -->
-  <div class="card">
-    <h2>⚡ Calorías de Mantenimiento</h2>
-    <input type="number" id="bmrInput" placeholder="Tu BMR">
-    <select id="actividad">
-      <option value="">Nivel de actividad</option>
-      <option value="1.2">Sedentario</option>
-      <option value="1.375">Ligero</option>
-      <option value="1.55">Moderado</option>
-      <option value="1.725">Alto</option>
-      <option value="1.9">Muy alto</option>
-    </select>
-    <button onclick="calcularMantenimiento()">Calcular mantenimiento</button>
-    <div class="result" id="resultadoMantenimiento"></div>
+<!-- STEP RAIL -->
+<nav class="step-rail">
+  <button class="srail-btn active" data-s="0" onclick="goStep(0)"><span class="snum">1</span>BMR</button>
+  <button class="srail-btn" data-s="1" onclick="goStep(1)"><span class="snum">2</span>Mantenimiento</button>
+  <button class="srail-btn" data-s="2" onclick="goStep(2)"><span class="snum">3</span>Objetivo</button>
+  <button class="srail-btn" data-s="3" onclick="goStep(3)"><span class="snum">4</span>Macros</button>
+  <button class="srail-btn" data-s="4" onclick="goStep(4)"><span class="snum">5</span>Resumen</button>
+</nav>
+<div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+
+<!-- ─────────── PANEL 0 : BMR ─────────── -->
+<div class="panel active" id="panel0">
+<div class="wrap">
+  <p class="sec-label">Paso 1 de 5</p>
+  <h2 class="sec-title">Metabolismo basal</h2>
+  <div class="fgrid">
+    <div class="field"><label>Edad (años)</label><input type="number" id="edad" placeholder="25" min="10" max="100"></div>
+    <div class="field"><label>Sexo</label>
+      <select id="sexo"><option value="">Seleccionar</option><option value="h">Hombre</option><option value="m">Mujer</option></select>
+    </div>
+    <div class="field"><label>Peso (kg)</label><input type="number" id="peso" placeholder="70" min="30" max="300" step="0.1"></div>
+    <div class="field"><label>Altura (cm)</label><input type="number" id="altura" placeholder="175" min="100" max="250"></div>
   </div>
-
-  <!-- OBJETIVO CALÓRICO -->
-  <div class="card">
-    <h2>⚖️ Déficit / Volumen</h2>
-    <input type="number" id="mantenimiento" placeholder="Calorías mantenimiento">
-    <select id="objetivo">
-      <option value="">Objetivo</option>
-      <option value="deficit">Definición</option>
-      <option value="mantenimiento">Mantenimiento</option>
-      <option value="volumen">Volumen</option>
-    </select>
-    <button onclick="calcularObjetivo()">Calcular objetivo</button>
-    <div class="result" id="resultadoObjetivo"></div>
+  <button class="btn-main" onclick="calcBMR()">Calcular BMR</button>
+  <div class="rcard" id="r0">
+    <div class="rc-label">Tu metabolismo basal</div>
+    <div class="rc-big" id="v0">—</div>
+    <div class="rc-desc" id="d0"></div>
   </div>
+  <button class="btn-ghost" id="n0" onclick="goStep(1)">Siguiente — Mantenimiento →</button>
+</div>
+</div>
 
-  <!-- MACRONUTRIENTES -->
-  <div class="card">
-    <h2>🍗 Macronutrientes</h2>
-    <input type="number" id="pesoMacro" placeholder="Peso (kg)">
-    <select id="objetivoMacro">
-      <option value="">Objetivo</option>
-      <option value="deficit">Definición</option>
-      <option value="volumen">Volumen</option>
-    </select>
-    <button onclick="calcularMacros()">Calcular macros</button>
-    <div class="result" id="resultadoMacros"></div>
-  </div>
-
-  <!-- PRODUCTOS RECOMENDADOS -->
-  <div class="card">
-    <h2>💪 Productos recomendados</h2>
-    <p>Para mejorar tus resultados, estos productos te ayudarán según tu objetivo:</p>
-    <ul>
-      <li><a href="https://amzn.to/4sPP1tF" target="_blank">👉 Proteína whey recomendada</a></li>
-      <li><a href="https://amzn.to/3Pb7v9K" target="_blank">👉 Creatina monohidrato</a></li>
-      <li><a href="https://amzn.to/4sKXI8D" target="_blank">👉 Báscula digital para seguimiento</a></li>
-    </ul>
-  </div>
-
-  <!-- HISTORIAL DEL USUARIO -->
-  <div class="card">
-    <h2>📊 Tu historial</h2>
-    <p>Se guardan automáticamente tus últimos cálculos en este dispositivo.</p>
-    <button onclick="guardarHistorial()">Guardar resultado actual</button>
-    <button onclick="borrarHistorial()" style="margin-top:10px;background:#ef4444;">Borrar historial</button>
-    <div id="historial" class="result" style="margin-top:15px;"></div>
-  </div>
-
-  <!-- PASOS DE USO -->
-  <div class="card">
-    <h3>📊 Cómo usar la calculadora</h3>
-    <p>1. Calcula tu metabolismo basal</p>
-    <p>2. Calcula tus calorías de mantenimiento</p>
-    <p>3. Ajusta según tu objetivo</p>
-    <p>4. Calcula tus macronutrientes</p>
-  </div>
-
-  <!-- FORMULARIO MAILCHIMP -->
-  <div class="card" id="mc_embed_shell">
-    <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
-    <div id="mc_embed_signup">
-      <form action="https://calculadora-fit.us7.list-manage.com/subscribe/post?u=77be65ca2b1909877f9244c08&amp;id=914684be82&amp;f_id=00589ae0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
-        <div id="mc_embed_signup_scroll">
-          <h2>Actualiza tu cálculo cada mes</h2>
-          <div class="mc-field-group">
-            <label for="mce-EMAIL">Dirección de correo electrónico <span class="asterisk">*</span></label>
-            <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required value="">
-          </div>
-          <div hidden><input type="hidden" name="tags" value="3547367"></div>
-          <div id="mce-responses" class="clear">
-            <div class="response" id="mce-error-response" style="display:none"></div>
-            <div class="response" id="mce-success-response" style="display:none"></div>
-          </div>
-          <div aria-hidden="true" style="position:absolute; left:-5000px;">
-            <input type="text" name="b_77be65ca2b1909877f9244c08_914684be82" tabindex="-1" value="">
-          </div>
-          <div class="clear">
-            <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
-          </div>
-        </div>
-      </form>
+<!-- ─────────── PANEL 1 : MANTENIMIENTO ─────────── -->
+<div class="panel" id="panel1">
+<div class="wrap">
+  <p class="sec-label">Paso 2 de 5</p>
+  <h2 class="sec-title">Calorías de mantenimiento</h2>
+  <div class="tip" id="tip1">Calcula primero tu BMR en el paso anterior.</div>
+  <div class="fgrid solo">
+    <div class="field"><label>Nivel de actividad física</label>
+      <select id="actividad">
+        <option value="">Seleccionar</option>
+        <option value="1.2">Sedentario — sin ejercicio</option>
+        <option value="1.375">Ligero — 1–3 días/semana</option>
+        <option value="1.55">Moderado — 3–5 días/semana</option>
+        <option value="1.725">Alto — 6–7 días/semana</option>
+        <option value="1.9">Muy alto — entrenamiento doble o trabajo físico</option>
+      </select>
     </div>
   </div>
+  <button class="btn-main" onclick="calcMant()">Calcular mantenimiento</button>
+  <div class="rcard" id="r1">
+    <div class="rc-label">Calorías de mantenimiento (TDEE)</div>
+    <div class="rc-big" id="v1">—</div>
+    <div class="rc-desc" id="d1"></div>
+  </div>
+  <button class="btn-ghost" id="n1" onclick="goStep(2)">Siguiente — Objetivo →</button>
+</div>
+</div>
 
+<!-- ─────────── PANEL 2 : OBJETIVO ─────────── -->
+<div class="panel" id="panel2">
+<div class="wrap">
+  <p class="sec-label">Paso 3 de 5</p>
+  <h2 class="sec-title">Tu objetivo</h2>
+  <div class="tip" id="tip2">Selecciona qué quieres conseguir con tu alimentación.</div>
+  <div class="fgrid solo">
+    <div class="field"><label>Objetivo</label>
+      <select id="objetivo">
+        <option value="">Seleccionar</option>
+        <option value="def">Definición — perder grasa</option>
+        <option value="mant">Mantenimiento — recomposición</option>
+        <option value="vol">Volumen limpio — ganar músculo</option>
+      </select>
+    </div>
+  </div>
+  <button class="btn-main" onclick="calcObj()">Calcular calorías objetivo</button>
+  <div class="rcard" id="r2">
+    <div class="rc-label" id="rl2">Calorías objetivo</div>
+    <div class="rc-big" id="v2">—</div>
+    <div class="rc-desc" id="d2"></div>
+  </div>
+  <button class="btn-ghost" id="n2" onclick="goStep(3)">Siguiente — Macros →</button>
+</div>
+</div>
+
+<!-- ─────────── PANEL 3 : MACROS ─────────── -->
+<div class="panel" id="panel3">
+<div class="wrap">
+  <p class="sec-label">Paso 4 de 5</p>
+  <h2 class="sec-title">Macronutrientes</h2>
+  <div class="tip" id="tip3">Se calcularán automáticamente en base a tu peso y objetivo.</div>
+  <button class="btn-main" onclick="calcMacros()">Calcular mis macros</button>
+  <div class="macro-row" id="macRow">
+    <div class="mtile">
+      <div class="mtile-icon">🥩</div>
+      <div class="mtile-g" id="mp">—</div>
+      <div class="mtile-name">Proteína</div>
+      <div class="mtile-kcal" id="mpc"></div>
+    </div>
+    <div class="mtile">
+      <div class="mtile-icon">🥑</div>
+      <div class="mtile-g" id="mg">—</div>
+      <div class="mtile-name">Grasas</div>
+      <div class="mtile-kcal" id="mgc"></div>
+    </div>
+    <div class="mtile">
+      <div class="mtile-icon">🍚</div>
+      <div class="mtile-g" id="mc">—</div>
+      <div class="mtile-name">Carbohidratos</div>
+      <div class="mtile-kcal" id="mcc"></div>
+    </div>
+  </div>
+  <button class="btn-ghost" id="n3" onclick="goStep(4)">Ver resumen completo →</button>
+</div>
+</div>
+
+<!-- ─────────── PANEL 4 : RESUMEN ─────────── -->
+<div class="panel" id="panel4">
+<div class="wrap">
+  <p class="sec-label">Resumen completo</p>
+  <h2 class="sec-title">Tu plan</h2>
+  <div class="sum-grid">
+    <div class="stile"><div class="stile-label">BMR</div><div><span class="stile-val" id="sb">—</span> <span class="stile-unit">kcal/día</span></div></div>
+    <div class="stile"><div class="stile-label">Mantenimiento</div><div><span class="stile-val" id="sm">—</span> <span class="stile-unit">kcal/día</span></div></div>
+    <div class="stile"><div class="stile-label">Objetivo calórico</div><div><span class="stile-val" id="so">—</span> <span class="stile-unit">kcal/día</span></div></div>
+    <div class="stile"><div class="stile-label">Tipo de objetivo</div><div class="stile-val" id="st" style="font-size:1rem;letter-spacing:1px;text-transform:uppercase">—</div></div>
+  </div>
+  <div class="macro-row show" id="sumMac">
+    <div class="mtile"><div class="mtile-icon">🥩</div><div class="mtile-g" id="smp">—</div><div class="mtile-name">Proteína</div><div class="mtile-kcal" id="smpc"></div></div>
+    <div class="mtile"><div class="mtile-icon">🥑</div><div class="mtile-g" id="smg">—</div><div class="mtile-name">Grasas</div><div class="mtile-kcal" id="smgc"></div></div>
+    <div class="mtile"><div class="mtile-icon">🍚</div><div class="mtile-g" id="smc">—</div><div class="mtile-name">Carbohidratos</div><div class="mtile-kcal" id="smcc"></div></div>
+  </div>
+
+  <div class="tip" id="sumTip" style="margin-top:1.5rem">Completa los pasos anteriores para ver tu resumen.</div>
+
+  <!-- GUARDAR EN HISTORIAL -->
+  <div style="margin-top:2rem">
+    <button class="btn-main" onclick="guardar()">Guardar en historial</button>
+  </div>
+
+  <!-- SUSCRIPCIÓN EMAIL -->
+  <div class="sub-section" style="margin-top:2rem">
+    <div class="sub-title">📬 Recibe tus datos por email</div>
+    <p class="sub-desc">Introduce tu correo y te enviamos tu cálculo completo para que no tengas que repetirlo. También te recordaremos recalcular cada mes.</p>
+    <div class="sub-row">
+      <input type="email" id="subEmail" placeholder="tu@correo.com">
+      <button class="btn-sub" onclick="suscribir()">Enviarme mis datos</button>
+    </div>
+    <p class="sub-note">Sin spam. Solo tus datos y recordatorios mensuales.</p>
+    <div class="sub-ok" id="subOk">✅ ¡Perfecto! Revisa tu correo, te hemos enviado tu plan completo.</div>
+  </div>
+
+  <div style="margin-top:1.5rem">
+    <button class="btn-danger" onclick="resetAll()">Recalcular desde cero</button>
+  </div>
+</div>
+</div>
+
+<!-- ─────────── HISTORIAL (siempre visible abajo) ─────────── -->
+<div class="wrap">
+  <div class="hist-wrap">
+    <div class="hist-title">📊 Historial de cálculos</div>
+    <div id="histContainer"></div>
+    <button class="btn-danger" id="btnBorrar" onclick="borrarHistorial()" style="display:none">Borrar historial</button>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <div style="margin-top:3rem">
+    <p class="sec-label" style="margin-bottom:8px">Potencia tus resultados</p>
+    <div class="prod-grid">
+      <a href="https://amzn.to/4sPP1tF" target="_blank" class="prod-card">
+        <div class="prod-icon">🥛</div>
+        <div class="prod-name">Proteína Whey recomendada</div>
+        <div class="prod-tag">Suplementos →</div>
+      </a>
+      <a href="https://amzn.to/3Pb7v9K" target="_blank" class="prod-card">
+        <div class="prod-icon">⚡</div>
+        <div class="prod-name">Creatina monohidrato</div>
+        <div class="prod-tag">Rendimiento →</div>
+      </a>
+      <a href="https://amzn.to/4sKXI8D" target="_blank" class="prod-card">
+        <div class="prod-icon">⚖️</div>
+        <div class="prod-name">Báscula digital de seguimiento</div>
+        <div class="prod-tag">Herramientas →</div>
+      </a>
+    </div>
+  </div>
 </div>
 
 <footer>
-   <p>© 2026 Calculadora Fit. Todos los derechos reservados.</p> Hecho por Enrique
+  <p>© 2026 <a href="https://calculadora-fit.com">calculadora-fit.com</a> · Todos los derechos reservados · Hecho por Enrique</p>
+  <p style="margin-top:6px;font-size:0.68rem">Los resultados son orientativos. Consulta a un profesional de la nutrición para asesoramiento personalizado.</p>
 </footer>
 
 <script>
-  <script>
-  // -------------------------
-  // 1️⃣ CALCULO BMR (Mifflin-St Jeor)
-  // -------------------------
-  function calcularBMR() {
-    const edad = parseInt(document.getElementById('edad').value);
-    const peso = parseFloat(document.getElementById('peso').value);
-    const altura = parseFloat(document.getElementById('altura').value);
-    const sexo = document.getElementById('sexo').value;
+const D={bmr:null,mant:null,obj:null,tipo:null,prot:null,grasa:null,carb:null};
 
-    if (!edad || !peso || !altura || !sexo) return alert('Completa todos los campos');
-
-    let bmr;
-    if (sexo === 'hombre') {
-      bmr = 10 * peso + 6.25 * altura - 5 * edad + 5;
-    } else {
-      bmr = 10 * peso + 6.25 * altura - 5 * edad - 161;
-    }
-
-    document.getElementById('resultadoBMR').textContent = `${bmr.toFixed(0)} kcal/día`;
-    document.getElementById('bmrInput').value = bmr.toFixed(0);
-  }
-
-  // -------------------------
-  // 2️⃣ CALCULO TDEE / MANTENIMIENTO
-  // -------------------------
-  function calcularMantenimiento() {
-    const bmr = parseFloat(document.getElementById('bmrInput').value);
-    const actividad = parseFloat(document.getElementById('actividad').value);
-
-    if (!bmr || !actividad) return alert('Completa todos los campos');
-
-    const mantenimiento = bmr * actividad;
-    document.getElementById('resultadoMantenimiento').textContent = `${mantenimiento.toFixed(0)} kcal/día`;
-    document.getElementById('mantenimiento').value = mantenimiento.toFixed(0);
-  }
-
-  // -------------------------
-  // 3️⃣ AJUSTE SEGÚN OBJETIVO
-  // -------------------------
-  function calcularObjetivo() {
-    const mantenimiento = parseFloat(document.getElementById('mantenimiento').value);
-    const objetivo = document.getElementById('objetivo').value;
-
-    if (!mantenimiento || !objetivo) return alert('Completa todos los campos');
-
-    let calorias;
-    if (objetivo === 'deficit') calorias = mantenimiento * 0.8; // 20% déficit
-    else if (objetivo === 'volumen') calorias = mantenimiento * 1.15; // +15% volumen limpio
-    else calorias = mantenimiento;
-
-    document.getElementById('resultadoObjetivo').textContent = `${calorias.toFixed(0)} kcal/día`;
-    document.getElementById('pesoMacro').value = document.getElementById('peso').value; // Auto-fill peso para macros
-  }
-
-  // -------------------------
-  // 4️⃣ MACRONUTRIENTES REALISTAS
-  // -------------------------
- function calcularMacros() {
-  const peso = parseFloat(document.getElementById('pesoMacro').value);
-  const objetivo = document.getElementById('objetivoMacro').value;
-  const mantenimiento = parseFloat(document.getElementById('mantenimiento').value);
-
-  if (!peso || !objetivo || !mantenimiento) return alert('Completa todos los campos');
-
-  // Ajuste calórico según objetivo
-  let calorias;
-  if (objetivo === 'deficit') calorias = mantenimiento * 0.8;
-  else if (objetivo === 'volumen') calorias = mantenimiento * 1.15;
-  else calorias = mantenimiento;
-
-  // 🔥 NUEVA LÓGICA SEGÚN OBJETIVO
-  let proteinaPorKg, grasaPorKg;
-
-  if (objetivo === 'deficit') {
-    proteinaPorKg = 1.2;
-    grasaPorKg = 0.5;
-  } 
-  else if (objetivo === 'volumen') {
-    proteinaPorKg = 1.6;
-    grasaPorKg = 0.8;
-  } 
-  else if (objetivo === 'mantenimiento') {
-    proteinaPorKg = 1.4;
-    grasaPorKg = 0.6;
-  }
-
-  // Cálculo macros
-  const proteina = peso * proteinaPorKg;
-  const grasa = peso * grasaPorKg;
-
-  const calProte = proteina * 4;
-  const calGrasa = grasa * 9;
-
-  // Carbohidratos = lo restante
-  let calCarbo = calorias - (calProte + calGrasa);
-  if (calCarbo < 0) calCarbo = 0;
-
-  const carbos = calCarbo / 4;
-
-  document.getElementById('resultadoMacros').textContent = 
-    `Proteína: ${proteina.toFixed(0)} g, Grasas: ${grasa.toFixed(0)} g, Carbohidratos: ${carbos.toFixed(0)} g`;
+function goStep(n){
+  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',i===n));
+  document.querySelectorAll('.srail-btn').forEach((b,i)=>{
+    b.classList.toggle('active',i===n);
+  });
+  document.getElementById('progFill').style.width=(((n+1)/5)*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-  // -------------------------
-  // 5️⃣ HISTORIAL
-  // -------------------------
-  function guardarHistorial() {
-    const bmr = document.getElementById('resultadoBMR').textContent;
-    const mantenimiento = document.getElementById('resultadoMantenimiento').textContent;
-    const objetivo = document.getElementById('resultadoObjetivo').textContent;
-    const macros = document.getElementById('resultadoMacros').textContent;
 
-    if (!bmr) return alert('Calcula algo antes de guardar');
+function calcBMR(){
+  const edad=parseInt(document.getElementById('edad').value);
+  const peso=parseFloat(document.getElementById('peso').value);
+  const altura=parseFloat(document.getElementById('altura').value);
+  const sexo=document.getElementById('sexo').value;
+  if(!edad||!peso||!altura||!sexo){alert('Completa todos los campos');return}
+  const bmr=Math.round(sexo==='h'?(10*peso+6.25*altura-5*edad+5):(10*peso+6.25*altura-5*edad-161));
+  D.bmr=bmr;
+  document.getElementById('v0').textContent=bmr+' kcal/día';
+  document.getElementById('d0').textContent='Calorías mínimas que tu cuerpo necesita en reposo absoluto.';
+  document.getElementById('tip1').textContent='BMR detectado: '+bmr+' kcal — ahora selecciona tu nivel de actividad.';
+  show('r0');show('n0');
+  document.querySelectorAll('.srail-btn')[0].classList.add('done');
+}
 
-    let historial = JSON.parse(localStorage.getItem('historial')) || [];
-    historial.push({bmr, mantenimiento, objetivo, macros, fecha: new Date().toLocaleString()});
-    localStorage.setItem('historial', JSON.stringify(historial));
-    mostrarHistorial();
+function calcMant(){
+  if(!D.bmr){alert('Calcula primero tu BMR en el paso 1');return}
+  const act=parseFloat(document.getElementById('actividad').value);
+  if(!act){alert('Selecciona tu nivel de actividad');return}
+  const mant=Math.round(D.bmr*act);
+  D.mant=mant;
+  const labels={1.2:'Sedentario',1.375:'Actividad ligera',1.55:'Actividad moderada',1.725:'Actividad alta',1.9:'Muy activo'};
+  document.getElementById('v1').textContent=mant+' kcal/día';
+  document.getElementById('d1').textContent=labels[act]+' · Con estas calorías tu peso permanece estable.';
+  document.getElementById('tip2').textContent='Mantenimiento: '+mant+' kcal. Ahora elige tu objetivo.';
+  show('r1');show('n1');
+  document.querySelectorAll('.srail-btn')[1].classList.add('done');
+}
+
+function calcObj(){
+  if(!D.mant){alert('Calcula primero tu mantenimiento');return}
+  const obj=document.getElementById('objetivo').value;
+  if(!obj){alert('Selecciona tu objetivo');return}
+  let cal,desc,label;
+  if(obj==='def'){cal=Math.round(D.mant-400);desc='Déficit de 400 kcal/día · Pérdida gradual y sostenible (~0.3–0.5 kg/semana).';label='Definición'}
+  else if(obj==='vol'){cal=Math.round(D.mant+300);desc='Superávit de 300 kcal/día · Volumen limpio para ganar masa muscular sin acumular grasa.';label='Volumen'}
+  else{cal=D.mant;desc='Calorías de mantenimiento · Ideal para recomposición corporal.';label='Mantenimiento'}
+  D.obj=cal;D.tipo=label;
+  document.getElementById('rl2').textContent=label;
+  document.getElementById('v2').textContent=cal+' kcal/día';
+  document.getElementById('d2').textContent=desc;
+  document.getElementById('tip3').textContent='Objetivo '+label.toLowerCase()+': '+cal+' kcal. Calculando macros óptimos...';
+  show('r2');show('n2');
+  document.querySelectorAll('.srail-btn')[2].classList.add('done');
+}
+
+function calcMacros(){
+  if(!D.obj){alert('Completa los pasos anteriores primero');return}
+  const peso=parseFloat(document.getElementById('peso').value)||70;
+  const obj=document.getElementById('objetivo').value||'mant';
+  let pKg,gKg;
+  if(obj==='def'){pKg=1.2;gKg=0.5}
+  else if(obj==='vol'){pKg=1.6;gKg=0.8}
+  else{pKg=1.4;gKg=0.6}
+  const prot=Math.round(peso*pKg);
+  const gras=Math.round(peso*gKg);
+  const calP=prot*4,calG=gras*9;
+  const calC=Math.max(0,D.obj-calP-calG);
+  const carb=Math.round(calC/4);
+  D.prot=prot;D.grasa=gras;D.carb=carb;
+  const g=v=>v+'g';
+  document.getElementById('mp').textContent=g(prot);
+  document.getElementById('mg').textContent=g(gras);
+  document.getElementById('mc').textContent=g(carb);
+  document.getElementById('mpc').textContent=calP+' kcal';
+  document.getElementById('mgc').textContent=calG+' kcal';
+  document.getElementById('mcc').textContent=Math.round(calC)+' kcal';
+  document.getElementById('macRow').classList.add('show');
+  show('n3');
+  document.querySelectorAll('.srail-btn')[3].classList.add('done');
+  syncResumen();
+}
+
+function syncResumen(){
+  if(!D.bmr)return;
+  document.getElementById('sb').textContent=D.bmr||'—';
+  document.getElementById('sm').textContent=D.mant||'—';
+  document.getElementById('so').textContent=D.obj||'—';
+  document.getElementById('st').textContent=D.tipo||'—';
+  if(D.prot){
+    const g=v=>v+'g';
+    document.getElementById('smp').textContent=g(D.prot);
+    document.getElementById('smg').textContent=g(D.grasa);
+    document.getElementById('smc').textContent=g(D.carb);
+    document.getElementById('smpc').textContent=D.prot*4+' kcal';
+    document.getElementById('smgc').textContent=D.grasa*9+' kcal';
+    document.getElementById('smcc').textContent=Math.round(D.obj-D.prot*4-D.grasa*9)+' kcal';
+    const peso=parseFloat(document.getElementById('peso').value)||'?';
+    document.getElementById('sumTip').textContent='Plan calculado para '+peso+'kg. Recalcula cada mes o cuando tu peso cambie más de 3 kg.';
+    document.querySelectorAll('.srail-btn')[4].classList.add('done');
   }
+}
 
-  function borrarHistorial() {
-    localStorage.removeItem('historial');
-    mostrarHistorial();
+function guardar(){
+  if(!D.bmr){alert('Calcula tus datos primero');return}
+  let hist=JSON.parse(localStorage.getItem('cfhist'))||[];
+  const entry={
+    fecha:new Date().toLocaleString('es-ES'),
+    bmr:D.bmr,mant:D.mant,obj:D.obj,tipo:D.tipo,
+    prot:D.prot,grasa:D.grasa,carb:D.carb,
+    peso:parseFloat(document.getElementById('peso').value)||null
+  };
+  hist.unshift(entry);
+  if(hist.length>10)hist=hist.slice(0,10);
+  localStorage.setItem('cfhist',JSON.stringify(hist));
+  renderHist();
+  goStep(4);
+  alert('✅ Guardado en tu historial');
+}
+
+function borrarHistorial(){
+  if(confirm('¿Seguro que quieres borrar todo el historial?')){
+    localStorage.removeItem('cfhist');renderHist();
   }
+}
 
-  function mostrarHistorial() {
-    const historialDiv = document.getElementById('historial');
-    const historial = JSON.parse(localStorage.getItem('historial')) || [];
-    historialDiv.innerHTML = historial.map(h => 
-      `<p>${h.fecha} | BMR: ${h.bmr}, Mant.: ${h.mantenimiento}, Objetivo: ${h.objetivo}, Macros: ${h.macros}</p>`).join('');
+function renderHist(){
+  const hist=JSON.parse(localStorage.getItem('cfhist'))||[];
+  const c=document.getElementById('histContainer');
+  const b=document.getElementById('btnBorrar');
+  if(hist.length===0){
+    c.innerHTML='<div class="hist-empty">Aún no tienes cálculos guardados. Completa los 4 pasos y pulsa "Guardar en historial".</div>';
+    b.style.display='none';return;
   }
+  b.style.display='block';
+  c.innerHTML=hist.map(h=>`
+    <div class="hist-entry">
+      <div class="hist-date">${h.fecha}${h.peso?' · '+h.peso+' kg':''}</div>
+      <div class="hist-row">
+        <span class="hist-chip">BMR <strong>${h.bmr}</strong> kcal</span>
+        <span class="hist-chip">Mant. <strong>${h.mant}</strong> kcal</span>
+        <span class="hist-chip">Obj. <strong>${h.obj}</strong> kcal</span>
+        ${h.tipo?`<span class="hist-chip"><strong>${h.tipo}</strong></span>`:''}
+        ${h.prot?`<span class="hist-chip">P <strong>${h.prot}g</strong> G <strong>${h.grasa}g</strong> C <strong>${h.carb}g</strong></span>`:''}
+      </div>
+    </div>`).join('');
+}
 
-  mostrarHistorial();
-</script><script>
-  // -------------------------
-  // 1️⃣ CALCULO BMR (Mifflin-St Jeor)
-  // -------------------------
-  function calcularBMR() {
-    const edad = parseInt(document.getElementById('edad').value);
-    const peso = parseFloat(document.getElementById('peso').value);
-    const altura = parseFloat(document.getElementById('altura').value);
-    const sexo = document.getElementById('sexo').value;
+function suscribir(){
+  const email=document.getElementById('subEmail').value.trim();
+  if(!email||!email.includes('@')){alert('Introduce un correo válido');return}
+  if(!D.bmr){alert('Completa los cálculos antes de suscribirte');return}
+  const form=document.createElement('form');
+  form.method='POST';
+  form.action='https://calculadora-fit.us7.list-manage.com/subscribe/post?u=77be65ca2b1909877f9244c08&id=914684be82&f_id=00589ae0f0';
+  form.target='_blank';
+  const fields={EMAIL:email,'tags':'3547367'};
+  Object.entries(fields).forEach(([k,v])=>{
+    const i=document.createElement('input');
+    i.type='hidden';i.name=k;i.value=v;
+    form.appendChild(i);
+  });
+  const honey=document.createElement('input');
+  honey.type='hidden';honey.name='b_77be65ca2b1909877f9244c08_914684be82';honey.value='';
+  form.appendChild(honey);
+  document.body.appendChild(form);form.submit();document.body.removeChild(form);
+  document.getElementById('subOk').style.display='block';
+  document.getElementById('subEmail').value='';
+}
 
-    if (!edad || !peso || !altura || !sexo) return alert('Completa todos los campos');
+function resetAll(){
+  if(!confirm('¿Resetear todos los datos?'))return;
+  Object.keys(D).forEach(k=>D[k]=null);
+  ['edad','peso','altura'].forEach(id=>{document.getElementById(id).value=''});
+  ['sexo','actividad','objetivo'].forEach(id=>{document.getElementById(id).value=''});
+  ['r0','r1','r2','n0','n1','n2','n3'].forEach(id=>{document.getElementById(id).classList.remove('show')});
+  document.getElementById('macRow').classList.remove('show');
+  document.getElementById('tip1').textContent='Calcula primero tu BMR en el paso anterior.';
+  document.getElementById('tip2').textContent='Selecciona qué quieres conseguir con tu alimentación.';
+  document.getElementById('tip3').textContent='Se calcularán automáticamente en base a tu peso y objetivo.';
+  document.getElementById('sumTip').textContent='Completa los pasos anteriores para ver tu resumen.';
+  document.getElementById('subOk').style.display='none';
+  document.querySelectorAll('.srail-btn').forEach(b=>b.classList.remove('done'));
+  goStep(0);
+}
 
-    let bmr;
-    if (sexo === 'hombre') {
-      bmr = 10 * peso + 6.25 * altura - 5 * edad + 5;
-    } else {
-      bmr = 10 * peso + 6.25 * altura - 5 * edad - 161;
-    }
+function show(id){document.getElementById(id).classList.add('show')}
 
-    document.getElementById('resultadoBMR').textContent = `${bmr.toFixed(0)} kcal/día`;
-    document.getElementById('bmrInput').value = bmr.toFixed(0);
-  }
-
-  // -------------------------
-  // 2️⃣ CALCULO TDEE / MANTENIMIENTO
-  // -------------------------
-  function calcularMantenimiento() {
-    const bmr = parseFloat(document.getElementById('bmrInput').value);
-    const actividad = parseFloat(document.getElementById('actividad').value);
-
-    if (!bmr || !actividad) return alert('Completa todos los campos');
-
-    const mantenimiento = bmr * actividad;
-    document.getElementById('resultadoMantenimiento').textContent = `${mantenimiento.toFixed(0)} kcal/día`;
-    document.getElementById('mantenimiento').value = mantenimiento.toFixed(0);
-  }
-
-  // -------------------------
-  // 3️⃣ AJUSTE SEGÚN OBJETIVO
-  // -------------------------
-  function calcularObjetivo() {
-    const mantenimiento = parseFloat(document.getElementById('mantenimiento').value);
-    const objetivo = document.getElementById('objetivo').value;
-
-    if (!mantenimiento || !objetivo) return alert('Completa todos los campos');
-
-    let calorias;
-    if (objetivo === 'deficit') calorias = mantenimiento * 0.8; // 20% déficit
-    else if (objetivo === 'volumen') calorias = mantenimiento * 1.15; // +15% volumen limpio
-    else calorias = mantenimiento;
-
-    document.getElementById('resultadoObjetivo').textContent = `${calorias.toFixed(0)} kcal/día`;
-    document.getElementById('pesoMacro').value = document.getElementById('peso').value; // Auto-fill peso para macros
-  }
-
-  // -------------------------
-  // 4️⃣ MACRONUTRIENTES REALISTAS
-  // -------------------------
-  function calcularMacros() {
-    const peso = parseFloat(document.getElementById('pesoMacro').value);
-    const objetivo = document.getElementById('objetivoMacro').value;
-    const calorias = parseFloat(document.getElementById('mantenimiento').value) * 
-                     (objetivo === 'volumen' ? 1.15 : objetivo === 'deficit' ? 0.8 : 1);
-
-    if (!peso || !objetivo || !calorias) return alert('Completa todos los campos');
-
-    // Rangos científicos por kg
-    let proteina = peso * 2; // g
-    let grasa = peso * 0.9;  // g
-    let calProte = proteina * 4;
-    let calGrasa = grasa * 9;
-
-    // Carbohidratos = calorías restantes
-    let calCarbo = calorias - (calProte + calGrasa);
-    if (calCarbo < 0) calCarbo = 0; // No negativo
-    let carbos = calCarbo / 4; // g
-
-    document.getElementById('resultadoMacros').textContent = 
-      `Proteína: ${proteina.toFixed(0)} g, Grasas: ${grasa.toFixed(0)} g, Carbohidratos: ${carbos.toFixed(0)} g`;
-  }
-
-  // -------------------------
-  // 5️⃣ HISTORIAL
-  // -------------------------
-  function guardarHistorial() {
-    const bmr = document.getElementById('resultadoBMR').textContent;
-    const mantenimiento = document.getElementById('resultadoMantenimiento').textContent;
-    const objetivo = document.getElementById('resultadoObjetivo').textContent;
-    const macros = document.getElementById('resultadoMacros').textContent;
-
-    if (!bmr) return alert('Calcula algo antes de guardar');
-
-    let historial = JSON.parse(localStorage.getItem('historial')) || [];
-    historial.push({bmr, mantenimiento, objetivo, macros, fecha: new Date().toLocaleString()});
-    localStorage.setItem('historial', JSON.stringify(historial));
-    mostrarHistorial();
-  }
-
-  function borrarHistorial() {
-    localStorage.removeItem('historial');
-    mostrarHistorial();
-  }
-
-  function mostrarHistorial() {
-    const historialDiv = document.getElementById('historial');
-    const historial = JSON.parse(localStorage.getItem('historial')) || [];
-    historialDiv.innerHTML = historial.map(h => 
-      `<p>${h.fecha} | BMR: ${h.bmr}, Mant.: ${h.mantenimiento}, Objetivo: ${h.objetivo}, Macros: ${h.macros}</p>`).join('');
-  }
-
-  mostrarHistorial();
+renderHist();
 </script>
-
+</body>
+</html>
 </body>
 </html>
