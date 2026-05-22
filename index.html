@@ -513,6 +513,7 @@ footer a:hover{color:var(--lime)}
   <p class="sec-label">Paso 4 de 5</p>
   <h2 class="sec-title">Macronutrientes</h2>
   <div class="tip" id="tip3">Se calcularán automáticamente en base a tu peso y objetivo.</div>
+  <div class="tip" id="macroAlerta" style="display:none;border-left-color:#c8f135;margin-top:0.5rem"></div>
   <button class="btn-main" onclick="calcMacros()">Calcular mis macros</button>
   <div class="macro-row" id="macRow">
     <div class="mtile">
@@ -678,10 +679,25 @@ function calcMacros(){
   if(!D.obj){alert('Completa los pasos anteriores primero');return}
   const peso=parseFloat(document.getElementById('peso').value)||70;
   const obj=document.getElementById('objetivo').value||'mant';
-  let pKg,gKg;
-  if(obj==='def'){pKg=1.2;gKg=0.5}
-  else if(obj==='vol'){pKg=1.6;gKg=0.8}
-  else{pKg=1.4;gKg=0.6}
+  const act=parseFloat(document.getElementById('actividad').value)||1.2;
+  let pKg,gKg,alerta;
+  if(act<=1.2){
+    pKg=2.0;gKg=1.0;
+    alerta='⚠️ Perfil sedentario: priorizamos proteína y grasa porque sin actividad física regular tu cuerpo no demanda glucosa de forma intensa. Los carbohidratos altos en este contexto se almacenan más fácilmente como grasa. Este cálculo se ajusta automáticamente según tu nivel de actividad.';
+  } else if(act<=1.375){
+    pKg=1.8;gKg=0.9;
+    alerta='⚠️ Actividad ligera: carbohidratos moderadamente bajos. Tu cuerpo usa algo de glucosa pero no en grandes cantidades. Proteína y grasa siguen siendo prioritarias. Este cálculo se adapta a tu nivel de actividad.';
+  } else if(act<=1.55){
+    pKg=1.4;gKg=0.7;
+    alerta='✅ Actividad moderada: equilibrio entre los tres macros. Empiezas a necesitar más carbohidratos como combustible para tus entrenamientos. Los macros se ajustan a tu nivel de actividad.';
+  } else {
+    if(obj==='def'){pKg=1.2;gKg=0.5}
+    else if(obj==='vol'){pKg=1.6;gKg=0.8}
+    else{pKg=1.4;gKg=0.6}
+    alerta='🔥 Alta actividad: carbohidratos altos para reponer el glucógeno muscular. Tu cuerpo los necesita y los utiliza eficientemente. Los macros se ajustan también según tu objetivo (déficit / mantenimiento / volumen).';
+  }
+  const alertaEl=document.getElementById('macroAlerta');
+  alertaEl.textContent=alerta;alertaEl.style.display='block';
   const prot=Math.round(peso*pKg);
   const gras=Math.round(peso*gKg);
   const calP=prot*4,calG=gras*9;
@@ -798,6 +814,7 @@ function resetAll(){
   document.getElementById('tip1').textContent='Calcula primero tu BMR en el paso anterior.';
   document.getElementById('tip2').textContent='Selecciona qué quieres conseguir con tu alimentación.';
   document.getElementById('tip3').textContent='Se calcularán automáticamente en base a tu peso y objetivo.';
+  document.getElementById('macroAlerta').style.display='none';
   document.getElementById('sumTip').textContent='Completa los pasos anteriores para ver tu resumen.';
   document.getElementById('subOk').style.display='none';
   document.querySelectorAll('.srail-btn').forEach(b=>b.classList.remove('done'));
@@ -808,7 +825,5 @@ function show(id){document.getElementById(id).classList.add('show')}
 
 renderHist();
 </script>
-</body>
-</html>
 </body>
 </html>
