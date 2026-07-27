@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { SITE, NAV, NAV_LEGAL } from '../config/site';
 
 interface Props {
   /** Título de la pestaña y del resultado en Google. Máx. ~60 caracteres. */
@@ -27,6 +28,10 @@ const cleanPath = Astro.url.pathname
 
 const canonical = new URL(cleanPath, Astro.site);
 const ogImage = new URL(image, Astro.site);
+
+// Marca el enlace de la página actual para poder resaltarlo y, sobre todo,
+// para ponerle aria-current: así un lector de pantalla dice "página actual".
+const rutaActual = cleanPath;
 ---
 
 <!doctype html>
@@ -76,13 +81,32 @@ const ogImage = new URL(image, Astro.site);
   </head>
 
   <body>
+    <header class="site-header">
+      <a href="/" class="site-logo">Calculadora<span>Fit</span></a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        {
+          NAV.map((item) => (
+            <a
+              href={item.href}
+              class:list={['site-nav-link', { activo: rutaActual === item.href }]}
+              aria-current={rutaActual === item.href ? 'page' : undefined}
+            >
+              {item.texto}
+            </a>
+          ))
+        }
+      </nav>
+    </header>
+
     <slot />
 
     <footer>
+      <nav class="footer-nav" aria-label="Enlaces legales">
+        {NAV_LEGAL.map((item) => <a href={item.href}>{item.texto}</a>)}
+      </nav>
       <p>
-        © {new Date().getFullYear()}
-        <a href="https://calculadora-fit.com">calculadora-fit.com</a> · Todos los derechos
-        reservados · Hecho por Enrique
+        © {new Date().getFullYear()} <a href={SITE.url}>{SITE.dominio}</a> · Todos los
+        derechos reservados
       </p>
       <p style="margin-top:6px;font-size:0.68rem">
         Los resultados son orientativos. Consulta a un profesional de la nutrición para

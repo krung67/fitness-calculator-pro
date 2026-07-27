@@ -26,6 +26,53 @@ body{
   overflow-x:hidden;
 }
 
+/* ── CABECERA Y NAVEGACIÓN ── */
+/* No es sticky a propósito: la barra de pasos de la calculadora ya lo es
+   con top:0, y dos elementos pegados arriba se solaparían. */
+.site-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+  max-width:1100px;
+  margin:0 auto;
+  padding:1rem 1.25rem;
+  border-bottom:1px solid var(--border);
+}
+.site-logo{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.35rem;font-weight:800;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--text);text-decoration:none;
+  white-space:nowrap;
+}
+.site-logo span{color:var(--lime)}
+.site-nav{display:flex;gap:0.35rem;flex-wrap:wrap}
+.site-nav-link{
+  padding:0.45rem 0.85rem;
+  border-radius:100px;
+  font-size:0.72rem;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text2);text-decoration:none;
+  transition:color 0.18s,background 0.18s;
+  white-space:nowrap;
+}
+.site-nav-link:hover{color:var(--text);background:var(--bg3)}
+.site-nav-link.activo{color:var(--lime);background:var(--lime-deep)}
+
+/* ── ENLACES LEGALES DEL PIE ── */
+.footer-nav{
+  display:flex;justify-content:center;flex-wrap:wrap;
+  gap:0.4rem 1.4rem;
+  margin-bottom:1.1rem;
+}
+.footer-nav a{
+  font-size:0.72rem;letter-spacing:1px;
+  color:var(--text2);text-decoration:none;
+}
+.footer-nav a:hover{color:var(--lime)}
+
 /* ── HERO ── */
 .hero{
   position:relative;
@@ -403,6 +450,67 @@ footer a:hover{color:var(--lime)}
   background:var(--bg3);
   font-size:0.8rem;color:var(--text2);
   line-height:1.6;margin-bottom:1rem;
+}
+
+/* ═══════════════════════════════════════════
+   PÁGINAS DE TEXTO (legales, contacto, sobre)
+   ═══════════════════════════════════════════ */
+.pagina{max-width:720px;margin:0 auto;padding:3rem 1.25rem 1rem}
+.pagina-titulo{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(2rem,6vw,3rem);font-weight:800;
+  color:var(--lime);letter-spacing:-0.5px;
+  text-transform:uppercase;line-height:1;
+  margin-bottom:0.6rem;
+}
+.pagina-fecha{
+  font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2.5rem;
+}
+.pagina h2{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.5rem;font-weight:700;
+  color:var(--text);letter-spacing:0.5px;text-transform:uppercase;
+  margin:2.5rem 0 0.9rem;line-height:1.2;
+}
+.pagina h3{
+  font-size:0.95rem;font-weight:600;color:var(--lime);
+  margin:1.6rem 0 0.5rem;
+}
+.pagina p,.pagina li{
+  font-size:0.88rem;color:var(--text2);line-height:1.85;
+  margin-bottom:0.9rem;
+}
+.pagina ul{padding-left:1.2rem;margin-bottom:1rem}
+.pagina li{margin-bottom:0.4rem}
+.pagina a{color:var(--lime-dim);text-decoration:underline;text-underline-offset:3px}
+.pagina a:hover{color:var(--lime)}
+.pagina strong{color:var(--text)}
+
+/* Tabla de datos legales / cookies */
+.tabla-legal{
+  width:100%;border-collapse:collapse;
+  margin:1.2rem 0;font-size:0.8rem;
+  display:block;overflow-x:auto;
+}
+.tabla-legal th,.tabla-legal td{
+  border:1px solid var(--border2);
+  padding:0.65rem 0.8rem;text-align:left;
+  vertical-align:top;
+}
+.tabla-legal th{
+  background:var(--bg3);color:var(--text);
+  font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;
+  font-weight:600;white-space:nowrap;
+}
+.tabla-legal td{color:var(--text2);line-height:1.6}
+
+/* Aviso de dato pendiente. Solo visible mientras haya PENDIENTE en site.ts */
+.aviso-pendiente{
+  background:#2a1a05;border:1px solid #6b4a10;
+  border-radius:10px;padding:1rem 1.2rem;
+  color:#e0b050;font-size:0.82rem;line-height:1.7;
+  margin-bottom:2rem;
 }
 
 /* ═══════════════════════════════════════════
