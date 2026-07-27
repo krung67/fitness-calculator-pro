@@ -1,0 +1,93 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  /** Título de la pestaña y del resultado en Google. Máx. ~60 caracteres. */
+  title: string;
+  /** Resumen que aparece bajo el título en Google. Máx. ~155 caracteres. */
+  description: string;
+  /** Imagen para redes sociales. Ruta relativa desde la raíz del sitio. */
+  image?: string;
+  /** true para pedir a Google que NO indexe la página (ej.: gracias, 404). */
+  noindex?: boolean;
+}
+
+const { title, description, image = '/og-default.png', noindex = false } = Astro.props;
+
+// URL canónica: le dice a Google cuál es la dirección "oficial" de esta página.
+// Sin ella, el mismo contenido accesible por varias rutas cuenta como duplicado.
+//
+// Hay que normalizar la ruta: durante el build, Astro.url.pathname devuelve el
+// nombre del archivo generado (/index.html, /tdee.html), pero el servidor sirve
+// esas páginas en / y /tdee. El canonical debe apuntar a la URL real.
+const cleanPath = Astro.url.pathname
+  .replace(/\/index\.html$/, '/') // /index.html  → /
+  .replace(/\.html$/, '') //         /tdee.html   → /tdee
+  .replace(/(.+)\/$/, '$1'); //      /tdee/       → /tdee  (no toca la raíz)
+
+const canonical = new URL(cleanPath, Astro.site);
+const ogImage = new URL(image, Astro.site);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph: controla cómo se ve el enlace al compartirlo
+         en WhatsApp, Facebook, LinkedIn o Telegram. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Calculadora Fit" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fuentes. El preconnect a fonts.gstatic.com es imprescindible:
+         los archivos .woff2 se descargan de ese dominio, no de googleapis.com.
+         Sin él se pierde una conexión completa (DNS + TLS) en la carga. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Sora:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6100190147209730"
+      crossorigin="anonymous"></script>
+
+    <slot name="head" />
+  </head>
+
+  <body>
+    <slot />
+
+    <footer>
+      <p>
+        © {new Date().getFullYear()}
+        <a href="https://calculadora-fit.com">calculadora-fit.com</a> · Todos los derechos
+        reservados · Hecho por Enrique
+      </p>
+      <p style="margin-top:6px;font-size:0.68rem">
+        Los resultados son orientativos. Consulta a un profesional de la nutrición para
+        asesoramiento personalizado.
+      </p>
+    </footer>
+  </body>
+</html>
