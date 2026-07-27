@@ -42,6 +42,8 @@ export const SITE = {
  */
 export const NAV = [
   { href: '/', texto: 'Calculadora' },
+  { href: '/metodo', texto: 'Método' },
+  { href: '/sobre-nosotros', texto: 'Sobre nosotros' },
   { href: '/contacto', texto: 'Contacto' },
 ] as const;
 
