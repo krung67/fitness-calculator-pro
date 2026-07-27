@@ -6,6 +6,10 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   integrations: [
     sitemap({
+      // /aviso-legal lleva noindex. Incluirla en el sitemap seria darle a
+      // Google dos ordenes contradictorias: "indexa esto" y "no lo indexes".
+      filter: (page) => !page.includes('/aviso-legal'),
+
       // Astro genera el sitemap con las rutas tal y como las construye
       // (/metodo.html). Hay que dejarlas como se sirven realmente, o le
       // estaríamos dando a Google una lista de URLs que no coinciden con

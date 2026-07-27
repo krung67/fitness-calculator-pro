@@ -21,6 +21,12 @@ import { SITE } from '../config/site';
     </p>
 
     <h2>1. Responsable del tratamiento</h2>
+    {/*
+      El RGPD (art. 13.1.a) solo exige "la identidad y los datos de contacto
+      del responsable": nombre y una vía de contacto. El NIF y el domicilio
+      NO son obligatorios aquí — eso lo pide la LSSI, y solo para el aviso
+      legal. No se publican dos veces datos que la ley solo requiere una.
+    */}
     <table class="tabla-legal">
       <tbody>
         <tr>
@@ -28,19 +34,15 @@ import { SITE } from '../config/site';
           <td>{SITE.titular.nombre}</td>
         </tr>
         <tr>
-          <th>NIF</th>
-          <td>{SITE.titular.nif}</td>
-        </tr>
-        <tr>
-          <th>Domicilio</th>
-          <td>{SITE.titular.domicilio}</td>
-        </tr>
-        <tr>
           <th>Contacto</th>
           <td><a href={`mailto:${SITE.email}`}>{SITE.email}</a></td>
         </tr>
       </tbody>
     </table>
+    <p>
+      Los datos identificativos completos exigidos por la normativa de servicios de la
+      sociedad de la información están disponibles en el <a href="/aviso-legal">Aviso legal</a>.
+    </p>
 
     <h2>2. Qué datos tratamos y con qué finalidad</h2>
 

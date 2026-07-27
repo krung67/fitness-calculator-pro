@@ -18,7 +18,18 @@ export const SITE = {
   titular: {
     /** Nombre y apellidos completos, tal y como figuran en tu DNI. */
     nombre: 'Xabier Enrique Garcia',
-    /** NIF/DNI con la letra. Ej.: 12345678A */
+    /**
+     * NIF/DNI con la letra. Ej.: 12345678A
+     *
+     * DEJADO VACÍO A PROPÓSITO (decisión de Enrique, julio 2026).
+     * La LSSI-CE art. 10.1.f lo exige a quien tiene actividad económica, y
+     * aquí la hay (afiliados de Amazon + AdSense). Omitirlo es una
+     * infracción leve. Se asume conscientemente: es práctica habitual en
+     * webs personales pequeñas y la persecución es casi inexistente.
+     *
+     * Para volver a incluirlo basta con escribir el NIF aquí: la fila
+     * reaparece sola en /aviso-legal. No hay que tocar nada más.
+     */
     nif: '',
     /**
      * Domicilio a efectos de notificaciones. La ley exige una dirección

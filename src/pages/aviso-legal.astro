@@ -7,6 +7,7 @@ import { SITE } from '../config/site';
 <Base
   title="Aviso legal — Calculadora Fit"
   description="Datos identificativos del titular de calculadora-fit.com y condiciones de uso del sitio web."
+  noindex
 >
   <main class="pagina">
     <h1 class="pagina-titulo">Aviso legal</h1>
@@ -27,10 +28,16 @@ import { SITE } from '../config/site';
           <th>Titular</th>
           <td>{SITE.titular.nombre}</td>
         </tr>
-        <tr>
-          <th>NIF</th>
-          <td>{SITE.titular.nif}</td>
-        </tr>
+        {
+          /* La fila del NIF solo aparece si hay valor en site.ts.
+             Así se activa o desactiva sin tocar esta página. */
+          SITE.titular.nif && (
+            <tr>
+              <th>NIF</th>
+              <td>{SITE.titular.nif}</td>
+            </tr>
+          )
+        }
         <tr>
           <th>Domicilio</th>
           <td>{SITE.titular.domicilio}</td>
