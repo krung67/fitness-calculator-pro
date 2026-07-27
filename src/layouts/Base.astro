@@ -11,9 +11,20 @@ interface Props {
   image?: string;
   /** true para pedir a Google que NO indexe la página (ej.: gracias, 404). */
   noindex?: boolean;
+  /**
+   * Datos estructurados propios de esta página (Schema.org).
+   * Se añaden a los del sitio, que van en todas.
+   */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, image = '/og-default.png', noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  image = '/og-default.png',
+  noindex = false,
+  schema,
+} = Astro.props;
 
 // URL canónica: le dice a Google cuál es la dirección "oficial" de esta página.
 // Sin ella, el mismo contenido accesible por varias rutas cuenta como duplicado.
@@ -32,6 +43,42 @@ const ogImage = new URL(image, Astro.site);
 // Marca el enlace de la página actual para poder resaltarlo y, sobre todo,
 // para ponerle aria-current: así un lector de pantalla dice "página actual".
 const rutaActual = cleanPath;
+
+// ─── Datos estructurados (Schema.org) ───
+// Van en todas las páginas y describen quién publica el sitio. Los @id
+// permiten que las demás entidades apunten aquí en vez de repetir los datos.
+const schemaSitio = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE.url}/#website`,
+    url: SITE.url,
+    name: SITE.nombre,
+    description:
+      'Calculadoras gratuitas de calorías, macronutrientes y métricas de nutrición y fitness, con el razonamiento explicado.',
+    inLanguage: 'es-ES',
+    publisher: { '@id': `${SITE.url}/#persona` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${SITE.url}/#persona`,
+    name: 'Enrique',
+    url: `${SITE.url}/sobre-nosotros`,
+    email: SITE.email,
+    // Declarar de qué se sabe es una señal de E-E-A-T. No inventamos
+    // titulaciones: la autoridad aquí viene de la experiencia aplicada.
+    knowsAbout: [
+      'Nutrición deportiva',
+      'Cálculo de calorías y macronutrientes',
+      'Entrenamiento de hipertrofia',
+      'Composición corporal',
+    ],
+  },
+];
+
+const schemasPagina = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const todosLosSchemas = [...schemaSitio, ...schemasPagina];
 ---
 
 <!doctype html>
@@ -76,6 +123,12 @@ const rutaActual = cleanPath;
       async
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6100190147209730"
       crossorigin="anonymous"></script>
+
+    {
+      todosLosSchemas.map((s) => (
+        <script type="application/ld+json" set:html={JSON.stringify(s)} />
+      ))
+    }
 
     <slot name="head" />
   </head>

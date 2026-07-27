@@ -1,10 +1,37 @@
 ---
 import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Nuestro método: por qué los carbohidratos escalan con la actividad',
+    description:
+      'El razonamiento detrás del reparto de macronutrientes de Calculadora Fit, los gramos exactos por nivel de actividad y para quién no sirve este enfoque.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/metodo`,
+    dateModified: SITE.legalActualizado,
+  },
+  {
+    // Las migas de pan sí siguen generando resultado enriquecido en Google:
+    // muestran la ruta del sitio en lugar de la URL desnuda.
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Nuestro método', item: `${SITE.url}/metodo` },
+    ],
+  },
+];
 ---
 
 <Base
   title="Nuestro método: por qué los carbohidratos mandan — Calculadora Fit"
   description="Por qué nuestra calculadora sube los carbohidratos cuando entrenas duro y los baja cuando no. El razonamiento, los números exactos y para quién no sirve este enfoque."
+  schema={schema}
 >
   <main class="pagina">
     <h1 class="pagina-titulo">Nuestro método</h1>

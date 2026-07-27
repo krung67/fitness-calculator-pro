@@ -1,10 +1,74 @@
 ---
 import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+
+// Las respuestas deben coincidir con lo que ve el usuario en la página.
+// Si el schema dice una cosa y la página otra, Google lo trata como
+// contenido engañoso.
+const faq = [
+  {
+    p: '¿Cada cuánto tiempo debo recalcular mis calorías y macros?',
+    r: 'Se recomienda recalcular cada 4-6 semanas, o cuando tu peso cambie más de 3 kg en cualquier dirección. A medida que pierdes grasa o ganas músculo, tu BMR y tus necesidades calóricas cambian.',
+  },
+  {
+    p: '¿Son exactos los resultados de la calculadora?',
+    r: 'La fórmula Mifflin-St Jeor tiene un margen de error de aproximadamente ±10% respecto al gasto real medido en laboratorio. Son una estimación muy buena como punto de partida, pero conviene ajustar según cómo responde tu peso durante 2-3 semanas.',
+  },
+  {
+    p: '¿Tengo que contar calorías todos los días para siempre?',
+    r: 'No necesariamente. Es una herramienta educativa para aprender el contenido calórico de los alimentos. Muchas personas lo hacen unos meses hasta desarrollar intuición y luego lo abandonan.',
+  },
+  {
+    p: '¿Qué pasa si un día como más o menos de lo planificado?',
+    r: 'Nada grave. Lo que importa es el balance calórico a lo largo de la semana, no en bloques de 24 horas. La consistencia durante semanas y meses pesa mucho más que la perfección diaria.',
+  },
+  {
+    p: '¿Puedo ganar músculo y perder grasa al mismo tiempo?',
+    r: 'Sí, con condiciones. La recomposición corporal es más fácil en principiantes, personas con sobrepeso o quienes vuelven al entrenamiento tras un descanso largo. En atletas avanzados es mucho más lenta.',
+  },
+  {
+    p: '¿Qué es mejor para perder grasa: cardio o pesas?',
+    r: 'La combinación es lo más eficaz, pero si hubiera que elegir uno, el entrenamiento de fuerza tiene ventaja a largo plazo: aumenta la masa muscular, eleva el metabolismo basal y preserva mejor el músculo durante el déficit.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Calculadora de calorías y macros',
+    url: SITE.url,
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Cualquiera con navegador web',
+    inLanguage: 'es-ES',
+    description:
+      'Calcula tu metabolismo basal, tus calorías de mantenimiento y el reparto de macronutrientes según tu nivel de actividad y tu objetivo.',
+    featureList: [
+      'Metabolismo basal con la fórmula Mifflin-St Jeor',
+      'Calorías de mantenimiento (TDEE)',
+      'Calorías objetivo según definición, mantenimiento o volumen',
+      'Reparto de macronutrientes ajustado al nivel de actividad',
+      'Historial de cálculos guardado en el propio dispositivo',
+    ],
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+    publisher: { '@id': `${SITE.url}/#persona` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+];
 ---
 
 <Base
   title="Calculadora Fit — Calorías y Macros Gratis"
   description="Calcula tus calorías, metabolismo basal y macronutrientes de forma precisa. Empieza tu cambio físico hoy en calculadora-fit.com"
+  schema={schema}
 >
   <!-- HERO -->
   <div class="hero">

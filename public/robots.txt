@@ -1,0 +1,12 @@
+# robots.txt — calculadora-fit.com
+# Indica a los rastreadores qué pueden recorrer y dónde está el índice del sitio.
+
+User-agent: *
+Allow: /
+
+# Archivos que no aportan nada en los resultados de búsqueda.
+Disallow: /ads.txt
+Disallow: /google0b1ae137ab92f776.html
+
+# Índice de todas las URLs del sitio. Se regenera solo en cada build.
+Sitemap: https://calculadora-fit.com/sitemap-index.xml
