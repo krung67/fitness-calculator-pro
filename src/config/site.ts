@@ -17,15 +17,15 @@ export const SITE = {
   /** Titular del sitio. Persona física. */
   titular: {
     /** Nombre y apellidos completos, tal y como figuran en tu DNI. */
-    nombre: 'PENDIENTE: Nombre y Apellidos',
+    nombre: 'Xabier Enrique Garcia',
     /** NIF/DNI con la letra. Ej.: 12345678A */
-    nif: 'PENDIENTE: 00000000X',
+    nif: '',
     /**
      * Domicilio a efectos de notificaciones. La ley exige una dirección
      * postal; basta con el municipio y la provincia si prefieres no publicar
      * el número exacto de tu casa.
      */
-    domicilio: 'PENDIENTE: Municipio, Provincia, España',
+    domicilio: 'Vitoria-Gasteiz, Álava, España',
   },
 
   /** ID de editor de AdSense. */
