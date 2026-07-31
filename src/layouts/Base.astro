@@ -2,6 +2,13 @@
 import '../styles/global.css';
 import { SITE, NAV, NAV_LEGAL } from '../config/site';
 
+// Analítica de Vercel. Se elige frente a Google Analytics porque no usa
+// cookies ni almacena nada en el dispositivo: no requiere consentimiento y,
+// por tanto, mide también a quien rechaza las cookies publicitarias.
+// Ambas requieren estar activadas en el panel del proyecto en Vercel.
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
+
 interface Props {
   /** Título de la pestaña y del resultado en Google. Máx. ~60 caracteres. */
   title: string;
@@ -166,5 +173,8 @@ const todosLosSchemas = [...schemaSitio, ...schemasPagina];
         asesoramiento personalizado.
       </p>
     </footer>
+
+    <Analytics />
+    <SpeedInsights />
   </body>
 </html>
