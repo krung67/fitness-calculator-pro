@@ -1,0 +1,349 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+
+const faq = [
+  {
+    p: '¿Es fiable el método US Navy?',
+    r: 'Tiene un margen de error de aproximadamente ±3-4 puntos porcentuales frente a una densitometría DEXA, que es la referencia clínica. No sirve para saber tu porcentaje exacto, pero sí para seguir tu evolución: si mides siempre igual, la tendencia a lo largo de las semanas es fiable aunque el número absoluto no sea perfecto.',
+  },
+  {
+    p: '¿Por qué los hombres y las mujeres miden la cintura en sitios distintos?',
+    r: 'Porque así se validó el método originalmente. En hombres la cintura se mide a la altura del ombligo; en mujeres, en el punto más estrecho del torso. No es un capricho: cambiar el punto de medición altera el resultado varios puntos, así que conviene seguirlo tal cual.',
+  },
+  {
+    p: '¿Cada cuánto debo medirme?',
+    r: 'Cada 2-4 semanas es suficiente. La composición corporal cambia despacio, y medir más a menudo solo añade ruido: pequeñas variaciones de hinchazón o de cómo colocas la cinta pueden mover el resultado más que el cambio real.',
+  },
+  {
+    p: '¿Qué porcentaje de grasa debería tener?',
+    r: 'Depende de tu objetivo, no hay un número universal «bueno». Para salud general, los rangos aceptables están en torno al 18-24 % en hombres y 25-31 % en mujeres. Bajar mucho de ahí es una decisión estética o deportiva, no de salud, y por debajo del mínimo esencial (2-5 % en hombres, 10-13 % en mujeres) aparecen problemas hormonales serios.',
+  },
+  {
+    p: '¿Sirve si estoy muy musculado o con mucho sobrepeso?',
+    r: 'Pierde precisión en los extremos. El método se validó en población general, así que en personas muy musculadas o con obesidad importante el error crece. Sigue siendo útil para ver la tendencia, pero no te tomes el número absoluto al pie de la letra.',
+  },
+  {
+    p: '¿Es mejor que el IMC?',
+    r: 'Para seguir tu físico, sí, porque mide algo distinto: el IMC solo relaciona peso y altura, sin distinguir grasa de músculo. Este método estima directamente la proporción de grasa. Aun así, ambos son estimaciones; lo importante es usar siempre el mismo y fijarse en la evolución.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Calculadora de porcentaje de grasa corporal',
+    url: `${SITE.url}/grasa-corporal`,
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Cualquiera con navegador web',
+    inLanguage: 'es-ES',
+    description:
+      'Estima tu porcentaje de grasa corporal con el método US Navy, solo con una cinta métrica. Incluye cómo medirse correctamente y los rangos de referencia.',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+    publisher: { '@id': `${SITE.url}/#persona` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Calculadora de grasa corporal',
+        item: `${SITE.url}/grasa-corporal`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Calculadora de Grasa Corporal — Método US Navy | Calculadora Fit"
+  description="Calcula tu porcentaje de grasa corporal con el método US Navy y una simple cinta métrica. Incluye dónde medir exactamente y las tablas de referencia."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Método US Navy</div>
+    <h1>Calculadora de grasa corporal</h1>
+    <p class="hero-sub">
+      Mide lo que el IMC no puede distinguir: cuánto de tu peso es grasa. Solo necesitas una
+      cinta métrica.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div style="padding:2.5rem 0 1rem">
+        <p class="sec-label">Tus medidas</p>
+        <h2 class="sec-title">Calcula tu porcentaje</h2>
+
+        <div class="tip">
+          📏 Mide con una cinta métrica flexible, sobre la piel y sin apretar. Más abajo te
+          explicamos <a href="#como-medir" style="color:var(--lime)">dónde medir exactamente</a> —
+          equivocarse de sitio cambia el resultado varios puntos.
+        </div>
+
+        <div class="fgrid">
+          <div class="field">
+            <label for="gcSexo">Sexo</label>
+            <select id="gcSexo" onchange="toggleCadera()">
+              <option value="">Seleccionar</option>
+              <option value="h">Hombre</option>
+              <option value="m">Mujer</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="gcAltura">Altura (cm)</label>
+            <input type="number" id="gcAltura" placeholder="175" min="120" max="230" />
+          </div>
+          <div class="field">
+            <label for="gcCuello">Cuello (cm)</label>
+            <input type="number" id="gcCuello" placeholder="38" min="20" max="70" step="0.5" />
+          </div>
+          <div class="field">
+            <label for="gcCintura">Cintura (cm)</label>
+            <input type="number" id="gcCintura" placeholder="85" min="40" max="200" step="0.5" />
+          </div>
+          <div class="field" id="campoCadera" style="display:none">
+            <label for="gcCadera">Cadera (cm)</label>
+            <input type="number" id="gcCadera" placeholder="95" min="50" max="200" step="0.5" />
+          </div>
+        </div>
+
+        <button class="btn-main" onclick="calcGrasa()">Calcular mi grasa corporal</button>
+
+        <div class="rcard" id="gcRes" aria-live="polite">
+          <div class="rc-label">Tu porcentaje estimado de grasa</div>
+          <div class="rc-big" id="gcValor">—</div>
+          <div class="rc-desc" id="gcCat"></div>
+          <div class="tip" id="gcNota" style="margin-top:1.2rem"></div>
+        </div>
+
+        <p class="cs-text" style="margin-top:1.5rem">
+          ¿Quieres cambiar ese número? Lo que lo mueve es lo que comes y cómo entrenas:
+          calcula <a href="/" style="color:var(--lime)">tus calorías y macros</a> y mira el
+          razonamiento en <a href="/metodo" style="color:var(--lime)">Nuestro método</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── CÓMO MEDIR ─────────── -->
+      <div class="content-section" id="como-medir">
+        <div class="cs-tag">Lo más importante</div>
+        <h2 class="cs-title">Dónde medir exactamente</h2>
+        <p class="cs-text">
+          Aquí está el 90 % del error de este método. La fórmula es la misma para todo el
+          mundo, pero <strong>si mides en el sitio equivocado, el resultado se va varios
+          puntos</strong>. Dedícale un minuto:
+        </p>
+
+        <h3 class="cs-h3">Cuello — hombres y mujeres</h3>
+        <p class="cs-text">
+          Justo <strong>debajo de la laringe</strong> (la nuez), con la cinta ligeramente
+          inclinada hacia abajo por delante. Mira al frente, hombros relajados y sin sacar
+          pecho. No aprietes: la cinta debe apoyarse, no marcar.
+        </p>
+
+        <h3 class="cs-h3">Cintura — hombres</h3>
+        <p class="cs-text">
+          A la <strong>altura del ombligo</strong>, con la cinta horizontal. Mide al final de
+          una espiración normal, sin meter tripa ni hincharte.
+        </p>
+
+        <h3 class="cs-h3">Cintura — mujeres</h3>
+        <p class="cs-text">
+          En el <strong>punto más estrecho del torso</strong>, que suele quedar por encima del
+          ombligo. Este es el error más común: si mides en el ombligo como los hombres, el
+          resultado sale más alto de lo real.
+        </p>
+
+        <h3 class="cs-h3">Cadera — solo mujeres</h3>
+        <p class="cs-text">
+          En el <strong>punto más ancho de los glúteos</strong>, con los pies juntos y la
+          cinta horizontal. Compruébalo en un espejo: es fácil que la cinta quede torcida por
+          detrás.
+        </p>
+
+        <div class="cs-highlight">
+          <strong>La regla que más importa:</strong> mide siempre en las mismas condiciones —
+          misma hora, mismo lado de la cinta, mismo estado. La precisión absoluta de este
+          método es limitada, pero <strong>si eres constante, la tendencia sí es fiable</strong>,
+          y la tendencia es lo que de verdad te interesa.
+        </div>
+      </div>
+
+      <!-- ─────────── RANGOS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Interpretación</div>
+        <h2 class="cs-title">Rangos de referencia</h2>
+        <p class="cs-text">
+          Clasificación del American Council on Exercise (ACE), la más utilizada:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr>
+              <th>Categoría</th>
+              <th>Hombres</th>
+              <th>Mujeres</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Grasa esencial</td><td>2 – 5 %</td><td>10 – 13 %</td></tr>
+            <tr><td>Atletas</td><td>6 – 13 %</td><td>14 – 20 %</td></tr>
+            <tr><td>Buena forma física</td><td>14 – 17 %</td><td>21 – 24 %</td></tr>
+            <tr><td>Aceptable</td><td>18 – 24 %</td><td>25 – 31 %</td></tr>
+            <tr><td>Obesidad</td><td>25 % o más</td><td>32 % o más</td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Las mujeres tienen <strong>rangos más altos por fisiología</strong>, no por estar
+          peor: la grasa esencial femenina incluye depósitos ligados a la función hormonal y
+          reproductiva. Comparar el porcentaje de un hombre con el de una mujer sin tener esto
+          en cuenta no tiene sentido.
+        </p>
+        <div class="cs-highlight">
+          <strong>Cuidado con perseguir números muy bajos.</strong> Por debajo del rango
+          esencial aparecen alteraciones hormonales, pérdida de densidad ósea, problemas de
+          sueño y, en mujeres, interrupción del ciclo menstrual. Los porcentajes de portada de
+          revista no son un estado sostenible ni saludable.
+        </div>
+      </div>
+
+      <!-- ─────────── VS IMC ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Comparativa</div>
+        <h2 class="cs-title">Por qué esto es mejor que el IMC para ti</h2>
+        <p class="cs-text">
+          Si has llegado desde nuestra <a href="/imc" style="color:var(--lime)">calculadora de IMC</a>,
+          esta es la continuación lógica. El IMC solo relaciona peso y altura: es incapaz de
+          saber si esos kilos son músculo o grasa.
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr>
+              <th></th>
+              <th>IMC</th>
+              <th>Grasa corporal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Qué necesitas</td><td>Báscula</td><td>Cinta métrica</td></tr>
+            <tr><td>¿Distingue músculo de grasa?</td><td>No</td><td>Sí, de forma estimada</td></tr>
+            <tr><td>¿Sirve si entrenas fuerza?</td><td>Poco</td><td>Sí</td></tr>
+            <tr><td>Margen de error</td><td>No aplica: no mide grasa</td><td>±3-4 puntos</td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          El caso típico: alguien que entrena sale con «sobrepeso» según el IMC y con un 14 %
+          de grasa según este método. <strong>No se contradicen</strong> — están midiendo
+          cosas distintas, y solo una de las dos describe tu composición corporal.
+        </p>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</Base>
+
+<script is:inline>
+// Rangos del American Council on Exercise (ACE).
+const GC_RANGOS = {
+  h: [
+    { max: 6, cat: 'Grasa esencial', nota: 'bajo' },
+    { max: 14, cat: 'Rango de atleta', nota: 'ok' },
+    { max: 18, cat: 'Buena forma física', nota: 'ok' },
+    { max: 25, cat: 'Aceptable', nota: 'ok' },
+    { max: Infinity, cat: 'Obesidad', nota: 'alto' },
+  ],
+  m: [
+    { max: 14, cat: 'Grasa esencial', nota: 'bajo' },
+    { max: 21, cat: 'Rango de atleta', nota: 'ok' },
+    { max: 25, cat: 'Buena forma física', nota: 'ok' },
+    { max: 32, cat: 'Aceptable', nota: 'ok' },
+    { max: Infinity, cat: 'Obesidad', nota: 'alto' },
+  ],
+};
+
+function toggleCadera() {
+  const esMujer = document.getElementById('gcSexo').value === 'm';
+  document.getElementById('campoCadera').style.display = esMujer ? '' : 'none';
+}
+
+function calcGrasa() {
+  const sexo = document.getElementById('gcSexo').value;
+  const altura = parseFloat(document.getElementById('gcAltura').value);
+  const cuello = parseFloat(document.getElementById('gcCuello').value);
+  const cintura = parseFloat(document.getElementById('gcCintura').value);
+  const cadera = parseFloat(document.getElementById('gcCadera').value);
+
+  if (!sexo) { alert('Selecciona tu sexo'); return; }
+  if (!altura || !cuello || !cintura) { alert('Completa altura, cuello y cintura'); return; }
+  if (sexo === 'm' && !cadera) { alert('Introduce también tu medida de cadera'); return; }
+
+  // El logaritmo de un número <= 0 no existe. Sin esta comprobación saldría
+  // NaN en pantalla, que para el usuario es un error incomprensible.
+  const base = sexo === 'h' ? cintura - cuello : cintura + cadera - cuello;
+  if (base <= 0) {
+    alert('Revisa las medidas: la cintura debe ser mayor que el cuello. Comprueba que no las hayas intercambiado.');
+    return;
+  }
+
+  const log = Math.log10;
+  let pct;
+  if (sexo === 'h') {
+    pct = 495 / (1.0324 - 0.19077 * log(base) + 0.15456 * log(altura)) - 450;
+  } else {
+    pct = 495 / (1.29579 - 0.35004 * log(base) + 0.22100 * log(altura)) - 450;
+  }
+
+  // Un resultado fuera de este rango indica medidas mal tomadas, no un
+  // porcentaje real: mejor avisar que mostrar una cifra absurda.
+  if (!isFinite(pct) || pct < 2 || pct > 70) {
+    alert('El resultado no es plausible. Revisa que todas las medidas estén en centímetros y bien tomadas.');
+    return;
+  }
+
+  const r = GC_RANGOS[sexo].find(x => pct < x.max);
+  document.getElementById('gcValor').textContent = pct.toFixed(1).replace('.', ',') + ' %';
+  document.getElementById('gcCat').textContent = r.cat;
+
+  const nota = document.getElementById('gcNota');
+  if (r.nota === 'bajo') {
+    nota.innerHTML = '<strong>Estás en el rango de grasa esencial o por debajo.</strong> Mantenerse ahí ' +
+      'de forma prolongada se asocia a alteraciones hormonales y pérdida de densidad ósea. Conviene ' +
+      'consultarlo con un profesional sanitario.';
+  } else if (r.nota === 'alto') {
+    nota.innerHTML = '<strong>Recuerda el margen de error de ±3-4 puntos</strong> y que este método pierde ' +
+      'precisión en los extremos. Si quieres reducirlo, empieza por ' +
+      '<a href="/" style="color:var(--lime)">calcular tus calorías objetivo</a>.';
+  } else {
+    nota.innerHTML = '<strong>Recuerda:</strong> el valor absoluto tiene un margen de ±3-4 puntos. ' +
+      'Lo útil es repetir la medición cada 2-4 semanas, siempre igual, y observar la tendencia.';
+  }
+
+  document.getElementById('gcRes').classList.add('show');
+}
+</script>

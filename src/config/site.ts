@@ -53,11 +53,14 @@ export const SITE = {
  * Nunca añadas aquí una ruta que no exista: sería un enlace roto en TODAS
  * las páginas del sitio, porque el menú vive en el Layout compartido.
  */
+// Etiquetas cortas a propósito: con seis elementos, los textos largos
+// obligan al menú a partirse en dos líneas en móvil.
 export const NAV = [
-  { href: '/', texto: 'Calorías y macros' },
+  { href: '/', texto: 'Calorías' },
   { href: '/imc', texto: 'IMC' },
+  { href: '/grasa-corporal', texto: 'Grasa corporal' },
   { href: '/metodo', texto: 'Método' },
-  { href: '/sobre-nosotros', texto: 'Sobre nosotros' },
+  { href: '/sobre-nosotros', texto: 'Nosotros' },
   { href: '/contacto', texto: 'Contacto' },
 ] as const;
 
