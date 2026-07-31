@@ -289,26 +289,23 @@ const schema = [
           <button class="btn-main" onclick="guardar()">Guardar en historial</button>
         </div>
 
-        <!-- SUSCRIPCIÓN EMAIL -->
+        <!-- DESCARGAR EL PLAN -->
         <div class="sub-section" style="margin-top:2rem">
-          <div class="sub-title">📬 Recibe tus datos por email</div>
+          <div class="sub-title">📄 Llévate tu plan</div>
           <p class="sub-desc">
-            Introduce tu correo y te enviamos tu cálculo completo para que no tengas que
-            repetirlo. También te recordaremos recalcular cada mes.
+            Descarga tu cálculo completo en PDF para tenerlo siempre a mano, imprimirlo o
+            enviárselo a quien quieras. Se genera en tu propio dispositivo:
+            <strong>no pedimos tu correo ni sale nada de tu navegador</strong>.
           </p>
           <div class="sub-row">
-            <input
-              type="email"
-              id="subEmail"
-              placeholder="tu@correo.com"
-              aria-label="Tu correo electrónico"
-            />
-            <button class="btn-sub" onclick="suscribir()">Enviarme mis datos</button>
+            <button class="btn-sub" onclick="descargarPlan()" style="width:100%">
+              Descargar mi plan en PDF
+            </button>
           </div>
-          <p class="sub-note">Sin spam. Solo tus datos y recordatorios mensuales.</p>
-          <div class="sub-ok" id="subOk" aria-live="polite">
-            ✅ ¡Perfecto! Revisa tu correo, te hemos enviado tu plan completo.
-          </div>
+          <p class="sub-note">
+            Se abrirá el diálogo de impresión: elige <strong>«Guardar como PDF»</strong> como
+            destino.
+          </p>
         </div>
 
         <div style="margin-top:1.5rem">
@@ -717,6 +714,46 @@ const schema = [
       </div>
     </div>
   </main>
+
+  <!-- ─────────── HOJA IMPRIMIBLE ───────────
+       Invisible en pantalla. La hoja de estilos de impresión oculta todo lo
+       demás y deja solo esto, para que el PDF salga limpio en vez de con la
+       página entera. El contenido lo rellena descargarPlan(). -->
+  <div id="hojaPlan" aria-hidden="true">
+    <div class="hp-cab">
+      <div>
+        <div class="hp-marca">CALCULADORA<span>FIT</span></div>
+        <div class="hp-url">calculadora-fit.com</div>
+      </div>
+      <div class="hp-fecha" id="hpFecha"></div>
+    </div>
+
+    <h1 class="hp-titulo">Tu plan nutricional</h1>
+
+    <div class="hp-seccion">
+      <div class="hp-seccion-tit">Tus datos</div>
+      <table class="hp-tabla" id="hpDatos"></table>
+    </div>
+
+    <div class="hp-seccion">
+      <div class="hp-seccion-tit">Calorías</div>
+      <table class="hp-tabla" id="hpCalorias"></table>
+    </div>
+
+    <div class="hp-seccion">
+      <div class="hp-seccion-tit">Macronutrientes diarios</div>
+      <table class="hp-tabla" id="hpMacros"></table>
+    </div>
+
+    <div class="hp-nota" id="hpNota"></div>
+
+    <div class="hp-pie">
+      Los resultados son orientativos y se basan en la fórmula Mifflin-St Jeor, con un
+      margen de error aproximado del ±10 %. No constituyen asesoramiento médico ni
+      nutricional. Consulta a un dietista-nutricionista colegiado o a tu médico antes de
+      iniciar cualquier plan alimentario. Más información en calculadora-fit.com/metodo
+    </div>
+  </div>
 </Base>
 
 <!-- is:inline evita que Astro convierta esto en un módulo ES.
@@ -887,26 +924,53 @@ function renderHist(){
     </div>`).join('');
 }
 
-function suscribir(){
-  const email=document.getElementById('subEmail').value.trim();
-  if(!email||!email.includes('@')){alert('Introduce un correo válido');return}
-  if(!D.bmr){alert('Completa los cálculos antes de suscribirte');return}
-  const form=document.createElement('form');
-  form.method='POST';
-  form.action='https://calculadora-fit.us7.list-manage.com/subscribe/post?u=77be65ca2b1909877f9244c08&id=914684be82&f_id=00589ae0f0';
-  form.target='_blank';
-  const fields={EMAIL:email,'tags':'3547367'};
-  Object.entries(fields).forEach(([k,v])=>{
-    const i=document.createElement('input');
-    i.type='hidden';i.name=k;i.value=v;
-    form.appendChild(i);
+function descargarPlan(){
+  if(!D.bmr||!D.obj){alert('Completa los pasos anteriores para poder descargar tu plan');return}
+
+  const val=id=>document.getElementById(id).value;
+  const texto=id=>{
+    const s=document.getElementById(id);
+    return s.options[s.selectedIndex] ? s.options[s.selectedIndex].text : '—';
+  };
+  const fila=(k,v)=>`<tr><th>${k}</th><td>${v}</td></tr>`;
+
+  document.getElementById('hpFecha').textContent=new Date().toLocaleDateString('es-ES',{
+    day:'numeric',month:'long',year:'numeric'
   });
-  const honey=document.createElement('input');
-  honey.type='hidden';honey.name='b_77be65ca2b1909877f9244c08_914684be82';honey.value='';
-  form.appendChild(honey);
-  document.body.appendChild(form);form.submit();document.body.removeChild(form);
-  document.getElementById('subOk').style.display='block';
-  document.getElementById('subEmail').value='';
+
+  document.getElementById('hpDatos').innerHTML=
+    fila('Edad',val('edad')+' años')+
+    fila('Sexo',texto('sexo'))+
+    fila('Peso',val('peso')+' kg')+
+    fila('Altura',val('altura')+' cm')+
+    fila('Nivel de actividad',texto('actividad'))+
+    fila('Objetivo',texto('objetivo'));
+
+  document.getElementById('hpCalorias').innerHTML=
+    fila('Metabolismo basal (BMR)','<strong>'+D.bmr+'</strong> kcal/día')+
+    fila('Mantenimiento (TDEE)','<strong>'+D.mant+'</strong> kcal/día')+
+    fila('Objetivo — '+D.tipo,'<strong>'+D.obj+'</strong> kcal/día');
+
+  // Los macros solo salen si se calcularon: mejor omitir la sección que
+  // imprimir guiones que parezcan un error.
+  const secMacros=document.getElementById('hpMacros').closest('.hp-seccion');
+  if(D.prot){
+    const carbKcal=Math.round(D.obj-D.prot*4-D.grasa*9);
+    document.getElementById('hpMacros').innerHTML=
+      fila('Proteína','<strong>'+D.prot+' g</strong> · '+(D.prot*4)+' kcal')+
+      fila('Grasas','<strong>'+D.grasa+' g</strong> · '+(D.grasa*9)+' kcal')+
+      fila('Carbohidratos','<strong>'+D.carb+' g</strong> · '+carbKcal+' kcal');
+    secMacros.style.display='';
+  } else {
+    secMacros.style.display='none';
+  }
+
+  document.getElementById('hpNota').innerHTML=
+    '<strong>Recalcula cada 4-6 semanas</strong>, o cuando tu peso cambie más de 3 kg. '+
+    'Al perder grasa o ganar músculo, tus necesidades calóricas cambian: no actualizarlas '+
+    'es una de las causas más comunes de estancamiento.';
+
+  window.print();
 }
 
 function resetAll(){
@@ -921,7 +985,6 @@ function resetAll(){
   document.getElementById('tip3').textContent='Se calcularán automáticamente en base a tu peso y objetivo.';
   document.getElementById('macroAlerta').style.display='none';
   document.getElementById('sumTip').textContent='Completa los pasos anteriores para ver tu resumen.';
-  document.getElementById('subOk').style.display='none';
   document.querySelectorAll('.srail-btn').forEach(b=>b.classList.remove('done'));
   goStep(0);
 }

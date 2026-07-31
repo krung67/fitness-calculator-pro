@@ -453,6 +453,78 @@ footer a:hover{color:var(--lime)}
 }
 
 /* ═══════════════════════════════════════════
+   HOJA IMPRIMIBLE DEL PLAN
+   Oculta en pantalla; solo existe para el PDF.
+   ═══════════════════════════════════════════ */
+#hojaPlan{display:none}
+
+@media print{
+  /* Se oculta la web entera y se muestra solo la hoja del plan. Sin esto,
+     el PDF saldría con el menú, la calculadora y los 5000 caracteres de
+     contenido editorial. */
+  body > *{display:none !important}
+  body{background:#fff !important;color:#000 !important}
+
+  #hojaPlan{
+    display:block !important;
+    max-width:100%;
+    padding:0;
+    font-family:'Sora',Helvetica,Arial,sans-serif;
+    color:#111;
+  }
+
+  .hp-cab{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    border-bottom:3px solid #7a9410;
+    padding-bottom:12px;margin-bottom:26px;
+  }
+  .hp-marca{
+    font-family:'Barlow Condensed',Helvetica,Arial,sans-serif;
+    font-size:22pt;font-weight:800;letter-spacing:0.5px;
+    text-transform:uppercase;line-height:1;
+  }
+  .hp-marca span{color:#7a9410}
+  .hp-url{font-size:8pt;letter-spacing:2px;color:#666;margin-top:3px}
+  .hp-fecha{font-size:8pt;color:#666;text-align:right;padding-top:4px}
+
+  .hp-titulo{
+    font-family:'Barlow Condensed',Helvetica,Arial,sans-serif;
+    font-size:26pt;font-weight:800;text-transform:uppercase;
+    letter-spacing:-0.5px;margin:0 0 26px;line-height:1;
+  }
+
+  .hp-seccion{margin-bottom:22px;break-inside:avoid}
+  .hp-seccion-tit{
+    font-size:8pt;font-weight:700;letter-spacing:2.5px;
+    text-transform:uppercase;color:#7a9410;
+    margin-bottom:8px;
+  }
+
+  .hp-tabla{width:100%;border-collapse:collapse}
+  .hp-tabla th,.hp-tabla td{
+    border-bottom:1px solid #ddd;
+    padding:7px 0;font-size:10pt;text-align:left;
+  }
+  .hp-tabla th{font-weight:400;color:#555;width:52%}
+  .hp-tabla td{text-align:right}
+  .hp-tabla strong{font-size:12pt}
+
+  .hp-nota{
+    border-left:3px solid #7a9410;
+    padding:10px 14px;margin:26px 0;
+    background:#f6f8ef;
+    font-size:9.5pt;line-height:1.6;
+  }
+  .hp-pie{
+    margin-top:30px;padding-top:12px;
+    border-top:1px solid #ddd;
+    font-size:7.5pt;line-height:1.55;color:#777;
+  }
+
+  @page{margin:16mm}
+}
+
+/* ═══════════════════════════════════════════
    PÁGINAS DE TEXTO (legales, contacto, sobre)
    ═══════════════════════════════════════════ */
 .pagina{max-width:720px;margin:0 auto;padding:3rem 1.25rem 1rem}
