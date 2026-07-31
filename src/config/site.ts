@@ -12,7 +12,9 @@ export const SITE = {
   nombre: 'Calculadora Fit',
   dominio: 'calculadora-fit.com',
   url: 'https://calculadora-fit.com',
-  email: 'enriqueg.digital@gmail.com',
+  // Buzón del propio dominio, alojado en Ionos. Depende de los registros MX
+  // de la zona DNS: si se borran, deja de entrar correo aquí.
+  email: 'enrique.digital@calculadora-fit.com',
 
   /** Titular del sitio. Persona física. */
   titular: {
