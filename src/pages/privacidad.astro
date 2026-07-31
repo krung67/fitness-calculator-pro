@@ -1,0 +1,224 @@
+---
+import Base from '../layouts/Base.astro';
+import AvisoPendiente from '../components/AvisoPendiente.astro';
+import { SITE } from '../config/site';
+---
+
+<Base
+  title="Política de privacidad — Calculadora Fit"
+  description="Cómo tratamos tus datos personales en calculadora-fit.com: qué recogemos, con qué finalidad, con quién lo compartimos y cómo ejercer tus derechos."
+>
+  <main class="pagina">
+    <h1 class="pagina-titulo">Política de privacidad</h1>
+    <p class="pagina-fecha">Última actualización: {SITE.legalActualizado}</p>
+
+    <AvisoPendiente />
+
+    <p>
+      Esta política explica cómo se tratan los datos personales de quienes visitan
+      {' '}{SITE.dominio}, conforme al Reglamento (UE) 2016/679 (RGPD) y a la Ley Orgánica
+      3/2018 de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD).
+    </p>
+
+    <h2>1. Responsable del tratamiento</h2>
+    {/*
+      El RGPD (art. 13.1.a) solo exige "la identidad y los datos de contacto
+      del responsable": nombre y una vía de contacto. El NIF y el domicilio
+      NO son obligatorios aquí — eso lo pide la LSSI, y solo para el aviso
+      legal. No se publican dos veces datos que la ley solo requiere una.
+    */}
+    <table class="tabla-legal">
+      <tbody>
+        <tr>
+          <th>Responsable</th>
+          <td>{SITE.titular.nombre}</td>
+        </tr>
+        <tr>
+          <th>Contacto</th>
+          <td><a href={`mailto:${SITE.email}`}>{SITE.email}</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Los datos identificativos completos exigidos por la normativa de servicios de la
+      sociedad de la información están disponibles en el <a href="/aviso-legal">Aviso legal</a>.
+    </p>
+
+    <h2>2. Qué datos tratamos y con qué finalidad</h2>
+
+    <h3>2.1. Datos que introduces en la calculadora</h3>
+    <p>
+      Los datos que introduces para calcular (edad, sexo, peso y altura) se procesan
+      <strong>íntegramente en tu navegador</strong>. No se transmiten a ningún servidor, no
+      se almacenan en ninguna base de datos y el titular no tiene acceso a ellos en ningún
+      momento.
+    </p>
+    <p>
+      Si utilizas la función «Guardar en historial», los resultados se guardan en el
+      <strong>almacenamiento local</strong> (<em>localStorage</em>) de tu propio dispositivo.
+      Permanecen ahí hasta que pulses «Borrar historial» o vacíes los datos de navegación.
+      Nadie más que tú puede consultarlos.
+    </p>
+
+    <h3>2.2. Suscripción por correo electrónico</h3>
+    <table class="tabla-legal">
+      <tbody>
+        <tr>
+          <th>Datos</th>
+          <td>Dirección de correo electrónico</td>
+        </tr>
+        <tr>
+          <th>Finalidad</th>
+          <td>
+            Enviarte el resultado de tus cálculos y recordatorios periódicos para
+            recalcularlos
+          </td>
+        </tr>
+        <tr>
+          <th>Base legal</th>
+          <td>Tu consentimiento expreso (art. 6.1.a RGPD), al facilitar tu correo</td>
+        </tr>
+        <tr>
+          <th>Conservación</th>
+          <td>Hasta que solicites la baja o retires tu consentimiento</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Puedes darte de baja en cualquier momento desde el enlace incluido al final de cada
+      correo o escribiendo a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+    </p>
+
+    <h3>2.3. Publicidad y analítica</h3>
+    <table class="tabla-legal">
+      <tbody>
+        <tr>
+          <th>Datos</th>
+          <td>
+            Identificadores de cookies, dirección IP, tipo de dispositivo y navegador,
+            páginas visitadas
+          </td>
+        </tr>
+        <tr>
+          <th>Finalidad</th>
+          <td>Mostrar publicidad, medir su rendimiento y analizar el uso del sitio</td>
+        </tr>
+        <tr>
+          <th>Base legal</th>
+          <td>Tu consentimiento, prestado a través del panel de cookies (art. 6.1.a RGPD)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      El detalle de cada cookie y la forma de revocar tu consentimiento están en la
+      <a href="/cookies">Política de Cookies</a>.
+    </p>
+
+    <h2>3. Destinatarios de los datos</h2>
+    <p>
+      No se venden ni ceden datos personales a terceros con fines comerciales. Se utilizan
+      los siguientes proveedores, que actúan como encargados del tratamiento o responsables
+      independientes:
+    </p>
+    <table class="tabla-legal">
+      <thead>
+        <tr>
+          <th>Proveedor</th>
+          <th>Servicio</th>
+          <th>Política</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Google Ireland Ltd. / Google LLC</td>
+          <td>Publicidad (AdSense)</td>
+          <td>
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">
+              policies.google.com
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Intuit Mailchimp</td>
+          <td>Envío de correo electrónico</td>
+          <td>
+            <a href="https://www.intuit.com/privacy/statement/" target="_blank" rel="noopener">
+              intuit.com/privacy
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Amazon Europe Core S.à r.l.</td>
+          <td>Programa de afiliados</td>
+          <td>
+            <a href="https://www.amazon.es/gp/help/customer/display.html?nodeId=201909010" target="_blank" rel="noopener">
+              amazon.es
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Vercel Inc.</td>
+          <td>Alojamiento del sitio web</td>
+          <td>
+            <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">
+              vercel.com/legal
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>4. Transferencias internacionales</h2>
+    <p>
+      Algunos de estos proveedores están ubicados en <strong>Estados Unidos</strong>. Dichas
+      transferencias se amparan en el <em>Marco de Privacidad de Datos UE-EE. UU.</em>
+      (Decisión de adecuación de la Comisión Europea de 10 de julio de 2023) o, en su
+      defecto, en las Cláusulas Contractuales Tipo aprobadas por la Comisión Europea.
+    </p>
+
+    <h2>5. Tus derechos</h2>
+    <p>Como titular de los datos puedes ejercer los siguientes derechos:</p>
+    <ul>
+      <li><strong>Acceso:</strong> saber qué datos tuyos se tratan.</li>
+      <li><strong>Rectificación:</strong> corregir datos inexactos.</li>
+      <li><strong>Supresión:</strong> solicitar que se eliminen tus datos.</li>
+      <li><strong>Oposición:</strong> oponerte a un tratamiento concreto.</li>
+      <li><strong>Limitación:</strong> pedir que se restrinja el tratamiento.</li>
+      <li><strong>Portabilidad:</strong> recibir tus datos en formato estructurado.</li>
+      <li>
+        <strong>Retirar el consentimiento</strong> en cualquier momento, sin que ello afecte
+        a la licitud del tratamiento previo.
+      </li>
+    </ul>
+    <p>
+      Para ejercerlos, escribe a <a href={`mailto:${SITE.email}`}>{SITE.email}</a> indicando
+      el derecho que deseas ejercer. La solicitud se atenderá en el plazo máximo de un mes.
+    </p>
+    <p>
+      Si consideras que el tratamiento no se ajusta a la normativa, puedes presentar una
+      reclamación ante la <strong>Agencia Española de Protección de Datos</strong> (
+      <a href="https://www.aepd.es" target="_blank" rel="noopener">www.aepd.es</a>).
+    </p>
+
+    <h2>6. Menores de edad</h2>
+    <p>
+      Este sitio no está dirigido a menores de 14 años y no se recogen conscientemente sus
+      datos. Si detectas que un menor ha facilitado datos sin autorización de sus
+      progenitores o tutores, comunícalo a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      {' '}para proceder a su eliminación.
+    </p>
+
+    <h2>7. Seguridad</h2>
+    <p>
+      Se aplican medidas técnicas y organizativas razonables para proteger los datos frente a
+      accesos no autorizados, pérdida o alteración. El sitio se sirve íntegramente mediante
+      conexión cifrada HTTPS.
+    </p>
+
+    <h2>8. Cambios en esta política</h2>
+    <p>
+      Esta política puede actualizarse para reflejar cambios legales o en los servicios
+      utilizados. La fecha de la última revisión figura al inicio del documento.
+    </p>
+  </main>
+</Base>

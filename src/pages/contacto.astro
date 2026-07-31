@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+---
+
+<Base
+  title="Contacto — Calculadora Fit"
+  description="Escríbenos si tienes dudas sobre las calculadoras, quieres proponer contenido, comunicar un error o ejercer tus derechos sobre tus datos."
+>
+  <main class="pagina">
+    <h1 class="pagina-titulo">Contacto</h1>
+    <p class="pagina-fecha">Respondemos en un plazo aproximado de 48 horas</p>
+
+    <p>
+      Detrás de {SITE.dominio} hay una persona, no un formulario automático. Si algo no
+      funciona, si un dato te parece incorrecto o si quieres proponer una calculadora nueva,
+      escríbenos y lo leeremos.
+    </p>
+
+    <h2>Correo electrónico</h2>
+    <p style="font-size:1.1rem">
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    </p>
+
+    <h2>En qué podemos ayudarte</h2>
+    <ul>
+      <li>
+        <strong>Dudas sobre los cálculos:</strong> si un resultado no te cuadra, cuéntanos qué
+        datos has introducido y lo revisamos.
+      </li>
+      <li>
+        <strong>Errores en la web:</strong> si algo se ve mal o no funciona, indícanos el
+        navegador y el dispositivo que usas.
+      </li>
+      <li>
+        <strong>Correcciones de contenido:</strong> si detectas información desactualizada o
+        imprecisa, agradecemos el aviso.
+      </li>
+      <li>
+        <strong>Sugerencias:</strong> ¿echas en falta una calculadora o una guía? Dínoslo.
+      </li>
+      <li>
+        <strong>Protección de datos:</strong> para ejercer tus derechos de acceso,
+        rectificación, supresión, oposición, limitación o portabilidad, escribe indicando cuál
+        de ellos quieres ejercer. Tienes el detalle en la
+        <a href="/privacidad">Política de Privacidad</a>.
+      </li>
+      <li>
+        <strong>Colaboraciones y publicidad:</strong> escribe indicando tu propuesta y a quién
+        representas.
+      </li>
+    </ul>
+
+    <h2>Lo que no podemos hacer</h2>
+    <p>
+      No damos consultas dietéticas ni médicas individualizadas. No somos profesionales
+      sanitarios colegiados y hacerlo sería, además de irresponsable, ilegal. Para un plan
+      adaptado a tu caso, acude a un dietista-nutricionista colegiado o a tu médico.
+    </p>
+
+    <h2>Datos del titular</h2>
+    <p>
+      Los datos identificativos completos del responsable de este sitio están publicados en el
+      <a href="/aviso-legal">Aviso legal</a>.
+    </p>
+  </main>
+</Base>

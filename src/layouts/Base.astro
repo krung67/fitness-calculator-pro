@@ -1,0 +1,170 @@
+---
+import '../styles/global.css';
+import { SITE, NAV, NAV_LEGAL } from '../config/site';
+
+interface Props {
+  /** Título de la pestaña y del resultado en Google. Máx. ~60 caracteres. */
+  title: string;
+  /** Resumen que aparece bajo el título en Google. Máx. ~155 caracteres. */
+  description: string;
+  /** Imagen para redes sociales. Ruta relativa desde la raíz del sitio. */
+  image?: string;
+  /** true para pedir a Google que NO indexe la página (ej.: gracias, 404). */
+  noindex?: boolean;
+  /**
+   * Datos estructurados propios de esta página (Schema.org).
+   * Se añaden a los del sitio, que van en todas.
+   */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  image = '/og-default.png',
+  noindex = false,
+  schema,
+} = Astro.props;
+
+// URL canónica: le dice a Google cuál es la dirección "oficial" de esta página.
+// Sin ella, el mismo contenido accesible por varias rutas cuenta como duplicado.
+//
+// Hay que normalizar la ruta: durante el build, Astro.url.pathname devuelve el
+// nombre del archivo generado (/index.html, /tdee.html), pero el servidor sirve
+// esas páginas en / y /tdee. El canonical debe apuntar a la URL real.
+const cleanPath = Astro.url.pathname
+  .replace(/\/index\.html$/, '/') // /index.html  → /
+  .replace(/\.html$/, '') //         /tdee.html   → /tdee
+  .replace(/(.+)\/$/, '$1'); //      /tdee/       → /tdee  (no toca la raíz)
+
+const canonical = new URL(cleanPath, Astro.site);
+const ogImage = new URL(image, Astro.site);
+
+// Marca el enlace de la página actual para poder resaltarlo y, sobre todo,
+// para ponerle aria-current: así un lector de pantalla dice "página actual".
+const rutaActual = cleanPath;
+
+// ─── Datos estructurados (Schema.org) ───
+// Van en todas las páginas y describen quién publica el sitio. Los @id
+// permiten que las demás entidades apunten aquí en vez de repetir los datos.
+const schemaSitio = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE.url}/#website`,
+    url: SITE.url,
+    name: SITE.nombre,
+    description:
+      'Calculadoras gratuitas de calorías, macronutrientes y métricas de nutrición y fitness, con el razonamiento explicado.',
+    inLanguage: 'es-ES',
+    publisher: { '@id': `${SITE.url}/#persona` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${SITE.url}/#persona`,
+    name: 'Enrique',
+    url: `${SITE.url}/sobre-nosotros`,
+    email: SITE.email,
+    // Declarar de qué se sabe es una señal de E-E-A-T. No inventamos
+    // titulaciones: la autoridad aquí viene de la experiencia aplicada.
+    knowsAbout: [
+      'Nutrición deportiva',
+      'Cálculo de calorías y macronutrientes',
+      'Entrenamiento de hipertrofia',
+      'Composición corporal',
+    ],
+  },
+];
+
+const schemasPagina = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const todosLosSchemas = [...schemaSitio, ...schemasPagina];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph: controla cómo se ve el enlace al compartirlo
+         en WhatsApp, Facebook, LinkedIn o Telegram. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Calculadora Fit" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fuentes. El preconnect a fonts.gstatic.com es imprescindible:
+         los archivos .woff2 se descargan de ese dominio, no de googleapis.com.
+         Sin él se pierde una conexión completa (DNS + TLS) en la carga. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Sora:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6100190147209730"
+      crossorigin="anonymous"></script>
+
+    {
+      todosLosSchemas.map((s) => (
+        <script type="application/ld+json" set:html={JSON.stringify(s)} />
+      ))
+    }
+
+    <slot name="head" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <a href="/" class="site-logo">Calculadora<span>Fit</span></a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        {
+          NAV.map((item) => (
+            <a
+              href={item.href}
+              class:list={['site-nav-link', { activo: rutaActual === item.href }]}
+              aria-current={rutaActual === item.href ? 'page' : undefined}
+            >
+              {item.texto}
+            </a>
+          ))
+        }
+      </nav>
+    </header>
+
+    <slot />
+
+    <footer>
+      <nav class="footer-nav" aria-label="Enlaces legales">
+        {NAV_LEGAL.map((item) => <a href={item.href}>{item.texto}</a>)}
+      </nav>
+      <p>
+        © {new Date().getFullYear()} <a href={SITE.url}>{SITE.dominio}</a> · Todos los
+        derechos reservados
+      </p>
+      <p style="margin-top:6px;font-size:0.68rem">
+        Los resultados son orientativos. Consulta a un profesional de la nutrición para
+        asesoramiento personalizado.
+      </p>
+    </footer>
+  </body>
+</html>
