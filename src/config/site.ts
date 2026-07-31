@@ -54,7 +54,8 @@ export const SITE = {
  * las páginas del sitio, porque el menú vive en el Layout compartido.
  */
 export const NAV = [
-  { href: '/', texto: 'Calculadora' },
+  { href: '/', texto: 'Calorías y macros' },
+  { href: '/imc', texto: 'IMC' },
   { href: '/metodo', texto: 'Método' },
   { href: '/sobre-nosotros', texto: 'Sobre nosotros' },
   { href: '/contacto', texto: 'Contacto' },

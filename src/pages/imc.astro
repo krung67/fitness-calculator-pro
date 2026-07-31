@@ -1,0 +1,323 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+
+const faq = [
+  {
+    p: '¿El IMC es diferente en hombres y en mujeres?',
+    r: 'La fórmula es exactamente la misma y los rangos de la OMS también. Lo que sí difiere es su interpretación: las mujeres tienen de media más porcentaje graso esencial que los hombres con el mismo IMC, y los hombres suelen tener más masa muscular. Por eso el mismo número puede significar cosas distintas según la composición corporal de cada persona.',
+  },
+  {
+    p: '¿Hay que ajustar el IMC según la edad?',
+    r: 'La fórmula no cambia con la edad en población adulta. Sin embargo, a partir de los 65 años varias sociedades científicas consideran razonable un rango algo más alto, en torno a 23-28, porque un peso muy bajo se asocia con más fragilidad y pérdida de masa muscular. En menores de 18 años el IMC no se interpreta con esta tabla, sino con percentiles por edad y sexo.',
+  },
+  {
+    p: 'Entreno con pesas y me sale sobrepeso. ¿Es normal?',
+    r: 'Sí, y es la limitación más conocida del IMC. La fórmula solo relaciona peso y altura: no distingue si ese peso es grasa, músculo, hueso o agua. El músculo es más denso que la grasa, así que una persona con buena masa muscular y poca grasa puede superar 25 de IMC estando en excelente estado. Si entrenas fuerza de forma regular, el IMC no es un buen indicador para ti.',
+  },
+  {
+    p: '¿Sirve el IMC para niños y adolescentes?',
+    r: 'No con esta calculadora. En menores de 18 años el IMC se interpreta comparándolo con curvas de percentiles según edad y sexo, porque la composición corporal cambia mucho durante el crecimiento. Aplicar los rangos de adulto a un menor da conclusiones erróneas. Consulta con el pediatra.',
+  },
+  {
+    p: '¿Qué mido en lugar del IMC?',
+    r: 'Para seguir tu progreso físico son más útiles el perímetro de cintura, el porcentaje de grasa corporal, cómo te queda la ropa y las fotos comparativas cada 4-6 semanas. El perímetro de cintura, en concreto, se relaciona mejor que el IMC con la grasa visceral, que es la que tiene relevancia metabólica.',
+  },
+  {
+    p: '¿Cada cuánto debo calcular mi IMC?',
+    r: 'No tiene mucho sentido calcularlo a diario: el peso fluctúa entre 1 y 2 kg por retención de líquidos, glucógeno y contenido intestinal. Una vez cada 2-4 semanas, midiendo siempre en las mismas condiciones (por la mañana, en ayunas y tras ir al baño), es más que suficiente.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Calculadora de IMC',
+    url: `${SITE.url}/imc`,
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Cualquiera con navegador web',
+    inLanguage: 'es-ES',
+    description:
+      'Calcula tu índice de masa corporal con la fórmula de la OMS y descubre por qué el IMC puede fallar si entrenas fuerza.',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+    publisher: { '@id': `${SITE.url}/#persona` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Calculadora de IMC', item: `${SITE.url}/imc` },
+    ],
+  },
+];
+---
+
+<Base
+  title="Calculadora de IMC — Índice de Masa Corporal | Calculadora Fit"
+  description="Calcula tu IMC gratis con la fórmula de la OMS. Incluye la tabla de categorías y explica por qué el índice de masa corporal falla si entrenas fuerza."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Índice de masa corporal</div>
+    <h1>Calculadora de IMC</h1>
+    <p class="hero-sub">
+      Tu índice de masa corporal según la OMS — y, más importante, cuándo ese número no
+      significa lo que parece.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div style="padding:2.5rem 0 1rem">
+        <p class="sec-label">Calcula tu IMC</p>
+        <h2 class="sec-title">Tus medidas</h2>
+
+        <div class="fgrid">
+          <div class="field">
+            <label for="imcPeso">Peso (kg)</label>
+            <input type="number" id="imcPeso" placeholder="70" min="20" max="400" step="0.1" />
+          </div>
+          <div class="field">
+            <label for="imcAltura">Altura (cm)</label>
+            <input type="number" id="imcAltura" placeholder="175" min="100" max="250" />
+          </div>
+        </div>
+
+        <button class="btn-main" onclick="calcIMC()">Calcular mi IMC</button>
+
+        <div class="rcard" id="imcRes" aria-live="polite">
+          <div class="rc-label">Tu índice de masa corporal</div>
+          <div class="rc-big" id="imcValor">—</div>
+          <div class="rc-desc" id="imcCat"></div>
+
+          <!-- Escala visual: sitúa el resultado en el rango, que se entiende
+               mucho mejor que una cifra suelta. -->
+          <div class="imc-escala" aria-hidden="true">
+            <div class="imc-barra">
+              <span style="background:#5b8ac9"></span>
+              <span style="background:#4fa85f"></span>
+              <span style="background:#d4b13a"></span>
+              <span style="background:#d47a3a"></span>
+              <span style="background:#c45a5a"></span>
+            </div>
+            <div class="imc-marca" id="imcMarca"></div>
+            <div class="imc-leyenda">
+              <span>16</span><span>18,5</span><span>25</span><span>30</span><span>40</span>
+            </div>
+          </div>
+
+          <div class="tip" id="imcAviso" style="display:none;margin-top:1.2rem"></div>
+        </div>
+
+        <p class="cs-text" style="margin-top:1.5rem">
+          ¿Ya tienes tu IMC? El siguiente paso útil es saber
+          <a href="/" style="color:var(--lime)">cuántas calorías y macros necesitas</a> para
+          tu objetivo — eso sí determina cómo cambia tu composición corporal.
+        </p>
+      </div>
+
+      <!-- ─────────── CONTENIDO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Qué es</div>
+        <h2 class="cs-title">Qué es el IMC y cómo se calcula</h2>
+        <p class="cs-text">
+          El índice de masa corporal (IMC) es una medida que relaciona tu peso con tu altura.
+          Lo propuso el matemático belga Adolphe Quetelet en el siglo XIX y la Organización
+          Mundial de la Salud lo adoptó como indicador para clasificar el peso corporal en
+          estudios de población.
+        </p>
+        <p class="cs-text">La fórmula es sencilla:</p>
+        <div class="cs-highlight">
+          <strong>IMC = peso (kg) ÷ altura (m)²</strong><br />
+          Ejemplo: una persona de 70 kg y 1,75 m → 70 ÷ (1,75 × 1,75) = <strong>22,9</strong>
+        </div>
+        <p class="cs-text">
+          Fíjate en lo que <em>no</em> entra en esa fórmula: ni la edad, ni el sexo, ni la
+          masa muscular, ni la distribución de la grasa, ni el nivel de actividad. Solo dos
+          números. Esa simplicidad es a la vez su virtud —se calcula en cualquier sitio, sin
+          instrumental— y su gran limitación.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Interpretación</div>
+        <h2 class="cs-title">Tabla de categorías de la OMS</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr>
+              <th>IMC</th>
+              <th>Categoría</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Menos de 18,5</td><td>Bajo peso</td></tr>
+            <tr><td>18,5 – 24,9</td><td>Normopeso</td></tr>
+            <tr><td>25,0 – 29,9</td><td>Sobrepeso</td></tr>
+            <tr><td>30,0 – 34,9</td><td>Obesidad grado I</td></tr>
+            <tr><td>35,0 – 39,9</td><td>Obesidad grado II</td></tr>
+            <tr><td>40,0 o más</td><td>Obesidad grado III</td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Estos rangos se establecieron a partir de estudios epidemiológicos que relacionaban
+          el IMC con el riesgo de enfermedad <strong>en grandes poblaciones</strong>. Ese
+          matiz es fundamental: son categorías diseñadas para describir grupos, no para
+          diagnosticar a una persona concreta.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">La letra pequeña</div>
+        <h2 class="cs-title">Por qué el IMC falla si entrenas fuerza</h2>
+        <p class="cs-text">
+          Esta es la parte que la mayoría de calculadoras no te cuenta, y probablemente sea la
+          que más te afecta si has llegado hasta aquí desde una web de fitness.
+        </p>
+        <p class="cs-text">
+          <strong>El IMC no distingue de qué está hecho tu peso.</strong> Un kilo de músculo y
+          un kilo de grasa pesan lo mismo, pero el músculo ocupa bastante menos volumen: es
+          más denso. Dos personas de la misma altura y el mismo peso —y por tanto con el mismo
+          IMC exacto— pueden tener aspectos y estados de salud radicalmente distintos.
+        </p>
+        <div class="cs-highlight">
+          <strong>Ejemplo real y frecuente:</strong> un hombre de 1,78 m y 88 kg que entrena
+          fuerza cuatro veces por semana tiene un IMC de 27,8, categoría «sobrepeso». Si su
+          porcentaje de grasa está en el 12 %, esa etiqueta no describe absolutamente nada
+          útil sobre él.
+        </div>
+        <p class="cs-text">
+          Ocurre lo contrario también, y es menos comentado pero igual de relevante: alguien
+          sedentario con poca masa muscular y bastante grasa puede tener un IMC dentro del
+          rango «normal». Se conoce como <em>obesidad de peso normal</em>, y el IMC no la
+          detecta.
+        </p>
+        <p class="cs-text">
+          <strong>Conclusión práctica:</strong> si entrenas fuerza con regularidad, el IMC es
+          probablemente el peor indicador que puedes usar para seguir tu progreso. No es que
+          esté mal calculado; es que mide otra cosa.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Alternativas</div>
+        <h2 class="cs-title">Qué medir en lugar del IMC</h2>
+        <p class="cs-text">
+          Si tu objetivo es cambiar tu físico, estas referencias te dirán mucho más:
+        </p>
+        <div class="cs-grid">
+          <div class="cs-card">
+            <div class="cs-card-title">Perímetro de cintura</div>
+            <div class="cs-card-val">📏</div>
+            <div class="cs-card-desc">
+              Se relaciona mejor que el IMC con la grasa visceral. Mide a la altura del
+              ombligo, sin apretar
+            </div>
+          </div>
+          <div class="cs-card">
+            <div class="cs-card-title">% de grasa corporal</div>
+            <div class="cs-card-val">📊</div>
+            <div class="cs-card-desc">
+              Distingue grasa de músculo, que es justo lo que el IMC no hace
+            </div>
+          </div>
+          <div class="cs-card">
+            <div class="cs-card-title">Fotos comparativas</div>
+            <div class="cs-card-val">📸</div>
+            <div class="cs-card-desc">
+              Cada 4-6 semanas, misma luz y misma postura. Es la referencia más honesta
+            </div>
+          </div>
+          <div class="cs-card">
+            <div class="cs-card-title">Cómo te queda la ropa</div>
+            <div class="cs-card-val">👕</div>
+            <div class="cs-card-desc">
+              Poco científico, pero detecta la recomposición corporal antes que la báscula
+            </div>
+          </div>
+        </div>
+        <p class="cs-text" style="margin-top:1.5rem">
+          Y por encima de todo: lo que determina si ganas músculo o pierdes grasa es
+          <strong>lo que comes y cómo entrenas</strong>, no el número que te da una fórmula.
+          Para eso está nuestra
+          <a href="/" style="color:var(--lime)">calculadora de calorías y macros</a>, y el
+          razonamiento detrás está en <a href="/metodo" style="color:var(--lime)">Nuestro método</a>.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes sobre el IMC</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</Base>
+
+<script is:inline>
+// Rangos de la OMS. El límite superior es exclusivo: 24.9 y 25.0 caen en
+// categorías distintas, así que se compara con "< 25" y no con "<= 24.9".
+const IMC_CATS = [
+  { max: 18.5, cat: 'Bajo peso', desc: 'Por debajo del rango de referencia de la OMS.' },
+  { max: 25, cat: 'Normopeso', desc: 'Dentro del rango de referencia de la OMS.' },
+  { max: 30, cat: 'Sobrepeso', desc: 'Por encima del rango de referencia de la OMS.' },
+  { max: 35, cat: 'Obesidad grado I', desc: 'Obesidad de grado I según la OMS.' },
+  { max: 40, cat: 'Obesidad grado II', desc: 'Obesidad de grado II según la OMS.' },
+  { max: Infinity, cat: 'Obesidad grado III', desc: 'Obesidad de grado III según la OMS.' },
+];
+
+function calcIMC() {
+  const peso = parseFloat(document.getElementById('imcPeso').value);
+  const altCm = parseFloat(document.getElementById('imcAltura').value);
+
+  if (!peso || !altCm) { alert('Introduce tu peso y tu altura'); return; }
+  if (peso < 20 || peso > 400) { alert('Introduce un peso entre 20 y 400 kg'); return; }
+  if (altCm < 100 || altCm > 250) { alert('Introduce una altura entre 100 y 250 cm'); return; }
+
+  const altM = altCm / 100;
+  const imc = peso / (altM * altM);
+  const r = IMC_CATS.find(c => imc < c.max);
+
+  document.getElementById('imcValor').textContent = imc.toFixed(1).replace('.', ',');
+  document.getElementById('imcCat').textContent = r.cat + ' · ' + r.desc;
+
+  // Posición en la escala 16–40, acotada para que nunca se salga de la barra.
+  const pct = Math.max(0, Math.min(100, ((imc - 16) / 24) * 100));
+  document.getElementById('imcMarca').style.left = pct + '%';
+
+  // Aviso específico: es el caso que más confunde a quien entrena.
+  const aviso = document.getElementById('imcAviso');
+  if (imc >= 25 && imc < 30) {
+    aviso.innerHTML = '<strong>Antes de sacar conclusiones:</strong> si entrenas fuerza con regularidad, ' +
+      'este rango es perfectamente compatible con estar en buena forma. El IMC no distingue músculo de grasa. ' +
+      '<a href="#" onclick="document.querySelectorAll(\'.cs-title\')[2].scrollIntoView({behavior:\'smooth\'});return false" style="color:var(--lime)">Te lo explicamos aquí</a>.';
+    aviso.style.display = 'block';
+  } else if (imc < 18.5) {
+    aviso.innerHTML = '<strong>Un valor bajo mantenido conviene consultarlo</strong> con un médico o un ' +
+      'dietista-nutricionista colegiado, sobre todo si no es tu peso habitual.';
+    aviso.style.display = 'block';
+  } else {
+    aviso.style.display = 'none';
+  }
+
+  document.getElementById('imcRes').classList.add('show');
+}
+</script>

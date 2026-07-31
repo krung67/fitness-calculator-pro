@@ -158,6 +158,37 @@ h1{
   text-transform:uppercase;
 }
 
+/* Hero reducido para las páginas de calculadoras secundarias: la portada
+   necesita presencia, una página interior no. */
+.hero-sm{padding:2.5rem 1.5rem 2rem}
+.hero-sm h1{font-size:clamp(2.2rem,6vw,3.4rem);max-width:none}
+.hero-sm .hero-sub{margin-bottom:0}
+
+/* ── ESCALA VISUAL DEL IMC ── */
+.imc-escala{margin-top:1.4rem;position:relative}
+.imc-barra{
+  display:grid;
+  /* Anchos proporcionales a los tramos reales de la escala 16-40:
+     16-18,5 · 18,5-25 · 25-30 · 30-35 · 35-40 */
+  grid-template-columns:2.5fr 6.5fr 5fr 5fr 5fr;
+  height:9px;border-radius:100px;overflow:hidden;
+}
+.imc-barra span{display:block;height:100%;opacity:0.75}
+.imc-marca{
+  position:absolute;top:-5px;
+  width:3px;height:19px;border-radius:2px;
+  background:var(--text);
+  box-shadow:0 0 0 2px var(--bg3);
+  transform:translateX(-50%);
+  transition:left 0.45s cubic-bezier(.4,0,.2,1);
+  left:50%;
+}
+.imc-leyenda{
+  display:flex;justify-content:space-between;
+  margin-top:7px;font-size:0.6rem;
+  letter-spacing:1px;color:var(--muted);
+}
+
 /* ── LAYOUT ── */
 .wrap{max-width:780px;margin:0 auto;padding:0 1.25rem}
 
