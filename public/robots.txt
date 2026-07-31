@@ -4,9 +4,15 @@
 User-agent: *
 Allow: /
 
-# Archivos que no aportan nada en los resultados de búsqueda.
-Disallow: /ads.txt
-Disallow: /google0b1ae137ab92f776.html
+# No se bloquea nada a propósito.
+#
+# En concreto, NO deben bloquearse nunca:
+#   /ads.txt          lo lee AdSense para validar el ID de editor
+#   /google<...>.html es el archivo de verificación de Search Console
+#
+# Ninguno de los dos puede aparecer en los resultados de búsqueda —no son
+# páginas—, así que bloquearlos no evitaba nada y sí podía romper la
+# verificación de propiedad y la validación de la monetización.
 
 # Índice de todas las URLs del sitio. Se regenera solo en cada build.
 Sitemap: https://calculadora-fit.com/sitemap-index.xml
