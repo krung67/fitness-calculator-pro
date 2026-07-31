@@ -202,7 +202,9 @@ h1{
 
 /* ── PROGRESS BAR ── */
 .prog-bar{height:2px;background:var(--bg3)}
-.prog-fill{height:100%;background:var(--lime);transition:width 0.4s cubic-bezier(.4,0,.2,1);width:20%}
+/* 25% = paso 1 de 4. Debe coincidir con el cálculo de goStep(), o la barra
+   daría un salto al pulsar el primer botón. */
+.prog-fill{height:100%;background:var(--lime);transition:width 0.4s cubic-bezier(.4,0,.2,1);width:25%}
 
 /* ── PANELS ── */
 .panel{display:none;padding:2.5rem 0 2rem}

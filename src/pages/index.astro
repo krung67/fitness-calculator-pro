@@ -93,7 +93,10 @@ const schema = [
     <button class="srail-btn" data-s="1" onclick="goStep(1)"><span class="snum">2</span>Mantenimiento</button>
     <button class="srail-btn" data-s="2" onclick="goStep(2)"><span class="snum">3</span>Objetivo</button>
     <button class="srail-btn" data-s="3" onclick="goStep(3)"><span class="snum">4</span>Macros</button>
-    <button class="srail-btn" data-s="4" onclick="goStep(4)"><span class="snum">5</span>Resumen</button>
+    <!-- El resumen no es un paso de cálculo, es el resultado. Por eso lleva
+         "=" en vez de un número: encaja con una calculadora y evita el "5"
+         que contradecía los "4 pasos" del hero. -->
+    <button class="srail-btn" data-s="4" onclick="goStep(4)"><span class="snum" aria-hidden="true">=</span>Resumen</button>
   </nav>
   <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
 
@@ -101,7 +104,7 @@ const schema = [
     <!-- ─────────── PANEL 0 : BMR ─────────── -->
     <div class="panel active" id="panel0">
       <div class="wrap">
-        <p class="sec-label">Paso 1 de 5</p>
+        <p class="sec-label">Paso 1 de 4</p>
         <h2 class="sec-title">Metabolismo basal</h2>
         <div class="fgrid">
           <div class="field">
@@ -138,7 +141,7 @@ const schema = [
     <!-- ─────────── PANEL 1 : MANTENIMIENTO ─────────── -->
     <div class="panel" id="panel1">
       <div class="wrap">
-        <p class="sec-label">Paso 2 de 5</p>
+        <p class="sec-label">Paso 2 de 4</p>
         <h2 class="sec-title">Calorías de mantenimiento</h2>
         <div class="tip" id="tip1">Calcula primero tu BMR en el paso anterior.</div>
         <div class="fgrid solo">
@@ -167,7 +170,7 @@ const schema = [
     <!-- ─────────── PANEL 2 : OBJETIVO ─────────── -->
     <div class="panel" id="panel2">
       <div class="wrap">
-        <p class="sec-label">Paso 3 de 5</p>
+        <p class="sec-label">Paso 3 de 4</p>
         <h2 class="sec-title">Tu objetivo</h2>
         <div class="tip" id="tip2">Selecciona qué quieres conseguir con tu alimentación.</div>
         <div class="fgrid solo">
@@ -194,7 +197,7 @@ const schema = [
     <!-- ─────────── PANEL 3 : MACROS ─────────── -->
     <div class="panel" id="panel3">
       <div class="wrap">
-        <p class="sec-label">Paso 4 de 5</p>
+        <p class="sec-label">Paso 4 de 4</p>
         <h2 class="sec-title">Macronutrientes</h2>
         <div class="tip" id="tip3">
           Se calcularán automáticamente en base a tu peso y objetivo.
@@ -767,7 +770,11 @@ function goStep(n){
   document.querySelectorAll('.srail-btn').forEach((b,i)=>{
     b.classList.toggle('active',i===n);
   });
-  document.getElementById('progFill').style.width=(((n+1)/5)*100)+'%';
+  // Son 4 pasos de cálculo; el 5º panel es el resumen. La barra llega al
+  // 100% al completar el paso 4 y se queda ahí, en vez de tratar el
+  // resumen como un quinto paso pendiente.
+  const PASOS=4;
+  document.getElementById('progFill').style.width=(Math.min(n+1,PASOS)/PASOS*100)+'%';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
