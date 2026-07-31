@@ -477,14 +477,19 @@ footer a:hover{color:var(--lime)}
   font-size:0.95rem;font-weight:600;color:var(--lime);
   margin:1.6rem 0 0.5rem;
 }
+/* Texto de las páginas legales: deliberadamente discreto.
+   #6b8175 sobre #07090b da 4,77:1 de contraste. El mínimo WCAG AA para
+   texto normal es 4,5:1, así que es lo más apagado que se puede poner sin
+   dejar de ser accesible — y sin que Google lo interprete como texto
+   oculto, que es motivo de rechazo en la revisión de AdSense. */
 .pagina p,.pagina li{
-  font-size:0.88rem;color:var(--text2);line-height:1.85;
+  font-size:0.88rem;color:#6b8175;line-height:1.85;
   margin-bottom:0.9rem;
 }
 .pagina ul{padding-left:1.2rem;margin-bottom:1rem}
 .pagina li{margin-bottom:0.4rem}
-.pagina a{color:var(--lime-dim);text-decoration:underline;text-underline-offset:3px}
-.pagina a:hover{color:var(--lime)}
+.pagina a{color:var(--lime-dim);text-decoration:none}
+.pagina a:hover{color:var(--lime);text-decoration:underline;text-underline-offset:3px}
 .pagina strong{color:var(--text)}
 
 /* Tabla de datos legales / cookies */
