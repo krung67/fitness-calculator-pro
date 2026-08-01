@@ -1,0 +1,338 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+// La tabla se genera con los mismos coeficientes que usa la calculadora.
+// Escribirla a mano garantizaría que algún día deje de coincidir.
+const PESOS = [60, 70, 80, 90, 100];
+const PERFILES = [
+  { nombre: 'Sedentario', gkg: 2.0 },
+  { nombre: 'Actividad ligera', gkg: 1.8 },
+  { nombre: 'Actividad moderada', gkg: 1.4 },
+  { nombre: 'Alta actividad · definición', gkg: 1.2 },
+  { nombre: 'Alta actividad · volumen', gkg: 1.6 },
+];
+
+const faq = [
+  {
+    p: '¿Cuánta proteína necesito si peso 70 kilos?',
+    r: 'Depende de tu nivel de actividad. Con nuestro enfoque: 140 g si eres sedentario, 126 g con actividad ligera, 98 g con actividad moderada, 84 g si entrenas duro y estás en definición, y 112 g si entrenas duro y estás en volumen. La cifra baja al subir la actividad porque los carbohidratos pasan a ser prioritarios.',
+  },
+  {
+    p: '¿Es mejor repartir la proteína en varias comidas?',
+    r: 'Sí. Lo ideal son tres comidas al día, aunque con dos también funciona. Repartirla permite aprovecharla mejor: el cuerpo tiene un límite de proteína que puede destinar a construir músculo en una sola toma, así que 100 g de golpe no rinden lo mismo que repartidos. Además, comidas más repartidas sientan mejor y facilitan cuadrar los carbohidratos.',
+  },
+  {
+    p: '¿Hace falta tomar proteína en polvo?',
+    r: 'No es imprescindible: si llegas a tu objetivo con comida real, mejor. Dicho eso, es muy útil en desayunos y meriendas, donde cuesta meter proteína sin recurrir a preparaciones dulces. Mezclada con avena, cereales o crema de arroz, cuadra el reparto de macros de una comida que normalmente no aporta proteína. Y en definición ayuda mucho a quitar el antojo de dulce.',
+  },
+  {
+    p: '¿Más proteína me hará ganar más músculo?',
+    r: 'No. Pasado cierto punto, subir la proteína no aporta más músculo ni lo protege mejor. Lo que preserva la masa muscular durante una definición es el entrenamiento: mantener o mejorar las cargas. Y si subes la proteína quitando carbohidratos, empeoras justo eso, porque te quedas sin combustible para entrenar fuerte.',
+  },
+  {
+    p: '¿Los carbohidratos engordan?',
+    r: 'No. Lo que engorda es un superávit calórico mantenido en el tiempo, vengan las calorías de donde vengan. Si comes 2.300 kcal y gastas 2.500, no vas a engordar aunque la mayor parte sean carbohidratos. Y si haces deporte, son la fuente de energía que más te conviene: no los elimines.',
+  },
+  {
+    p: '¿Tengo que pesar la comida?',
+    r: 'Si quieres calcular de verdad lo que comes, sí. Calcular a ojo es la forma más habitual de creer que estás en déficit cuando no lo estás. Basta con una báscula de cocina y mirar la etiqueta o buscar el alimento con los gramos que has pesado.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Cuánta proteína necesito al día',
+    description:
+      'Cuántos gramos de proteína necesitas según tu peso y tu nivel de actividad, cómo repartirla en el día y de qué alimentos sacarla.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/cuanta-proteina-necesito-al-dia`,
+    dateModified: '2026-08-02',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    // Sin nivel intermedio /guias: esa página aún no existe y una miga de pan
+    // que apunta a un 404 es peor que no tenerla. Se añadirá cuando haya
+    // guías suficientes para que el índice no sea contenido pobre.
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Cuánta proteína necesito al día',
+        item: `${SITE.url}/guias/cuanta-proteina-necesito-al-dia`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Cuánta Proteína Necesito al Día — Según tu Peso | Calculadora Fit"
+  description="Cuántos gramos de proteína al día necesitas según tu peso y actividad, con tabla para 60, 70, 80, 90 y 100 kg. Cómo repartirla y de dónde sacarla."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Cuánta proteína necesito al día</h1>
+    <p class="hero-sub">
+      Tu número exacto según lo que pesas y lo que entrenas — y por qué probablemente sea
+      menos de lo que te han dicho.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          La respuesta corta: <strong>entre 1,2 y 2 gramos por kilo de peso corporal</strong>,
+          y —esto es lo que casi nadie te cuenta— <strong>la cifra baja cuanto más
+          entrenas</strong>, no al revés.
+        </p>
+        <p class="cs-text">
+          Suena contraintuitivo, así que vamos por partes: primero tu número, luego el
+          porqué.
+        </p>
+      </div>
+
+      <!-- ─────────── LA TABLA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Tu número</div>
+        <h2 class="cs-title">Gramos de proteína al día según tu peso</h2>
+        <p class="cs-text">
+          Busca tu peso y tu perfil. Estas son las cantidades que aplica nuestra
+          <a href="/" style="color:var(--lime)">calculadora de macros</a>:
+        </p>
+
+        <table class="tabla-legal">
+          <thead>
+            <tr>
+              <th>Perfil</th>
+              {PESOS.map((p) => <th>{p} kg</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              PERFILES.map((perfil) => (
+                <tr>
+                  <td>
+                    {perfil.nombre}
+                    <br />
+                    <span style="color:var(--muted);font-size:0.85em">{perfil.gkg} g/kg</span>
+                  </td>
+                  {PESOS.map((p) => (
+                    <td><strong>{Math.round(p * perfil.gkg)} g</strong></td>
+                  ))}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+
+        <p class="cs-text">
+          ¿No sabes en qué perfil encajas? La
+          <a href="/" style="color:var(--lime)">calculadora</a> te lo asigna a partir de tus
+          días de entrenamiento y tu objetivo, y de paso te da las calorías y el resto de
+          macros.
+        </p>
+      </div>
+
+      <!-- ─────────── POR QUÉ BAJA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">El porqué</div>
+        <h2 class="cs-title">Por qué necesitas menos proteína si entrenas duro</h2>
+        <p class="cs-text">
+          Esta es la parte que choca con lo que se repite en la mayoría de sitios, así que
+          conviene explicarla bien.
+        </p>
+        <p class="cs-text">
+          <strong>Lo que preserva tu músculo durante una definición no es la proteína: es el
+          entrenamiento.</strong> Es el estímulo de mover cargas exigentes lo que le dice a tu
+          cuerpo que ese músculo hace falta. Y para mover esas cargas necesitas glucógeno, que
+          viene de los carbohidratos.
+        </p>
+        <div class="cs-highlight">
+          <strong>El error clásico:</strong> llega la definición, se recortan calorías, se
+          sube la proteína «por si acaso» y el recorte sale entero de los carbohidratos. Dos
+          semanas después el rendimiento se ha desplomado, ya no se mueven las cargas de antes
+          — y ahí sí empieza a perderse músculo. No por falta de proteína, sino porque los
+          entrenamientos ya no justifican mantenerlo.
+        </div>
+        <p class="cs-text">
+          Cada gramo de proteína que añades por encima de lo necesario es un gramo de
+          carbohidrato que quitas. Y ese carbohidrato es el que sostiene el entrenamiento que
+          de verdad te protege.
+        </p>
+        <p class="cs-text">
+          En el rango de 1,2 a 1,6 g/kg sigues cubriendo de sobra la construcción de tejido
+          muscular. Tienes el razonamiento completo, con los números de cada nivel, en
+          <a href="/metodo" style="color:var(--lime)">Nuestro método</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── REPARTO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Cómo repartirla</div>
+        <h2 class="cs-title">Tres comidas, mejor que una atracón</h2>
+        <p class="cs-text">
+          El total del día es lo que más pesa, pero el reparto también cuenta.
+          <strong>Lo ideal son tres comidas</strong>; con dos también se puede, sin drama.
+        </p>
+        <p class="cs-text">
+          El motivo es que <strong>el cuerpo tiene un límite de proteína que puede destinar a
+          construir músculo en una sola toma</strong>. Meterte 100 gramos de golpe en una
+          comida no rinde igual que repartirlos: buena parte se acaba usando como energía en
+          lugar de para reparar tejido.
+        </p>
+        <p class="cs-text">
+          Repartir tiene además dos ventajas prácticas: las digestiones son más ligeras y
+          resulta mucho más fácil cuadrar los carbohidratos alrededor del entrenamiento.
+        </p>
+      </div>
+
+      <!-- ─────────── ALIMENTOS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">De dónde sacarla</div>
+        <h2 class="cs-title">Los alimentos que uso yo</h2>
+        <p class="cs-text">
+          Sin listas de manual. Esto es lo que hay en mi compra habitual:
+        </p>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.4rem">Pechuga de pollo y de pavo</li>
+          <li class="cs-text" style="margin-bottom:0.4rem">Filetes de ternera y carne roja</li>
+          <li class="cs-text" style="margin-bottom:0.4rem">Pescado, sobre todo blanco</li>
+        </ul>
+        <p class="cs-text">
+          Con eso, llegar al objetivo de proteína es sencillo en comida y cena. El problema
+          suele estar en otro sitio.
+        </p>
+
+        <h3 class="cs-h3">Dónde encaja la proteína en polvo</h3>
+        <p class="cs-text">
+          <strong>Si llegas con comida real, mejor.</strong> Pero hay dos momentos del día
+          donde cuesta mucho: el <strong>desayuno</strong> y la <strong>merienda</strong>,
+          porque suelen ser comidas dulces que no aportan apenas proteína.
+        </p>
+        <p class="cs-text">
+          Ahí sí uso whey: mezclada con avena, con cereales o con crema de arroz. Cuadra el
+          reparto de macros de una comida que de otro modo sería casi solo carbohidrato. Y
+          <strong>en definición ayuda muchísimo a quitar el antojo de dulce</strong>, que es
+          donde mucha gente se cae.
+        </p>
+        <div class="cs-highlight">
+          <strong>Resumiendo:</strong> la proteína en polvo no es un suplemento mágico ni hace
+          falta para ganar músculo. Es una herramienta cómoda para cuadrar dos comidas
+          concretas. Si tu desayuno y tu merienda ya llevan proteína, no la necesitas.
+        </div>
+      </div>
+
+      <!-- ─────────── ERRORES ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Errores</div>
+        <h2 class="cs-title">Los dos errores que más gente abandona</h2>
+
+        <h3 class="cs-h3">1. Comer siempre lo mismo</h3>
+        <p class="cs-text">
+          Es el motivo número uno por el que se abandona una dieta. No es falta de fuerza de
+          voluntad: es <strong>aburrimiento</strong>. Nadie aguanta meses comiendo pollo con
+          arroz todos los días.
+        </p>
+        <p class="cs-text">La solución es tener un menú abierto en vez de cerrado:</p>
+        <div class="cs-highlight">
+          <strong>Ten seis opciones para cada comida del día.</strong> Seis desayunos, seis
+          comidas, seis meriendas, seis cenas. Con eso puedes ir jugando: si te has cansado
+          de la pechuga con patata, la cambias por un filete de ternera y ajustas los gramos
+          para que cuadren las calorías y la proteína.
+        </div>
+        <p class="cs-text">
+          Así la dieta se adapta a ti en vez de al revés — y esa es la diferencia entre
+          sostenerla seis meses o dejarla en tres semanas.
+        </p>
+
+        <h3 class="cs-h3">2. Calcular a ojo</h3>
+        <p class="cs-text">
+          «Yo ya sé más o menos lo que como». No. <strong>Calcular a ojo es la forma más
+          habitual de creer que estás en déficit cuando no lo estás</strong>, y de ahí salen la
+          mayoría de estancamientos que la gente atribuye al metabolismo.
+        </p>
+        <p class="cs-text">
+          Pesa la comida con una báscula de cocina y mira la etiqueta, o busca el alimento con
+          los gramos que has pesado. No hace falta hacerlo toda la vida: unas semanas bastan
+          para calibrar el ojo. Pero al principio, pesa.
+        </p>
+      </div>
+
+      <!-- ─────────── MITOS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Mitos</div>
+        <h2 class="cs-title">Dos mitos que conviene enterrar</h2>
+
+        <h3 class="cs-h3">«Los carbohidratos engordan»</h3>
+        <p class="cs-text">
+          No. Lo que engorda es un <strong>superávit calórico mantenido en el tiempo</strong>,
+          vengan las calorías de donde vengan.
+        </p>
+        <p class="cs-text">
+          Si comes 3.000 kcal y gastas 2.500, engordas — den igual proteína o carbohidratos. Y
+          si comes 2.300 y gastas 2.500, no engordas aunque la mayor parte de tu dieta sean
+          carbohidratos. <strong>Es aritmética, no el tipo de alimento.</strong>
+        </p>
+        <p class="cs-text">
+          Y si entrenas, los carbohidratos son la fuente de energía que más te conviene. No los
+          elimines ni los bajes en exceso.
+        </p>
+
+        <h3 class="cs-h3">«Cuanta más proteína, menos músculo pierdes»</h3>
+        <p class="cs-text">
+          Tampoco. Pasado cierto punto, subir la proteína <strong>no añade nada</strong>: ni
+          construyes más músculo ni lo proteges mejor.
+        </p>
+        <p class="cs-text">
+          Lo que lo protege es <strong>entrenar fuerte y mantener las cargas</strong>. Si
+          durante la definición sigues moviendo lo que movías —o mejorando—, mantienes el
+          músculo. Si te obsesionas con la proteína a costa de los carbohidratos, pasa lo
+          contrario: peores entrenamientos, peor descanso, peor recuperación, menos glucógeno.
+          Y con menos fuerza, el músculo se va.
+        </p>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          <strong>Siguiente paso:</strong> calcula tus
+          <a href="/" style="color:var(--lime)">calorías y macros completos</a> para tener el
+          reparto entero, no solo la proteína. Y si quieres saber cuánto músculo tienes ya,
+          pasa por la <a href="/masa-muscular" style="color:var(--lime)">calculadora de FFMI</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>
