@@ -1,4 +1,44 @@
 /* ═══════════════════════════════════════════
+   FUENTES
+   Alojadas en el propio dominio en lugar de cargarlas desde Google:
+   evita dos conexiones externas antes de pintar nada, elimina un CSS que
+   bloqueaba el renderizado y no envía la IP del visitante a Google.
+   Solo el subconjunto "latin" y solo los grosores que se usan de verdad.
+   ═══════════════════════════════════════════ */
+@font-face{
+  font-family:'Barlow Condensed';
+  font-style:normal;font-weight:700;
+  font-display:swap;
+  src:url('/fonts/barlow-condensed-700.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Barlow Condensed';
+  font-style:normal;font-weight:800;
+  font-display:swap;
+  src:url('/fonts/barlow-condensed-800.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Sora';
+  font-style:normal;font-weight:400;
+  font-display:swap;
+  src:url('/fonts/sora-400.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Sora';
+  font-style:normal;font-weight:600;
+  font-display:swap;
+  src:url('/fonts/sora-600.woff2') format('woff2');
+}
+/* Este grosor se usaba en los botones pero nunca se llegaba a descargar:
+   el navegador lo falsificaba engordando el 600. */
+@font-face{
+  font-family:'Sora';
+  font-style:normal;font-weight:700;
+  font-display:swap;
+  src:url('/fonts/sora-700.woff2') format('woff2');
+}
+
+/* ═══════════════════════════════════════════
    BASE
    ═══════════════════════════════════════════ */
 *{margin:0;padding:0;box-sizing:border-box}
