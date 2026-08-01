@@ -125,6 +125,22 @@ const schema = [
           <div class="rc-label">Tu FFMI normalizado</div>
           <div class="rc-big" id="mmValor">—</div>
           <div class="rc-desc" id="mmCat"></div>
+
+          <!-- Los tramos y la leyenda se rellenan por JS: hombres y mujeres
+               tienen escalas distintas. -->
+          <div class="escala" aria-hidden="true">
+            <div class="escala-barra" id="mmBarra">
+              <span style="background:#5b8ac9"></span>
+              <span style="background:#6a9e6a"></span>
+              <span style="background:#4fa85f"></span>
+              <span style="background:#8fc93a"></span>
+              <span style="background:#c8f135"></span>
+              <span style="background:#d4b13a"></span>
+            </div>
+            <div class="escala-marca" id="mmMarca"></div>
+            <div class="escala-leyenda" id="mmLeyenda"></div>
+          </div>
+
           <div class="macro-row show" style="margin-top:1.3rem">
             <div class="mtile">
               <div class="mtile-icon">💪</div>
@@ -322,6 +338,34 @@ const FFMI_ESC = {
   ],
 };
 
+// Extremos visibles de la escala y cortes entre tramos, por sexo. Las
+// anchuras de la barra se derivan de estos números para que sean
+// proporcionales de verdad y no una aproximación a ojo.
+const FFMI_ESCALA = {
+  h: { min: 15, max: 27, cortes: [18, 20, 22, 23, 25] },
+  m: { min: 11, max: 23, cortes: [14, 16, 17, 18, 20] },
+};
+
+function pintarEscala(sexo, valor) {
+  const e = FFMI_ESCALA[sexo];
+  const puntos = [e.min, ...e.cortes, e.max];
+
+  // Anchura de cada tramo = su amplitud real dentro del rango total.
+  const anchos = [];
+  for (let i = 0; i < puntos.length - 1; i++) anchos.push((puntos[i + 1] - puntos[i]) + 'fr');
+  document.getElementById('mmBarra').style.gridTemplateColumns = anchos.join(' ');
+
+  document.getElementById('mmLeyenda').innerHTML = puntos
+    .map(p => {
+      const x = ((p - e.min) / (e.max - e.min)) * 100;
+      return '<span style="left:' + x + '%">' + p + '</span>';
+    })
+    .join('');
+
+  const pct = Math.max(0, Math.min(100, ((valor - e.min) / (e.max - e.min)) * 100));
+  document.getElementById('mmMarca').style.left = pct + '%';
+}
+
 let pesoGuardado = null;
 
 function calcFFMI() {
@@ -348,6 +392,7 @@ function calcFFMI() {
   document.getElementById('mmMagra').textContent = magra.toFixed(1).replace('.', ',') + ' kg';
   document.getElementById('mmGrasaKg').textContent = grasaKg.toFixed(1).replace('.', ',') + ' kg';
   document.getElementById('mmBruto').textContent = bruto.toFixed(1).replace('.', ',');
+  pintarEscala(sexo, norm);
   document.getElementById('mmRes').classList.add('show');
 
   pesoGuardado = peso;

@@ -104,17 +104,25 @@ const schema = [
 
           <!-- Escala visual: sitúa el resultado en el rango, que se entiende
                mucho mejor que una cifra suelta. -->
-          <div class="imc-escala" aria-hidden="true">
-            <div class="imc-barra">
+          <div class="escala" aria-hidden="true">
+            <!-- Tramos proporcionales de la escala 16-40:
+                 16-18,5 · 18,5-25 · 25-30 · 30-35 · 35-40 -->
+            <div class="escala-barra" style="grid-template-columns:2.5fr 6.5fr 5fr 5fr 5fr">
               <span style="background:#5b8ac9"></span>
               <span style="background:#4fa85f"></span>
               <span style="background:#d4b13a"></span>
               <span style="background:#d47a3a"></span>
               <span style="background:#c45a5a"></span>
             </div>
-            <div class="imc-marca" id="imcMarca"></div>
-            <div class="imc-leyenda">
-              <span>16</span><span>18,5</span><span>25</span><span>30</span><span>40</span>
+            <div class="escala-marca" id="imcMarca"></div>
+            <!-- Posiciones reales dentro del rango 16-40:
+                 (valor − 16) ÷ 24 × 100 -->
+            <div class="escala-leyenda">
+              <span style="left:0%">16</span>
+              <span style="left:10.4%">18,5</span>
+              <span style="left:37.5%">25</span>
+              <span style="left:58.3%">30</span>
+              <span style="left:100%">40</span>
             </div>
           </div>
 

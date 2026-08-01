@@ -164,17 +164,17 @@ h1{
 .hero-sm h1{font-size:clamp(2.2rem,6vw,3.4rem);max-width:none}
 .hero-sm .hero-sub{margin-bottom:0}
 
-/* ── ESCALA VISUAL DEL IMC ── */
-.imc-escala{margin-top:1.4rem;position:relative}
-.imc-barra{
+/* ── ESCALA VISUAL DE RESULTADO ──
+   Reutilizable por cualquier calculadora que sitúe un valor dentro de unos
+   tramos. Las proporciones de los tramos se pasan con grid-template-columns
+   en cada página, porque cada índice tiene los suyos. */
+.escala{margin-top:1.4rem;position:relative}
+.escala-barra{
   display:grid;
-  /* Anchos proporcionales a los tramos reales de la escala 16-40:
-     16-18,5 · 18,5-25 · 25-30 · 30-35 · 35-40 */
-  grid-template-columns:2.5fr 6.5fr 5fr 5fr 5fr;
   height:9px;border-radius:100px;overflow:hidden;
 }
-.imc-barra span{display:block;height:100%;opacity:0.75}
-.imc-marca{
+.escala-barra span{display:block;height:100%;opacity:0.75}
+.escala-marca{
   position:absolute;top:-5px;
   width:3px;height:19px;border-radius:2px;
   background:var(--text);
@@ -183,11 +183,22 @@ h1{
   transition:left 0.45s cubic-bezier(.4,0,.2,1);
   left:50%;
 }
-.imc-leyenda{
-  display:flex;justify-content:space-between;
+/* Cada etiqueta se posiciona en su porcentaje real dentro del rango, no a
+   intervalos iguales: los tramos tienen amplitudes distintas y con un
+   reparto uniforme el número no coincidiría con la marca. */
+.escala-leyenda{
+  position:relative;height:0.95rem;
   margin-top:7px;font-size:0.6rem;
   letter-spacing:1px;color:var(--muted);
 }
+.escala-leyenda span{
+  position:absolute;top:0;
+  transform:translateX(-50%);
+  white-space:nowrap;
+}
+/* Los extremos se alinean hacia dentro para no salirse de la barra. */
+.escala-leyenda span:first-child{transform:translateX(0)}
+.escala-leyenda span:last-child{transform:translateX(-100%)}
 
 /* ── LAYOUT ── */
 .wrap{max-width:780px;margin:0 auto;padding:0 1.25rem}
