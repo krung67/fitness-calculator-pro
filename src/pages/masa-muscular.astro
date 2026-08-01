@@ -1,0 +1,394 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+
+const faq = [
+  {
+    p: '¿Qué es el FFMI y en qué se diferencia del IMC?',
+    r: 'El FFMI (índice de masa libre de grasa) es como el IMC pero contando solo la masa magra: músculo, hueso, órganos y agua, sin la grasa. Por eso sí sirve para valorar la musculatura de alguien que entrena, mientras que el IMC no distingue de qué está hecho tu peso.',
+  },
+  {
+    p: '¿Por qué se normaliza el FFMI a 1,80 metros?',
+    r: 'Porque con la misma musculatura relativa, las personas altas obtienen un FFMI algo menor: la masa no crece exactamente con el cuadrado de la altura. La normalización corrige ese sesgo sumando 6,1 por cada metro de diferencia respecto a 1,80 m, y permite comparar entre personas de distinta estatura.',
+  },
+  {
+    p: '¿Es cierto que un FFMI mayor de 25 indica uso de esteroides?',
+    r: 'No, y conviene decirlo claro. Ese número viene de un estudio de 1995 que analizó a 157 hombres y observó que quienes no habían usado anabolizantes rara vez superaban 25. Es una observación estadística sobre una muestra pequeña y concreta, no una prueba ni un diagnóstico. Hay personas con genética excepcional, muchos años de entrenamiento o mediciones de grasa imprecisas que superan ese valor de forma natural. Un número no acusa a nadie.',
+  },
+  {
+    p: '¿Cuánto músculo puedo ganar de forma realista?',
+    r: 'Depende sobre todo de tu experiencia de entrenamiento. Un principiante bien entrenado y bien alimentado puede ganar entre un 1 % y un 1,5 % de su peso corporal al mes; un intermedio, entre 0,5 % y 1 %; un avanzado, entre 0,25 % y 0,5 %. Traducido: los primeros meses son con diferencia los más rentables, y luego el ritmo se frena mucho.',
+  },
+  {
+    p: 'Llevo años entrenando y no gano nada. ¿Es normal?',
+    r: 'Sí, y no significa que hagas algo mal necesariamente. Cuanto más cerca estás de tu potencial, más lenta es la ganancia: pasar de 2 a 4 kg de músculo en un año entero es un resultado excelente para un avanzado. Si el estancamiento es total durante mucho tiempo, lo habitual es que falte comer suficiente, dormir suficiente o progresar en las cargas de forma medible.',
+  },
+  {
+    p: '¿Necesito saber mi porcentaje de grasa para calcular el FFMI?',
+    r: 'Sí, es imprescindible: la fórmula parte de la masa magra, que se obtiene descontando la grasa del peso total. Puedes estimarlo con nuestra calculadora de grasa corporal, que solo necesita una cinta métrica. Ten en cuenta que el error de esa estimación se arrastra al FFMI.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Calculadora de masa muscular y FFMI',
+    url: `${SITE.url}/masa-muscular`,
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Cualquiera con navegador web',
+    inLanguage: 'es-ES',
+    description:
+      'Calcula tu FFMI e índice de masa libre de grasa, y descubre cuánto músculo puedes ganar de forma realista según tu nivel de entrenamiento.',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+    publisher: { '@id': `${SITE.url}/#persona` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Calculadora de masa muscular y FFMI',
+        item: `${SITE.url}/masa-muscular`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Calculadora de Masa Muscular y FFMI | Calculadora Fit"
+  description="Calcula tu FFMI (índice de masa libre de grasa) y descubre cuánto músculo puedes ganar de forma realista según tu nivel: principiante, intermedio o avanzado."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">FFMI · Masa libre de grasa</div>
+    <h1>Calculadora de masa muscular</h1>
+    <p class="hero-sub">
+      Cuánto músculo tienes ahora, cómo te sitúa eso, y cuánto más puedes ganar de forma
+      realista.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <!-- ─────────── CALCULADORA 1: FFMI ─────────── -->
+      <div style="padding:2.5rem 0 1rem">
+        <p class="sec-label">Parte 1</p>
+        <h2 class="sec-title">Cuánto músculo tienes</h2>
+
+        <div class="tip">
+          Necesitas tu <strong>porcentaje de grasa</strong>. Si no lo sabes, estímalo primero
+          en la <a href="/grasa-corporal" style="color:var(--lime)">calculadora de grasa
+          corporal</a> — solo hace falta una cinta métrica.
+        </div>
+
+        <div class="fgrid">
+          <div class="field">
+            <label for="mmSexo">Sexo</label>
+            <select id="mmSexo">
+              <option value="">Seleccionar</option>
+              <option value="h">Hombre</option>
+              <option value="m">Mujer</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mmPeso">Peso (kg)</label>
+            <input type="number" id="mmPeso" placeholder="80" min="30" max="250" step="0.1" />
+          </div>
+          <div class="field">
+            <label for="mmAltura">Altura (cm)</label>
+            <input type="number" id="mmAltura" placeholder="180" min="120" max="230" />
+          </div>
+          <div class="field">
+            <label for="mmGrasa">Grasa corporal (%)</label>
+            <input type="number" id="mmGrasa" placeholder="15" min="3" max="60" step="0.1" />
+          </div>
+        </div>
+
+        <button class="btn-main" onclick="calcFFMI()">Calcular mi FFMI</button>
+
+        <div class="rcard" id="mmRes" aria-live="polite">
+          <div class="rc-label">Tu FFMI normalizado</div>
+          <div class="rc-big" id="mmValor">—</div>
+          <div class="rc-desc" id="mmCat"></div>
+          <div class="macro-row show" style="margin-top:1.3rem">
+            <div class="mtile">
+              <div class="mtile-icon">💪</div>
+              <div class="mtile-g" id="mmMagra">—</div>
+              <div class="mtile-name">Masa magra</div>
+            </div>
+            <div class="mtile">
+              <div class="mtile-icon">🧈</div>
+              <div class="mtile-g" id="mmGrasaKg">—</div>
+              <div class="mtile-name">Masa grasa</div>
+            </div>
+            <div class="mtile">
+              <div class="mtile-icon">📐</div>
+              <div class="mtile-g" id="mmBruto">—</div>
+              <div class="mtile-name">FFMI sin ajustar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─────────── CALCULADORA 2: RITMO ─────────── -->
+      <div style="padding:2rem 0 1rem;border-top:1px solid var(--border);margin-top:2.5rem">
+        <p class="sec-label">Parte 2</p>
+        <h2 class="sec-title">Cuánto puedes ganar</h2>
+
+        <div class="fgrid">
+          <div class="field">
+            <label for="mmNivel">Tu nivel de entrenamiento</label>
+            <select id="mmNivel">
+              <option value="">Seleccionar</option>
+              <option value="p">Principiante — menos de 1 año entrenando en serio</option>
+              <option value="i">Intermedio — entre 1 y 3 años</option>
+              <option value="a">Avanzado — más de 3 años</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-main" onclick="calcGanancia()">Calcular mi ritmo realista</button>
+
+        <div class="rcard" id="mmGanRes" aria-live="polite">
+          <div class="rc-label">Ganancia realista de músculo</div>
+          <div class="rc-big" id="mmGanMes">—</div>
+          <div class="rc-desc" id="mmGanDesc"></div>
+          <div class="tip" id="mmGanNota" style="margin-top:1.2rem"></div>
+        </div>
+
+        <p class="cs-text" style="margin-top:1.5rem">
+          Para que esas ganancias ocurran hace falta comer en consecuencia. Calcula
+          <a href="/" style="color:var(--lime)">tus calorías y macros para volumen</a> y mira
+          por qué repartimos así en <a href="/metodo" style="color:var(--lime)">Nuestro método</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── CONTENIDO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Qué es</div>
+        <h2 class="cs-title">FFMI: el IMC de quien entrena</h2>
+        <p class="cs-text">
+          El <strong>FFMI</strong> (del inglés <em>Fat-Free Mass Index</em>, índice de masa
+          libre de grasa) resuelve el problema que tiene el
+          <a href="/imc" style="color:var(--lime)">IMC</a> para cualquiera que levante peso:
+          en lugar de usar tu peso total, usa solo tu <strong>masa magra</strong> —músculo,
+          hueso, órganos y agua—, descontando la grasa.
+        </p>
+        <div class="cs-highlight">
+          <strong>Masa magra = peso × (1 − % de grasa ÷ 100)</strong><br />
+          <strong>FFMI = masa magra (kg) ÷ altura (m)²</strong>
+        </div>
+        <p class="cs-text">
+          Después se aplica una corrección por altura, porque la masa corporal no crece
+          exactamente con el cuadrado de la estatura: con la misma musculatura relativa, una
+          persona alta obtiene un FFMI algo menor. La normalización lo compensa
+          <strong>ajustando el resultado a una referencia de 1,80 m</strong>, y es la que
+          permite comparar entre personas de distinta altura.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Interpretación</div>
+        <h2 class="cs-title">Tabla de referencia del FFMI</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>FFMI normalizado</th><th>Hombres</th><th>Mujeres</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Por debajo de la media</td><td>menos de 18</td><td>menos de 14</td></tr>
+            <tr><td>Media</td><td>18 – 20</td><td>14 – 16</td></tr>
+            <tr><td>Por encima de la media</td><td>20 – 22</td><td>16 – 17</td></tr>
+            <tr><td>Muy buena musculatura</td><td>22 – 23</td><td>17 – 18</td></tr>
+            <tr><td>Excelente</td><td>23 – 25</td><td>18 – 20</td></tr>
+            <tr><td>Poco frecuente</td><td>25 o más</td><td>20 o más</td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          La mayoría de personas que entrenan con constancia durante años se mueven entre 20 y
+          23. Llegar a 24-25 de forma natural requiere buena genética, muchos años y una
+          ejecución muy fina de entrenamiento y alimentación.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">La cifra polémica</div>
+        <h2 class="cs-title">El mito del «FFMI 25 = esteroides»</h2>
+        <p class="cs-text">
+          Vas a leer en muchos sitios que superar 25 demuestra el uso de anabolizantes. Merece
+          la pena explicar de dónde sale eso y por qué la afirmación es exagerada.
+        </p>
+        <p class="cs-text">
+          El dato procede de un <strong>estudio de 1995</strong> que analizó la composición
+          corporal de 157 hombres, algunos usuarios de esteroides y otros no. Los
+          investigadores observaron que los <strong>no usuarios rara vez superaban un FFMI
+          normalizado de 25</strong>. De ahí salió la cifra que hoy se repite por todas partes.
+        </p>
+        <div class="cs-highlight">
+          <strong>Lo que ese estudio NO dice:</strong> que superar 25 pruebe nada. Es una
+          observación estadística sobre una muestra pequeña y de una época concreta, no un
+          test de detección. Existen personas con genética excepcional, con muchos años de
+          entrenamiento, o simplemente con una estimación de grasa imprecisa, que lo superan
+          sin haber tomado nada.
+        </div>
+        <p class="cs-text">
+          Y hay un detalle técnico que casi nadie menciona: <strong>el FFMI hereda el error de
+          tu medición de grasa corporal</strong>. Si tu porcentaje real es 15 % pero la
+          estimación dice 10 %, tu FFMI sale inflado en más de un punto. Con métodos de
+          estimación caseros, una diferencia de 2-3 puntos de FFMI entra dentro de lo esperable.
+        </p>
+        <p class="cs-text">
+          <strong>Úsalo como referencia de tu progreso, no como veredicto sobre nadie.</strong>
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Expectativas</div>
+        <h2 class="cs-title">Cuánto músculo se puede ganar de verdad</h2>
+        <p class="cs-text">
+          Esta es probablemente la parte más útil de la página, porque es donde más gente se
+          frustra sin motivo. El ritmo de ganancia muscular <strong>depende sobre todo de los
+          años que lleves entrenando bien</strong>, y cae rápido:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Nivel</th><th>Experiencia</th><th>Ganancia mensual</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Principiante</td><td>menos de 1 año</td><td>1 – 1,5 % del peso corporal</td></tr>
+            <tr><td>Intermedio</td><td>1 – 3 años</td><td>0,5 – 1 %</td></tr>
+            <tr><td>Avanzado</td><td>más de 3 años</td><td>0,25 – 0,5 %</td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Para una persona de 80 kg eso significa pasar de casi 1 kg al mes en el primer año a
+          unos 200-400 gramos al mes siendo avanzado. <strong>No es que lo estés haciendo
+          mal</strong>: es que cuanto más cerca estás de tu potencial, más despacio avanzas.
+        </p>
+        <div class="cs-highlight">
+          <strong>La consecuencia práctica:</strong> los primeros dos años son con diferencia
+          los más rentables. Si estás empezando, ese es el momento de ser constante — no lo
+          desaproveches saltando de rutina en rutina.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</Base>
+
+<script is:inline>
+const FFMI_ESC = {
+  h: [
+    { max: 18, cat: 'Por debajo de la media' },
+    { max: 20, cat: 'En la media' },
+    { max: 22, cat: 'Por encima de la media' },
+    { max: 23, cat: 'Muy buena musculatura' },
+    { max: 25, cat: 'Excelente' },
+    { max: Infinity, cat: 'Poco frecuente' },
+  ],
+  m: [
+    { max: 14, cat: 'Por debajo de la media' },
+    { max: 16, cat: 'En la media' },
+    { max: 17, cat: 'Por encima de la media' },
+    { max: 18, cat: 'Muy buena musculatura' },
+    { max: 20, cat: 'Excelente' },
+    { max: Infinity, cat: 'Poco frecuente' },
+  ],
+};
+
+let pesoGuardado = null;
+
+function calcFFMI() {
+  const sexo = document.getElementById('mmSexo').value;
+  const peso = parseFloat(document.getElementById('mmPeso').value);
+  const altCm = parseFloat(document.getElementById('mmAltura').value);
+  const grasa = parseFloat(document.getElementById('mmGrasa').value);
+
+  if (!sexo) { alert('Selecciona tu sexo'); return; }
+  if (!peso || !altCm || !grasa) { alert('Completa peso, altura y porcentaje de grasa'); return; }
+  if (grasa < 3 || grasa > 60) { alert('Introduce un porcentaje de grasa entre 3 y 60'); return; }
+
+  const altM = altCm / 100;
+  const magra = peso * (1 - grasa / 100);
+  const grasaKg = peso - magra;
+  const bruto = magra / (altM * altM);
+  // Normalización a 1,80 m (Kouri et al., 1995).
+  const norm = bruto + 6.1 * (1.8 - altM);
+
+  const r = FFMI_ESC[sexo].find(x => norm < x.max);
+
+  document.getElementById('mmValor').textContent = norm.toFixed(1).replace('.', ',');
+  document.getElementById('mmCat').textContent = r.cat;
+  document.getElementById('mmMagra').textContent = magra.toFixed(1).replace('.', ',') + ' kg';
+  document.getElementById('mmGrasaKg').textContent = grasaKg.toFixed(1).replace('.', ',') + ' kg';
+  document.getElementById('mmBruto').textContent = bruto.toFixed(1).replace('.', ',');
+  document.getElementById('mmRes').classList.add('show');
+
+  pesoGuardado = peso;
+}
+
+const NIVELES = {
+  p: { lo: 1.0, hi: 1.5, nombre: 'Principiante' },
+  i: { lo: 0.5, hi: 1.0, nombre: 'Intermedio' },
+  a: { lo: 0.25, hi: 0.5, nombre: 'Avanzado' },
+};
+
+function calcGanancia() {
+  const n = document.getElementById('mmNivel').value;
+  if (!n) { alert('Selecciona tu nivel de entrenamiento'); return; }
+
+  // Reutiliza el peso de la parte 1 si ya se calculó; si no, lo pide.
+  const peso = pesoGuardado || parseFloat(document.getElementById('mmPeso').value);
+  if (!peso) { alert('Introduce tu peso en la parte 1 para poder calcular las ganancias'); return; }
+
+  const v = NIVELES[n];
+  const mesLo = peso * v.lo / 100;
+  const mesHi = peso * v.hi / 100;
+  const f = x => x.toFixed(2).replace('.', ',');
+
+  document.getElementById('mmGanMes').textContent = f(mesLo) + ' – ' + f(mesHi) + ' kg/mes';
+  document.getElementById('mmGanDesc').textContent =
+    v.nombre + ' · equivale a ' + f(mesLo * 12) + ' – ' + f(mesHi * 12) + ' kg al año, con ' +
+    peso + ' kg de peso corporal';
+
+  const nota = document.getElementById('mmGanNota');
+  if (n === 'p') {
+    nota.innerHTML = '<strong>Estás en tu mejor momento.</strong> El primer año es con diferencia el más ' +
+      'rentable de toda tu vida entrenando. Sé constante y no cambies de rutina cada mes.';
+  } else if (n === 'a') {
+    nota.innerHTML = '<strong>Ganar 2-4 kg de músculo en un año es un resultado excelente</strong> a tu nivel. ' +
+      'Si esperabas más, el problema son las expectativas, no tu progreso.';
+  } else {
+    nota.innerHTML = '<strong>El ritmo ya se ha frenado respecto al primer año, y es normal.</strong> ' +
+      'A partir de aquí importa más la precisión: progresar en cargas de forma medible, comer suficiente y dormir.';
+  }
+
+  document.getElementById('mmGanRes').classList.add('show');
+}
+</script>

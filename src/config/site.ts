@@ -53,19 +53,27 @@ export const SITE = {
  * Nunca añadas aquí una ruta que no exista: sería un enlace roto en TODAS
  * las páginas del sitio, porque el menú vive en el Layout compartido.
  */
-// Etiquetas cortas a propósito: con seis elementos, los textos largos
-// obligan al menú a partirse en dos líneas en móvil.
+/**
+ * Menú principal: las herramientas primero, porque son a lo que viene la
+ * gente. "Sobre nosotros" se movió al pie al llegar a cuatro calculadoras —
+ * con siete elementos el menú se partía en tres líneas en móvil. Sigue
+ * enlazada desde todas las páginas, que es lo que exige AdSense.
+ *
+ * Si algún día hay más de cuatro calculadoras, toca crear una página
+ * /calculadoras que las agrupe en lugar de seguir alargando esto.
+ */
 export const NAV = [
   { href: '/', texto: 'Calorías' },
   { href: '/imc', texto: 'IMC' },
   { href: '/grasa-corporal', texto: 'Grasa corporal' },
+  { href: '/masa-muscular', texto: 'Masa muscular' },
   { href: '/metodo', texto: 'Método' },
-  { href: '/sobre-nosotros', texto: 'Nosotros' },
   { href: '/contacto', texto: 'Contacto' },
 ] as const;
 
-/** Enlaces legales del pie. */
+/** Enlaces del pie. */
 export const NAV_LEGAL = [
+  { href: '/sobre-nosotros', texto: 'Sobre nosotros' },
   { href: '/aviso-legal', texto: 'Aviso legal' },
   { href: '/privacidad', texto: 'Privacidad' },
   { href: '/cookies', texto: 'Cookies' },
