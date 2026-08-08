@@ -1,0 +1,347 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const SUPERAVIT = 300;
+const TDEES = [2000, 2200, 2500, 2800, 3000];
+
+const faq = [
+  {
+    p: '¿Cuántas calorías hay que comer para hacer volumen?',
+    r: 'Un superávit de entre 200 y 400 kcal sobre tu mantenimiento. Nuestra calculadora aplica 300 kcal como punto de equilibrio. Superávits mayores aceleran muy poco la ganancia muscular y aceleran mucho la de grasa, lo que obliga a definiciones más largas después.',
+  },
+  {
+    p: '¿Cuál es la diferencia entre volumen limpio y volumen sucio?',
+    r: 'El volumen limpio busca ganar músculo minimizando la grasa, con un superávit pequeño y controlado. El volumen sucio consiste en comer sin control asumiendo que se ganará grasa. La diferencia real no es el tipo de alimentos, sino el tamaño del superávit: en el limpio se mide, en el sucio no.',
+  },
+  {
+    p: '¿Cuánto peso debo ganar por semana en volumen?',
+    r: 'Entre 0,2 y 0,4 kg semanales para alguien intermedio. Si subes más rápido, buena parte de esa ganancia es grasa. Y ojo con las primeras semanas: parte del peso es agua y glucógeno por comer más carbohidratos, no tejido nuevo.',
+  },
+  {
+    p: '¿Cuánto tiempo debe durar un volumen?',
+    r: 'Lo habitual son entre cuatro y seis meses, o hasta que el porcentaje de grasa suba a un nivel con el que no estés cómodo. En hombres suele marcarse el límite en torno al 15-18 %. Volúmenes muy largos obligan a definiciones tan largas que se pierde buena parte de lo ganado.',
+  },
+  {
+    p: '¿Puedo hacer volumen si tengo bastante grasa?',
+    r: 'No es lo más recomendable. Partir de un porcentaje de grasa alto significa que llegarás antes al punto en que hay que cortar, y además la sensibilidad a la insulina suele ser peor, lo que favorece que el superávit vaya más a grasa. Lo habitual es definir primero hasta un punto razonable y después empezar el volumen.',
+  },
+  {
+    p: '¿Se puede ganar músculo sin ganar nada de grasa?',
+    r: 'Prácticamente no, salvo en principiantes o en recomposición. En un superávit siempre hay algo de ganancia de grasa; el objetivo del volumen limpio no es evitarla del todo, sino que la proporción sea favorable y no acabes con más grasa que músculo.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Volumen limpio: cómo ganar músculo sin acumular grasa',
+    description:
+      'Cuántas calorías comer en volumen, diferencias entre volumen limpio y sucio, cuánto peso ganar por semana y cuándo cortar.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/volumen-limpio`,
+    dateModified: '2026-08-08',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Volumen limpio',
+        item: `${SITE.url}/guias/volumen-limpio`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Volumen Limpio: Ganar Músculo Sin Acumular Grasa | Calculadora Fit"
+  description="Cuántas calorías comer en volumen, la diferencia real entre volumen limpio y sucio, cuánto peso ganar por semana y cuándo hay que cortar."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Volumen limpio</h1>
+    <p class="hero-sub">
+      Ganar músculo sin tener que pasar seis meses definiendo después. Los números exactos y
+      cuándo parar.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          El músculo solo se construye cuando hay energía disponible. Por eso, para ganar masa
+          muscular de forma apreciable hace falta comer por encima del mantenimiento.
+        </p>
+        <p class="cs-text">
+          La pregunta no es <em>si</em> hay que comer más, sino <strong>cuánto más</strong>. Y
+          ahí es donde se decide si acabas con músculo o con una definición de seis meses por
+          delante.
+        </p>
+      </div>
+
+      <!-- ─────────── CUÁNTO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">El número</div>
+        <h2 class="cs-title">Cuántas calorías comer</h2>
+        <p class="cs-text">
+          <strong>Entre 200 y 400 kcal por encima de tu mantenimiento.</strong> Nuestra
+          calculadora aplica <strong>{SUPERAVIT} kcal</strong> como punto de equilibrio.
+        </p>
+        <div class="cs-highlight">
+          <strong>Volumen = calorías de mantenimiento (TDEE) + {SUPERAVIT} kcal</strong>
+        </div>
+        <table class="tabla-legal">
+          <thead>
+            <tr>
+              <th>Si tu mantenimiento es…</th>
+              <th>Tu objetivo en volumen</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              TDEES.map((t) => (
+                <tr>
+                  <td>{t.toLocaleString('es-ES')} kcal</td>
+                  <td><strong>{(t + SUPERAVIT).toLocaleString('es-ES')} kcal</strong></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Si no conoces tu mantenimiento, lo tienes en dos pasos en la
+          <a href="/">calculadora de calorías y macros</a>, eligiendo el objetivo
+          «Volumen limpio».
+        </p>
+      </div>
+
+      <!-- ─────────── POR QUÉ NO MÁS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">El error caro</div>
+        <h2 class="cs-title">Por qué no comer mucho más</h2>
+        <p class="cs-text">
+          La lógica intuitiva dice que si con 300 kcal de más gano músculo, con 900 ganaré el
+          triple. No funciona así, y el motivo es que
+          <strong>tu capacidad de construir músculo tiene un techo</strong>.
+        </p>
+        <p class="cs-text">
+          Un intermedio puede ganar entre 0,5 y 1 % de su peso corporal al mes en músculo. Para
+          80 kg, eso son 400-800 gramos mensuales como mucho. Toda la energía que aportes por
+          encima de lo necesario para construir esos gramos
+          <strong>no se convierte en más músculo: se almacena como grasa</strong>.
+        </p>
+        <div class="cs-highlight">
+          Un superávit de 900 kcal no te da tres veces más músculo que uno de 300.
+          <strong>Te da aproximadamente el mismo músculo y bastante más grasa.</strong>
+        </div>
+        <p class="cs-text">
+          Y esa grasa tiene un coste que casi nadie calcula: <strong>cada mes de exceso son
+          semanas de definición después</strong>. Volúmenes agresivos obligan a definiciones
+          tan largas que se acaba perdiendo parte del músculo ganado.
+        </p>
+      </div>
+
+      <!-- ─────────── LIMPIO VS SUCIO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">La comparación</div>
+        <h2 class="cs-title">Volumen limpio vs volumen sucio</h2>
+        <p class="cs-text">
+          Hay una confusión muy extendida: se cree que la diferencia está en
+          <em>qué</em> se come. No es eso.
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th></th><th>Volumen limpio</th><th>Volumen sucio</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Superávit</td><td>200-400 kcal, medido</td><td>Sin control</td></tr>
+            <tr><td>Ganancia semanal</td><td>0,2-0,4 kg</td><td>0,7 kg o más</td></tr>
+            <tr><td>Proporción músculo/grasa</td><td>Favorable</td><td>Mucha grasa</td></tr>
+            <tr><td>Definición posterior</td><td>Corta</td><td>Larga y dura</td></tr>
+            <tr><td>Rendimiento en el gimnasio</td><td>Bueno</td><td>Bueno al principio</td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          <strong>La diferencia real es el tamaño del superávit, no el tipo de alimento.</strong>
+          Puedes hacer un volumen limpio incluyendo pizza si cuadra en tus calorías, y puedes
+          hacer un volumen sucio comiendo solo arroz y pollo si te pasas 1.000 kcal al día.
+        </p>
+        <p class="cs-text">
+          Dicho eso, la calidad de los alimentos sí importa para otra cosa:
+          <strong>la saciedad y la digestión</strong>. Es mucho más fácil pasarse comiendo
+          ultraprocesados que comida real, simplemente porque llenan menos.
+        </p>
+      </div>
+
+      <!-- ─────────── RITMO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Seguimiento</div>
+        <h2 class="cs-title">Cuánto deberías subir por semana</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Nivel</th><th>Ganancia semanal</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Principiante (menos de 1 año)</td><td>0,25 – 0,5 kg</td></tr>
+            <tr><td>Intermedio (1-3 años)</td><td>0,2 – 0,4 kg</td></tr>
+            <tr><td>Avanzado (más de 3 años)</td><td>0,1 – 0,2 kg</td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          <strong>Si subes bastante más rápido que eso, no es músculo.</strong> Baja el
+          superávit unas 100-150 kcal y vuelve a comprobar en dos o tres semanas.
+        </p>
+        <p class="cs-text">
+          ⚠️ <strong>Cuidado con las primeras dos semanas.</strong> Al aumentar los
+          carbohidratos, el cuerpo almacena más glucógeno, y cada gramo de glucógeno arrastra
+          unos 3 g de agua. Es normal subir uno o dos kilos rápido al empezar
+          <strong>sin que sea tejido nuevo</strong>. Empieza a valorar el ritmo a partir de la
+          tercera semana.
+        </p>
+        <p class="cs-text">
+          Como en cualquier fase, no te fíes solo del peso: mide contornos y hazte fotos. Si
+          la cintura sube al mismo ritmo que el resto, te estás pasando.
+        </p>
+      </div>
+
+      <!-- ─────────── MACROS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Reparto</div>
+        <h2 class="cs-title">Los macros en volumen</h2>
+        <p class="cs-text">
+          En volumen con actividad alta, nuestro reparto sube la proteína a
+          <strong>1,6 g por kilo</strong> —el valor más alto de todo el rango para perfiles
+          que entrenan— y deja el resto de calorías mayoritariamente en carbohidratos.
+        </p>
+        <p class="cs-text">
+          El motivo es doble: hay material de sobra para construir tejido, y sobre todo
+          <strong>combustible para entrenar cada vez más fuerte</strong>. En volumen no basta
+          con comer más: hay que <strong>progresar en las cargas</strong>, porque es el
+          estímulo lo que dirige esas calorías al músculo en lugar de a la grasa.
+        </p>
+        <div class="cs-highlight">
+          <strong>Comer más sin entrenar más duro es simplemente engordar.</strong> El
+          superávit no construye músculo por sí solo: le da al entrenamiento con qué
+          construirlo.
+        </div>
+        <p class="cs-text">
+          El razonamiento completo del reparto está en
+          <a href="/metodo">Nuestro método</a> y en
+          <a href="/guias/cuanta-proteina-necesito-al-dia">cuánta proteína necesitas al día</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── CUÁNDO PARAR ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">El final</div>
+        <h2 class="cs-title">Cuándo cortar el volumen</h2>
+        <p class="cs-text">
+          Un volumen no dura indefinidamente. Los dos criterios habituales para pararlo:
+        </p>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Por tiempo:</strong> entre cuatro y seis meses. A partir de ahí, la
+            proporción de grasa ganada empeora.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Por porcentaje de grasa:</strong> cuando llegues a un nivel con el que no
+            estés cómodo. En hombres suele situarse en torno al <strong>15-18 %</strong>.
+          </li>
+        </ul>
+        <p class="cs-text">
+          Puedes seguirlo con la
+          <a href="/grasa-corporal">calculadora de grasa corporal</a>, midiéndote cada tres o
+          cuatro semanas.
+        </p>
+        <div class="cs-highlight">
+          <strong>La regla que evita el círculo vicioso:</strong> no dejes que el volumen se te
+          vaya de las manos «porque ya definiré luego». Cuanta más grasa acumules, más larga
+          será la definición y más músculo perderás en ella. Al final del ciclo completo puedes
+          acabar igual que empezaste, con meses de trabajo por medio.
+        </div>
+      </div>
+
+      <!-- ─────────── ANTES DE EMPEZAR ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Antes de empezar</div>
+        <h2 class="cs-title">¿Es tu momento de hacer volumen?</h2>
+        <p class="cs-text">
+          Depende sobre todo de tu punto de partida:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Tu situación</th><th>Recomendación</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Estás bastante definido y quieres ganar tamaño</td>
+              <td>✅ Adelante con el volumen</td>
+            </tr>
+            <tr>
+              <td>Tienes un porcentaje de grasa alto</td>
+              <td>⚠️ Define primero hasta un punto razonable</td>
+            </tr>
+            <tr>
+              <td>Eres principiante</td>
+              <td>💡 Prueba antes la <a href="/guias/recomposicion-corporal">recomposición</a></td>
+            </tr>
+            <tr>
+              <td>No sabes en qué punto estás</td>
+              <td>📏 Mídelo en <a href="/grasa-corporal">grasa corporal</a> y <a href="/masa-muscular">FFMI</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Si eres principiante, tienes una ventaja que se pierde para siempre:
+          <strong>puedes ganar músculo y perder grasa a la vez</strong> durante los primeros
+          meses. Aprovecharlo suele ser mejor idea que lanzarse a un volumen desde el principio.
+        </p>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          <strong>Para empezar:</strong> calcula tus calorías de volumen y tus macros en la
+          <a href="/">calculadora</a>. Y comprueba cuánto músculo puedes ganar de forma
+          realista según tus años de entrenamiento en la
+          <a href="/masa-muscular">calculadora de masa muscular</a> — las expectativas
+          equivocadas son la causa número uno de abandono.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

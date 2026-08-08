@@ -1,0 +1,352 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const faq = [
+  {
+    p: '¿Se puede perder grasa y ganar músculo a la vez?',
+    r: 'Sí, aunque con condiciones. Se llama recomposición corporal y funciona especialmente bien en principiantes, en personas que vuelven a entrenar tras un parón largo, en quien parte de un porcentaje de grasa alto y en quien descansa bien y tiene el estrés controlado. En atletas avanzados es mucho más lenta, y por eso suelen optar por fases diferenciadas de volumen y definición.',
+  },
+  {
+    p: '¿Cuántas calorías debo comer para recomposición?',
+    r: 'En mantenimiento o con un déficit muy pequeño, de 100 a 200 kcal. La idea es dar al cuerpo energía suficiente para construir tejido muscular mientras se tira de las reservas de grasa. Un déficit grande hace inviable la parte de ganar músculo.',
+  },
+  {
+    p: '¿Cuánto tarda una recomposición corporal?',
+    r: 'Meses, y avanza despacio. Los cambios en la báscula son mínimos precisamente porque el peso que pierdes en grasa lo ganas en músculo. Lo normal es empezar a notarlo en fotos y medidas a partir de las ocho o diez semanas, no antes.',
+  },
+  {
+    p: '¿Por qué no me cambia el peso si estoy haciendo recomposición?',
+    r: 'Porque es exactamente lo que se espera. Si pierdes un kilo de grasa y ganas un kilo de músculo, la báscula marca lo mismo aunque tu cuerpo haya cambiado. Por eso el seguimiento tiene que hacerse con perímetros corporales y fotos comparativas, nunca solo con el peso.',
+  },
+  {
+    p: '¿Qué es más importante para recomponer, la dieta o el entrenamiento?',
+    r: 'Los dos, pero cumplen funciones distintas y no son intercambiables. El entrenamiento de fuerza es la señal que le dice a tu cuerpo que construya músculo; la alimentación aporta el material y la energía. Sin entrenar progresivamente no hay recomposición por bien que comas.',
+  },
+  {
+    p: '¿Es más difícil la recomposición corporal en mujeres?',
+    r: 'El mecanismo es el mismo. Lo que cambia son cuestiones prácticas: el mantenimiento suele ser menor, así que el margen para trabajar es más estrecho, y las retenciones del ciclo menstrual enmascaran aún más los cambios en la báscula. Conviene apoyarse todavía más en medidas y fotos.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Recomposición corporal: perder grasa y ganar músculo a la vez',
+    description:
+      'Cuándo funciona la recomposición corporal, cómo estructurar calorías y entrenamiento, y cómo medir un progreso que la báscula no detecta.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/recomposicion-corporal`,
+    dateModified: '2026-08-08',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Recomposición corporal',
+        item: `${SITE.url}/guias/recomposicion-corporal`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Recomposición Corporal: Perder Grasa y Ganar Músculo a la Vez | Calculadora Fit"
+  description="Cuándo funciona la recomposición corporal, cuántas calorías comer, cómo entrenar y por qué la báscula no sirve para medirla."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Recomposición corporal</h1>
+    <p class="hero-sub">
+      Perder grasa y ganar músculo al mismo tiempo. Cuándo funciona de verdad, y cómo medir
+      algo que la báscula no ve.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          Durante años se repitió que era imposible: o ganas músculo o pierdes grasa, nunca
+          las dos cosas. <strong>Es falso</strong>, aunque tampoco es tan sencillo como lo
+          pintan quienes lo venden como la solución universal.
+        </p>
+        <p class="cs-text">
+          La recomposición funciona muy bien <strong>en unas situaciones concretas</strong> y
+          casi nada en otras. Saber en cuál estás es lo que determina si tiene sentido para ti.
+        </p>
+      </div>
+
+      <!-- ─────────── PARA QUIÉN ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Lo primero</div>
+        <h2 class="cs-title">¿Es para ti?</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Tu situación</th><th>¿Funciona?</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Principiante</strong> — menos de un año entrenando en serio</td>
+              <td>✅ Muy bien</td>
+            </tr>
+            <tr>
+              <td><strong>Vuelves tras un parón largo</strong></td>
+              <td>✅ Muy bien</td>
+            </tr>
+            <tr>
+              <td><strong>Partes de un porcentaje de grasa alto</strong></td>
+              <td>✅ Bien</td>
+            </tr>
+            <tr>
+              <td><strong>Duermes bien y tienes el estrés controlado</strong></td>
+              <td>✅ Ayuda mucho</td>
+            </tr>
+            <tr>
+              <td><strong>Llevas años entrenando y estás bastante definido</strong></td>
+              <td>⚠️ Muy lenta</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          El patrón es claro: <strong>cuanto más lejos estás de tu potencial, más fácil es
+          recomponer.</strong> Un principiante tiene margen para ganar músculo aunque no coma
+          en superávit, porque cualquier estímulo de entrenamiento es nuevo para su cuerpo.
+        </p>
+        <p class="cs-text">
+          En cambio, si llevas años entrenando y estás cerca de tu techo, ganar músculo exige
+          condiciones muy favorables. Por eso los avanzados suelen preferir
+          <strong>fases separadas</strong>: primero volumen, luego definición. Avanzan más en
+          total, aunque el camino sea menos cómodo.
+        </p>
+        <p class="cs-text">
+          Puedes ver dónde estás con la
+          <a href="/masa-muscular">calculadora de FFMI</a>: te sitúa respecto a tu potencial y
+          te dice cuánto músculo puedes ganar de forma realista según tus años de entrenamiento.
+        </p>
+      </div>
+
+      <!-- ─────────── CÓMO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">La parte práctica</div>
+        <h2 class="cs-title">Cómo se estructura</h2>
+
+        <h3 class="cs-h3">Calorías: mantenimiento o muy cerca</h3>
+        <p class="cs-text">
+          Aquí está la diferencia con una definición normal. En recomposición comes
+          <strong>en tu mantenimiento o con un déficit muy pequeño, de 100 a 200 kcal</strong>.
+        </p>
+        <p class="cs-text">
+          El razonamiento: construir músculo requiere energía y material. Con un déficit
+          grande, tu cuerpo prioriza sobrevivir y la parte de ganar músculo se vuelve casi
+          imposible. Con un superávit, ganas grasa. El punto justo está en el medio.
+        </p>
+        <div class="cs-highlight">
+          Calcula tu mantenimiento en la
+          <a href="/">calculadora de calorías y macros</a> y elige el objetivo
+          <strong>«Mantenimiento — recomposición»</strong>. Te dará el reparto adaptado a tu
+          nivel de actividad.
+        </div>
+
+        <h3 class="cs-h3">Entrenamiento: la parte que no es opcional</h3>
+        <p class="cs-text">
+          Sin entrenamiento de fuerza <strong>no hay recomposición</strong>, por perfecta que
+          sea la dieta. Es el estímulo el que le dice a tu cuerpo que construya músculo; la
+          comida solo aporta el material.
+        </p>
+        <p class="cs-text">
+          Y tiene que ser <strong>progresivo</strong>: si semana tras semana mueves lo mismo,
+          tu cuerpo no tiene ningún motivo para adaptarse. Lleva un registro de las cargas y
+          busca mejorar, aunque sea poco a poco.
+        </p>
+
+        <h3 class="cs-h3">Proteína y carbohidratos</h3>
+        <p class="cs-text">
+          En mantenimiento con actividad alta, nuestro reparto usa
+          <strong>1,4 g de proteína por kilo</strong>. Suena menos de lo que se suele
+          recomendar, y es deliberado: los carbohidratos son los que te permiten entrenar con
+          intensidad, y la intensidad es lo que construye el músculo.
+        </p>
+        <p class="cs-text">
+          El razonamiento completo está en
+          <a href="/guias/cuanta-proteina-necesito-al-dia">cuánta proteína necesitas al día</a>
+          y en <a href="/metodo">Nuestro método</a>.
+        </p>
+
+        <h3 class="cs-h3">Descanso: el factor que más se subestima</h3>
+        <p class="cs-text">
+          El músculo no se construye entrenando, se construye recuperándose. Dormir mal
+          durante una recomposición es tirar por tierra buena parte del trabajo: empeora la
+          recuperación, aumenta el hambre y hace que rindas menos en el gimnasio.
+        </p>
+      </div>
+
+      <!-- ─────────── MEDIRLA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">El problema del seguimiento</div>
+        <h2 class="cs-title">La báscula no te va a servir</h2>
+        <p class="cs-text">
+          Y esto hay que interiorizarlo antes de empezar, porque si no vas a abandonar
+          pensando que no funciona.
+        </p>
+        <div class="cs-highlight">
+          Si pierdes 1 kg de grasa y ganas 1 kg de músculo,
+          <strong>la báscula marca exactamente lo mismo</strong>. Tu cuerpo ha cambiado por
+          completo y el número no se ha movido ni un gramo.
+        </div>
+        <p class="cs-text">
+          Puede pasar incluso que <strong>subas de peso</strong> mientras te ves mejor,
+          especialmente si eres principiante. El músculo es más denso que la grasa: ocupa
+          menos volumen para el mismo peso.
+        </p>
+
+        <h3 class="cs-h3">Qué medir en su lugar</h3>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Perímetro de cintura.</strong> Es el indicador estrella: si baja mientras
+            el peso se mantiene, estás recomponiendo. Sin más discusión.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Otros contornos:</strong> hombros, pecho, brazo, pierna. Si suben mientras
+            la cintura baja, es la señal perfecta.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Fotos cada 3-4 semanas.</strong> Misma luz, misma postura, mismo sitio. Es
+            lo que más te va a demostrar el cambio, porque te ves a diario y no lo percibes.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Las cargas del gimnasio.</strong> Si subes fuerza sin subir de peso, estás
+            ganando músculo. Es una prueba indirecta pero muy fiable.
+          </li>
+        </ul>
+        <p class="cs-text">
+          Puedes seguir la evolución del porcentaje de grasa con la
+          <a href="/grasa-corporal">calculadora de grasa corporal</a>, que solo necesita una
+          cinta métrica.
+        </p>
+      </div>
+
+      <!-- ─────────── PLAZOS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Expectativas</div>
+        <h2 class="cs-title">Cuánto tarda</h2>
+        <p class="cs-text">
+          <strong>Meses.</strong> Y es el precio de hacer dos cosas a la vez: ninguna avanza a
+          la velocidad a la que iría por separado.
+        </p>
+        <p class="cs-text">
+          Lo normal es <strong>no notar prácticamente nada las primeras seis u ocho
+          semanas</strong>, y empezar a ver diferencias claras en fotos y medidas a partir de
+          ahí. Si esperas cambios en tres semanas, vas a abandonar antes de que empiece a
+          funcionar.
+        </p>
+        <div class="cs-highlight">
+          <strong>La contrapartida:</strong> a cambio de ir despacio, no pasas hambre, no
+          pierdes fuerza y no tienes que atravesar meses de déficit. Para mucha gente es el
+          enfoque más sostenible, y sostenible es lo que acaba dando resultados.
+        </div>
+      </div>
+
+      <!-- ─────────── CUÁNDO NO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Honestidad</div>
+        <h2 class="cs-title">Cuándo NO recomponer</h2>
+        <p class="cs-text">
+          Como con todo, decir cuándo algo no sirve vale más que venderlo como solución
+          universal:
+        </p>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Si tienes un porcentaje de grasa muy alto</strong> y tu prioridad es la
+            salud, una definición normal te va a llevar antes a donde quieres.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Si llevas años entrenando y estás definido</strong>, avanzarás más con
+            fases separadas de volumen y definición.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Si tienes una fecha límite</strong> —una boda, unas vacaciones—, la
+            recomposición es demasiado lenta.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Si duermes mal de forma crónica o estás muy estresado</strong>, primero
+            arregla eso. Sin recuperación, la parte de ganar músculo no ocurre.
+          </li>
+        </ul>
+      </div>
+
+      <!-- ─────────── CASOS PARTICULARES ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Casos particulares</div>
+        <h2 class="cs-title">Mujeres y etapas hormonales</h2>
+        <p class="cs-text">
+          El mecanismo es idéntico: comer en torno al mantenimiento, entrenar fuerza y ser
+          constante. Lo que cambia son dos cosas prácticas.
+        </p>
+        <p class="cs-text">
+          <strong>El margen es más estrecho.</strong> Con un mantenimiento menor, quedarse
+          cerca de él sin pasarse ni quedarse corto requiere más precisión. Merece la pena
+          pesar la comida al principio — tienes cómo hacerlo en
+          <a href="/guias/como-pesar-la-comida">esta guía</a>.
+        </p>
+        <p class="cs-text">
+          <strong>El ciclo menstrual enmascara aún más los cambios.</strong> Las retenciones
+          pueden mover la báscula uno o dos kilos sin relación con la grasa. En una
+          recomposición, donde el peso ya de por sí apenas cambia, esto lo vuelve directamente
+          inútil como referencia. Apóyate en medidas y fotos.
+        </p>
+        <div class="cs-highlight">
+          <strong>Sobre la menopausia:</strong> los cambios hormonales de esa etapa afectan a
+          la composición corporal y a la facilidad para mantener masa muscular. Los principios
+          siguen siendo los mismos —entrenar fuerza y comer suficiente proteína—, pero es un
+          contexto en el que <strong>merece la pena contar con un profesional sanitario</strong>
+          que valore tu caso concreto. No es algo que se resuelva con una guía general.
+        </div>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          <strong>Para empezar:</strong> calcula tu mantenimiento en la
+          <a href="/">calculadora de calorías y macros</a> y elige el objetivo de
+          recomposición. Y si la báscula no se mueve y no sabes si es buena o mala señal, lo
+          tienes resuelto en
+          <a href="/guias/por-que-no-bajo-de-peso">por qué no bajo de peso</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

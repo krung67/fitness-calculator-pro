@@ -112,6 +112,20 @@ export const GUIAS = [
       'En crudo o cocinado, qué merece la pena pesar y qué no, y cómo calcular con la mano cuando comes fuera de casa.',
     icono: '⚖️',
   },
+  {
+    href: '/guias/recomposicion-corporal',
+    titulo: 'Recomposición corporal',
+    resumen:
+      'Perder grasa y ganar músculo a la vez: cuándo funciona de verdad, cómo estructurarlo y por qué la báscula no sirve para medirlo.',
+    icono: '🔄',
+  },
+  {
+    href: '/guias/volumen-limpio',
+    titulo: 'Volumen limpio',
+    resumen:
+      'Cuántas calorías comer para ganar músculo sin acumular grasa, la diferencia real con el volumen sucio y cuándo hay que cortar.',
+    icono: '📈',
+  },
 ] as const;
 
 /** Enlaces del pie. */
