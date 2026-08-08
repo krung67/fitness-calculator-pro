@@ -8,7 +8,7 @@ const schema = [
     '@type': 'CollectionPage',
     name: 'Guías de nutrición y entrenamiento',
     description:
-      'Guías prácticas sobre proteína, déficit calórico y composición de los alimentos, con criterio propio y sin relleno.',
+      'Guías prácticas sobre proteína, déficit calórico y composición de los alimentos, con criterio propio y explicando también cuándo algo no sirve.',
     url: `${SITE.url}/guias`,
     inLanguage: 'es-ES',
     publisher: { '@id': `${SITE.url}/#persona` },
@@ -61,17 +61,115 @@ const schema = [
         }
       </div>
 
+      <!-- ─────────── POR DÓNDE EMPEZAR ─────────── -->
       <div class="content-section" style="margin-top:3rem">
+        <div class="cs-tag">Orientación</div>
+        <h2 class="cs-title">Por dónde empezar según tu objetivo</h2>
         <p class="cs-text">
-          Todas las guías salen del mismo sitio que las calculadoras: años entrenando y lo
-          aprendido de un preparador con una década en el sector. Puedes leer de dónde viene
-          el criterio en <a href="/metodo" style="color:var(--lime)">Nuestro método</a> y quién
-          está detrás en <a href="/sobre-nosotros" style="color:var(--lime)">Sobre nosotros</a>.
+          Las guías no hace falta leerlas en orden. Depende de qué quieras resolver:
+        </p>
+
+        <h3 class="cs-h3">Quiero perder grasa</h3>
+        <p class="cs-text">
+          Empieza por
+          <a href="/guias/deficit-calorico-como-calcularlo">el déficit calórico</a>: cuánto
+          recortar, cómo saber si funciona y qué tocar cuando te estancas. Después calcula
+          tus números en la <a href="/">calculadora de calorías y macros</a>.
         </p>
         <p class="cs-text">
-          ¿Prefieres ir directo a los números? Empieza por la
-          <a href="/" style="color:var(--lime)">calculadora de calorías y macros</a>.
+          El error más común en esta fase es recortar demasiado y subir la proteína a costa de
+          los carbohidratos. Ahí te interesa
+          <a href="/guias/cuanta-proteina-necesito-al-dia">cuánta proteína necesitas</a>, que
+          explica por qué esa estrategia se vuelve en tu contra.
         </p>
+
+        <h3 class="cs-h3">Quiero ganar músculo</h3>
+        <p class="cs-text">
+          Mira primero <a href="/masa-muscular">cuánto músculo tienes ya y cuánto puedes ganar
+          de forma realista</a> — las expectativas equivocadas son la causa número uno de
+          abandono. Luego calcula tus calorías de volumen en la
+          <a href="/">calculadora</a>.
+        </p>
+
+        <h3 class="cs-h3">No sé ni por dónde empezar</h3>
+        <p class="cs-text">
+          Ve directo a la <a href="/">calculadora de calorías y macros</a>. En cuatro pasos
+          tendrás tu punto de partida. Cuando tengas los números, vuelve aquí y lee la guía
+          que corresponda a tu objetivo.
+        </p>
+
+        <h3 class="cs-h3">Cuento calorías pero no me cuadra nada</h3>
+        <p class="cs-text">
+          Lee <a href="/guias/proteina-de-los-alimentos">la tabla de proteína de los
+          alimentos</a>, y en concreto el apartado de pesar en crudo o cocinado. Es el fallo
+          que más descuadra los cálculos y muchísima gente lo arrastra durante meses sin
+          saberlo.
+        </p>
+      </div>
+
+      <!-- ─────────── CÓMO ESTÁN ESCRITAS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Criterio</div>
+        <h2 class="cs-title">Cómo están escritas estas guías</h2>
+        <p class="cs-text">
+          Todas siguen las mismas tres reglas, que son las que las diferencian de lo que
+          encontrarás en la mayoría de sitios:
+        </p>
+
+        <h3 class="cs-h3">1. Se explica el porqué, no solo el qué</h3>
+        <p class="cs-text">
+          Un número sin contexto no sirve de nada. Si una guía dice que tomes 1,4 g de
+          proteína por kilo, explica de dónde sale esa cifra y qué pasa si te desvías. Así
+          puedes juzgar tú si te aplica.
+        </p>
+
+        <h3 class="cs-h3">2. Se dice también cuándo algo NO sirve</h3>
+        <p class="cs-text">
+          Casi ningún sitio te dice para quién no funciona su recomendación. Aquí sí: el IMC
+          no vale si entrenas fuerza, el método US Navy pierde precisión en los extremos, y
+          nuestro reparto de macros no tiene sentido si no haces ejercicio intenso. Decirlo no
+          resta credibilidad — es lo único que la da.
+        </p>
+
+        <h3 class="cs-h3">3. Salen de la práctica, no de copiar y pegar</h3>
+        <p class="cs-text">
+          El contenido viene de años entrenando y de lo aprendido de un preparador con una
+          década en el sector. Por eso encontrarás cosas que no se leen en otros sitios: subir
+          los pasos antes de recortar comida, tener seis opciones por comida para no abandonar,
+          o por qué la proteína baja cuando sube la actividad.
+        </p>
+        <p class="cs-text">
+          Puedes leer el razonamiento completo en
+          <a href="/metodo">Nuestro método</a> y quién está detrás en
+          <a href="/sobre-nosotros">Sobre nosotros</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── QUÉ NO ENCONTRARÁS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Aviso</div>
+        <h2 class="cs-title">Qué no vas a encontrar aquí</h2>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Planes de dieta cerrados.</strong> Una dieta que funciona es la que encaja
+            con tus horarios y tus gustos. Copiar la de otra persona es la forma más rápida de
+            abandonarla.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Rutinas de entrenamiento.</strong> No tenemos titulación en
+            entrenamiento y no vamos a fingir que sí. Nos quedamos en nutrición aplicada, que
+            es donde el criterio está fundamentado.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Atajos ni suplementos milagrosos.</strong> Lo que cambia tu físico es la
+            consistencia durante meses. Todo lo demás son detalles.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Asesoramiento individual.</strong> Estas guías son información general.
+            Para una pauta adaptada a tu caso —y más si tienes alguna condición de salud—
+            acude a un dietista-nutricionista colegiado.
+          </li>
+        </ul>
       </div>
     </div>
   </main>
