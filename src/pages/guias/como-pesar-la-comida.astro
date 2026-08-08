@@ -1,0 +1,286 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+/** Equivalencias orientativas para cuando no hay báscula delante. */
+const A_OJO = [
+  { alimento: 'Pechuga de pollo', ref: 'La palma de tu mano, sin dedos', g: '≈ 100-120 g' },
+  { alimento: 'Pescado', ref: 'Una mano abierta entera', g: '≈ 120-150 g' },
+  { alimento: 'Arroz o pasta cocidos', ref: 'Un puño cerrado', g: '≈ 150 g' },
+  { alimento: 'Frutos secos', ref: 'Lo que cabe en la palma ahuecada', g: '≈ 30 g' },
+  { alimento: 'Aceite de oliva', ref: 'Una cucharada sopera rasa', g: '≈ 10 g · 90 kcal' },
+  { alimento: 'Queso curado', ref: 'Dos dedos de grosor y ancho', g: '≈ 30 g' },
+  { alimento: 'Mantequilla de cacahuete', ref: 'Una cucharada sopera colmada', g: '≈ 20 g · 120 kcal' },
+];
+
+const faq = [
+  {
+    p: '¿Se pesa la comida cruda o cocida?',
+    r: 'En crudo, porque es como vienen los valores de las tablas y de las etiquetas. Al cocinarse, la carne y el pescado pierden agua y las calorías se concentran: 100 g de pollo crudo se quedan en unos 75 g cocinados, pero siguen teniendo las mismas calorías y la misma proteína. Si pesas en cocinado y aplicas valores de crudo, te dejas fuera alrededor de un 25 %.',
+  },
+  {
+    p: '¿Cómo peso la comida sin báscula?',
+    r: 'Con referencias de tu propia mano: la palma sin dedos equivale a unos 100-120 g de pechuga, un puño cerrado a unos 150 g de arroz cocido y la palma ahuecada a unos 30 g de frutos secos. Es orientativo y suficiente para mantenerte, pero no para calcular con precisión durante una definición.',
+  },
+  {
+    p: '¿Tengo que pesar la comida para siempre?',
+    r: 'No. Pesar es una herramienta de calibración: unas semanas bastan para aprender cuánto son 150 g de arroz o 120 g de pollo de un vistazo. Mucha gente pesa unos meses, desarrolla el ojo y luego solo vuelve a la báscula cuando se estanca o cambia de fase.',
+  },
+  {
+    p: '¿Hay que pesar las verduras y la fruta?',
+    r: 'Las verduras de hoja y las de bajo aporte calórico no cambian nada aunque te desvíes bastante. La fruta sí conviene pesarla al principio: un plátano grande puede tener el doble de calorías que uno pequeño. Donde nunca puedes calcular a ojo es en los aceites, los frutos secos y las cremas de untar.',
+  },
+  {
+    p: '¿Peso el arroz y la pasta crudos o cocidos?',
+    r: 'Al revés que la carne, absorben agua al cocerse: 100 g de arroz crudo se convierten en unos 300 g cocidos. Puedes usar cualquiera de las dos referencias, pero tienes que ser coherente y usar el valor correspondiente. Lo más cómodo es pesarlos crudos, porque así lo indican los paquetes.',
+  },
+  {
+    p: '¿Qué báscula necesito?',
+    r: 'Una báscula de cocina digital con precisión de 1 gramo. Las hay por menos de 15 euros y es más que suficiente. Lo importante es que tenga función de tara para poder pesar directamente sobre el plato.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Cómo pesar la comida: en crudo o cocinado, y sin báscula',
+    description:
+      'Cómo pesar los alimentos para contar calorías bien: por qué se pesa en crudo, qué hacer sin báscula y los errores que descuadran cualquier dieta.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/como-pesar-la-comida`,
+    dateModified: '2026-08-08',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Cómo pesar la comida',
+        item: `${SITE.url}/guias/como-pesar-la-comida`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Cómo Pesar la Comida: ¿Cruda o Cocida? | Calculadora Fit"
+  description="Cómo pesar los alimentos para contar calorías bien: por qué se pesa en crudo, cómo hacerlo sin báscula y los errores que descuadran cualquier dieta."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Cómo pesar la comida</h1>
+    <p class="hero-sub">
+      En crudo o cocinado, qué pesar y qué no, y cómo apañarte cuando no tienes báscula
+      delante.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          Pesar la comida es lo que separa «creo que estoy en déficit» de «sé que estoy en
+          déficit». Y no hace falta hacerlo toda la vida: unas semanas bastan para calibrar
+          el ojo.
+        </p>
+        <p class="cs-text">
+          Pero hay que hacerlo bien, porque <strong>hay un error que descuadra los cálculos en
+          torno a un 25 % y muchísima gente lo arrastra durante meses</strong> sin enterarse.
+          Empezamos por ahí.
+        </p>
+      </div>
+
+      <!-- ─────────── CRUDO VS COCINADO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Lo más importante</div>
+        <h2 class="cs-title">¿Cruda o cocida? En crudo</h2>
+        <p class="cs-text">
+          Las tablas nutricionales y las etiquetas de los paquetes se refieren al alimento
+          <strong>en crudo</strong>. Y al cocinarse pasan dos cosas opuestas según el
+          alimento.
+        </p>
+
+        <h3 class="cs-h3">Carne y pescado: pierden agua</h3>
+        <p class="cs-text">
+          El peso baja, pero las calorías y la proteína siguen ahí. Se concentran.
+        </p>
+        <div class="cs-highlight">
+          <strong>100 g de pollo crudo → unos 75 g cocinado.</strong><br />
+          Esos 100 g crudos tenían 23 g de proteína. Los 75 g cocinados siguen teniendo esos
+          mismos 23 g.<br /><br />
+          Es decir: <strong>100 g de pollo cocinado equivalen a unos 133 g crudos</strong>. Si
+          apuntas «100 g de pollo» pesándolo cocinado, te estás dejando fuera un 25 %.
+        </div>
+        <p class="cs-text">
+          Con un objetivo de 2.000 kcal diarias, un error del 25 % en las proteínas de la
+          comida y la cena son varios cientos de calorías al día. <strong>Suficiente para
+          anular por completo un déficit</strong> y para que pienses que tu metabolismo va mal.
+        </p>
+
+        <h3 class="cs-h3">Arroz, pasta y legumbres: absorben agua</h3>
+        <p class="cs-text">
+          Aquí ocurre lo contrario. <strong>100 g de arroz crudo se convierten en unos 300 g
+          cocidos.</strong> Si pesas 100 g de arroz ya hecho creyendo que son 100 g de arroz,
+          estás contando el triple de lo que has comido.
+        </p>
+
+        <h3 class="cs-h3">Y estos no dan problema</h3>
+        <p class="cs-text">
+          Huevos, lácteos, conservas, legumbres de bote, frutos secos, aceite, pan y fruta: la
+          etiqueta ya se refiere a lo que te llevas a la boca. Sin complicaciones.
+        </p>
+
+        <div class="cs-highlight">
+          <strong>La regla, resumida:</strong> pesa en crudo y usa valores de crudo. Si te
+          resulta más cómodo pesar en cocinado, puedes — pero entonces busca los valores de
+          cocinado. <strong>Lo que no puedes es mezclar.</strong>
+        </div>
+      </div>
+
+      <!-- ─────────── CÓMO EMPEZAR ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Práctica</div>
+        <h2 class="cs-title">Cómo hacerlo sin que se vuelva un infierno</h2>
+
+        <h3 class="cs-h3">La báscula</h3>
+        <p class="cs-text">
+          Una de cocina digital con precisión de 1 gramo y <strong>función de tara</strong>.
+          Las hay por menos de 15 €. La tara es lo que importa: pones el plato, la pones a
+          cero, echas el pollo, apuntas; vuelves a cero, echas el arroz. Todo en un solo
+          recipiente.
+        </p>
+
+        <h3 class="cs-h3">Pesa por lotes, no plato a plato</h3>
+        <p class="cs-text">
+          Si cocinas para varios días, pesa el total en crudo y divide. Un kilo de pechuga
+          crudo entre cinco tápers son 200 g por táper, aunque después de hecho pese menos. Te
+          ahorra pesar cada día.
+        </p>
+
+        <h3 class="cs-h3">Lo que sí o sí hay que pesar</h3>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.4rem">
+            <strong>Aceite.</strong> Un chorro «normal» pueden ser 20 g = 180 kcal. Es el
+            alimento que más se subestima con diferencia.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.4rem">
+            <strong>Frutos secos.</strong> Un puñado grande son 50 g = 300 kcal.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.4rem">
+            <strong>Cremas de untar y salsas.</strong> Muy densas en calorías y muy fáciles de
+            servir de más.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.4rem">
+            <strong>Quesos.</strong> Varían muchísimo entre tipos.
+          </li>
+        </ul>
+
+        <h3 class="cs-h3">Lo que no merece la pena</h3>
+        <p class="cs-text">
+          Las verduras de hoja, el calabacín, el pimiento o los champiñones aportan tan poco
+          que aunque te desvíes bastante no cambia nada. <strong>Pesarlo todo con precisión
+          milimétrica es la vía rápida a obsesionarte y dejarlo.</strong>
+        </p>
+      </div>
+
+      <!-- ─────────── SIN BÁSCULA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Fuera de casa</div>
+        <h2 class="cs-title">Cómo calcular sin báscula</h2>
+        <p class="cs-text">
+          No siempre vas a tener una delante. Estas referencias usan tu propia mano, así que
+          se ajustan solas a tu tamaño:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Alimento</th><th>Referencia</th><th>Equivale a</th></tr>
+          </thead>
+          <tbody>
+            {
+              A_OJO.map((r) => (
+                <tr>
+                  <td>{r.alimento}</td>
+                  <td>{r.ref}</td>
+                  <td><strong>{r.g}</strong></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <p class="cs-text">
+          <strong>Son orientativas.</strong> Sirven para no descarrilar una comida fuera de
+          casa, no para calcular una definición. Si estás en una fase que requiere precisión,
+          pesa en casa y usa esto solo para los días sueltos.
+        </p>
+      </div>
+
+      <!-- ─────────── CUÁNTO TIEMPO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Perspectiva</div>
+        <h2 class="cs-title">¿Hay que pesar para siempre?</h2>
+        <p class="cs-text">
+          No. Pesar es una <strong>herramienta de calibración</strong>, no una condena.
+        </p>
+        <p class="cs-text">
+          Después de unas semanas sabes de un vistazo cuánto son 150 g de arroz o 120 g de
+          pollo. Mucha gente pesa unos meses, desarrolla el ojo y luego solo vuelve a la
+          báscula cuando se estanca o cambia de fase. Otros prefieren mantenerlo siempre
+          porque les da tranquilidad. Las dos formas valen.
+        </p>
+        <div class="cs-highlight">
+          <strong>Lo que sí conviene evitar</strong> es el extremo contrario: mirar las
+          calorías de un chicle o de un caramelo. Pasarte 100 kcal un día, o tres, no cambia
+          nada — lo que cuenta es el balance de las semanas. Si pesar te está generando
+          ansiedad, has pasado el punto en el que era útil.
+        </div>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          <strong>Siguiente paso:</strong> los valores de cada alimento los tienes en la
+          <a href="/guias/proteina-de-los-alimentos">tabla de proteína de los alimentos</a>, y
+          tus objetivos diarios en la
+          <a href="/">calculadora de calorías y macros</a>.
+        </p>
+        <p class="cs-text">
+          ¿Pesas bien y aun así no ves resultados? Mira
+          <a href="/guias/por-que-no-bajo-de-peso">por qué no bajas de peso</a>: hay cuatro
+          causas más además de esta.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

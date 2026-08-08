@@ -1,0 +1,370 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const faq = [
+  {
+    p: '¿Por qué no bajo de peso si estoy en déficit calórico?',
+    r: 'En la inmensa mayoría de casos, porque el déficit no es real. Calcular a ojo, pesar la comida cocinada usando valores de crudo, no contar el aceite ni las bebidas, o dos comidas fuera al mes bastan para anular un déficit de 400 kcal diarias. Antes de tocar nada, pesa todo durante una semana completa y revisa el resultado.',
+  },
+  {
+    p: 'Llevo dos semanas sin bajar de peso, ¿qué hago?',
+    r: 'Dos semanas es poco. El peso fluctúa entre uno y dos kilos por agua, glucógeno, sal y contenido intestinal, y esas variaciones pueden tapar por completo una pérdida real de grasa. Mide contornos y hazte fotos: es muy habitual que la báscula se plante mientras la cintura sigue bajando. Si tras tres o cuatro semanas no se mueve nada, entonces sí toca ajustar.',
+  },
+  {
+    p: '¿Por qué no bajo de peso si hago ejercicio?',
+    r: 'Empezar a entrenar suele provocar retención de líquido en el músculo, sobre todo las primeras semanas, y eso enmascara la pérdida de grasa en la báscula. Además, el ejercicio abre el apetito y es fácil compensar sin darse cuenta. El entrenamiento es imprescindible para conservar músculo, pero lo que determina si pierdes grasa es el balance calórico.',
+  },
+  {
+    p: '¿Se puede estar perdiendo grasa sin bajar de peso?',
+    r: 'Sí, y es más habitual de lo que parece. Se llama recomposición corporal: pierdes grasa y ganas músculo a la vez, así que el peso se queda igual. Es especialmente frecuente en principiantes, en personas con sobrepeso y en quien vuelve a entrenar tras un parón. Se detecta con el perímetro de cintura y con fotos, nunca con la báscula.',
+  },
+  {
+    p: '¿Cuánto debería bajar por semana?',
+    r: 'Entre 0,2 y 0,6 kg semanales. Menos de eso puede ser simplemente ruido de la báscula; más suele implicar pérdida de músculo y rendimiento. Al principio bajarás más rápido porque se pierde agua y glucógeno, no grasa.',
+  },
+  {
+    p: '¿Es mi metabolismo, que se ha estropeado?',
+    r: 'Casi nunca. El gasto sí baja algo al perder peso, porque un cuerpo más ligero consume menos, y también baja el movimiento espontáneo cuando llevas tiempo en déficit. Pero esa caída es de decenas de calorías, no de cientos, y no explica un estancamiento de meses. Lo que suele explicarlo es que se come más de lo que se cree.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Por qué no bajo de peso: las cinco causas reales',
+    description:
+      'Por qué la báscula no se mueve aunque hagas dieta, cómo saber si tu déficit es real y qué ajustar antes de recortar más calorías.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/por-que-no-bajo-de-peso`,
+    dateModified: '2026-08-08',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Por qué no bajo de peso',
+        item: `${SITE.url}/guias/por-que-no-bajo-de-peso`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Por Qué No Bajo de Peso: 5 Causas Reales | Calculadora Fit"
+  description="Por qué la báscula no se mueve aunque hagas dieta o ejercicio. Las cinco causas reales, cómo saber si tu déficit es real y qué ajustar antes de recortar más."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Por qué no bajo de peso</h1>
+    <p class="hero-sub">
+      Cinco causas reales, ordenadas por probabilidad. Y por qué la primera es casi siempre
+      la respuesta.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          Llevas semanas comiendo bien, entrenando, y la báscula no se mueve. Es una de las
+          situaciones más frustrantes que existen, y casi siempre tiene una explicación
+          concreta.
+        </p>
+        <p class="cs-text">
+          Las cinco causas están ordenadas <strong>por probabilidad real</strong>, no por lo
+          que a uno le gustaría oír. Y te adelanto el spoiler: en la mayoría de los casos es
+          la primera.
+        </p>
+      </div>
+
+      <!-- ─────────── CAUSA 1 ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Causa 1 · la más probable</div>
+        <h2 class="cs-title">Tu déficit no es real</h2>
+        <p class="cs-text">
+          Duele oírlo, pero es la explicación en la mayoría de casos.
+          <strong>No es que el cuerpo no responda: es que se come más de lo que se cree.</strong>
+        </p>
+        <p class="cs-text">Los cuatro puntos donde se escapan las calorías:</p>
+
+        <h3 class="cs-h3">Calcular a ojo</h3>
+        <p class="cs-text">
+          «Yo ya sé más o menos lo que como». No. Es la forma más habitual de creer que estás
+          en déficit cuando no lo estás. Un chorro de aceite generoso son 90 kcal; un puñado
+          de frutos secos, 180; una cucharada de mantequilla de cacahuete, 100.
+          <strong>Tres despistes de ese tamaño anulan un déficit de 400 kcal.</strong>
+        </p>
+
+        <h3 class="cs-h3">Pesar la comida cocinada</h3>
+        <p class="cs-text">
+          Este es el error técnico más común y casi nadie lo sabe. Las tablas nutricionales
+          vienen <strong>en crudo</strong>. Al cocinarse, la carne pierde agua y la proteína y
+          las calorías se concentran.
+        </p>
+        <div class="cs-highlight">
+          100 g de pollo crudo → unos 75 g una vez cocinado.<br />
+          Si pesas 100 g <em>cocinados</em> y apuntas los valores de crudo,
+          <strong>te estás dejando fuera un 25 %</strong>.
+        </div>
+        <p class="cs-text">
+          Lo tienes explicado con más detalle en la
+          <a href="/guias/proteina-de-los-alimentos">tabla de proteína de los alimentos</a>.
+        </p>
+
+        <h3 class="cs-h3">Las calorías que no parecen comida</h3>
+        <p class="cs-text">
+          Refrescos, zumos, alcohol, el café con leche de media mañana, la cerveza del
+          viernes. <strong>Pueden sumar entre 300 y 700 kcal diarias sin generar apenas
+          saciedad</strong>, y casi nadie las apunta.
+        </p>
+
+        <h3 class="cs-h3">El fin de semana</h3>
+        <p class="cs-text">
+          De lunes a viernes, 400 kcal de déficit: −2.000 kcal en la semana. Dos comidas
+          fuera el fin de semana pueden sumar +2.000 con facilidad.
+          <strong>Resultado neto: cero.</strong> Y la sensación es «llevo un mes a dieta».
+        </p>
+
+        <div class="cs-highlight">
+          <strong>La prueba definitiva:</strong> pesa <em>absolutamente todo</em> durante una
+          semana completa, fines de semana incluidos, aceite incluido, bebidas incluidas. Sin
+          cambiar nada de lo que comes. Casi todo el mundo se lleva una sorpresa.
+        </div>
+      </div>
+
+      <!-- ─────────── CAUSA 2 ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Causa 2</div>
+        <h2 class="cs-title">Estás mirando la báscula demasiado pronto</h2>
+        <p class="cs-text">
+          El peso corporal <strong>fluctúa entre uno y dos kilos</strong> por motivos que no
+          tienen nada que ver con la grasa:
+        </p>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.4rem">
+            <strong>Glucógeno y agua.</strong> Cada gramo de glucógeno arrastra unos 3 g de
+            agua. Una comida alta en carbohidratos puede subirte un kilo al día siguiente.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.4rem">
+            <strong>Sal.</strong> Una cena con mucho sodio retiene líquido durante 24-48 h.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.4rem">
+            <strong>Contenido intestinal.</strong> Sí, pesa. Y varía bastante.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.4rem">
+            <strong>Entrenar fuerte.</strong> El músculo retiene líquido al repararse,
+            especialmente si acabas de empezar o has cambiado de rutina.
+          </li>
+        </ul>
+        <p class="cs-text">
+          Si tu objetivo es perder <strong>0,2-0,6 kg por semana</strong> y la báscula se
+          mueve dos kilos arriba y abajo por agua, <strong>el ruido es mayor que la
+          señal</strong>. Dos semanas no bastan para concluir nada.
+        </p>
+        <div class="cs-highlight">
+          <strong>Cómo medir de verdad:</strong> pésate en ayunas siempre el mismo día de la
+          semana, o a diario y quédate con la media semanal. Y compara periodos de tres o
+          cuatro semanas, no de dos.
+        </div>
+      </div>
+
+      <!-- ─────────── CAUSA 3 ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Causa 3 · la buena noticia</div>
+        <h2 class="cs-title">Estás perdiendo grasa y ganando músculo a la vez</h2>
+        <p class="cs-text">
+          Se llama <strong>recomposición corporal</strong> y es más frecuente de lo que se
+          cree. Pierdes grasa y ganas músculo simultáneamente, así que el peso apenas se mueve
+          — pero tu cuerpo está cambiando.
+        </p>
+        <p class="cs-text">Es especialmente probable si:</p>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.4rem">Eres principiante en el gimnasio</li>
+          <li class="cs-text" style="margin-bottom:0.4rem">Vuelves a entrenar tras un parón largo</li>
+          <li class="cs-text" style="margin-bottom:0.4rem">Partes de un porcentaje de grasa alto</li>
+          <li class="cs-text" style="margin-bottom:0.4rem">Has subido bastante la proteína respecto a antes</li>
+        </ul>
+        <div class="cs-highlight">
+          <strong>Cómo saber si te está pasando:</strong> el peso se queda igual pero la
+          <strong>cintura baja</strong>, la ropa te queda distinta y en las fotos se nota. Si
+          eso ocurre, no cambies nada. Estás en el mejor escenario posible y la báscula
+          simplemente no puede verlo.
+        </div>
+        <p class="cs-text">
+          Por eso el seguimiento no puede ser solo el peso. Mide contornos —cintura, cadera,
+          cuello, hombros, pecho, brazo, pierna— y hazte fotos cada semana con la misma luz y
+          la misma postura. <strong>Las fotos son la parte que más gente se salta y la más
+          reveladora</strong>: te ves a diario, así que no percibes el cambio.
+        </p>
+        <p class="cs-text">
+          Puedes seguir la evolución con la
+          <a href="/grasa-corporal">calculadora de grasa corporal</a>, que solo necesita una
+          cinta métrica.
+        </p>
+      </div>
+
+      <!-- ─────────── CAUSA 4 ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Causa 4</div>
+        <h2 class="cs-title">Te mueves menos que al principio</h2>
+        <p class="cs-text">
+          Esta es sutil y pilla a mucha gente. Cuando llevas tiempo en déficit,
+          <strong>el cuerpo reduce el movimiento espontáneo sin que te des cuenta</strong>:
+          gesticulas menos, subes menos escaleras, te levantas menos de la silla, andas más
+          despacio. Es lo que se llama NEAT, y puede caer de forma apreciable.
+        </p>
+        <p class="cs-text">
+          A eso se suma algo aritmético: <strong>un cuerpo más ligero gasta menos</strong>. Si
+          has perdido cinco kilos, tu mantenimiento ya no es el mismo que al empezar.
+        </p>
+        <div class="cs-highlight">
+          <strong>La solución, y va antes que recortar comida:</strong> sube los pasos. De
+          10.000 a 12.000, o de 12.000 a 14.000. Aumentas el gasto sin quitarte energía para
+          entrenar, y la dieta se mantiene igual de llevadera.
+        </div>
+        <p class="cs-text">
+          Tienes la progresión completa de pasos, y por qué es preferible al cardio, en la
+          <a href="/guias/deficit-calorico-como-calcularlo">guía del déficit calórico</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── CAUSA 5 ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Causa 5</div>
+        <h2 class="cs-title">Llevas menos tiempo del que crees</h2>
+        <p class="cs-text">
+          «Llevo un montón a dieta» suele significar tres semanas. Y de esas tres, una fue
+          irregular.
+        </p>
+        <p class="cs-text">
+          Una definición desde un porcentaje de grasa moderado hasta estar realmente definido
+          lleva <strong>seis o siete meses</strong>. Desde un porcentaje alto, puede irse a un
+          año. No es lento: es el plazo real.
+        </p>
+        <p class="cs-text">
+          Y hacerlo despacio no es perder el tiempo. <strong>Es lo que permite llegar al final
+          sin haber perdido fuerza ni músculo.</strong> Una definición agresiva te deja más
+          delgado, pero también más pequeño y más débil.
+        </p>
+      </div>
+
+      <!-- ─────────── QUÉ HACER ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Plan de acción</div>
+        <h2 class="cs-title">Qué hacer, en este orden</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Paso</th><th>Qué hacer</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>Pesa todo durante <strong>una semana completa</strong>, fines de semana y aceite incluidos. Sin cambiar nada.</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>Comprueba que pesas <strong>en crudo</strong>, no cocinado.</td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td>Mide contornos y hazte fotos. Compara con hace un mes.</td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td>Si el peso no baja pero <strong>la cintura sí</strong>: no toques nada. Estás progresando.</td>
+            </tr>
+            <tr>
+              <td><strong>5</strong></td>
+              <td>Si tras 3-4 semanas no se mueve nada: <strong>sube 2.000 pasos diarios</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>6</strong></td>
+              <td>Solo si eso tampoco funciona: baja <strong>100-150 kcal</strong>. No más.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Fíjate en que <strong>recortar comida es el último paso, no el primero</strong>. Es
+          justo al revés de lo que hace casi todo el mundo — y por eso casi todo el mundo
+          acaba con hambre, sin fuerza y abandonando.
+        </p>
+      </div>
+
+      <!-- ─────────── LO QUE NO ES ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Descartando mitos</div>
+        <h2 class="cs-title">Lo que casi nunca es la causa</h2>
+
+        <h3 class="cs-h3">«Se me ha estropeado el metabolismo»</h3>
+        <p class="cs-text">
+          El gasto sí baja algo al perder peso, pero hablamos de <strong>decenas de calorías,
+          no de cientos</strong>. No existe el metabolismo «roto» que explique meses de
+          estancamiento comiendo en déficit real.
+        </p>
+
+        <h3 class="cs-h3">«Es que como muy poco»</h3>
+        <p class="cs-text">
+          Comer muy poco no bloquea la pérdida de grasa. Lo que hace es que pases hambre,
+          pierdas fuerza y acabes compensando con atracones — y ahí sí desaparece el déficit.
+          Si estás en 1.200 kcal y no bajas, el problema no es que comas poco: es que el
+          registro no cuadra.
+        </p>
+
+        <h3 class="cs-h3">«Serán los carbohidratos»</h3>
+        <p class="cs-text">
+          No. Lo que determina si pierdes grasa es el balance calórico, no de qué macro vengan
+          las calorías. Y si entrenas, los carbohidratos son justamente lo que te permite
+          seguir moviendo cargas y conservar el músculo.
+        </p>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          <strong>Antes de cambiar nada:</strong> comprueba que tus números de partida son
+          correctos con la <a href="/">calculadora de calorías y macros</a>. Muchos
+          estancamientos empiezan por un mantenimiento mal estimado.
+        </p>
+        <p class="cs-text">
+          ⚠️ Si llevas mucho tiempo sin cambios pese a un registro riguroso, o si sospechas
+          que puede haber algo médico detrás, <strong>consúltalo con tu médico</strong>. Esta
+          guía es información general y no sustituye una valoración profesional.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

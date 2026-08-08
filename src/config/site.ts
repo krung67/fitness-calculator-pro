@@ -98,6 +98,20 @@ export const GUIAS = [
       'Tabla por 100 g y por unidad: huevo, pollo, atún, yogur griego… y el fallo de pesar en cocinado que descuadra los cálculos de casi todo el mundo.',
     icono: '📋',
   },
+  {
+    href: '/guias/por-que-no-bajo-de-peso',
+    titulo: 'Por qué no bajo de peso',
+    resumen:
+      'Cinco causas reales ordenadas por probabilidad, cómo comprobar si tu déficit existe de verdad y qué ajustar antes de recortar más calorías.',
+    icono: '⚖️',
+  },
+  {
+    href: '/guias/como-pesar-la-comida',
+    titulo: 'Cómo pesar la comida',
+    resumen:
+      'En crudo o cocinado, qué merece la pena pesar y qué no, y cómo calcular con la mano cuando comes fuera de casa.',
+    icono: '⚖️',
+  },
 ] as const;
 
 /** Enlaces del pie. */
