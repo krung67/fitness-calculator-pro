@@ -4,6 +4,14 @@ import { SITE } from '../config/site';
 
 const faq = [
   {
+    p: '¿Cuál es mi porcentaje de masa muscular?',
+    r: 'Lo que se puede estimar en casa es el porcentaje de masa magra: todo lo que no es grasa, incluyendo músculo, hueso, órganos y agua. Se calcula restando la grasa al peso total. El músculo puro solo se mide con precisión mediante DEXA o resonancia, y supone aproximadamente la mitad de la masa magra en un adulto. Cualquier calculadora que te dé un porcentaje de músculo exacto está estimando de forma indirecta.',
+  },
+  {
+    p: '¿Cuánta masa muscular debería tener en kg según mi altura?',
+    r: 'Depende de tu estatura, porque la masa se distribuye sobre un cuerpo más o menos grande. Invirtiendo la fórmula del FFMI se obtiene la masa magra que corresponde a cada nivel: por ejemplo, para 1,78 m, unos 63 kg equivalen a estar por encima de la media y unos 69 kg a una musculatura muy buena. La calculadora de esta página te da la tabla para tu altura concreta.',
+  },
+  {
     p: '¿Qué es el FFMI y en qué se diferencia del IMC?',
     r: 'El FFMI (índice de masa libre de grasa) es como el IMC pero contando solo la masa magra: músculo, hueso, órganos y agua, sin la grasa. Por eso sí sirve para valorar la musculatura de alguien que entrena, mientras que el IMC no distingue de qué está hecho tu peso.',
   },
@@ -69,17 +77,17 @@ const schema = [
 ---
 
 <Base
-  title="Calculadora de Masa Muscular y FFMI | Calculadora Fit"
-  description="Calcula tu FFMI (índice de masa libre de grasa) y descubre cuánto músculo puedes ganar de forma realista según tu nivel: principiante, intermedio o avanzado."
+  title="Calculadora de Masa Muscular: FFMI, Porcentaje y Kg | Calculadora Fit"
+  description="Calcula tu FFMI, tu porcentaje de masa magra y los kilos que te corresponden según tu altura. Y cuánto músculo puedes ganar de forma realista."
   schema={schema}
 >
   <div class="hero hero-sm">
     <div class="hero-glow"></div>
-    <div class="site-badge">FFMI · Masa libre de grasa</div>
+    <div class="site-badge">FFMI · Porcentaje · Kilos</div>
     <h1>Calculadora de masa muscular</h1>
     <p class="hero-sub">
-      Cuánto músculo tienes ahora, cómo te sitúa eso, y cuánto más puedes ganar de forma
-      realista.
+      Tu FFMI, tu porcentaje de masa magra y cuántos kilos te corresponden por altura — más
+      cuánto puedes ganar todavía.
     </p>
   </div>
 
@@ -146,11 +154,13 @@ const schema = [
               <div class="mtile-icon">💪</div>
               <div class="mtile-g" id="mmMagra">—</div>
               <div class="mtile-name">Masa magra</div>
+              <div class="mtile-kcal" id="mmMagraPct"></div>
             </div>
             <div class="mtile">
               <div class="mtile-icon">🧈</div>
               <div class="mtile-g" id="mmGrasaKg">—</div>
               <div class="mtile-name">Masa grasa</div>
+              <div class="mtile-kcal" id="mmGrasaPct"></div>
             </div>
             <div class="mtile">
               <div class="mtile-icon">📐</div>
@@ -158,6 +168,15 @@ const schema = [
               <div class="mtile-name">FFMI sin ajustar</div>
             </div>
           </div>
+        </div>
+
+        <!-- Cuántos kilos corresponden a cada nivel para SU altura.
+             Se rellena al calcular, porque depende de la estatura. -->
+        <div id="mmObjetivo" style="display:none;margin-top:2rem">
+          <p class="sec-label">Para tu altura</p>
+          <h2 class="sec-title" style="font-size:1.6rem">Masa magra que corresponde a cada nivel</h2>
+          <table class="tabla-legal" id="mmTablaObjetivo"></table>
+          <p class="cs-text" id="mmObjetivoNota"></p>
         </div>
       </div>
 
@@ -216,6 +235,45 @@ const schema = [
           <strong>ajustando el resultado a una referencia de 1,80 m</strong>, y es la que
           permite comparar entre personas de distinta altura.
         </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Aclaración importante</div>
+        <h2 class="cs-title">«Masa magra» no es lo mismo que «masa muscular»</h2>
+        <p class="cs-text">
+          Mucha gente busca su <em>porcentaje de masa muscular</em> y acaba en calculadoras
+          que le dan un número sin explicarle qué está midiendo. Conviene ser precisos,
+          porque la diferencia es grande.
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Concepto</th><th>Qué incluye</th><th>¿Se puede estimar en casa?</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Masa magra</strong><br /><span style="color:var(--muted);font-size:0.85em">lo que calcula esta página</span></td>
+              <td>Músculo, hueso, órganos, agua y todo lo que no es grasa</td>
+              <td>Sí, restando la grasa al peso total</td>
+            </tr>
+            <tr>
+              <td><strong>Masa muscular</strong></td>
+              <td>Solo el tejido muscular</td>
+              <td>No con fiabilidad: requiere DEXA o resonancia</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          En una persona adulta, <strong>el músculo esquelético supone en torno a la mitad de
+          la masa magra</strong>; el resto son huesos, vísceras y agua. Por eso, cuando una
+          báscula de bioimpedancia te dice que tienes un «45 % de masa muscular», está
+          haciendo una estimación indirecta con bastante margen de error.
+        </p>
+        <div class="cs-highlight">
+          <strong>Qué hacer con esto:</strong> usa la masa magra como referencia de progreso,
+          no como cifra absoluta. Si tu masa magra sube mientras la grasa baja, estás ganando
+          músculo — y eso es lo que te interesa saber, no el número exacto de kilos de tejido
+          muscular.
+        </div>
       </div>
 
       <div class="content-section">
@@ -387,15 +445,69 @@ function calcFFMI() {
 
   const r = FFMI_ESC[sexo].find(x => norm < x.max);
 
-  document.getElementById('mmValor').textContent = norm.toFixed(1).replace('.', ',');
+  const f1 = n => n.toFixed(1).replace('.', ',');
+
+  document.getElementById('mmValor').textContent = f1(norm);
   document.getElementById('mmCat').textContent = r.cat;
-  document.getElementById('mmMagra').textContent = magra.toFixed(1).replace('.', ',') + ' kg';
-  document.getElementById('mmGrasaKg').textContent = grasaKg.toFixed(1).replace('.', ',') + ' kg';
-  document.getElementById('mmBruto').textContent = bruto.toFixed(1).replace('.', ',');
+  document.getElementById('mmMagra').textContent = f1(magra) + ' kg';
+  document.getElementById('mmGrasaKg').textContent = f1(grasaKg) + ' kg';
+  document.getElementById('mmBruto').textContent = f1(bruto);
+  // Porcentajes: es lo que busca quien escribe "porcentaje de masa muscular".
+  document.getElementById('mmMagraPct').textContent = f1((magra / peso) * 100) + ' % del peso';
+  document.getElementById('mmGrasaPct').textContent = f1(grasa) + ' % del peso';
+
   pintarEscala(sexo, norm);
+  pintarObjetivo(sexo, altM, magra);
   document.getElementById('mmRes').classList.add('show');
 
   pesoGuardado = peso;
+}
+
+/**
+ * Invierte la fórmula del FFMI: para una altura dada, cuántos kilos de masa
+ * magra corresponden a cada nivel. Responde a "masa muscular ideal en kg".
+ *
+ *   FFMI_norm = magra / altura² + 6,1 × (1,8 − altura)
+ *   →  magra  = (FFMI_norm − 6,1 × (1,8 − altura)) × altura²
+ */
+function pintarObjetivo(sexo, altM, magraActual) {
+  const NIVELES = {
+    h: [
+      { ffmi: 18, cat: 'En la media' },
+      { ffmi: 20, cat: 'Por encima de la media' },
+      { ffmi: 22, cat: 'Muy buena musculatura' },
+      { ffmi: 25, cat: 'Excelente' },
+    ],
+    m: [
+      { ffmi: 14, cat: 'En la media' },
+      { ffmi: 16, cat: 'Por encima de la media' },
+      { ffmi: 18, cat: 'Muy buena musculatura' },
+      { ffmi: 20, cat: 'Excelente' },
+    ],
+  }[sexo];
+
+  const magraPara = ffmi => (ffmi - 6.1 * (1.8 - altM)) * altM * altM;
+  const f1 = n => n.toFixed(1).replace('.', ',');
+
+  let filas = '<thead><tr><th>Nivel</th><th>Masa magra</th><th>Te faltan</th></tr></thead><tbody>';
+  NIVELES.forEach(n => {
+    const objetivo = magraPara(n.ffmi);
+    const dif = objetivo - magraActual;
+    const falta =
+      dif <= 0
+        ? '<span style="color:var(--lime)">alcanzado ✓</span>'
+        : '+' + f1(dif) + ' kg';
+    filas += `<tr><td>${n.cat}<br><span style="color:var(--muted);font-size:0.85em">FFMI ${n.ffmi}</span></td>` +
+             `<td><strong>${f1(objetivo)} kg</strong></td><td>${falta}</td></tr>`;
+  });
+  filas += '</tbody>';
+
+  document.getElementById('mmTablaObjetivo').innerHTML = filas;
+  document.getElementById('mmObjetivoNota').innerHTML =
+    'Calculado para <strong>' + f1(altM * 100) + ' cm</strong> de altura. La columna ' +
+    '«te faltan» compara con tus ' + f1(magraActual) + ' kg actuales de masa magra. ' +
+    'Recuerda que estos kilos incluyen hueso, órganos y agua, no solo músculo.';
+  document.getElementById('mmObjetivo').style.display = 'block';
 }
 
 const NIVELES = {
