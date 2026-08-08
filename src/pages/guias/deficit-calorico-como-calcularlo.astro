@@ -1,0 +1,492 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+// Ejemplos de déficit sobre distintos mantenimientos. Se calculan aquí para
+// que no puedan contradecir a la calculadora si algún día cambian los rangos.
+const TDEES = [1800, 2000, 2200, 2500, 2800, 3000];
+const DEFICIT_MIN = 200;
+const DEFICIT_MAX = 500;
+
+const faq = [
+  {
+    p: '¿Cómo se calcula el déficit calórico?',
+    r: 'Primero necesitas tus calorías de mantenimiento (TDEE), que dependen de tu metabolismo basal y de tu nivel de actividad. A esa cifra le restas entre 200 y 500 kcal. Por ejemplo, con un mantenimiento de 2.500 kcal, tu objetivo estaría entre 2.000 y 2.300 kcal al día.',
+  },
+  {
+    p: '¿Cuántas calorías debo recortar para perder grasa?',
+    r: 'Entre 200 y 500 kcal diarias, independientemente de lo que peses. Recortar más no acelera el proceso de forma útil: hace que pases hambre, que pierdas fuerza y que abandones. Lo que determina el resultado no es la agresividad del déficit, sino cuántas semanas eres capaz de sostenerlo.',
+  },
+  {
+    p: '¿Cuánto peso debo perder por semana?',
+    r: 'Entre 0,2 y 0,6 kg semanales es el ritmo que permite perder grasa manteniendo el músculo y el rendimiento. Al principio suele bajarse más rápido por pérdida de agua y glucógeno; eso es normal y no significa que estés perdiendo grasa a esa velocidad.',
+  },
+  {
+    p: 'Llevo dos semanas sin bajar de peso. ¿Recorto más calorías?',
+    r: 'No es lo primero que haría. Antes de tocar la comida, sube los pasos diarios: de 10.000 a 12.000, o de 12.000 a 14.000. Eso aumenta tu gasto sin quitarte comida ni energía para entrenar. Además, comprueba las medidas y las fotos: es muy habitual que la báscula se estanque mientras la cintura sigue bajando.',
+  },
+  {
+    p: '¿Puedo hacer comidas libres estando en déficit?',
+    r: 'Sí, y de hecho ayuda a sostener la dieta. Como máximo dos a la semana, y reservadas para compromisos reales: una comida familiar, un cumpleaños, una cena de trabajo. Lo que no funciona es usarlas como premio para pedir comida a domicilio porque te apetece.',
+  },
+  {
+    p: '¿Cuánto tiempo dura una definición?',
+    r: 'Depende de tu punto de partida y de cuánto aprietes. Partiendo de un porcentaje de grasa moderado, unos seis o siete meses hasta estar realmente definido. Desde un porcentaje alto puede irse a un año. Hacerlo despacio no es perder el tiempo: es lo que permite llegar al final sin haber perdido fuerza ni músculo.',
+  },
+  {
+    p: '¿Es diferente el déficit calórico en mujeres?',
+    r: 'El principio es idéntico: comer menos de lo que gastas. Cambian tres cosas prácticas: el mantenimiento suele ser menor, así que el déficit en valor absoluto también lo es; conviene no bajar demasiado la grasa de la dieta por su papel hormonal; y las retenciones de líquido a lo largo del ciclo menstrual pueden ocultar el progreso durante días, así que conviene comparar semanas equivalentes de ciclos distintos y no una semana con la anterior.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Déficit calórico: cómo calcularlo y cómo sostenerlo',
+    description:
+      'Cuántas calorías recortar para perder grasa, cómo saber si funciona, cuándo ajustar y por qué la mayoría abandona antes de terminar.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/deficit-calorico-como-calcularlo`,
+    dateModified: '2026-08-08',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Déficit calórico: cómo calcularlo',
+        item: `${SITE.url}/guias/deficit-calorico-como-calcularlo`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Déficit Calórico: Cómo Calcularlo y Sostenerlo | Calculadora Fit"
+  description="Cuántas calorías recortar para perder grasa sin perder músculo, cómo saber si funciona, cuándo ajustar y por qué la mayoría abandona antes de terminar."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Déficit calórico</h1>
+    <p class="hero-sub">
+      Cómo calcularlo, cómo saber si funciona y —lo más importante— cómo llegar al final sin
+      abandonarlo por el camino.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          Un déficit calórico es comer menos calorías de las que gastas. Eso es todo: no hay
+          truco, ni alimento mágico, ni horario milagroso.
+        </p>
+        <p class="cs-text">
+          Lo difícil no es entenderlo. Lo difícil es <strong>sostenerlo durante los meses que
+          hacen falta</strong>, y ahí es donde se cae casi todo el mundo. Esta guía va sobre
+          eso.
+        </p>
+      </div>
+
+      <!-- ─────────── CUÁNTO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">El número</div>
+        <h2 class="cs-title">Cuántas calorías recortar</h2>
+        <p class="cs-text">
+          <strong>Entre 200 y 500 kcal por debajo de tu mantenimiento.</strong> Da igual que
+          peses 55 kg o 100: ese rango es el que permite perder grasa sin pasar hambre, sin
+          perder fuerza y sin destrozar tus entrenamientos.
+        </p>
+        <div class="cs-highlight">
+          <strong>Déficit = calorías de mantenimiento (TDEE) − 200 a 500 kcal</strong>
+        </div>
+        <p class="cs-text">
+          Si no conoces tu mantenimiento, la
+          <a href="/" style="color:var(--lime)">calculadora de calorías y macros</a> te lo da
+          en dos pasos. Mientras tanto, así queda el cálculo según distintos mantenimientos:
+        </p>
+
+        <table class="tabla-legal">
+          <thead>
+            <tr>
+              <th>Si tu mantenimiento es…</th>
+              <th>Déficit suave (−{DEFICIT_MIN})</th>
+              <th>Déficit estándar (−{DEFICIT_MAX})</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              TDEES.map((t) => (
+                <tr>
+                  <td>{t.toLocaleString('es-ES')} kcal</td>
+                  <td><strong>{(t - DEFICIT_MIN).toLocaleString('es-ES')} kcal</strong></td>
+                  <td><strong>{(t - DEFICIT_MAX).toLocaleString('es-ES')} kcal</strong></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ─────────── POR QUÉ NO MÁS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">El error caro</div>
+        <h2 class="cs-title">Por qué un déficit agresivo no funciona</h2>
+        <p class="cs-text">
+          La tentación es evidente: si recortando 400 kcal pierdo grasa, recortando 900
+          perderé el doble de rápido. En una hoja de cálculo, sí. En la práctica, no.
+        </p>
+        <p class="cs-text">
+          Con un déficit de 800 o 1.000 kcal <strong>vas a pasar mucha hambre y vas a perder
+          mucha fuerza</strong>. Y perder fuerza es perder músculo: si dejas de mover las
+          cargas que movías, tu cuerpo deja de tener motivos para mantener ese tejido.
+          Entrenas peor, te recuperas peor, duermes peor.
+        </p>
+        <div class="cs-highlight">
+          <strong>Aguantarías dos semanas como mucho.</strong> Y una definición no se gana en
+          dos semanas: se gana en meses. Un déficit que no puedes sostener no es un déficit
+          rápido, es un déficit fallido.
+        </div>
+        <p class="cs-text">
+          La única excepción son los <em>mini cuts</em>: recortes agresivos de una o dos
+          semanas. Pero eso es una herramienta para gente con muchos años de gimnasio que sabe
+          exactamente lo que está haciendo y por qué. Si estás leyendo esta guía para empezar,
+          no es tu caso.
+        </p>
+
+        <h3 class="cs-h3">Las dietas de 1.200 calorías</h3>
+        <p class="cs-text">
+          Aparecen constantemente y casi siempre nacen de la misma idea equivocada: que comer
+          menos siempre es mejor.
+        </p>
+        <p class="cs-text">
+          Con 1.200 kcal vas a pasar muchísima hambre, vas a durar poquísimo y vas a acabar
+          dándote atracones que tiran por tierra semanas de trabajo.
+          <strong>No sirve de nada una dieta perfecta sobre el papel que no vas a poder
+          seguir.</strong>
+        </p>
+
+        <h3 class="cs-h3">¿Y los ayunos?</h3>
+        <p class="cs-text">
+          Si te encajan, adelante. Si te levantas y no te da tiempo a desayunar, no pasa
+          absolutamente nada por comer cinco horas después. Hay quien funciona mejor así y
+          quien necesita desayunar.
+        </p>
+        <p class="cs-text">
+          Lo único que importa es <strong>no pasar hambre</strong> y que el reparto te permita
+          rendir en el gimnasio, que es el objetivo. Lo de ayunar «para limpiar el cuerpo» no
+          entra en esa ecuación.
+        </p>
+      </div>
+
+      <!-- ─────────── CÓMO SABER SI FUNCIONA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Seguimiento</div>
+        <h2 class="cs-title">Cómo saber si está funcionando</h2>
+        <p class="cs-text">
+          Un ritual semanal, siempre igual. Yo lo hago los domingos:
+        </p>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Pésate en ayunas</strong>, una vez por semana y siempre el mismo día. Si
+            quieres más precisión, pésate a diario y quédate con la media semanal.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Mídete con cinta métrica:</strong> cintura, cadera, cuello, hombros,
+            pecho, bíceps, cuádriceps y gemelo. Apúntalo todo.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Hazte fotos.</strong> Misma luz, misma postura, mismo sitio.
+          </li>
+        </ul>
+        <div class="cs-highlight">
+          <strong>Las fotos no son opcionales.</strong> Te ves en el espejo todos los días, así
+          que no notas el cambio. Comparar la foto de hoy con la de hace dos meses es lo que
+          te va a demostrar que esto funciona — y lo que te va a sostener el día que no te
+          apetezca nada.
+        </div>
+
+        <h3 class="cs-h3">El ritmo correcto</h3>
+        <p class="cs-text">
+          <strong>Entre 0,2 y 0,6 kg por semana.</strong> Ese es el rango que permite perder
+          grasa manteniendo músculo y rendimiento.
+        </p>
+        <p class="cs-text">
+          Al principio bajarás más rápido, y es normal: buena parte es agua y glucógeno, no
+          grasa. Luego se estabiliza porque el cuerpo se adapta.
+        </p>
+
+        <h3 class="cs-h3">Cuando la báscula se planta</h3>
+        <p class="cs-text">
+          Llegará un punto, sobre todo si llevas tiempo, en que el peso deje de moverse
+          durante semanas. <strong>No significa que te hayas estancado.</strong>
+        </p>
+        <p class="cs-text">
+          Puedes estar perdiendo grasa y ganando músculo a la vez —recomposición corporal—,
+          especialmente si eres principiante. El peso se queda igual pero la cintura baja.
+          <strong>Por eso se miden contornos y no solo se mira la báscula:</strong> es
+          exactamente el escenario en el que la báscula miente.
+        </p>
+      </div>
+
+      <!-- ─────────── AJUSTES ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Ajustes</div>
+        <h2 class="cs-title">Cuándo ajustar y qué tocar primero</h2>
+        <p class="cs-text">
+          Si en las dos primeras semanas has bajado dos kilos, <strong>vas demasiado
+          rápido</strong>. Frena: eso no es grasa, y a ese ritmo llegas a marzo sin fuerza.
+        </p>
+        <p class="cs-text">
+          Y cuando el progreso se pare de verdad, esto es lo importante:
+        </p>
+        <div class="cs-highlight">
+          <strong>Sube los pasos antes de bajar la comida.</strong> Comer más y moverte más
+          siempre es mejor que comer menos y moverte igual: entrenas mejor, te recuperas mejor
+          y la dieta se hace mucho más llevadera.
+        </div>
+
+        <h3 class="cs-h3">Andar, no cardio</h3>
+        <p class="cs-text">
+          Mi forma de definir ha sido mantener la comida alta —en torno a 2.200-2.500 kcal— y
+          tener el <strong>NEAT</strong> muy alto. NEAT es todo lo que gastas moviéndote sin
+          entrenar: andar, subir escaleras, no estar sentado.
+        </p>
+        <p class="cs-text">La progresión que uso:</p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Fase</th><th>Pasos diarios</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Empiezas aquí</td><td><strong>10.000</strong> — el mínimo, y es muy asequible</td></tr>
+            <tr><td>Ritmo cómodo</td><td><strong>12.000</strong></td></tr>
+            <tr><td>Cuando te estancas</td><td>sumar <strong>2.000–4.000</strong> más</td></tr>
+            <tr><td>Definición avanzada</td><td>hasta <strong>20.000</strong></td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          10.000 pasos no es un entrenamiento: es ir al gimnasio andando en vez de en coche, o
+          hacer los recados a pie. Sale solo en cuanto lo decides.
+        </p>
+        <p class="cs-text">
+          <strong>¿Y si no tienes tiempo para andar?</strong> Entonces sí metería cardio, en
+          cinta con inclinación y sin volverse loco. Pero <strong>nunca en los días
+          clave</strong>: ni pierna, ni torso, ni <em>full body</em>. El cardio no puede
+          comerse el entrenamiento que es lo que te protege el músculo.
+        </p>
+      </div>
+
+      <!-- ─────────── SOSTENIBILIDAD ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Sostenibilidad</div>
+        <h2 class="cs-title">Comidas libres: máximo dos por semana</h2>
+        <p class="cs-text">
+          Si quieres mantener esto durante meses sin obsesionarte,
+          <strong>dos comidas libres semanales como máximo</strong>. Y no tienen por qué ser
+          todas las semanas.
+        </p>
+        <p class="cs-text">
+          La clave está en para qué las usas. Están para los <strong>compromisos
+          reales</strong>: una comida familiar, un cumpleaños, una cena de trabajo. Poder ir y
+          disfrutar sin culpa.
+        </p>
+        <p class="cs-text">
+          Lo que no funciona es la lógica del premio: <em>«esta semana me toca comida libre,
+          así que pido a domicilio»</em>. Ahí no estás resolviendo un compromiso social, estás
+          buscando una excusa.
+        </p>
+        <div class="cs-highlight">
+          <strong>Y no te obsesiones.</strong> Yo llegué a mirar las calorías de los chicles.
+          No hace falta llegar ahí. Pasarte 100 kcal un día, o tres, no cambia absolutamente
+          nada — lo que cuenta es el balance de las semanas. Si te pasas todos los días
+          durante un mes, entonces sí.
+        </div>
+        <p class="cs-text">
+          En vacaciones, lo mismo: sin abusar, pero disfruta. La mayoría no vamos a competir
+          en culturismo, y renunciar a comer con tu gente es justo lo que hace que la gente
+          abandone.
+        </p>
+      </div>
+
+      <!-- ─────────── POR QUÉ SE ABANDONA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">La verdad incómoda</div>
+        <h2 class="cs-title">Por qué la mayoría no llega al final</h2>
+        <p class="cs-text">
+          Hay dos motivos, y conviene separarlos porque tienen soluciones distintas.
+        </p>
+
+        <h3 class="cs-h3">1. El plan no encaja contigo</h3>
+        <p class="cs-text">
+          El caso típico: un yogur para desayunar, un filete para comer y otro filete para
+          cenar. <strong>Nadie sostiene eso.</strong> Y cuando se abandona a las tres semanas,
+          se concluye que «no tengo fuerza de voluntad», cuando el problema era el plan.
+        </p>
+        <p class="cs-text">
+          Tu dieta tiene que parecerse a tu día a día y tiene que gustarte de verdad. El punto
+          al que hay que llegar es este: que abras la nevera y prefieras lo que tienes
+          preparado antes que salir a comer fuera. <strong>Cuando llegas ahí, la dieta deja de
+          ser un esfuerzo.</strong>
+        </p>
+
+        <h3 class="cs-h3">2. No lo quieres tanto como creías</h3>
+        <p class="cs-text">
+          Y esta es la parte que nadie dice. Va a haber días de cansancio, de no apetecer
+          nada, de que todo el mundo pida postre. Ahí no hay truco: hay compromiso.
+        </p>
+        <p class="cs-text">
+          Merece la pena preguntárselo antes de empezar: <strong>¿cuánto quiero esto?</strong>
+          Si la respuesta es tibia, la definición no va a durar. Si es firme, la vas a cumplir
+          — y con un plan que encaje contigo, además, sin sufrirla.
+        </p>
+      </div>
+
+      <!-- ─────────── DURACIÓN ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Plazos</div>
+        <h2 class="cs-title">Cuánto dura una definición</h2>
+        <p class="cs-text">
+          Depende de dos cosas: de dónde partes y cuánto aprietas.
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Punto de partida</th><th>Tiempo aproximado</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Grasa moderada, «algo tapado»</td><td>6 – 7 meses</td></tr>
+            <tr><td>Porcentaje de grasa alto</td><td>hasta un año</td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Quien haga menos comidas libres irá algo más rápido; quien mantenga su vida social
+          tardará más. <strong>Ninguna de las dos está mal</strong>, siempre que la elijas a
+          conciencia.
+        </p>
+        <p class="cs-text">
+          Y que tarde meses no es perder el tiempo: es exactamente lo que permite llegar al
+          final <strong>sin haber perdido fuerza ni músculo</strong>. Una definición rápida y
+          agresiva te deja más delgado, pero también más pequeño y más débil.
+        </p>
+        <p class="cs-text">
+          Puedes ver dónde estás ahora con la
+          <a href="/grasa-corporal" style="color:var(--lime)">calculadora de grasa corporal</a>
+          y seguir la evolución cada pocas semanas.
+        </p>
+      </div>
+
+      <!-- ─────────── MUJERES ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Mujeres</div>
+        <h2 class="cs-title">Qué cambia si eres mujer</h2>
+        <p class="cs-text">
+          Empecemos por lo que <em>no</em> cambia, porque hay mucha desinformación:
+          <strong>el principio es idéntico</strong>. Comer menos de lo que gastas, con el mismo
+          rango de 200-500 kcal y el mismo ritmo de 0,2-0,6 kg semanales. No existe una
+          fisiología distinta que exija otro método.
+        </p>
+        <p class="cs-text">Lo que sí cambia son cuatro cosas prácticas:</p>
+
+        <h3 class="cs-h3">1. El déficit en valor absoluto suele ser menor</h3>
+        <p class="cs-text">
+          Con menos masa muscular y menos peso, el mantenimiento es más bajo. Restar 500 kcal
+          a un mantenimiento de 1.900 es un recorte proporcionalmente mucho mayor que restarlo
+          a 3.000. En mantenimientos bajos, tiene más sentido moverse en la parte baja del
+          rango: <strong>200-300 kcal</strong>.
+        </p>
+
+        <h3 class="cs-h3">2. El ciclo menstrual esconde el progreso</h3>
+        <p class="cs-text">
+          Esto es lo más práctico de toda esta sección. Las
+          <strong>retenciones de líquido a lo largo del ciclo</strong> pueden mover la báscula
+          uno o dos kilos <em>sin ninguna relación con la grasa corporal</em>.
+        </p>
+        <div class="cs-highlight">
+          <strong>Compara semanas equivalentes de ciclos distintos</strong>, no una semana con
+          la anterior. Si comparas la semana previa a la regla con la anterior, vas a concluir
+          que no estás progresando cuando probablemente sí. Es el motivo número uno por el que
+          muchas mujeres abandonan una dieta que estaba funcionando.
+        </div>
+
+        <h3 class="cs-h3">3. La grasa de la dieta, con cuidado</h3>
+        <p class="cs-text">
+          La grasa participa en la producción hormonal, y recortarla demasiado durante mucho
+          tiempo puede afectar al ciclo. No es un motivo para comer más grasa por sistema, pero
+          sí para <strong>no llevarla al mínimo</strong> como a veces se hace.
+        </p>
+
+        <h3 class="cs-h3">4. Los porcentajes de grasa no son comparables</h3>
+        <p class="cs-text">
+          Una mujer al 15 % de grasa y un hombre al 15 % <strong>no se parecen en
+          nada</strong>. Los rangos femeninos son más altos por fisiología, no por estar peor:
+          la grasa esencial femenina incluye depósitos ligados a la función hormonal.
+        </p>
+        <p class="cs-text">
+          Tienes los rangos de referencia de cada sexo en la
+          <a href="/grasa-corporal" style="color:var(--lime)">calculadora de grasa corporal</a>.
+          Y una advertencia importante: <strong>bajar por debajo del rango esencial</strong>
+          —en mujeres, alrededor del 10-13 %— se asocia a alteraciones hormonales y a la
+          interrupción del ciclo menstrual. No es un objetivo, es una señal de alarma.
+        </p>
+      </div>
+
+      <!-- ─────────── COPIAR DIETAS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Aviso</div>
+        <h2 class="cs-title">No copies la dieta de nadie</h2>
+        <p class="cs-text">
+          Ni de un famoso, ni de un influencer, ni de tu amigo del gimnasio. Esa dieta está
+          hecha para <strong>su</strong> mantenimiento, <strong>su</strong> peso,
+          <strong>su</strong> nivel de actividad y <strong>sus</strong> gustos.
+        </p>
+        <p class="cs-text">
+          Lo que puedes copiar son las ideas —cómo se estructura, qué alimentos usa— pero los
+          números tienen que ser tuyos. Sácalos de la
+          <a href="/" style="color:var(--lime)">calculadora</a> y ajústalos con tus propios
+          datos cada pocas semanas.
+        </p>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          <strong>Para empezar:</strong> calcula
+          <a href="/" style="color:var(--lime)">tus calorías objetivo y tus macros</a>, y
+          revisa <a href="/guias/cuanta-proteina-necesito-al-dia" style="color:var(--lime)">cuánta
+          proteína necesitas</a> para no cometer el error de subirla a costa de los
+          carbohidratos.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>
