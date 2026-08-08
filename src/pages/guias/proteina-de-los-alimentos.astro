@@ -1,0 +1,405 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+/**
+ * Valores de referencia habituales por 100 g de porción comestible.
+ * Son aproximados: varían según el corte, la marca y la preparación, y por
+ * eso la página insiste en comprobar la etiqueta. "crudo" marca los que se
+ * pesan antes de cocinar, que es la principal fuente de error.
+ */
+const TABLAS = [
+  {
+    grupo: 'Carnes',
+    nota: 'Valores en crudo. Al cocinarse pierden agua y la proteína se concentra.',
+    items: [
+      { nombre: 'Pechuga de pavo', g: 24 },
+      { nombre: 'Pechuga de pollo', g: 23 },
+      { nombre: 'Solomillo de ternera', g: 21 },
+      { nombre: 'Lomo de cerdo', g: 21 },
+      { nombre: 'Carne picada de ternera (5 % grasa)', g: 21 },
+    ],
+  },
+  {
+    grupo: 'Pescados y mariscos',
+    nota: 'Valores en crudo.',
+    items: [
+      { nombre: 'Atún fresco', g: 23 },
+      { nombre: 'Salmón', g: 20 },
+      { nombre: 'Bacalao', g: 18 },
+      { nombre: 'Gambas', g: 18 },
+      { nombre: 'Merluza', g: 17 },
+    ],
+  },
+  {
+    grupo: 'Conservas',
+    nota: 'Peso escurrido, sin el líquido.',
+    items: [
+      { nombre: 'Atún al natural', g: 25 },
+      { nombre: 'Sardinas en aceite', g: 22 },
+      { nombre: 'Berberechos', g: 12 },
+    ],
+  },
+  {
+    grupo: 'Huevos',
+    nota: 'Sin cáscara.',
+    items: [
+      { nombre: 'Huevo entero', g: 12.5 },
+      { nombre: 'Clara de huevo', g: 11 },
+    ],
+  },
+  {
+    grupo: 'Lácteos',
+    nota: '',
+    items: [
+      { nombre: 'Queso curado', g: 27 },
+      { nombre: 'Requesón', g: 11 },
+      { nombre: 'Queso batido 0 % / skyr', g: 10.5 },
+      { nombre: 'Yogur griego natural', g: 9 },
+      { nombre: 'Yogur natural', g: 3.5 },
+      { nombre: 'Leche entera', g: 3.2 },
+    ],
+  },
+  {
+    grupo: 'Legumbres y vegetales',
+    nota: 'Legumbres ya cocidas, salvo la soja texturizada, que se pesa seca.',
+    items: [
+      { nombre: 'Soja texturizada (en seco)', g: 50 },
+      { nombre: 'Lentejas cocidas', g: 9 },
+      { nombre: 'Garbanzos cocidos', g: 9 },
+      { nombre: 'Tofu', g: 8 },
+      { nombre: 'Alubias cocidas', g: 8 },
+      { nombre: 'Guisantes', g: 5 },
+    ],
+  },
+  {
+    grupo: 'Cereales y frutos secos',
+    nota: '',
+    items: [
+      { nombre: 'Cacahuetes', g: 26 },
+      { nombre: 'Almendras', g: 21 },
+      { nombre: 'Avena', g: 13 },
+      { nombre: 'Pan integral', g: 8 },
+      { nombre: 'Pasta cocida', g: 5 },
+      { nombre: 'Arroz cocido', g: 2.7 },
+    ],
+  },
+];
+
+/** Lo que la gente busca de verdad: por unidad, no por 100 g. */
+const POR_UNIDAD = [
+  { nombre: 'Un huevo M (unos 50 g sin cáscara)', g: '6 g' },
+  { nombre: 'Un huevo L (unos 60 g sin cáscara)', g: '7,5 g' },
+  { nombre: 'Una clara de huevo', g: '3,5 g' },
+  { nombre: 'Una lata de atún al natural (52 g escurrido)', g: '13 g' },
+  { nombre: 'Una pechuga de pollo entera (unos 180 g)', g: '41 g' },
+  { nombre: 'Un filete de pechuga (unos 120 g)', g: '28 g' },
+  { nombre: 'Un yogur griego natural (125 g)', g: '11 g' },
+  { nombre: 'Un vaso de leche (250 ml)', g: '8 g' },
+  { nombre: 'Un cacito de proteína whey (30 g)', g: '23 g' },
+];
+
+/** Los que la gente busca esperando proteína y no la tienen. */
+const POCOS = [
+  { nombre: 'Aguacate', g: '2 g' },
+  { nombre: 'Plátano', g: '1,1 g' },
+  { nombre: 'Patata cocida', g: '2 g' },
+  { nombre: 'Manzana', g: '0,3 g' },
+];
+
+const faq = [
+  {
+    p: '¿Cuánta proteína tiene un huevo?',
+    r: 'Un huevo mediano (unos 50 g sin cáscara) aporta alrededor de 6 gramos de proteína; uno grande, unos 7,5 g. La clara sola ronda los 3,5 g. Da igual que esté frito, cocido o en tortilla: cocinarlo no cambia la cantidad de proteína, solo la grasa que le añadas.',
+  },
+  {
+    p: '¿Cuánta proteína tiene una pechuga de pollo?',
+    r: 'Unos 23 gramos por cada 100 g de pollo crudo. Una pechuga entera de unos 180 g aporta cerca de 41 g. Ojo: si la pesas ya cocinada, la cifra por 100 g sube a unos 30 g, porque al cocinarse pierde agua y la proteína se concentra.',
+  },
+  {
+    p: '¿Cuánta proteína tiene una lata de atún?',
+    r: 'Una lata pequeña al natural, con unos 52 g de peso escurrido, aporta alrededor de 13 gramos. El atún al natural ronda los 25 g por 100 g escurridos, algo más que el pollo crudo.',
+  },
+  {
+    p: '¿Cuánta proteína tiene un plátano?',
+    r: 'Muy poca: alrededor de 1,1 g por 100 g. El plátano es una fuente de carbohidratos, no de proteína. Lo mismo ocurre con el aguacate, que ronda los 2 g y es sobre todo grasa.',
+  },
+  {
+    p: '¿Peso los alimentos crudos o cocinados?',
+    r: 'Lo más fiable es pesarlos crudos y usar los valores en crudo, que es como vienen en la mayoría de tablas y etiquetas. Si te resulta más cómodo pesar en cocinado, no pasa nada, pero entonces tienes que usar valores de cocinado: 100 g de pollo cocinado tienen bastante más proteína que 100 g de pollo crudo, porque ha perdido agua.',
+  },
+  {
+    p: '¿Es mejor la proteína animal o la vegetal?',
+    r: 'Las fuentes animales tienen un perfil de aminoácidos más completo y suelen concentrar más proteína por caloría. Las vegetales funcionan igual de bien si se combinan y se alcanza el total diario, aunque normalmente hace falta comer más volumen para llegar a la misma cantidad.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Proteína de los alimentos: tabla por 100 g y por unidad',
+    description:
+      'Cuánta proteína tienen el huevo, el pollo, el atún, el yogur griego y otros alimentos habituales, con la diferencia entre pesar en crudo y en cocinado.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/proteina-de-los-alimentos`,
+    dateModified: '2026-08-08',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Proteína de los alimentos',
+        item: `${SITE.url}/guias/proteina-de-los-alimentos`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Proteína de los Alimentos: Tabla por 100 g y por Unidad | Calculadora Fit"
+  description="Cuánta proteína tiene un huevo, una pechuga de pollo, una lata de atún o un yogur griego. Tabla completa y la diferencia entre pesar crudo y cocinado."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Proteína de los alimentos</h1>
+    <p class="hero-sub">
+      Tabla por 100 g y por unidad — y el detalle que descuadra los cálculos de casi todo el
+      mundo.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <div class="cs-highlight">
+          <strong>Antes de mirar la tabla, lo importante:</strong> estos valores son
+          <strong>en crudo</strong> salvo donde se indique. Si pesas la comida ya cocinada y
+          usas estos números, tus cálculos van a salir mal. Lo explicamos justo debajo de la
+          tabla y no lleva ni un minuto entenderlo.
+        </div>
+      </div>
+
+      <!-- ─────────── TABLA ─────────── -->
+      {
+        TABLAS.map((t) => (
+          <div class="content-section">
+            <div class="cs-tag">Por 100 g</div>
+            <h2 class="cs-title">{t.grupo}</h2>
+            {t.nota && <p class="cs-text">{t.nota}</p>}
+            <table class="tabla-legal">
+              <thead>
+                <tr>
+                  <th>Alimento</th>
+                  <th>Proteína / 100 g</th>
+                </tr>
+              </thead>
+              <tbody>
+                {t.items.map((i) => (
+                  <tr>
+                    <td>{i.nombre}</td>
+                    <td>
+                      <strong>{String(i.g).replace('.', ',')} g</strong>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))
+      }
+
+      <!-- ─────────── CRUDO VS COCINADO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">El error que más descuadra</div>
+        <h2 class="cs-title">Crudo o cocinado: no es lo mismo</h2>
+        <p class="cs-text">
+          Este es el motivo por el que mucha gente cree que llega a su proteína y no llega — o
+          al revés.
+        </p>
+        <p class="cs-text">
+          Al cocinar la carne o el pescado, <strong>pierden agua</strong>. El peso baja, pero
+          la proteína sigue ahí. Resultado: la proteína queda más concentrada.
+        </p>
+        <div class="cs-highlight">
+          <strong>100 g de pollo crudo → unos 75 g una vez cocinado.</strong><br />
+          Esos 100 g crudos tenían 23 g de proteína. Los 75 g cocinados siguen teniendo esos
+          mismos 23 g.<br />
+          <br />
+          Es decir: <strong>100 g de pollo cocinado rondan los 30 g de proteína</strong>, no
+          23.
+        </div>
+        <p class="cs-text">
+          Si pesas en cocinado y aplicas los valores en crudo,
+          <strong>te estás quedando corto en un 25 % aproximadamente</strong>. Con 150 g de
+          proteína diarios, eso son casi 40 gramos de diferencia.
+        </p>
+        <p class="cs-text">
+          <strong>Lo más práctico:</strong> pesa siempre en crudo y usa esta tabla. Es lo que
+          hacen las etiquetas y evita tener que pensar. Si prefieres pesar en cocinado, puedes,
+          pero busca entonces los valores de cocinado y sé constante — lo que no puedes es
+          mezclar.
+        </p>
+        <p class="cs-text">
+          Con huevos, lácteos, legumbres cocidas y conservas no hay este problema: el valor de
+          la etiqueta ya corresponde a lo que te comes.
+        </p>
+      </div>
+
+      <!-- ─────────── POR UNIDAD ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Práctico</div>
+        <h2 class="cs-title">Por unidad, que es como se come</h2>
+        <p class="cs-text">
+          Nadie come «100 gramos de huevo». Estas son las cantidades reales:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr>
+              <th>Ración</th>
+              <th>Proteína</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              POR_UNIDAD.map((i) => (
+                <tr>
+                  <td>{i.nombre}</td>
+                  <td><strong>{i.g}</strong></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ─────────── LOS QUE NO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Aclaración</div>
+        <h2 class="cs-title">Alimentos que la gente cree que tienen proteína</h2>
+        <p class="cs-text">
+          Aparecen constantemente en las búsquedas, así que conviene ser claro:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr>
+              <th>Alimento</th>
+              <th>Proteína / 100 g</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              POCOS.map((i) => (
+                <tr>
+                  <td>{i.nombre}</td>
+                  <td><strong>{i.g}</strong></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <p class="cs-text">
+          No son alimentos malos — el plátano y la patata son buenas fuentes de carbohidratos,
+          y el aguacate de grasa. Simplemente <strong>no cuentes con ellos para tu
+          proteína</strong>: harían falta casi dos kilos de plátano para llegar a lo que
+          aporta una pechuga.
+        </p>
+      </div>
+
+      <!-- ─────────── CÓMO USARLA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Cómo usar esto</div>
+        <h2 class="cs-title">De la tabla a tu día</h2>
+        <p class="cs-text">
+          Un ejemplo de cómo se llega a <strong>140 g de proteína</strong> sin complicarse:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Comida</th><th>Proteína</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Desayuno: avena (60 g) + 1 cacito de whey</td><td><strong>31 g</strong></td></tr>
+            <tr><td>Comida: 180 g de pechuga de pollo</td><td><strong>41 g</strong></td></tr>
+            <tr><td>Merienda: yogur griego + 30 g de almendras</td><td><strong>17 g</strong></td></tr>
+            <tr><td>Cena: 200 g de merluza + 2 huevos</td><td><strong>47 g</strong></td></tr>
+            <tr><td><strong>Total</strong></td><td><strong>136 g</strong></td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Cuatro comidas normales, ningún suplemento raro. Y fíjate en algo: la proteína en
+          polvo aporta 23 de esos 136 gramos —<strong>menos del 20 %</strong>—. Es una ayuda
+          para cuadrar el desayuno, no la base de nada.
+        </p>
+        <p class="cs-text">
+          ¿No sabes cuántos gramos te tocan a ti? Lo tienes en
+          <a href="/guias/cuanta-proteina-necesito-al-dia" style="color:var(--lime)">cuánta
+          proteína necesitas al día</a>, con tabla por pesos. Y el reparto completo con
+          calorías y el resto de macros, en la
+          <a href="/" style="color:var(--lime)">calculadora</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── SOBRE LOS DATOS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Sobre estos datos</div>
+        <h2 class="cs-title">Son orientativos, y conviene saber por qué</h2>
+        <p class="cs-text">
+          Los valores de esta página son <strong>cifras de referencia habituales</strong>, y
+          la realidad varía:
+        </p>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.4rem">
+            <strong>El corte importa:</strong> un solomillo y un entrecot no tienen la misma
+            proporción de grasa, y por tanto tampoco de proteína.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.4rem">
+            <strong>La marca importa:</strong> dos yogures griegos de marcas distintas pueden
+            llevarse 3 o 4 gramos.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.4rem">
+            <strong>Los productos procesados varían mucho:</strong> fiambres, embutidos y
+            preparados llevan agua y almidones añadidos.
+          </li>
+        </ul>
+        <div class="cs-highlight">
+          <strong>Usa esta tabla como referencia rápida, pero mira la etiqueta cuando la
+          tengas delante.</strong> El dato del envase siempre gana al de cualquier tabla
+          general, incluida esta.
+        </div>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</Base>

@@ -71,6 +71,35 @@ export const NAV = [
   { href: '/contacto', texto: 'Contacto' },
 ] as const;
 
+/**
+ * Índice de guías. Fuente única: de aquí salen la página /guias, las tarjetas
+ * de la portada y los enlaces entre guías. Añadir una guía es añadir una
+ * línea aquí; el sitemap se genera solo a partir de las páginas.
+ */
+export const GUIAS = [
+  {
+    href: '/guias/cuanta-proteina-necesito-al-dia',
+    titulo: 'Cuánta proteína necesito al día',
+    resumen:
+      'Tu cifra exacta según lo que pesas y lo que entrenas, con tabla para 60, 70, 80, 90 y 100 kg. Y por qué probablemente sea menos de lo que te han dicho.',
+    icono: '🥩',
+  },
+  {
+    href: '/guias/deficit-calorico-como-calcularlo',
+    titulo: 'Déficit calórico: cómo calcularlo',
+    resumen:
+      'Cuántas calorías recortar, cómo saber si funciona, qué tocar cuando te estancas y por qué casi nadie llega al final de una definición.',
+    icono: '📉',
+  },
+  {
+    href: '/guias/proteina-de-los-alimentos',
+    titulo: 'Proteína de los alimentos',
+    resumen:
+      'Tabla por 100 g y por unidad: huevo, pollo, atún, yogur griego… y el fallo de pesar en cocinado que descuadra los cálculos de casi todo el mundo.',
+    icono: '📋',
+  },
+] as const;
+
 /** Enlaces del pie. */
 export const NAV_LEGAL = [
   { href: '/sobre-nosotros', texto: 'Sobre nosotros' },

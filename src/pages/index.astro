@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { SITE } from '../config/site';
+import { SITE, GUIAS } from '../config/site';
 
 // Las respuestas deben coincidir con lo que ve el usuario en la página.
 // Si el schema dice una cosa y la página otra, Google lo trata como
@@ -351,18 +351,19 @@ const schema = [
 
       <!-- GUÍAS -->
       <div style="margin-top:3rem">
-        <p class="sec-label" style="margin-bottom:8px">Guías</p>
+        <p class="sec-label" style="margin-bottom:8px">
+          <a href="/guias" style="color:var(--muted)">Guías →</a>
+        </p>
         <div class="prod-grid">
-          <a href="/guias/cuanta-proteina-necesito-al-dia" class="prod-card">
-            <div class="prod-icon">🥩</div>
-            <div class="prod-name">Cuánta proteína necesito al día</div>
-            <div class="prod-tag">Tabla por pesos →</div>
-          </a>
-          <a href="/guias/deficit-calorico-como-calcularlo" class="prod-card">
-            <div class="prod-icon">📉</div>
-            <div class="prod-name">Déficit calórico</div>
-            <div class="prod-tag">Cómo calcularlo y sostenerlo →</div>
-          </a>
+          {
+            GUIAS.map((g) => (
+              <a href={g.href} class="prod-card">
+                <div class="prod-icon">{g.icono}</div>
+                <div class="prod-name">{g.titulo}</div>
+                <div class="prod-tag">Leer guía →</div>
+              </a>
+            ))
+          }
         </div>
       </div>
 

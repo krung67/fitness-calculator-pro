@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GUIAS } from '../config/site';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Guías de nutrición y entrenamiento',
+    description:
+      'Guías prácticas sobre proteína, déficit calórico y composición de los alimentos, con criterio propio y sin relleno.',
+    url: `${SITE.url}/guias`,
+    inLanguage: 'es-ES',
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: GUIAS.map((g, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: g.titulo,
+        url: `${SITE.url}${g.href}`,
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+    ],
+  },
+];
+---
+
+<Base
+  title="Guías de nutrición y fitness | Calculadora Fit"
+  description="Guías prácticas sobre proteína, déficit calórico y composición de los alimentos. Con criterio propio, explicando también cuándo algo no sirve."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guías</div>
+    <h1>Guías</h1>
+    <p class="hero-sub">
+      Lo que hay detrás de los números de las calculadoras, explicado sin relleno.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap" style="padding-top:2.5rem;padding-bottom:1rem">
+      <div class="prod-grid">
+        {
+          GUIAS.map((g) => (
+            <a href={g.href} class="prod-card" style="padding:1.4rem">
+              <div class="prod-icon">{g.icono}</div>
+              <div class="prod-name" style="font-size:0.95rem;margin-bottom:8px">{g.titulo}</div>
+              <div class="cs-text" style="font-size:0.8rem;margin:0">{g.resumen}</div>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="content-section" style="margin-top:3rem">
+        <p class="cs-text">
+          Todas las guías salen del mismo sitio que las calculadoras: años entrenando y lo
+          aprendido de un preparador con una década en el sector. Puedes leer de dónde viene
+          el criterio en <a href="/metodo" style="color:var(--lime)">Nuestro método</a> y quién
+          está detrás en <a href="/sobre-nosotros" style="color:var(--lime)">Sobre nosotros</a>.
+        </p>
+        <p class="cs-text">
+          ¿Prefieres ir directo a los números? Empieza por la
+          <a href="/" style="color:var(--lime)">calculadora de calorías y macros</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>
