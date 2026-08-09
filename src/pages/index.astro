@@ -774,7 +774,10 @@ const schema = [
       <div class="hp-fecha" id="hpFecha"></div>
     </div>
 
-    <h1 class="hp-titulo">Tu plan nutricional</h1>
+    <!-- No es un h1 aunque visualmente lo parezca en el PDF: la página ya
+         tiene su h1 en el hero, y dos h1 diluyen la señal de cuál es el tema
+         principal. La hoja está oculta en pantalla, pero Google la lee. -->
+    <div class="hp-titulo">Tu plan nutricional</div>
 
     <div class="hp-seccion">
       <div class="hp-seccion-tit">Tus datos</div>
