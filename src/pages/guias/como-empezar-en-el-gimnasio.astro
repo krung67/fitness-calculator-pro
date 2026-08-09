@@ -1,0 +1,389 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const faq = [
+  {
+    p: '¿Por dónde empiezo si voy al gimnasio por primera vez?',
+    r: 'Por dos cosas que no dependen de ninguna rutina: ir de forma constante y comer suficiente proteína. Antes de buscar el programa perfecto, asegúrate de poder sostener tres o cuatro días a la semana durante meses. La adherencia decide el resultado mucho más que el diseño del entrenamiento.',
+  },
+  {
+    p: '¿Cuánto tardaré en ver resultados?',
+    r: 'Notarás mejoras de fuerza en dos o tres semanas, aunque eso es sobre todo adaptación del sistema nervioso, no músculo nuevo. Los cambios visibles llegan hacia el segundo o tercer mes, y el cambio evidente para los demás, a partir del sexto. Quien abandona suele hacerlo justo antes de que empiece a notarse.',
+  },
+  {
+    p: '¿Necesito suplementos para empezar?',
+    r: 'No. La proteína en polvo es cómoda para cuadrar desayunos y meriendas, pero no hace falta para ganar músculo si llegas a tu objetivo con comida. Cualquier otro suplemento es irrelevante comparado con comer suficiente, entrenar con constancia y dormir bien.',
+  },
+  {
+    p: '¿Es distinto empezar siendo mujer?',
+    r: 'El entrenamiento de fuerza y los principios nutricionales son los mismos. Cambian las cifras absolutas, porque el mantenimiento suele ser menor, y hay dos cosas prácticas a tener en cuenta: las retenciones del ciclo menstrual enmascaran los cambios en la báscula, y conviene no reducir demasiado la grasa de la dieta por su papel hormonal.',
+  },
+  {
+    p: '¿Puedo perder grasa y ganar músculo a la vez al empezar?',
+    r: 'Sí, y es una de las grandes ventajas de ser principiante. Se llama recomposición corporal y funciona especialmente bien el primer año, comiendo en torno al mantenimiento. Es una ventana que se cierra: cuanto más cerca estés de tu potencial, más difícil resulta.',
+  },
+  {
+    p: '¿Cuántos días a la semana debo ir?',
+    r: 'Tres o cuatro días sostenidos durante meses rinden mucho más que seis días durante tres semanas. Elige la frecuencia que puedas mantener con tu horario real, no la que te gustaría poder mantener.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Cómo empezar en el gimnasio desde cero',
+    description:
+      'Qué importa de verdad al empezar en el gimnasio: expectativas realistas, alimentación desde el primer día y los errores que hacen abandonar.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/como-empezar-en-el-gimnasio`,
+    dateModified: '2026-08-09',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Cómo empezar en el gimnasio',
+        item: `${SITE.url}/guias/como-empezar-en-el-gimnasio`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Cómo Empezar en el Gimnasio Desde Cero"
+  description="Qué importa de verdad al empezar en el gimnasio: expectativas realistas, cómo comer desde el primer día y los errores que hacen abandonar en tres semanas."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Cómo empezar en el gimnasio</h1>
+    <p class="hero-sub">
+      Lo que de verdad decide si sigues ahí dentro de seis meses. Y no es la rutina que
+      elijas.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          Casi todo el mundo empieza buscando <em>la rutina perfecta</em>. Y casi todo el
+          mundo abandona a las tres semanas con una rutina perfectamente correcta.
+        </p>
+        <p class="cs-text">
+          Lo que separa a quien sigue de quien lo deja no es el programa de entrenamiento.
+          <strong>Son las expectativas, la alimentación y la constancia.</strong> De eso va
+          esta guía.
+        </p>
+      </div>
+
+      <!-- ─────────── AVISO HONESTO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Por transparencia</div>
+        <h2 class="cs-title">Aquí no vas a encontrar una rutina</h2>
+        <p class="cs-text">
+          Y quiero explicarte por qué, porque es una decisión deliberada.
+        </p>
+        <p class="cs-text">
+          <strong>No tengo titulación en entrenamiento.</strong> Lo que sé viene de años
+          entrenando y de aprender de un preparador profesional, y eso me da criterio sobre
+          nutrición aplicada — no para prescribirte ejercicios, series y repeticiones sin
+          verte, sin conocer tu historial ni tus limitaciones.
+        </p>
+        <div class="cs-highlight">
+          <strong>Para la rutina, habla con un entrenador del gimnasio.</strong> La mayoría
+          incluyen una sesión inicial en la cuota, y una persona mirándote hacer una sentadilla
+          vale más que cualquier tabla de internet. Si tienes alguna lesión previa, esto no es
+          opcional.
+        </div>
+        <p class="cs-text">
+          Dicho eso, hay muchísimo que <strong>sí</strong> puedo contarte, y es justo lo que
+          nadie te cuenta el primer día.
+        </p>
+      </div>
+
+      <!-- ─────────── EXPECTATIVAS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Lo primero</div>
+        <h2 class="cs-title">Expectativas realistas: el calendario de verdad</h2>
+        <p class="cs-text">
+          Esto es lo más valioso que te puedo dar, porque
+          <strong>la causa número uno de abandono son las expectativas equivocadas</strong>.
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Cuándo</th><th>Qué vas a notar</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Semanas 1-3</strong></td>
+              <td>Subes de peso en los ejercicios rápido. Es adaptación del sistema nervioso, no músculo nuevo. Agujetas.</td>
+            </tr>
+            <tr>
+              <td><strong>Meses 2-3</strong></td>
+              <td>Primeros cambios visibles para ti. La ropa empieza a sentarte distinto.</td>
+            </tr>
+            <tr>
+              <td><strong>Meses 4-6</strong></td>
+              <td>Los demás empiezan a notarlo. Aquí es donde se ve quién ha sido constante.</td>
+            </tr>
+            <tr>
+              <td><strong>Año 1</strong></td>
+              <td>El cambio más grande de toda tu vida entrenando.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="cs-highlight">
+          <strong>El primer año es, con diferencia, el más rentable que vas a tener.</strong>
+          Un principiante puede ganar entre un 1 % y un 1,5 % de su peso corporal al mes en
+          músculo. Un avanzado, entre un 0,25 % y un 0,5 %. Esa ventaja no vuelve — aprovéchala.
+        </div>
+        <p class="cs-text">
+          Puedes ver tus cifras concretas en la
+          <a href="/masa-muscular">calculadora de masa muscular</a>, que estima cuánto puedes
+          ganar según tus años de entrenamiento.
+        </p>
+      </div>
+
+      <!-- ─────────── LO QUE SÍ CONTROLAS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Desde el día 1</div>
+        <h2 class="cs-title">La alimentación: lo que sí controlas por completo</h2>
+        <p class="cs-text">
+          Puedes entrenar perfecto y no avanzar si comes mal. Y esto no depende de ningún
+          entrenador: <strong>es tuyo desde el primer día</strong>.
+        </p>
+
+        <h3 class="cs-h3">1. Sabe cuántas calorías necesitas</h3>
+        <p class="cs-text">
+          Antes de decidir si comer más o menos, necesitas tu punto de partida. Lo tienes en
+          dos pasos en la <a href="/">calculadora de calorías y macros</a>, y explicado en
+          <a href="/guias/cuantas-calorias-necesito-al-dia">cuántas calorías necesitas al día</a>.
+        </p>
+
+        <h3 class="cs-h3">2. Elige objetivo — y aquí tienes ventaja</h3>
+        <p class="cs-text">
+          Si estás empezando, puedes <strong>perder grasa y ganar músculo a la vez</strong>
+          comiendo en torno a tu mantenimiento. Es la
+          <a href="/guias/recomposicion-corporal">recomposición corporal</a>, y funciona
+          especialmente bien el primer año. Es una ventana que se cierra a medida que te
+          acercas a tu potencial.
+        </p>
+
+        <h3 class="cs-h3">3. Cubre tu proteína</h3>
+        <p class="cs-text">
+          Sin material no hay construcción. Cuánta necesitas depende de tu peso y de cuánto
+          entrenes: lo tienes con tabla por pesos en
+          <a href="/guias/cuanta-proteina-necesito-al-dia">cuánta proteína necesitas al día</a>.
+        </p>
+
+        <h3 class="cs-h3">4. Pesa la comida unas semanas</h3>
+        <p class="cs-text">
+          No para siempre: lo justo para calibrar el ojo. Casi todo el mundo se sorprende de
+          lo lejos que estaba su estimación. Cómo hacerlo sin volverte loco, en
+          <a href="/guias/como-pesar-la-comida">esta guía</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── ERRORES ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Errores</div>
+        <h2 class="cs-title">Los cinco errores del principiante</h2>
+
+        <h3 class="cs-h3">1. Cambiar de rutina cada mes</h3>
+        <p class="cs-text">
+          Es el error más caro. Ves un programa nuevo, te convence, lo cambias.
+          <strong>Y con ello borras la única variable que importa: la progresión.</strong>
+        </p>
+        <p class="cs-text">
+          Tu cuerpo se adapta a lo que repites, no a lo que pruebas. Quédate con un programa
+          el tiempo suficiente para <strong>mejorar las cargas de forma medible</strong> — eso
+          son meses, no semanas.
+        </p>
+
+        <h3 class="cs-h3">2. Empezar con seis días a la semana</h3>
+        <p class="cs-text">
+          La motivación inicial engaña. Seis días durante tres semanas rinden muchísimo menos
+          que tres días durante ocho meses.
+        </p>
+        <p class="cs-text">
+          <strong>Elige la frecuencia que puedas sostener con tu horario real</strong>, no con
+          el que te gustaría tener. Tres o cuatro días es más que suficiente para progresar
+          durante mucho tiempo.
+        </p>
+
+        <h3 class="cs-h3">3. Comer siempre lo mismo</h3>
+        <p class="cs-text">
+          Pollo con arroz todos los días funciona dos semanas. Después te cansas y lo dejas — y
+          concluyes que no tienes disciplina, cuando el problema era el menú.
+        </p>
+        <div class="cs-highlight">
+          <strong>Ten seis opciones para cada comida del día.</strong> Seis desayunos, seis
+          comidas, seis meriendas, seis cenas. Si te cansas de la pechuga, la cambias por
+          ternera y ajustas los gramos. Así la dieta se adapta a ti y no al revés.
+        </div>
+
+        <h3 class="cs-h3">4. Obsesionarse con los suplementos</h3>
+        <p class="cs-text">
+          No necesitas nada para empezar. La proteína en polvo es cómoda para cuadrar
+          desayunos y meriendas, pero <strong>no construye músculo por sí sola</strong> y en
+          una dieta normal aporta menos del 20 % del total diario.
+        </p>
+        <p class="cs-text">
+          Antes de gastarte dinero en botes, asegúrate de comer suficiente, dormir siete u ocho
+          horas y ser constante. Eso es el 95 % del resultado.
+        </p>
+
+        <h3 class="cs-h3">5. Vivir pendiente de la báscula</h3>
+        <p class="cs-text">
+          El peso fluctúa uno o dos kilos por agua, glucógeno y sal. Si empiezas a entrenar,
+          además, el músculo retiene líquido las primeras semanas.
+        </p>
+        <p class="cs-text">
+          Pésate <strong>una vez por semana</strong>, en ayunas y siempre el mismo día. Y mide
+          contornos y hazte fotos, que es donde de verdad se ve el cambio. Si la báscula no se
+          mueve y te agobias, lee
+          <a href="/guias/por-que-no-bajo-de-peso">por qué no bajas de peso</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── PRINCIPIOS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Lo que sí importa del entrenamiento</div>
+        <h2 class="cs-title">Tres principios, sin entrar en ejercicios</h2>
+        <p class="cs-text">
+          Sea cual sea la rutina que te den, estos tres principios son los que hacen que
+          funcione:
+        </p>
+
+        <h3 class="cs-h3">Progresión medible</h3>
+        <p class="cs-text">
+          <strong>Apunta lo que levantas.</strong> Si dentro de tres meses no sabes si has
+          mejorado, no puedes saber si tu entrenamiento sirve. Peso, series y repeticiones en
+          una libreta o en el móvil. Es la costumbre que más separa a quien progresa de quien
+          se estanca.
+        </p>
+
+        <h3 class="cs-h3">Técnica antes que peso</h3>
+        <p class="cs-text">
+          Cargar más de lo que puedes controlar no acelera nada y sí te puede lesionar. Y una
+          lesión son semanas sin entrenar, que es lo único que de verdad te frena.
+        </p>
+
+        <h3 class="cs-h3">Constancia por encima de intensidad</h3>
+        <p class="cs-text">
+          Un entrenamiento del 70 % hecho es infinitamente mejor que uno perfecto que no
+          haces. Los días de cansancio, ve igual y baja la exigencia.
+          <strong>Lo que construye resultados es la suma de meses, no ningún día concreto.</strong>
+        </p>
+      </div>
+
+      <!-- ─────────── PARA ELLAS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Casos particulares</div>
+        <h2 class="cs-title">Si empiezas siendo mujer</h2>
+        <p class="cs-text">
+          Lo primero, porque sigue circulando: <strong>entrenar fuerza no te va a poner
+          «grande»</strong>. Los niveles hormonales hacen que la ganancia muscular sea más
+          lenta que en hombres, y el resultado habitual es un cuerpo más firme y más fuerte.
+        </p>
+        <p class="cs-text">Lo que sí cambia son tres cosas prácticas:</p>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Las cifras absolutas son menores.</strong> Con un mantenimiento más bajo,
+            el margen es más estrecho y conviene afinar más.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>El ciclo menstrual mueve la báscula.</strong> Las retenciones pueden sumar
+            uno o dos kilos sin relación con la grasa. Compara semanas equivalentes de ciclos
+            distintos, no una semana con la anterior.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>No recortes demasiado la grasa de la dieta.</strong> Participa en la
+            producción hormonal y bajarla al mínimo durante mucho tiempo puede afectar al ciclo.
+          </li>
+        </ul>
+      </div>
+
+      <!-- ─────────── PRIMER MES ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Plan</div>
+        <h2 class="cs-title">Tu primer mes, paso a paso</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Semana</th><th>Qué hacer</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>Pide la sesión inicial con un entrenador del gimnasio. Calcula tus calorías y macros. Empieza a apuntar lo que levantas.</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>Pesa la comida para calibrar. Aún sin cambiar nada: solo mirar cuánto comes de verdad.</td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td>Ajusta las calorías a tu objetivo. Prepara tus seis opciones por comida.</td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td>Primera revisión: peso en ayunas, contornos y fotos. Es tu punto de partida real.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Fíjate en que ninguna semana pone «cambiar de rutina» ni «comprar suplementos».
+          <strong>Ir, comer bien y anotar.</strong> Eso es todo lo que hace falta el primer mes.
+        </p>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          <strong>Empieza por aquí:</strong> calcula tus calorías y macros en la
+          <a href="/">calculadora</a>. Es lo único que necesitas el primer día, junto con
+          presentarte en el gimnasio.
+        </p>
+        <p class="cs-text">
+          ⚠️ Si tienes alguna patología, lesión previa o llevas mucho tiempo sin hacer
+          ejercicio, <strong>consulta con tu médico antes de empezar</strong>. Esta guía es
+          información general y no sustituye una valoración profesional.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

@@ -133,6 +133,13 @@ export const GUIAS = [
       'Tu cifra según peso, altura y actividad, con tabla por perfiles. La diferencia entre BMR y mantenimiento, y por qué ninguna fórmula acierta sin comprobarla.',
     icono: '🔢',
   },
+  {
+    href: '/guias/como-empezar-en-el-gimnasio',
+    titulo: 'Cómo empezar en el gimnasio',
+    resumen:
+      'Expectativas realistas mes a mes, cómo comer desde el primer día y los cinco errores que hacen abandonar en tres semanas.',
+    icono: '🏋️',
+  },
 ] as const;
 
 /** Enlaces del pie. */
