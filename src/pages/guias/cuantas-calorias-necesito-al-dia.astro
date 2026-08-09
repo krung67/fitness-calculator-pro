@@ -1,0 +1,366 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+/**
+ * Tabla de referencia calculada con Mifflin-St Jeor, la misma fórmula de la
+ * calculadora, para una edad de 30 años. Se genera aquí para que no pueda
+ * desincronizarse de la herramienta.
+ */
+const EDAD_REF = 30;
+const ACTIVIDADES = [
+  { nombre: 'Sedentario', factor: 1.2 },
+  { nombre: 'Ligero', factor: 1.375 },
+  { nombre: 'Moderado', factor: 1.55 },
+  { nombre: 'Alto', factor: 1.725 },
+];
+const PERFILES = [
+  { sexo: 'h', etiqueta: 'Hombre · 70 kg · 175 cm', peso: 70, altura: 175 },
+  { sexo: 'h', etiqueta: 'Hombre · 80 kg · 180 cm', peso: 80, altura: 180 },
+  { sexo: 'h', etiqueta: 'Hombre · 90 kg · 185 cm', peso: 90, altura: 185 },
+  { sexo: 'm', etiqueta: 'Mujer · 55 kg · 160 cm', peso: 55, altura: 160 },
+  { sexo: 'm', etiqueta: 'Mujer · 65 kg · 165 cm', peso: 65, altura: 165 },
+  { sexo: 'm', etiqueta: 'Mujer · 75 kg · 170 cm', peso: 75, altura: 170 },
+];
+
+const bmr = (sexo: string, p: number, a: number, e: number) =>
+  Math.round(sexo === 'h' ? 10 * p + 6.25 * a - 5 * e + 5 : 10 * p + 6.25 * a - 5 * e - 161);
+
+const KCAL_POR_KILO_GRASA = 7700;
+const RITMOS = [200, 300, 400, 500];
+
+const faq = [
+  {
+    p: '¿Cuántas calorías necesito al día?',
+    r: 'Depende de tu peso, altura, edad, sexo y nivel de actividad. Como referencia, un hombre de 80 kg y 1,80 m con actividad moderada ronda las 2.760 kcal, y una mujer de 65 kg y 1,65 m con la misma actividad, unas 2.120. Son estimaciones con un margen aproximado del 10 %: lo que confirma si tu cifra es correcta es cómo responde tu peso durante dos o tres semanas.',
+  },
+  {
+    p: '¿Cuántas calorías necesito para adelgazar?',
+    r: 'Entre 200 y 500 menos que tu mantenimiento. Recortar más no acelera el proceso de forma útil: provoca hambre, pérdida de fuerza y abandono. Lo que determina el resultado no es la agresividad del déficit, sino cuántas semanas eres capaz de sostenerlo.',
+  },
+  {
+    p: '¿Cuántas calorías necesito para engordar o ganar músculo?',
+    r: 'Entre 200 y 400 más que tu mantenimiento. Superávits mayores no construyen más músculo, porque tu capacidad de crear tejido muscular tiene un techo mensual: lo que sobra se almacena como grasa y alarga la definición posterior.',
+  },
+  {
+    p: '¿Cuántas calorías hay que quemar para bajar un kilo?',
+    r: 'Un kilo de grasa corporal equivale a unas 7.700 kcal. Con un déficit de 400 kcal diarias eso son unos 19 días por kilo. Es una aproximación útil para calibrar expectativas, aunque en la práctica no funciona de forma tan lineal: el peso también cambia por agua y glucógeno.',
+  },
+  {
+    p: '¿Es lo mismo el metabolismo basal que las calorías de mantenimiento?',
+    r: 'No. El metabolismo basal (BMR) es lo que gastarías en reposo absoluto durante 24 horas, y supone entre el 60 % y el 75 % del total. Las calorías de mantenimiento o TDEE incluyen además todo lo que gastas moviéndote, entrenando y digiriendo. El TDEE se obtiene multiplicando el BMR por un factor de actividad.',
+  },
+  {
+    p: '¿Por qué cada calculadora me da un número distinto?',
+    r: 'Porque usan fórmulas diferentes. Mifflin-St Jeor, Harris-Benedict y Katch-McArdle dan resultados que pueden diferir en 100-200 kcal. Nosotros usamos Mifflin-St Jeor, considerada la más precisa en población general. Lo importante es elegir una y ajustarla con tus propios datos, no cambiar de fórmula cada semana.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Cuántas calorías necesito al día',
+    description:
+      'Cuántas calorías necesitas según tu peso, altura, sexo y actividad, y cuántas para adelgazar o ganar músculo. Con tabla de referencia.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/cuantas-calorias-necesito-al-dia`,
+    dateModified: '2026-08-09',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Cuántas calorías necesito al día',
+        item: `${SITE.url}/guias/cuantas-calorias-necesito-al-dia`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Cuántas Calorías Necesito al Día · Tabla y Fórmula"
+  description="Cuántas calorías necesitas según tu peso, altura, sexo y actividad, y cuántas para adelgazar o ganar músculo. Con tabla de referencia por perfiles."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Cuántas calorías necesito al día</h1>
+    <p class="hero-sub">
+      Tu cifra según lo que pesas y lo que te mueves — y cuánto sumar o restar según lo que
+      quieras conseguir.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          No existe un número universal. Tus calorías dependen de cinco cosas:
+          <strong>peso, altura, edad, sexo y cuánto te mueves</strong>. Y de las cinco, la que
+          más cambia el resultado es la última.
+        </p>
+        <p class="cs-text">
+          Esta guía te da tu cifra de referencia, cómo ajustarla según tu objetivo y cómo saber
+          si has acertado.
+        </p>
+      </div>
+
+      <!-- ─────────── LOS DOS NÚMEROS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Conceptos</div>
+        <h2 class="cs-title">Los dos números que se confunden</h2>
+        <p class="cs-text">
+          Antes de mirar ninguna tabla conviene distinguirlos, porque mucha gente usa uno
+          creyendo que es el otro y acaba comiendo mucho menos de lo que debería.
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th></th><th>Qué es</th><th>Para qué sirve</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>BMR</strong><br /><span style="color:var(--muted);font-size:0.85em">metabolismo basal</span></td>
+              <td>Lo que gastarías tumbado sin moverte durante 24 h</td>
+              <td>Es el punto de partida del cálculo, <strong>no lo que debes comer</strong></td>
+            </tr>
+            <tr>
+              <td><strong>TDEE</strong><br /><span style="color:var(--muted);font-size:0.85em">mantenimiento</span></td>
+              <td>El BMR más todo lo que gastas moviéndote y entrenando</td>
+              <td><strong>Esta es tu cifra real</strong>, la que mantiene tu peso estable</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="cs-highlight">
+          <strong>El BMR supone entre el 60 % y el 75 % del gasto total.</strong> Comer solo tu
+          BMR es comer en un déficit enorme sin saberlo — y es un error sorprendentemente
+          común.
+        </div>
+        <p class="cs-text">
+          El cálculo completo es sencillo:
+        </p>
+        <div class="cs-highlight">
+          <strong>TDEE = BMR × factor de actividad</strong><br />
+          Sedentario ×1,2 · Ligero ×1,375 · Moderado ×1,55 · Alto ×1,725
+        </div>
+      </div>
+
+      <!-- ─────────── TABLA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Tu cifra</div>
+        <h2 class="cs-title">Tabla de mantenimiento por perfil</h2>
+        <p class="cs-text">
+          Calculado con la fórmula <strong>Mifflin-St Jeor</strong> para {EDAD_REF} años, que
+          es la misma que aplica nuestra <a href="/">calculadora</a>:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr>
+              <th>Perfil</th>
+              <th>BMR</th>
+              {ACTIVIDADES.map((a) => <th>{a.nombre}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              PERFILES.map((p) => {
+                const b = bmr(p.sexo, p.peso, p.altura, EDAD_REF);
+                return (
+                  <tr>
+                    <td>{p.etiqueta}</td>
+                    <td>{b.toLocaleString('es-ES')}</td>
+                    {ACTIVIDADES.map((a) => (
+                      <td><strong>{Math.round(b * a.factor).toLocaleString('es-ES')}</strong></td>
+                    ))}
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Fíjate en la diferencia entre columnas: <strong>el mismo cuerpo necesita casi 900
+          kcal más siendo activo que siendo sedentario</strong>. Por eso elegir bien tu nivel
+          de actividad importa más que afinar el peso al gramo.
+        </p>
+        <p class="cs-text">
+          Tu cifra exacta, con tu edad y tu peso reales, la tienes en dos pasos en la
+          <a href="/">calculadora de calorías y macros</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── SEGÚN OBJETIVO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Ajuste</div>
+        <h2 class="cs-title">Cuántas según lo que quieras</h2>
+        <p class="cs-text">
+          Una vez tienes tu mantenimiento, el ajuste es sencillo:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Objetivo</th><th>Ajuste sobre tu mantenimiento</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Perder grasa</strong></td>
+              <td>−200 a −500 kcal</td>
+            </tr>
+            <tr>
+              <td><strong>Mantener o recomponer</strong></td>
+              <td>Tu mantenimiento, o −100/−200</td>
+            </tr>
+            <tr>
+              <td><strong>Ganar músculo</strong></td>
+              <td>+200 a +400 kcal</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Los rangos son estrechos a propósito. Recortar 1.000 kcal no adelgaza el doble de
+          rápido: te deja sin fuerza y abandonas. Y comer 900 de más no construye el triple de
+          músculo, porque tu capacidad de crear tejido tiene un techo mensual.
+        </p>
+        <p class="cs-text">
+          Lo tienes desarrollado en las guías de
+          <a href="/guias/deficit-calorico-como-calcularlo">déficit calórico</a>,
+          <a href="/guias/recomposicion-corporal">recomposición</a> y
+          <a href="/guias/volumen-limpio">volumen limpio</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── UN KILO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Expectativas</div>
+        <h2 class="cs-title">Cuántas calorías para bajar un kilo</h2>
+        <p class="cs-text">
+          Un kilo de grasa corporal equivale aproximadamente a
+          <strong>{KCAL_POR_KILO_GRASA.toLocaleString('es-ES')} kcal</strong>. Con eso se puede
+          estimar cuánto tarda cada ritmo:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Déficit diario</th><th>Días por kilo de grasa</th></tr>
+          </thead>
+          <tbody>
+            {
+              RITMOS.map((d) => (
+                <tr>
+                  <td>{d} kcal</td>
+                  <td><strong>≈ {Math.round(KCAL_POR_KILO_GRASA / d)} días</strong></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <div class="cs-highlight">
+          <strong>Úsalo para calibrar expectativas, no como promesa.</strong> En la práctica el
+          peso no baja de forma lineal: el agua y el glucógeno lo mueven uno o dos kilos arriba
+          y abajo, y el gasto cambia según vas perdiendo peso. Pero sirve para entender por qué
+          perder 10 kg de grasa no son «dos meses».
+        </div>
+      </div>
+
+      <!-- ─────────── COMPROBAR ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Lo más importante</div>
+        <h2 class="cs-title">Ninguna fórmula acierta: hay que comprobarlo</h2>
+        <p class="cs-text">
+          Esto es lo que casi ninguna guía dice.
+          <strong>Mifflin-St Jeor tiene un margen de error de alrededor del ±10 %</strong>
+          frente al gasto medido en laboratorio. Para un mantenimiento de 2.500 kcal, eso son
+          250 arriba o abajo.
+        </p>
+        <p class="cs-text">
+          La fórmula no es un veredicto: <strong>es un punto de partida que hay que
+          validar</strong>.
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Paso</th><th>Qué hacer</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>Come tu cifra calculada durante <strong>2-3 semanas</strong>, pesando la comida.</td></tr>
+            <tr><td><strong>2</strong></td><td>Pésate en ayunas siempre el mismo día y anota la evolución.</td></tr>
+            <tr><td><strong>3</strong></td><td>Si buscas perder y bajas <strong>0,2-0,6 kg semanales</strong>, tu cifra es correcta.</td></tr>
+            <tr><td><strong>4</strong></td><td>Si no se mueve nada en tres semanas, ajusta <strong>100-150 kcal</strong> y vuelve a comprobar.</td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          <strong>Tu báscula es más fiable que cualquier fórmula.</strong> La fórmula te dice
+          por dónde empezar; tu peso a lo largo de las semanas te dice si has acertado.
+        </p>
+      </div>
+
+      <!-- ─────────── ERRORES ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Errores</div>
+        <h2 class="cs-title">Tres formas de equivocarte con tu cifra</h2>
+
+        <h3 class="cs-h3">1. Sobreestimar tu actividad</h3>
+        <p class="cs-text">
+          Es el error más caro, porque el factor de actividad multiplica. Marcar «alto» cuando
+          en realidad eres «ligero» infla tu cifra en más de 500 kcal.
+        </p>
+        <p class="cs-text">
+          Sé honesto: cuenta solo los días que entrenas <strong>con intensidad suficiente para
+          sudar durante al menos 30 minutos</strong>. Ir andando al trabajo no te convierte en
+          «activo».
+        </p>
+
+        <h3 class="cs-h3">2. Comer tu BMR en lugar de tu TDEE</h3>
+        <p class="cs-text">
+          Ya lo hemos visto arriba, pero merece repetirse: comer el BMR es comer un 30-40 %
+          por debajo de lo que necesitas. Es la receta para el hambre constante y el abandono.
+        </p>
+
+        <h3 class="cs-h3">3. No recalcular nunca</h3>
+        <p class="cs-text">
+          Tus necesidades cambian con el peso. Si has perdido cinco kilos, tu mantenimiento ya
+          no es el del principio. <strong>Recalcula cada 4-6 semanas</strong> o cuando tu peso
+          cambie más de 3 kg.
+        </p>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          <strong>Siguiente paso:</strong> calcula tu cifra exacta en la
+          <a href="/">calculadora de calorías y macros</a>, que además te reparte los
+          macronutrientes. Y si ya tienes tus números pero el peso no responde, mira
+          <a href="/guias/por-que-no-bajo-de-peso">por qué no bajas de peso</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

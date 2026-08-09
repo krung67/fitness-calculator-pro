@@ -126,6 +126,13 @@ export const GUIAS = [
       'Cuántas calorías comer para ganar músculo sin acumular grasa, la diferencia real con el volumen sucio y cuándo hay que cortar.',
     icono: '📈',
   },
+  {
+    href: '/guias/cuantas-calorias-necesito-al-dia',
+    titulo: 'Cuántas calorías necesito al día',
+    resumen:
+      'Tu cifra según peso, altura y actividad, con tabla por perfiles. La diferencia entre BMR y mantenimiento, y por qué ninguna fórmula acierta sin comprobarla.',
+    icono: '🔢',
+  },
 ] as const;
 
 /** Enlaces del pie. */
