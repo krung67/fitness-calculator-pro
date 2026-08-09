@@ -1,0 +1,278 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const faq = [
+  {
+    p: '¿Qué comer después de entrenar?',
+    r: 'Una comida normal con proteína y carbohidratos. La proteína aporta el material para reparar el músculo y los carbohidratos reponen el glucógeno que has gastado. No hace falta nada especial: pollo con arroz, atún con pasta o un yogur con avena y fruta cumplen perfectamente.',
+  },
+  {
+    p: '¿Cuánto tiempo tengo para comer después de entrenar?',
+    r: 'Mucho más del que te han contado. La famosa «ventana anabólica» de 30 minutos es un mito: la evidencia actual apunta a que dispones de varias horas. Si has comido antes de entrenar, el margen es todavía mayor. Lo que de verdad determina el resultado es tu ingesta total del día.',
+  },
+  {
+    p: '¿Es obligatorio el batido de proteína al terminar?',
+    r: 'No. Es cómodo si te viene de camino o si vas a tardar en comer, pero no tiene ninguna ventaja sobre la comida real. Un batido no repara más músculo que una pechuga de pollo: simplemente es más rápido de preparar.',
+  },
+  {
+    p: '¿Qué comer después de entrenar para bajar de peso?',
+    r: 'Lo mismo, ajustando la cantidad a tus calorías del día. Saltarse la comida posterior para «no arruinar el entrenamiento» es contraproducente: el entrenamiento no quema las calorías que comes después, y comer bien te ayuda a recuperarte y a rendir en la siguiente sesión.',
+  },
+  {
+    p: '¿Qué como si entreno por la noche?',
+    r: 'Tu cena, sin más. La hora a la que comes no engorda: lo que cuenta es el total del día. Si entrenas tarde y te cuesta dormir con el estómago lleno, haz una cena algo más ligera y coloca más carbohidratos en la comida previa.',
+  },
+  {
+    p: '¿Necesito carbohidratos después de entrenar o solo proteína?',
+    r: 'Los dos. La proteína aporta material y los carbohidratos reponen el glucógeno que has vaciado durante la sesión, que es lo que te permitirá rendir en el siguiente entrenamiento. Tomar solo proteína es la costumbre de quien cree que los carbohidratos engordan.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Qué comer después de entrenar',
+    description:
+      'Qué comer después de entrenar, cuánto margen tienes de verdad y por qué la ventana anabólica de 30 minutos es un mito.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/que-comer-despues-de-entrenar`,
+    dateModified: '2026-08-09',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Qué comer después de entrenar',
+        item: `${SITE.url}/guias/que-comer-despues-de-entrenar`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Qué Comer Después de Entrenar · Sin Prisas"
+  description="Qué comer después de entrenar, cuánto margen tienes realmente y por qué la ventana anabólica de 30 minutos es uno de los mitos más extendidos."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Qué comer después de entrenar</h1>
+    <p class="hero-sub">
+      Proteína y carbohidratos. Y muchísima menos prisa de la que te han hecho creer.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          Empecemos por lo que importa, porque es lo contrario de lo que se repite en los
+          vestuarios: <strong>no tienes que correr a por el batido.</strong>
+        </p>
+        <p class="cs-text">
+          La comida posterior al entrenamiento cumple dos funciones —reparar el músculo y
+          reponer el glucógeno— y para ambas dispones de bastante más margen del que te han
+          contado.
+        </p>
+      </div>
+
+      <!-- ─────────── EL MITO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">El mito grande</div>
+        <h2 class="cs-title">La «ventana anabólica» de 30 minutos</h2>
+        <p class="cs-text">
+          Es probablemente la creencia más extendida del gimnasio: si no comes en la media hora
+          siguiente al entrenamiento, pierdes buena parte del trabajo.
+        </p>
+        <div class="cs-highlight">
+          <strong>No es así.</strong> La evidencia actual apunta a que ese margen es de
+          <strong>varias horas</strong>, no de treinta minutos. Y si has comido antes de
+          entrenar, todavía tienes nutrientes circulando, con lo que el margen se amplía aún
+          más.
+        </div>
+        <p class="cs-text">
+          El origen de la idea no es casual: la industria de los suplementos tenía un interés
+          evidente en que existiera un momento crítico que solo un batido rápido podía cubrir.
+        </p>
+        <p class="cs-text">
+          <strong>Lo que de verdad determina tu resultado es el total del día</strong>: cuántas
+          calorías y cuánta proteína comes en 24 horas. La distribución ayuda, pero es un
+          detalle comparado con eso.
+        </p>
+      </div>
+
+      <!-- ─────────── QUÉ COMER ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Lo práctico</div>
+        <h2 class="cs-title">Qué comer: proteína y carbohidratos</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Macronutriente</th><th>Para qué</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Proteína</strong></td>
+              <td>Aporta los aminoácidos con los que se repara el tejido muscular</td>
+            </tr>
+            <tr>
+              <td><strong>Carbohidratos</strong></td>
+              <td>Reponen el glucógeno que has vaciado, para rendir en la siguiente sesión</td>
+            </tr>
+            <tr>
+              <td><strong>Grasa</strong></td>
+              <td>Sin problema, aquí ya no hay prisa por digerir</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Fíjate en que <strong>los carbohidratos también entran</strong>. Es habitual ver a
+          gente tomando solo proteína después de entrenar, normalmente porque cree que los
+          carbohidratos engordan. Pero si acabas de vaciar el glucógeno, es justo el momento en
+          que más sentido tiene reponerlo.
+        </p>
+        <p class="cs-text">
+          Ejemplos que cumplen de sobra, sin nada especial:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Situación</th><th>Ejemplo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Comida completa</td><td>Pollo con arroz y verdura</td></tr>
+            <tr><td>Comida completa</td><td>Pasta con atún al natural</td></tr>
+            <tr><td>Comida completa</td><td>Ternera con patata</td></tr>
+            <tr><td>Merienda</td><td>Yogur griego con avena y fruta</td></tr>
+            <tr><td>Merienda</td><td>Tostadas con pavo y queso fresco</td></tr>
+            <tr><td>Si vas justo de tiempo</td><td>Batido de proteína con leche y un plátano</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ─────────── EL BATIDO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Suplementos</div>
+        <h2 class="cs-title">¿Hace falta el batido?</h2>
+        <p class="cs-text">
+          <strong>No.</strong> Un batido de proteína no repara más músculo que una pechuga de
+          pollo. Solo es más rápido de preparar.
+        </p>
+        <p class="cs-text">Tiene sentido en dos situaciones concretas:</p>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Vas a tardar en comer.</strong> Si entrenas y hasta dos o tres horas
+            después no vas a poder sentarte a la mesa, un batido cubre el hueco.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Te cuesta llegar a tu proteína.</strong> Especialmente en desayunos y
+            meriendas, que suelen ser comidas dulces con poca proteína.
+          </li>
+        </ul>
+        <p class="cs-text">
+          Fuera de eso, comida real. Tienes el detalle de cuándo compensa usarlo en
+          <a href="/guias/cuanta-proteina-necesito-al-dia">cuánta proteína necesitas al día</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── SEGÚN OBJETIVO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Según tu objetivo</div>
+        <h2 class="cs-title">Si estás en déficit</h2>
+        <p class="cs-text">
+          Cambia la cantidad, no el tipo de comida. Y hay un error que conviene señalar:
+        </p>
+        <div class="cs-highlight">
+          <strong>Saltarse la comida posterior «para no arruinar el entrenamiento» es
+          contraproducente.</strong> El entrenamiento no borra las calorías que comes después,
+          y comer bien es lo que te permite recuperarte y rendir en la sesión siguiente — que
+          es justo lo que conserva tu músculo durante un déficit.
+        </div>
+        <p class="cs-text">
+          Lo que sí tiene sentido es que esa comida encaje en tus calorías del día. Calcúlalas
+          en la <a href="/">calculadora de calorías y macros</a> y reparte desde ahí.
+        </p>
+
+        <h3 class="cs-h3">Si entrenas por la noche</h3>
+        <p class="cs-text">
+          Tu cena es tu comida posterior. Y no, <strong>cenar tarde no engorda</strong>: el
+          cuerpo no cambia de reglas a partir de una hora concreta. Lo que cuenta es el balance
+          del día.
+        </p>
+        <p class="cs-text">
+          Si te cuesta dormir con el estómago lleno, haz una cena algo más ligera y coloca más
+          carbohidratos en la comida de antes de entrenar.
+        </p>
+      </div>
+
+      <!-- ─────────── LO QUE SÍ IMPORTA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Perspectiva</div>
+        <h2 class="cs-title">Dónde está el resultado de verdad</h2>
+        <p class="cs-text">
+          Merece la pena ordenar las cosas por su impacto real, porque se dedica muchísima
+          atención a la última fila de esta tabla:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Factor</th><th>Impacto</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Calorías totales del día</td><td><strong>Enorme</strong></td></tr>
+            <tr><td>Proteína total del día</td><td><strong>Grande</strong></td></tr>
+            <tr><td>Entrenar con progresión</td><td><strong>Grande</strong></td></tr>
+            <tr><td>Dormir bien</td><td>Notable</td></tr>
+            <tr><td>Repartir las comidas</td><td>Moderado</td></tr>
+            <tr><td>Comer justo al acabar</td><td><strong>Mínimo</strong></td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Si tu total diario cuadra y entrenas con progresión, <strong>comer media hora antes o
+          dos horas después no va a cambiar tu físico</strong>. Preocúpate por lo de arriba de
+          la tabla.
+        </p>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          <strong>Lo anterior a esto:</strong>
+          <a href="/guias/que-comer-antes-de-entrenar">qué comer antes de entrenar</a>, que es
+          donde de verdad se decide cómo rindes en la sesión. Y el total del día, en la
+          <a href="/">calculadora de calorías y macros</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

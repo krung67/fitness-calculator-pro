@@ -140,6 +140,20 @@ export const GUIAS = [
       'Expectativas realistas mes a mes, cómo comer desde el primer día y los cinco errores que hacen abandonar en tres semanas.',
     icono: '🏋️',
   },
+  {
+    href: '/guias/que-comer-antes-de-entrenar',
+    titulo: 'Qué comer antes de entrenar',
+    resumen:
+      'Qué comer y cuánto tiempo antes según la hora de tu sesión, con ejemplos concretos, qué evitar y si merece la pena entrenar en ayunas.',
+    icono: '🍽️',
+  },
+  {
+    href: '/guias/que-comer-despues-de-entrenar',
+    titulo: 'Qué comer después de entrenar',
+    resumen:
+      'Proteína y carbohidratos, sin prisas: por qué la ventana anabólica de 30 minutos es un mito y cuánto margen tienes en realidad.',
+    icono: '🥗',
+  },
 ] as const;
 
 /** Enlaces del pie. */

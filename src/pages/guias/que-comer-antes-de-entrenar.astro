@@ -1,0 +1,319 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const faq = [
+  {
+    p: '¿Qué comer antes de entrenar?',
+    r: 'Principalmente carbohidratos, con algo de proteína y poca grasa y fibra. Los carbohidratos son el combustible que tu músculo va a usar durante la sesión, y la grasa y la fibra ralentizan la digestión, que es justo lo que no quieres tener en el estómago mientras entrenas.',
+  },
+  {
+    p: '¿Cuánto tiempo antes de entrenar hay que comer?',
+    r: 'Si es una comida completa, entre dos y tres horas antes. Si vas justo de tiempo, algo ligero y fácil de digerir entre 30 y 60 minutos antes. Lo que peor funciona es una comida abundante y grasa una hora antes: te va a sentar mal y vas a rendir peor.',
+  },
+  {
+    p: '¿Qué comer antes de entrenar por la mañana?',
+    r: 'Si entrenas nada más levantarte, algo pequeño y de digestión rápida: un plátano, unas tostadas con miel o un puñado de dátiles. Bastan 20-40 g de carbohidratos treinta minutos antes. Si tu sesión es corta y no muy intensa, entrenar en ayunas tampoco es un problema.',
+  },
+  {
+    p: '¿Se puede entrenar en ayunas?',
+    r: 'Sí, y no arruina nada. En sesiones cortas o de intensidad moderada la mayoría de gente rinde bien. Donde sí se nota es en entrenamientos largos o muy exigentes, porque las reservas de glucógeno están más bajas al levantarte. Si vas a hacer una sesión dura, comer algo antes te va a permitir rendir más.',
+  },
+  {
+    p: '¿Qué comer antes de entrenar para adelgazar?',
+    r: 'Lo mismo que si buscaras ganar músculo, ajustando la cantidad a tus calorías del día. Comer antes de entrenar no impide perder grasa: lo que determina la pérdida es el balance calórico total, no si entrenas con el estómago lleno o vacío. Y entrenar con energía te permite mover más carga, que es justo lo que protege tu músculo durante un déficit.',
+  },
+  {
+    p: '¿Hace falta un preentreno o suplementos?',
+    r: 'No. La comida antes de entrenar es lo que aporta el combustible; los preentrenos son sobre todo cafeína y estimulantes, que pueden ayudar a la sensación de energía pero no aportan nada al rendimiento muscular por sí mismos. Si duermes poco y comes mal, ningún preentreno lo va a compensar.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Qué comer antes de entrenar',
+    description:
+      'Qué comer antes de entrenar y cuánto tiempo antes, según la hora a la que entrenes. Con ejemplos concretos y qué evitar.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/que-comer-antes-de-entrenar`,
+    dateModified: '2026-08-09',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Qué comer antes de entrenar',
+        item: `${SITE.url}/guias/que-comer-antes-de-entrenar`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Qué Comer Antes de Entrenar · Guía Práctica"
+  description="Qué comer antes de entrenar y cuánto tiempo antes según la hora de tu sesión. Ejemplos concretos, qué evitar y si merece la pena entrenar en ayunas."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Qué comer antes de entrenar</h1>
+    <p class="hero-sub">
+      Combustible para la sesión, no un ritual. Qué comer, cuánto antes y qué evitar según la
+      hora a la que entrenes.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          La comida previa al entrenamiento tiene una función muy concreta:
+          <strong>darte energía para mover las cargas</strong>. Nada más, y nada menos.
+        </p>
+        <p class="cs-text">
+          Y eso importa porque, si entrenas en déficit,
+          <strong>lo que protege tu músculo es la intensidad con la que entrenas</strong>. Ir
+          sin combustible no es «quemar más grasa»: es entrenar peor.
+        </p>
+      </div>
+
+      <!-- ─────────── LA REGLA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">La regla</div>
+        <h2 class="cs-title">Carbohidratos primero, grasa poca</h2>
+        <p class="cs-text">
+          El músculo funciona con <strong>glucógeno</strong>, que se forma a partir de los
+          carbohidratos. Por eso son el protagonista de la comida previa.
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Macronutriente</th><th>Antes de entrenar</th><th>Por qué</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Carbohidratos</strong></td>
+              <td>✅ Prioritarios</td>
+              <td>Son el combustible directo de la sesión</td>
+            </tr>
+            <tr>
+              <td><strong>Proteína</strong></td>
+              <td>✅ Algo, sin excederse</td>
+              <td>Útil, pero no es lo que te da energía</td>
+            </tr>
+            <tr>
+              <td><strong>Grasa</strong></td>
+              <td>⚠️ Poca</td>
+              <td>Ralentiza mucho la digestión</td>
+            </tr>
+            <tr>
+              <td><strong>Fibra</strong></td>
+              <td>⚠️ Poca</td>
+              <td>Puede dar molestias digestivas entrenando</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="cs-highlight">
+          <strong>La grasa y la fibra no son «malas»:</strong> son estupendas en el resto del
+          día. Simplemente no las quieres digiriendo en el estómago mientras haces sentadillas.
+        </div>
+      </div>
+
+      <!-- ─────────── TIMING ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Cuándo</div>
+        <h2 class="cs-title">Cuánto tiempo antes</h2>
+        <p class="cs-text">
+          Depende del tamaño de lo que comas. Cuanto más grande, más margen necesitas:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Cuánto antes</th><th>Qué comer</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>2-3 horas</strong></td>
+              <td>Comida completa: arroz o pasta con pollo, pavo o pescado, y verdura ligera</td>
+            </tr>
+            <tr>
+              <td><strong>1-2 horas</strong></td>
+              <td>Algo intermedio: tostadas con pavo, yogur con avena, un bocadillo pequeño</td>
+            </tr>
+            <tr>
+              <td><strong>30-60 minutos</strong></td>
+              <td>Solo carbohidrato rápido: plátano, dátiles, tostada con miel o mermelada</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          <strong>Lo que peor funciona</strong> es una comida abundante y grasa una hora antes.
+          Te sienta mal, te pesa y rindes menos. Si solo tienes una hora, come poco y sencillo.
+        </p>
+      </div>
+
+      <!-- ─────────── SEGÚN LA HORA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Casos reales</div>
+        <h2 class="cs-title">Según la hora a la que entrenes</h2>
+
+        <h3 class="cs-h3">Si entrenas por la mañana temprano</h3>
+        <p class="cs-text">
+          Es el caso más incómodo: acabas de levantarte y no da tiempo a digerir nada.
+        </p>
+        <p class="cs-text">
+          Dos opciones válidas, y ninguna es mejor que la otra en abstracto:
+        </p>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Algo pequeño 30 minutos antes.</strong> Un plátano, unos dátiles o una
+            tostada con miel. Con 20-40 g de carbohidratos vas servido.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Entrenar en ayunas.</strong> Si tu sesión es corta o de intensidad
+            moderada, la mayoría de gente rinde perfectamente.
+          </li>
+        </ul>
+        <p class="cs-text">
+          Donde sí se nota la diferencia es en <strong>sesiones largas o muy exigentes</strong>:
+          al levantarte, las reservas de glucógeno están más bajas, y ahí comer algo antes te
+          permite mover más carga.
+        </p>
+
+        <h3 class="cs-h3">Si entrenas por la tarde</h3>
+        <p class="cs-text">
+          Es el escenario más fácil: te basta con colocar la comida principal 2-3 horas antes.
+          Si entre esa comida y el entreno pasan más de cuatro horas, mete una merienda ligera
+          una hora antes.
+        </p>
+
+        <h3 class="cs-h3">Si entrenas por la noche</h3>
+        <p class="cs-text">
+          Igual que por la tarde, colocando la merienda como comida previa. Y no te preocupes
+          por «cenar tarde»: <strong>la hora a la que comes no engorda</strong>. Lo que cuenta
+          es el total del día.
+        </p>
+      </div>
+
+      <!-- ─────────── SEGÚN OBJETIVO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Según tu objetivo</div>
+        <h2 class="cs-title">¿Cambia si busco adelgazar?</h2>
+        <p class="cs-text">
+          <strong>No en el qué, solo en el cuánto.</strong> Y esto merece explicarse, porque
+          hay una creencia muy extendida que hace daño.
+        </p>
+        <div class="cs-highlight">
+          <strong>Entrenar con el estómago vacío no te hace perder más grasa.</strong> Lo que
+          determina la pérdida es el <strong>balance calórico del día completo</strong>, no si
+          había comida en tu estómago durante la sesión.
+        </div>
+        <p class="cs-text">
+          Y hay un motivo de peso para comer antes cuando estás en déficit: con energía mueves
+          más carga, y <strong>mover carga es lo que le dice a tu cuerpo que conserve el
+          músculo</strong>. Ir vacío para «quemar más» suele acabar en peores entrenamientos y
+          más pérdida de masa muscular.
+        </p>
+        <p class="cs-text">
+          La única diferencia real es la cantidad: en déficit tienes menos calorías totales, así
+          que la comida previa será más pequeña. Ajústala a tus números, que puedes calcular en
+          la <a href="/">calculadora de calorías y macros</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── EJEMPLOS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Práctico</div>
+        <h2 class="cs-title">Ejemplos que funcionan</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Momento</th><th>Ejemplo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2-3 h antes</td><td>150 g de arroz + 150 g de pechuga + verdura</td></tr>
+            <tr><td>2-3 h antes</td><td>Pasta con atún al natural y tomate</td></tr>
+            <tr><td>1-2 h antes</td><td>Tostadas con pavo y un yogur</td></tr>
+            <tr><td>1-2 h antes</td><td>Avena con leche y un plátano</td></tr>
+            <tr><td>30-60 min antes</td><td>Un plátano</td></tr>
+            <tr><td>30-60 min antes</td><td>3-4 dátiles</td></tr>
+            <tr><td>30-60 min antes</td><td>Tostada con miel o mermelada</td></tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          No hay nada mágico en esta lista: son carbohidratos de digestión sencilla con algo de
+          proteína. Cualquier combinación equivalente vale.
+        </p>
+      </div>
+
+      <!-- ─────────── QUÉ EVITAR ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Evitar</div>
+        <h2 class="cs-title">Qué no comer justo antes</h2>
+        <ul style="padding-left:1.2rem;margin-bottom:1rem">
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Fritos y comidas muy grasas.</strong> Tardan horas en digerirse.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Legumbres y mucha verdura fibrosa.</strong> Excelentes el resto del día,
+            incómodas en pleno entrenamiento.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Comidas muy abundantes con poco margen.</strong> Sensación de pesadez
+            garantizada.
+          </li>
+          <li class="cs-text" style="margin-bottom:0.5rem">
+            <strong>Nada de nada, si vas a hacer una sesión dura.</strong> Vas a rendir por
+            debajo de lo que podrías.
+          </li>
+        </ul>
+        <div class="cs-highlight">
+          <strong>Sobre los preentrenos:</strong> son sobre todo cafeína y estimulantes. Pueden
+          mejorar la sensación de energía, pero <strong>no aportan combustible</strong>. Si
+          duermes poco y comes mal, ningún bote lo va a compensar. Empieza por la comida y el
+          descanso.
+        </div>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          <strong>Lo que de verdad importa</strong> no es esta comida concreta, sino tu total
+          diario: calcúlalo en la <a href="/">calculadora de calorías y macros</a>. Y si te
+          preguntas por qué damos tanto peso a los carbohidratos, está explicado en
+          <a href="/metodo">Nuestro método</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>
