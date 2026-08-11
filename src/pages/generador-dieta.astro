@@ -1,0 +1,764 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+import { ALIMENTOS, PLATOS, RESTRICCIONES, REPARTOS, BEBIDAS } from '../config/alimentos';
+
+const faq = [
+  {
+    p: '¿Cómo funciona el generador de dietas?',
+    r: 'Partiendo de tus calorías y macros, reparte el total entre las comidas que hagas al día y te propone seis opciones para cada una, ajustando los gramos de cada ingrediente a tus números. Todo se calcula en tu navegador: no se envía nada a ningún servidor ni se te pide el correo.',
+  },
+  {
+    p: '¿Por qué seis opciones por comida y no una dieta cerrada?',
+    r: 'Porque el motivo número uno por el que se abandona una dieta es el aburrimiento, no la falta de voluntad. Con seis alternativas por comida puedes ir rotando según lo que te apetezca o lo que tengas en casa, y eso es lo que la hace sostenible durante meses.',
+  },
+  {
+    p: '¿Puedo comer pizza o hamburguesa estando a dieta?',
+    r: 'Sí, y por eso están incluidas. Lo que determina si pierdes grasa es el balance calórico, no el tipo de plato. Una pizza casera con base fina, tomate triturado, champiñones y jamón cocido cuadra perfectamente en unos macros de definición y quita las ganas de pedir una fuera.',
+  },
+  {
+    p: '¿Las cantidades son en crudo o cocinado?',
+    r: 'En crudo, salvo lo que ya se come tal cual como los lácteos, huevos o conservas. Es como vienen las etiquetas. Pesar cocinado y usar valores de crudo descuadra los cálculos alrededor de un 25 %.',
+  },
+  {
+    p: '¿Es seguro si tengo alergias alimentarias?',
+    r: 'El generador excluye las recetas que contienen los alimentos que marques, pero no sustituye a tu propia comprobación. Los productos procesados pueden contener trazas o ingredientes que no aparecen en un listado general, así que revisa siempre las etiquetas. Si tienes una alergia diagnosticada, consulta tu dieta con un profesional sanitario.',
+  },
+  {
+    p: '¿Necesito comprar suplementos?',
+    r: 'No. Puedes desactivarlos y el generador solo usará comida real. Se ofrecen como opción porque en desayunos y meriendas cuesta meter proteína sin recurrir a preparaciones dulces, y ahí la proteína en polvo o la crema de arroz de sabores ayudan mucho a quitar el antojo de dulce en definición.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Generador de dieta personalizada',
+    url: `${SITE.url}/generador-dieta`,
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Cualquiera con navegador web',
+    inLanguage: 'es-ES',
+    description:
+      'Genera seis opciones de menú para cada comida del día ajustadas a tus calorías, tus macros, tus intolerancias y tus gustos.',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+    publisher: { '@id': `${SITE.url}/#persona` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Generador de dieta',
+        item: `${SITE.url}/generador-dieta`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Generador de Dieta Personalizada Gratis"
+  description="Genera tu dieta con seis opciones por comida ajustadas a tus calorías, macros, intolerancias y gustos. Gratis, sin registro y con pizza incluida."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Generador de dieta</div>
+    <h1>Genera tu dieta</h1>
+    <p class="hero-sub">
+      Seis opciones para cada comida, ajustadas a tus calorías y a lo que te gusta comer.
+      Porque una dieta aburrida se abandona.
+    </p>
+  </div>
+
+  <div class="prog-bar"><div class="prog-fill" id="gdProgFill" style="width:17%"></div></div>
+
+  <main>
+    <div class="wrap" style="padding-top:2.5rem">
+      <!-- Asistente: una pregunta por pantalla. Los paneles se muestran de uno
+           en uno con gdPaso(); el marcado de todos existe siempre, así que al
+           generar se leen todos los campos aunque no se hayan visto. -->
+      <div id="gdForm">
+        <!-- ─────────── PASO 1 : NÚMEROS ─────────── -->
+        <div class="panel active">
+          <p class="sec-label">Paso 1 de 6</p>
+          <h2 class="sec-title">Tus números</h2>
+
+          <div class="tip" id="gdAvisoCalc">
+            ¿No sabes tus calorías? Calcúlalas primero en la
+            <a href="/" style="color:var(--lime)">calculadora de calorías y macros</a> y vuelve
+            aquí — se rellenarán solas.
+          </div>
+
+          <div class="fgrid">
+            <div class="field">
+              <label for="gdKcal">Calorías objetivo</label>
+              <input type="number" id="gdKcal" placeholder="2400" min="1000" max="6000" />
+            </div>
+            <div class="field">
+              <label for="gdProt">Proteína (g)</label>
+              <input type="number" id="gdProt" placeholder="140" min="30" max="400" />
+            </div>
+          </div>
+
+          <div class="gd-nav">
+            <span></span>
+            <button class="btn-ghost" data-ir="1">Siguiente — Cuántas comidas →</button>
+          </div>
+        </div>
+
+        <!-- ─────────── PASO 2 : COMIDAS AL DÍA ─────────── -->
+        <div class="panel">
+          <p class="sec-label">Paso 2 de 6</p>
+          <h2 class="sec-title">¿Cuántas veces comes al día?</h2>
+          <p class="cs-text">
+            No cambia lo que adelgazas —eso lo decide el total del día—, pero sí lo cómodo que
+            te resulte. Cuatro es lo que recomendamos: reparte mejor la proteína y deja una
+            merienda justo donde más cuesta aguantar el antojo de dulce.
+          </p>
+
+          <div class="field" style="max-width:340px">
+            <label for="gdComidas">Comidas al día</label>
+            <select id="gdComidas">
+              <option value="2">2 comidas</option>
+              <option value="3">3 comidas</option>
+              <option value="4" selected>4 comidas — recomendado</option>
+              <option value="5">5 comidas</option>
+            </select>
+          </div>
+
+          <div class="gd-nav">
+            <button class="btn-ghost gd-atras" data-ir="0">← Atrás</button>
+            <button class="btn-ghost" data-ir="2">Siguiente — Tu bebida →</button>
+          </div>
+        </div>
+
+        <!-- ─────────── PASO 3 : BEBIDA ─────────── -->
+        <div class="panel">
+          <p class="sec-label">Paso 3 de 6</p>
+          <h2 class="sec-title">¿Qué bebida usas?</h2>
+          <p class="cs-text">
+            Va en los batidos, la avena y la crema de arroz. Lo único que cambia de verdad
+            entre las tres leches es la <strong>grasa</strong>: la proteína es prácticamente la
+            misma en las tres.
+          </p>
+
+          <div class="gd-tabla-bebidas">
+            {
+              BEBIDAS.map((b) => (
+                <div class="gd-bebida-fila">
+                  <div class="gd-bebida-nom">{b.nombre}</div>
+                  <div class="gd-bebida-kcal">{b.porVaso} kcal</div>
+                  <div class="gd-bebida-nota">{b.nota}</div>
+                </div>
+              ))
+            }
+          </div>
+          <p class="sub-note">Calorías por vaso de 250 ml.</p>
+
+          <div class="field" style="max-width:340px;margin-top:1.4rem">
+            <label for="gdBebida">La que uses tú</label>
+            <select id="gdBebida">
+              {
+                BEBIDAS.map((b) => (
+                  <option value={b.id} selected={b.id === 'lecheDesnatada'}>
+                    {b.nombre}
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+
+          <div class="tip" style="margin-top:1.2rem">
+            <strong>Lo que uso yo:</strong> bebida de almendras en definición, porque me deja
+            casi 130 kcal libres al día frente a la entera y liga mucho mejor con la crema de
+            arroz. Pero <strong>no es una norma</strong>: si te gusta la leche entera y te
+            entra en las calorías, adelante. La mejor es la que vayas a tomarte durante meses.
+          </div>
+
+          <div class="gd-nav">
+            <button class="btn-ghost gd-atras" data-ir="1">← Atrás</button>
+            <button class="btn-ghost" data-ir="3">Siguiente — Qué quitamos →</button>
+          </div>
+        </div>
+
+        <!-- ─────────── PASO 4 : QUÉ QUITAR ─────────── -->
+        <div class="panel">
+          <p class="sec-label">Paso 4 de 6</p>
+          <h2 class="sec-title">¿Hay algo que tengamos que quitar?</h2>
+          <p class="cs-text">
+            Marca lo que <strong>no puedas comer</strong> (alergias, intolerancias) o lo que
+            <strong>no quieras</strong> comer. Si no marcas nada, entra todo. Puedes marcar
+            varias.
+          </p>
+
+          <div class="gd-checks gd-checks-col" id="gdRestricciones">
+            {
+              RESTRICCIONES.map((r) => (
+                <label class="gd-check gd-check-ancho">
+                  <input type="checkbox" value={r.id} />
+                  <span>
+                    <strong>{r.nombre}</strong>
+                    <small>{r.ayuda}</small>
+                  </span>
+                </label>
+              ))
+            }
+          </div>
+
+          <div class="tip" style="margin-top:1.2rem">
+            <strong>⚠️ Sobre las alergias:</strong> el generador descarta las recetas que
+            contienen lo que marques, pero
+            <strong>no sustituye a tu propia comprobación</strong>. Los productos procesados
+            pueden llevar trazas. Revisa siempre las etiquetas, y si tienes una alergia
+            diagnosticada, consulta tu dieta con un profesional sanitario.
+          </div>
+
+          <div class="gd-nav">
+            <button class="btn-ghost gd-atras" data-ir="2">← Atrás</button>
+            <button class="btn-ghost" data-ir="4">Siguiente — Lo que sí quieres →</button>
+          </div>
+        </div>
+
+        <!-- ─────────── PASO 5 : ALIMENTOS FAVORITOS ─────────── -->
+        <div class="panel">
+          <p class="sec-label">Paso 5 de 6</p>
+          <h2 class="sec-title">¿Qué quieres que aparezca sí o sí?</h2>
+          <p class="cs-text">
+            Escribe los alimentos que te gustan y las comidas que los lleven saldrán las
+            primeras. Este paso es opcional: si lo dejas vacío se te propone de todo.
+          </p>
+
+          <div class="field" style="max-width:420px">
+            <label for="gdBuscaAlimento">Busca un alimento</label>
+            <input
+              type="text"
+              id="gdBuscaAlimento"
+              placeholder="pollo, arroz, avena…"
+              autocomplete="off"
+            />
+          </div>
+          <div id="gdSugerencias" class="gd-sugerencias"></div>
+          <div id="gdFavoritos" class="gd-chips"></div>
+          <p class="sub-note" id="gdNotaFav">
+            Si buscas algo y no aparece es que todavía no está en la base de datos.
+            <a href="/contacto" style="color:var(--lime)">Dínoslo</a> y lo añadimos.
+          </p>
+
+          <div class="gd-nav">
+            <button class="btn-ghost gd-atras" data-ir="3">← Atrás</button>
+            <button class="btn-ghost" data-ir="5">Siguiente — Suplementos →</button>
+          </div>
+        </div>
+
+        <!-- ─────────── PASO 6 : SUPLEMENTOS ─────────── -->
+        <div class="panel">
+          <p class="sec-label">Paso 6 de 6</p>
+          <h2 class="sec-title">¿Usas proteína en polvo o crema de arroz?</h2>
+          <p class="cs-text">
+            No hacen falta para nada, pero en desayunos y meriendas cuesta meter proteína sin
+            recurrir a preparaciones dulces. Ahí es donde ayudan — y donde quitan el antojo de
+            dulce en definición.
+          </p>
+          <div class="gd-checks">
+            <label class="gd-check">
+              <input type="checkbox" id="gdSuplementos" checked />
+              <span>Sí, inclúyelos en mi dieta</span>
+            </label>
+          </div>
+
+          <div class="gd-nav">
+            <button class="btn-ghost gd-atras" data-ir="4">← Atrás</button>
+            <span></span>
+          </div>
+
+          <div style="padding:1.5rem 0 2rem">
+            <button class="btn-main" id="gdGenerar">Generar mi dieta</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─────────── RESULTADO ─────────── -->
+      <div id="gdResultado" style="display:none">
+        <div class="rcard show" style="margin-bottom:2rem">
+          <div class="rc-label">Tu reparto diario</div>
+          <div class="rc-big" id="gdResumenKcal">—</div>
+          <div class="rc-desc" id="gdResumenDesc"></div>
+        </div>
+        <div id="gdComidasResultado"></div>
+
+        <div class="cs-highlight" style="margin-top:2rem">
+          <strong>Cómo usar esto:</strong> no tienes que comer las seis opciones. Elige la que
+          te apetezca cada día y ve rotando. Esa variedad es justo lo que hace que una dieta
+          dure meses en lugar de tres semanas.
+        </div>
+        <div style="margin-top:1rem">
+          <button class="btn-sub" onclick="window.print()" style="width:100%">
+            Descargar mi dieta en PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- ─────────── CONTENIDO ─────────── -->
+      <div class="content-section" style="margin-top:3rem">
+        <div class="cs-tag">Cómo funciona</div>
+        <h2 class="cs-title">Seis opciones por comida, y no una dieta cerrada</h2>
+        <p class="cs-text">
+          La mayoría de planes de dieta te dan <em>una</em> opción para cada comida. Y por eso
+          casi todos se abandonan.
+        </p>
+        <p class="cs-text">
+          <strong>El motivo número uno por el que la gente deja una dieta no es la falta de
+          voluntad: es el aburrimiento.</strong> Nadie aguanta meses comiendo pollo con arroz
+          todos los días. Cuando te cansas, no cambias de plato — abandonas el plan entero.
+        </p>
+        <div class="cs-highlight">
+          Con seis alternativas por comida puedes elegir según lo que te apetezca o lo que
+          tengas en la nevera. Si te has cansado de la pechuga, esa noche cenas otra cosa que
+          también cuadra con tus macros. <strong>La dieta se adapta a ti, y no al revés.</strong>
+        </div>
+        <p class="cs-text">
+          El punto al que hay que llegar es este: que abras la nevera y prefieras lo que tienes
+          preparado antes que salir a comer fuera. Cuando llegas ahí, dejar de ser un esfuerzo.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Lo que nos diferencia</div>
+        <h2 class="cs-title">Sí, hay pizza y hamburguesa</h2>
+        <p class="cs-text">
+          Y no es un truco de marketing: es lo que hace que una dieta se sostenga.
+        </p>
+        <p class="cs-text">
+          <strong>Lo que determina si pierdes grasa es el balance calórico, no el tipo de
+          plato.</strong> Una pizza casera —base fina, tomate triturado, champiñones y jamón
+          cocido— cuadra perfectamente en unos macros de definición. Y te quita las ganas de
+          pedir una fuera, que es lo que de verdad arruina una semana.
+        </p>
+        <p class="cs-text">
+          Lo mismo con una hamburguesa casera con carne picada magra, pan normal y patata en
+          air fryer. Con salsas cero y especias entra sin problema.
+        </p>
+        <p class="cs-text">
+          Puedes ver el razonamiento completo sobre el reparto de macros en
+          <a href="/metodo">Nuestro método</a>.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Cómo usarlo bien</div>
+        <h2 class="cs-title">Cuatro cosas que cambian el resultado</h2>
+        <p class="cs-text">
+          <strong>1. Las cantidades son en crudo.</strong> Es el error más repetido y el que
+          más descuadra una dieta: 100 g de arroz crudo se convierten en unos 250 g cocinados,
+          y 150 g de pollo crudo se quedan en unos 110 g hechos. Si pesas después de cocinar
+          estarás comiendo bastante menos de lo que crees. Pesa siempre antes, y si algún día
+          no puedes, tienes las referencias con la mano en
+          <a href="/guias/como-pesar-la-comida">cómo pesar la comida</a>.
+        </p>
+        <p class="cs-text">
+          <strong>2. Repite lo que te funcione.</strong> Hay una idea muy extendida de que una
+          dieta tiene que ser variadísima para funcionar. En la práctica pasa lo contrario:
+          quien come parecido de lunes a viernes acierta mucho más con las cantidades, hace la
+          compra en diez minutos y no tiene que decidir nada a las nueve de la noche con
+          hambre. Estas seis opciones por comida no están para que uses las seis: están para
+          que encuentres dos o tres que te gusten de verdad.
+        </p>
+        <p class="cs-text">
+          <strong>3. El hambre se gestiona, no se aguanta.</strong> Un café solo con canela
+          entre comidas quita bastante las ganas de picar y no suma calorías. Las verduras y la
+          ensalada que aparecen en los platos están ahí por lo mismo: llenan mucho y aportan
+          muy poco. Si un día te levantas con hambre real y constante, probablemente el
+          problema no sea la fuerza de voluntad, sino que tu déficit es demasiado agresivo
+          —revísalo en <a href="/guias/deficit-calorico-como-calcularlo">esta guía</a>.
+        </p>
+        <p class="cs-text">
+          <strong>4. El menú no es lo que decide si funciona.</strong> Lo decide la báscula
+          dentro de dos semanas. Pésate un día fijo a la semana, en ayunas y después de ir al
+          baño, y compara medias semanales, nunca días sueltos. Si el peso no se mueve en dos o
+          tres semanas seguidas, ajusta las calorías y vuelve a generar el menú con las cifras
+          nuevas.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          ⚠️ <strong>Esta herramienta genera propuestas de menú orientativas</strong> a partir
+          de tus calorías. No es una pauta dietética individualizada ni sustituye la valoración
+          de un dietista-nutricionista colegiado. Si tienes alguna patología, alergia
+          diagnosticada, estás embarazada o en lactancia, consulta con un profesional antes de
+          seguir cualquier plan.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>
+
+<script is:inline define:vars={{ ALIMENTOS, PLATOS, RESTRICCIONES, REPARTOS }}>
+  // ── Utilidades de cálculo ────────────────────────────────
+  // Los alimentos con unidad 'ud' llevan los macros por unidad; el resto,
+  // por 100 g o 100 ml.
+  function aporte(ing) {
+    const a = ALIMENTOS[ing.id];
+    const f = a.unidad === 'ud' ? ing.cantidad : ing.cantidad / 100;
+    return { kcal: a.kcal * f, p: a.p * f, g: a.g * f, c: a.c * f };
+  }
+
+  function totales(ings) {
+    return ings.reduce(
+      (t, i) => {
+        const x = aporte(i);
+        return { kcal: t.kcal + x.kcal, p: t.p + x.p, g: t.g + x.g, c: t.c + x.c };
+      },
+      { kcal: 0, p: 0, g: 0, c: 0 }
+    );
+  }
+
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+  /**
+   * Límite superior de una ración: el múltiplo de la receta original, y además
+   * el tope propio del alimento si lo tiene. Sin esto, cuadrar 800 kcal con
+   * patata pedía 750 g. Ahora el plato se queda corto, encaja peor y el orden
+   * por ajuste lo aparta solo.
+   */
+  const techo = (alimento, base, factor) =>
+    Math.min(base * factor, alimento.max !== undefined ? alimento.max : Infinity);
+
+  /** Redondea a algo que se pueda pesar sin volverse loco. */
+  function redondear(cant, unidad) {
+    if (unidad === 'ud') return Math.max(1, Math.round(cant));
+    if (cant >= 100) return Math.round(cant / 10) * 10;
+    return Math.round(cant / 5) * 5;
+  }
+
+  /**
+   * Ajusta un plato al objetivo de esa comida.
+   * Primero escala la fuente de proteína hasta cubrir la proteína objetivo,
+   * y después la de carbohidrato hasta completar las calorías. Ese orden
+   * importa: la proteína es el macro que no queremos dejar corto.
+   */
+  function escalar(plato, obj, bebidaId) {
+    const ings = plato.ingredientes.map((i) => ({
+      ...i,
+      id: plato.usaBebida && ALIMENTOS[i.id].unidad === 'ml' ? bebidaId : i.id,
+    }));
+
+    const iP = ings.find((i) => i.escala === 'prot');
+    if (iP) {
+      const a = ALIMENTOS[iP.id];
+      const pOtros = ings.filter((i) => i !== iP).reduce((s, i) => s + aporte(i).p, 0);
+      const porUnidad = a.unidad === 'ud' ? a.p : a.p / 100;
+      if (porUnidad > 0) {
+        const necesario = (obj.p - pOtros) / porUnidad;
+        iP.cantidad = redondear(
+          clamp(necesario, iP.cantidad * 0.5, techo(a, iP.cantidad, 2.2)),
+          a.unidad
+        );
+      }
+    }
+
+    const iC = ings.find((i) => i.escala === 'carb');
+    if (iC) {
+      const a = ALIMENTOS[iC.id];
+      const kOtros = ings.filter((i) => i !== iC).reduce((s, i) => s + aporte(i).kcal, 0);
+      const porUnidad = a.unidad === 'ud' ? a.kcal : a.kcal / 100;
+      if (porUnidad > 0) {
+        const necesario = (obj.kcal - kOtros) / porUnidad;
+        iC.cantidad = redondear(
+          clamp(necesario, iC.cantidad * 0.3, techo(a, iC.cantidad, 2.5)),
+          a.unidad
+        );
+      }
+    }
+
+    return ings;
+  }
+
+  // ── Prellenado desde la calculadora ──────────────────────
+  (function prellenar() {
+    try {
+      const hist = JSON.parse(localStorage.getItem('cfhist')) || [];
+      if (!hist.length) return;
+      const u = hist[0];
+      if (u.obj) document.getElementById('gdKcal').value = u.obj;
+      if (u.prot) document.getElementById('gdProt').value = u.prot;
+      if (u.obj) {
+        document.getElementById('gdAvisoCalc').innerHTML =
+          '✅ Hemos recuperado tus datos del último cálculo: <strong>' + u.obj +
+          ' kcal</strong> y <strong>' + (u.prot || '—') + ' g de proteína</strong>. ' +
+          'Puedes cambiarlos si quieres.';
+      }
+    } catch (e) {
+      /* si no hay historial, se rellena a mano */
+    }
+  })();
+
+  // ── Navegación del asistente ─────────────────────────────
+  // Una pregunta por pantalla. Los paneles ocultos siguen existiendo en el
+  // DOM, así que generarDieta() puede leer sus campos aunque no se hayan
+  // llegado a ver: quien pulse "Generar" sin recorrer los seis pasos obtiene
+  // los valores por defecto, no un error.
+  const PASOS_TOTALES = 6;
+
+  function gdPaso(n) {
+    const paneles = document.querySelectorAll('#gdForm .panel');
+    paneles.forEach((p, i) => p.classList.toggle('active', i === n));
+    document.getElementById('gdProgFill').style.width =
+      ((n + 1) / PASOS_TOTALES) * 100 + '%';
+    document.getElementById('gdForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── Alimentos favoritos ──────────────────────────────────
+  // Guarda los ids elegidos. No son obligatorios: los platos que los llevan
+  // suben en el orden, pero si ninguno cuadra con las calorías se sigue
+  // ofreciendo el resto. Prometer "sí o sí" y luego no poder cumplirlo sería
+  // peor que no prometerlo.
+  const favoritos = new Set();
+
+  /** Quita tildes y mayúsculas para que "platano" encuentre "Plátano". */
+  const normaliza = (s) =>
+    s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+
+  function pintarFavoritos() {
+    const cont = document.getElementById('gdFavoritos');
+    if (!favoritos.size) {
+      cont.innerHTML = '';
+      return;
+    }
+    cont.innerHTML = [...favoritos]
+      .map(
+        (id) =>
+          '<button class="gd-chip" data-quitar="' + id + '">' +
+          ALIMENTOS[id].nombre +
+          ' <span aria-hidden="true">×</span></button>'
+      )
+      .join('');
+  }
+
+  function buscarAlimentos(texto) {
+    const q = normaliza(texto);
+    const cont = document.getElementById('gdSugerencias');
+    if (q.length < 2) {
+      cont.innerHTML = '';
+      return;
+    }
+    const hits = Object.keys(ALIMENTOS)
+      .filter((id) => !favoritos.has(id) && normaliza(ALIMENTOS[id].nombre).includes(q))
+      .slice(0, 6);
+
+    cont.innerHTML = hits.length
+      ? hits
+          .map(
+            (id) =>
+              '<button class="gd-sug" data-anadir="' + id + '">' +
+              ALIMENTOS[id].nombre +
+              '</button>'
+          )
+          .join('')
+      : '<p class="gd-sin-hit">No tenemos «' +
+        texto.replace(/</g, '&lt;') +
+        '» en la base de datos todavía.</p>';
+  }
+
+  // ── Generación ───────────────────────────────────────────
+  function generarDieta() {
+    const kcal = parseFloat(document.getElementById('gdKcal').value);
+    const prot = parseFloat(document.getElementById('gdProt').value);
+    const nComidas = parseInt(document.getElementById('gdComidas').value);
+    const bebida = document.getElementById('gdBebida').value;
+    const conSupl = document.getElementById('gdSuplementos').checked;
+
+    if (!kcal || !prot) {
+      alert('Introduce tus calorías objetivo y tu proteína diaria. Si no los sabes, calcúlalos primero en la calculadora.');
+      return;
+    }
+    if (prot * 4 > kcal) {
+      alert('La proteína indicada supera tus calorías totales. Revisa los números.');
+      return;
+    }
+
+    // Etiquetas prohibidas según lo que haya marcado
+    const marcadas = [...document.querySelectorAll('#gdRestricciones input:checked')].map((c) => c.value);
+    const prohibidas = new Set();
+    marcadas.forEach((id) => {
+      const r = RESTRICCIONES.find((x) => x.id === id);
+      if (r) r.excluye.forEach((e) => prohibidas.add(e));
+    });
+
+    // La bebida elegida también puede chocar con una restricción
+    const etiquetasBebida = ALIMENTOS[bebida].etiquetas;
+    if (etiquetasBebida.some((e) => prohibidas.has(e))) {
+      alert('La bebida que has elegido no encaja con tus restricciones. Selecciona otra.');
+      return;
+    }
+
+    const esVegetariano = marcadas.includes('vegetariano');
+
+    const compatible = (plato) => {
+      if (plato.necesitaSuplementos && !conSupl) return false;
+      // Platos que solo tienen sentido si no comes carne. A quien come de todo
+      // no se le proponen: hay muchas opciones antes, y una dieta que sugiere
+      // algo que no te vas a comer no se sigue.
+      if (plato.soloVegetariano && !esVegetariano) return false;
+      return plato.ingredientes.every((i) => {
+        const id = plato.usaBebida && ALIMENTOS[i.id].unidad === 'ml' ? bebida : i.id;
+        return !ALIMENTOS[id].etiquetas.some((e) => prohibidas.has(e));
+      });
+    };
+
+    const reparto = REPARTOS[nComidas];
+    let html = '';
+    let sinOpciones = [];
+
+    reparto.forEach((slot) => {
+      const objetivo = { kcal: kcal * slot.pct, p: prot * slot.pct };
+      const candidatos = PLATOS.filter((p) => p.momentos.includes(slot.momento) && compatible(p));
+
+      if (!candidatos.length) {
+        sinOpciones.push(slot.nombre);
+        return;
+      }
+
+      // Se ordenan por lo bien que encajan con el objetivo de esa comida: no
+      // todos los platos pueden escalarse a cualquier cifra de calorías.
+      // Después se baraja entre los mejores, para que no salga siempre lo
+      // mismo pero sin colar opciones mal ajustadas.
+      const puntuados = candidatos.map((p) => {
+        const t = totales(escalar(p, objetivo, bebida));
+        const desv =
+          Math.abs(t.kcal - objetivo.kcal) / objetivo.kcal +
+          Math.abs(t.p - objetivo.p) / Math.max(objetivo.p, 1);
+        // Los alimentos elegidos en el paso 5 restan desviación, así que sus
+        // platos suben. Es una preferencia, no un filtro: si un favorito no
+        // cuadra con las calorías de esa comida, sigue perdiendo frente a uno
+        // que sí cuadre. Vale más una dieta que ajuste que una que te repita
+        // el pollo en algo que no encaja.
+        const aciertos = p.ingredientes.filter((i) => favoritos.has(i.id)).length;
+        return { p, desv: desv - aciertos * 0.15, favoritos: aciertos };
+      });
+      puntuados.sort((a, b) => a.desv - b.desv);
+
+      // Sin favoritos se baraja entre los nueve mejores para que no salga
+      // siempre lo mismo. Con favoritos NO se baraja: barajar volvería a
+      // dejar fuera justo lo que el usuario ha pedido ver.
+      const mezclados = favoritos.size
+        ? puntuados.slice(0, 6).map((x) => x.p)
+        : puntuados
+            .slice(0, 9)
+            .map((x) => ({ ...x, r: Math.random() }))
+            .sort((a, b) => a.r - b.r)
+            .slice(0, 6)
+            .map((x) => x.p);
+
+      html += '<div class="gd-comida">';
+      html += '<div class="gd-comida-cab"><h3>' + slot.nombre + '</h3>' +
+              '<span>' + Math.round(objetivo.kcal) + ' kcal · ' + Math.round(objetivo.p) + ' g proteína</span></div>';
+      html += '<div class="gd-opciones">';
+
+      mezclados.forEach((plato, idx) => {
+        const ings = escalar(plato, objetivo, bebida);
+        const t = totales(ings);
+        html += '<div class="gd-opcion">';
+        html += '<div class="gd-opcion-num">Opción ' + (idx + 1) + '</div>';
+        html += '<div class="gd-opcion-nombre">' + plato.nombre + '</div>';
+        html += '<ul class="gd-ings">';
+        ings.forEach((i) => {
+          const a = ALIMENTOS[i.id];
+          const u = a.unidad === 'ud' ? (i.cantidad === 1 ? ' ud' : ' uds') : ' ' + a.unidad;
+          html += '<li>' + a.nombre + ' — <strong>' + i.cantidad + u + '</strong></li>';
+        });
+        html += '</ul>';
+        html += '<div class="gd-macros">' +
+                Math.round(t.kcal) + ' kcal · P ' + Math.round(t.p) + ' g · G ' +
+                Math.round(t.g) + ' g · C ' + Math.round(t.c) + ' g</div>';
+        if (plato.nota) html += '<div class="gd-nota">' + plato.nota + '</div>';
+        html += '</div>';
+      });
+
+      html += '</div></div>';
+    });
+
+    if (sinOpciones.length) {
+      html = '<div class="tip" style="margin-bottom:1.5rem"><strong>No hay opciones suficientes para: ' +
+             sinOpciones.join(', ') + '.</strong> Con tantas restricciones marcadas la base de recetas se queda corta. ' +
+             'Prueba a desmarcar alguna o a activar los suplementos.</div>' + html;
+    }
+
+    document.getElementById('gdResumenKcal').textContent = Math.round(kcal) + ' kcal/día';
+    document.getElementById('gdResumenDesc').textContent =
+      Math.round(prot) + ' g de proteína repartidos en ' + nComidas + ' comidas · ' +
+      'las cantidades son EN CRUDO';
+    document.getElementById('gdComidasResultado').innerHTML = html;
+    document.getElementById('gdResultado').style.display = 'block';
+    document.getElementById('gdResultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── Conexión de los botones ──────────────────────────────
+  // Se usa addEventListener y NO onclick="..." en el HTML. Motivo: el
+  // atributo define:vars envuelve todo este script en una función anónima,
+  // así que nada de lo que hay aquí dentro es global. Un onclick del marcado
+  // busca la función en el ámbito global, no la encuentra y falla en
+  // silencio: el botón parece muerto. Con addEventListener la referencia se
+  // resuelve aquí dentro, donde la función sí existe.
+  document.querySelectorAll('#gdForm [data-ir]').forEach((b) => {
+    b.addEventListener('click', () => gdPaso(parseInt(b.dataset.ir)));
+  });
+
+  document.getElementById('gdGenerar').addEventListener('click', generarDieta);
+
+  const busca = document.getElementById('gdBuscaAlimento');
+  busca.addEventListener('input', () => buscarAlimentos(busca.value));
+  // Enter dentro del buscador añadiría el primer resultado y, si el campo
+  // estuviera dentro de un form, además lo enviaría recargando la página.
+  busca.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const primero = document.querySelector('#gdSugerencias [data-anadir]');
+    if (primero) primero.click();
+  });
+
+  // Delegación: las sugerencias y las etiquetas se repintan constantemente,
+  // así que se escucha en el contenedor y no en cada botón.
+  document.getElementById('gdSugerencias').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-anadir]');
+    if (!b) return;
+    favoritos.add(b.dataset.anadir);
+    busca.value = '';
+    buscarAlimentos('');
+    pintarFavoritos();
+  });
+
+  document.getElementById('gdFavoritos').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-quitar]');
+    if (!b) return;
+    favoritos.delete(b.dataset.quitar);
+    pintarFavoritos();
+  });
+</script>

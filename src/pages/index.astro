@@ -292,6 +292,33 @@ const schema = [
           <button class="btn-main" onclick="guardar()">Guardar en historial</button>
         </div>
 
+        <!-- SIGUIENTE PASO: CONVERTIR LAS CIFRAS EN COMIDA -->
+        <!-- Va después de "Guardar en historial" a propósito: el generador lee
+             la última entrada de cfhist para prellenarse, y esa entrada sólo
+             existe si se ha pulsado el botón de guardar. -->
+        <div class="sub-section" style="margin-top:2rem">
+          <div class="sub-title">🍽️ ¿Y ahora qué como?</div>
+          <p class="sub-desc">
+            Ya tienes tus cifras. El paso difícil es el siguiente: convertirlas en comida real.
+            El generador te propone <strong>6 opciones para cada comida del día</strong>, con
+            las cantidades ya ajustadas a estas calorías y a esta proteína, teniendo en cuenta
+            tus alergias y lo que no te gusta.
+          </p>
+          <div class="sub-row">
+            <a
+              class="btn-sub"
+              href="/generador-dieta"
+              style="width:100%;text-align:center;text-decoration:none;display:block"
+            >
+              Crear mi dieta con estas cifras
+            </a>
+          </div>
+          <p class="sub-note">
+            Guarda antes en el historial (botón de arriba) y el generador cogerá tus números
+            solo.
+          </p>
+        </div>
+
         <!-- DESCARGAR EL PLAN -->
         <div class="sub-section" style="margin-top:2rem">
           <div class="sub-title">📄 Llévate tu plan</div>

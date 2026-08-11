@@ -609,6 +609,139 @@ footer a:hover{color:var(--lime)}
 }
 
 /* ═══════════════════════════════════════════
+   GENERADOR DE DIETA
+   ═══════════════════════════════════════════ */
+.gd-checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:0.5rem}
+.gd-check{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:100px;padding:0.5rem 0.9rem;
+  font-size:0.78rem;color:var(--text2);
+  cursor:pointer;transition:border-color 0.18s,color 0.18s;
+}
+.gd-check:hover{border-color:var(--lime-dim);color:var(--text)}
+.gd-check input{accent-color:var(--lime);cursor:pointer;margin:0}
+.gd-check:has(input:checked){border-color:var(--lime);color:var(--lime);background:var(--lime-deep)}
+
+/* Casillas en columna, con su explicación debajo. Se usa en el paso de
+   restricciones: "No como carne ni pescado" necesita una línea que aclare de
+   dónde saldrá entonces la proteína. */
+.gd-checks-col{flex-direction:column;gap:10px}
+.gd-check-ancho{
+  border-radius:12px;padding:0.85rem 1rem;align-items:flex-start;
+  width:100%;max-width:520px;
+}
+.gd-check-ancho input{margin-top:3px;flex-shrink:0}
+.gd-check-ancho span{display:flex;flex-direction:column;gap:3px}
+.gd-check-ancho strong{font-size:0.85rem;font-weight:600}
+.gd-check-ancho small{font-size:0.75rem;color:var(--muted);line-height:1.5}
+.gd-check-ancho:has(input:checked) small{color:var(--text2)}
+
+/* Navegación del asistente: atrás a la izquierda, siguiente a la derecha. */
+.gd-nav{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);
+}
+/* .btn-ghost nace con display:none porque en la calculadora los "Siguiente"
+   solo aparecen al completar cada paso (se les añade .show). Aquí no: la
+   navegación del asistente tiene que estar siempre visible, o no hay forma de
+   pasar de pantalla. Se anula también el width:100% y el margin de arriba,
+   que rompían la fila de atrás/siguiente. */
+.gd-nav .btn-ghost{display:block;width:auto;margin-top:0}
+.gd-nav .gd-atras{opacity:0.65}
+.gd-nav .gd-atras:hover{opacity:1}
+@media(max-width:520px){
+  .gd-nav{flex-direction:column-reverse;align-items:stretch}
+  .gd-nav .btn-ghost{width:100%}
+}
+
+/* Comparativa de bebidas. */
+.gd-tabla-bebidas{
+  border:1px solid var(--border2);border-radius:12px;
+  overflow:hidden;margin-top:1.2rem;
+}
+.gd-bebida-fila{
+  display:grid;grid-template-columns:1fr auto;gap:2px 12px;
+  padding:0.85rem 1rem;border-bottom:1px solid var(--border);
+}
+.gd-bebida-fila:last-child{border-bottom:none}
+.gd-bebida-nom{font-size:0.85rem;font-weight:600;color:var(--text)}
+.gd-bebida-kcal{
+  font-size:0.85rem;font-weight:700;color:var(--lime);
+  font-variant-numeric:tabular-nums;text-align:right;
+}
+.gd-bebida-nota{
+  grid-column:1/-1;font-size:0.75rem;color:var(--muted);line-height:1.5;
+}
+
+/* Buscador de alimentos favoritos. */
+.gd-sugerencias{display:flex;flex-wrap:wrap;gap:8px;margin-top:0.7rem}
+.gd-sug{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:100px;padding:0.45rem 0.9rem;
+  font-size:0.78rem;color:var(--text2);font-family:inherit;
+  cursor:pointer;transition:border-color 0.18s,color 0.18s;
+}
+.gd-sug:hover{border-color:var(--lime);color:var(--lime)}
+.gd-sin-hit{font-size:0.78rem;color:var(--muted);margin:0}
+
+.gd-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem}
+.gd-chip{
+  background:var(--lime-deep);border:1px solid var(--lime);
+  border-radius:100px;padding:0.45rem 0.9rem;
+  font-size:0.78rem;color:var(--lime);font-family:inherit;
+  cursor:pointer;transition:opacity 0.18s;
+}
+.gd-chip:hover{opacity:0.7}
+.gd-chip span{margin-left:4px;font-weight:700}
+
+.gd-comida{margin-bottom:2.5rem}
+.gd-comida-cab{
+  display:flex;justify-content:space-between;align-items:baseline;
+  flex-wrap:wrap;gap:6px;
+  border-bottom:2px solid var(--lime-deep);
+  padding-bottom:8px;margin-bottom:1rem;
+}
+.gd-comida-cab h3{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.5rem;font-weight:700;
+  color:var(--lime);letter-spacing:1px;text-transform:uppercase;
+}
+.gd-comida-cab span{font-size:0.72rem;letter-spacing:1px;color:var(--muted)}
+
+.gd-opciones{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:12px;
+}
+.gd-opcion{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:12px;padding:1.1rem;
+}
+.gd-opcion-num{
+  font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:4px;
+}
+.gd-opcion-nombre{
+  font-size:0.92rem;font-weight:600;color:var(--text);
+  margin-bottom:0.7rem;line-height:1.3;
+}
+.gd-ings{list-style:none;padding:0;margin:0 0 0.8rem}
+.gd-ings li{
+  font-size:0.8rem;color:var(--text2);
+  padding:3px 0;line-height:1.5;
+}
+.gd-ings strong{color:var(--lime)}
+.gd-macros{
+  font-size:0.7rem;letter-spacing:0.5px;color:var(--muted);
+  border-top:1px solid var(--border);padding-top:8px;
+}
+.gd-nota{
+  font-size:0.75rem;color:#a8d87a;line-height:1.6;
+  background:var(--lime-deep);border-radius:8px;
+  padding:0.6rem 0.8rem;margin-top:0.7rem;
+}
+
+/* ═══════════════════════════════════════════
    PÁGINAS DE TEXTO (legales, contacto, sobre)
    ═══════════════════════════════════════════ */
 .pagina{max-width:720px;margin:0 auto;padding:3rem 1.25rem 1rem}
@@ -701,6 +834,14 @@ footer a:hover{color:var(--lime)}
   font-size:0.88rem;color:var(--text2);line-height:1.85;
   margin-bottom:0.9rem;
 }
+/* Listas dentro del contenido de las guías. Mismo tamaño y color que
+   .cs-text, con la viñeta en verde para que no se pierda sobre el fondo. */
+.cs-lista{
+  font-size:0.88rem;color:var(--text2);line-height:1.85;
+  margin:0 0 0.9rem;padding-left:1.2rem;
+}
+.cs-lista li{margin-bottom:0.4rem}
+.cs-lista li::marker{color:var(--lime)}
 .cs-highlight{
   background:var(--lime-deep);
   border:1px solid rgba(200,241,53,0.18);

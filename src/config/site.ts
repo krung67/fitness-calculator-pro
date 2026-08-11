@@ -67,8 +67,8 @@ export const NAV = [
   { href: '/imc', texto: 'IMC' },
   { href: '/grasa-corporal', texto: 'Grasa corporal' },
   { href: '/masa-muscular', texto: 'Masa muscular' },
+  { href: '/generador-dieta', texto: 'Tu dieta' },
   { href: '/metodo', texto: 'Método' },
-  { href: '/contacto', texto: 'Contacto' },
 ] as const;
 
 /**
@@ -148,6 +148,13 @@ export const GUIAS = [
     icono: '🍽️',
   },
   {
+    href: '/guias/suplementos-que-merecen-la-pena',
+    titulo: 'Suplementos que merecen la pena',
+    resumen:
+      'Cuánta creatina tomar al día, cuánta proteína en polvo, cuánto omega 3 y si sirven los multivitamínicos. Con las dosis exactas y los mitos desmontados.',
+    icono: '💊',
+  },
+  {
     href: '/guias/que-comer-despues-de-entrenar',
     titulo: 'Qué comer después de entrenar',
     resumen:
@@ -156,9 +163,14 @@ export const GUIAS = [
   },
 ] as const;
 
-/** Enlaces del pie. */
+/**
+ * Enlaces del pie. "Contacto" bajó aquí al entrar el generador de dietas en el
+ * menú: con siete elementos arriba, la barra se partía en tres líneas en móvil.
+ * Sigue enlazado desde todas las páginas, que es lo que exige AdSense.
+ */
 export const NAV_LEGAL = [
   { href: '/sobre-nosotros', texto: 'Sobre nosotros' },
+  { href: '/contacto', texto: 'Contacto' },
   { href: '/aviso-legal', texto: 'Aviso legal' },
   { href: '/privacidad', texto: 'Privacidad' },
   { href: '/cookies', texto: 'Cookies' },

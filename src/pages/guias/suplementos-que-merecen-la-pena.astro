@@ -1,0 +1,453 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const faq = [
+  {
+    p: '¿Cuánta creatina hay que tomar al día?',
+    r: 'Entre 3 y 5 gramos diarios de creatina monohidrato, todos los días, entrenes o no. También se oye mucho la regla de 1 gramo por cada 10 kg de peso, que para 70 kg serían 7 g: no está mal, pero con los 3-5 g estándar vas más que sobrado. La Sociedad Internacional de Nutrición Deportiva solo sugiere subir a 5-10 g diarios en deportistas de mucho peso y con entrenamientos muy intensos.',
+  },
+  {
+    p: '¿Hay que hacer fase de carga con la creatina?',
+    r: 'No hace falta. La carga consiste en tomar 0,3 g por kilo repartidos en cuatro tomas durante 5-7 días, y llena los depósitos musculares en una semana. Sin carga, tomando 3 g al día, llegas al mismo nivel en unas cuatro semanas. El destino es idéntico: la carga solo acelera el camino.',
+  },
+  {
+    p: '¿La creatina retiene líquidos o hincha?',
+    r: 'Retiene agua, pero dentro de la célula muscular, no debajo de la piel. Eso no tapa la definición ni te hincha la cara: el músculo se ve algo más lleno, que es justo el efecto que se busca. En la báscula puedes ver entre 1 y 2 kg de subida las primeras semanas, y es agua intramuscular, no grasa.',
+  },
+  {
+    p: '¿La creatina es mala para los riñones o hace caer el pelo?',
+    r: 'No hay evidencia de ninguna de las dos cosas en personas sanas. La revisión de la ISSN concluye que no existen efectos perjudiciales documentados con dosis de hasta 30 g diarios durante cinco años. Lo de la caída del pelo viene de un único estudio de 2009 en veinte jugadores de rugby que midió una hormona, la DHT, no la caída del pelo, y que nadie ha logrado replicar. Si tienes una patología renal diagnosticada, consúltalo con tu médico antes de tomarla.',
+  },
+  {
+    p: '¿Cuánta proteína en polvo tengo que tomar?',
+    r: 'La que te falte para llegar a tu proteína del día, ni más ni menos. El objetivo está entre 1,2 y 1,6 gramos por kilo de peso contando toda la comida, no solo los batidos. Si con el pollo, los huevos y el pescado ya llegas, no necesitas ni un cacito. La proteína en polvo es comida rápida y cómoda, no un producto con efectos propios.',
+  },
+  {
+    p: '¿Cuánto omega 3 hay que tomar?',
+    r: 'Para población general, la EFSA sitúa la referencia en 250-500 mg diarios de EPA y DHA combinados. Los estudios que encuentran efectos en recuperación e inflamación en deportistas usan cantidades bastante mayores, entre 1,5 y 3 g diarios de EPA+DHA durante varias semanas. Ojo con la etiqueta: un bote que anuncia 1.000 mg de aceite de pescado suele llevar solo 300 mg de EPA+DHA.',
+  },
+  {
+    p: '¿Sirven de algo los multivitamínicos?',
+    r: 'Solo si tienes un déficit. Tomar vitaminas por encima de las cantidades recomendadas no mejora el rendimiento: la suplementación corrige carencias, no crea ventajas. La excepción con más respaldo es la vitamina D, porque los niveles bajos son muy frecuentes en deportistas de interior, en invierno y en latitudes del norte. Lo sensato es un análisis de sangre antes que un bote.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Suplementos que merecen la pena',
+    description:
+      'Cuánta creatina tomar al día, cuánta proteína en polvo, cuánto omega 3 y si sirven los multivitamínicos. Con las dosis exactas y los mitos desmontados.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/suplementos-que-merecen-la-pena`,
+    dateModified: '2026-08-10',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Suplementos que merecen la pena',
+        item: `${SITE.url}/guias/suplementos-que-merecen-la-pena`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Suplementos: Cuáles Merecen la Pena de Verdad"
+  description="Cuánta creatina tomar al día, cuánta proteína en polvo, cuánto omega 3 y si sirven los multivitamínicos. Dosis exactas y mitos desmontados."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía</div>
+    <h1>Suplementos que merecen la pena</h1>
+    <p class="hero-sub">
+      De todo el catálogo de una tienda de nutrición, hay evidencia sólida para cuatro cosas. Y
+      una de ellas solo si te falta algo.
+    </p>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          Entras en una tienda de suplementos y hay doscientos productos. Sales pensando que
+          necesitas quince. La realidad es más aburrida:
+          <strong>hay cuatro cosas con respaldo suficiente</strong>, y de esas cuatro, dos son
+          simplemente comida en formato cómodo.
+        </p>
+        <p class="cs-text">
+          Nada de lo que hay en esta página va a compensar dormir cinco horas, entrenar sin
+          progresión o no llegar a tus calorías. Los suplementos son el último 5 %. Si el otro
+          95 % no está hecho, el bote no hace nada.
+        </p>
+        <div class="cs-highlight">
+          <strong>El orden correcto es este:</strong> primero tus calorías y tus macros,
+          después la constancia en el entrenamiento, después el descanso, y solo entonces mirar
+          suplementos. Si no sabes tus cifras, empieza por la
+          <a href="/" style="color:var(--lime)">calculadora de calorías y macros</a>.
+        </div>
+      </div>
+
+      <!-- ─────────── CREATINA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">El único con efecto propio</div>
+        <h2 class="cs-title">Cuánta creatina tomar al día</h2>
+        <p class="cs-text">
+          La creatina es el <strong>único suplemento de esta lista que hace algo por sí
+          mismo</strong>. Los demás son comida o corrigen carencias. Es también el más
+          estudiado de la nutrición deportiva, con décadas de investigación detrás.
+        </p>
+
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Qué</th><th>Cuánto</th><th>Detalle</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Dosis diaria</strong></td>
+              <td>3-5 g</td>
+              <td>Todos los días, entrenes o no</td>
+            </tr>
+            <tr>
+              <td><strong>Tipo</strong></td>
+              <td>Monohidrato</td>
+              <td>El de siempre, el barato</td>
+            </tr>
+            <tr>
+              <td><strong>Fase de carga</strong></td>
+              <td>Opcional</td>
+              <td>0,3 g/kg en 4 tomas, 5-7 días</td>
+            </tr>
+            <tr>
+              <td><strong>Momento del día</strong></td>
+              <td>Indiferente</td>
+              <td>Importa la constancia, no la hora</td>
+            </tr>
+            <tr>
+              <td><strong>Ciclarla</strong></td>
+              <td>No hace falta</td>
+              <td>Se toma de forma continua</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="cs-h3">Los 3-5 gramos, y la regla que se oye por ahí</h3>
+        <p class="cs-text">
+          La recomendación estándar es de <strong>3 a 5 gramos diarios</strong>, y con eso vas
+          sobrado. También se oye mucho la regla de
+          <strong>1 gramo por cada 10 kg de peso</strong> —para 70 kg serían 7 g—, y no está
+          mal planteada: la
+          <a
+            href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5469049/"
+            rel="noopener nofollow"
+            target="_blank"
+            style="color:var(--lime)">revisión de la ISSN</a
+          > contempla subir a 5-10 g diarios en deportistas de mucho peso con entrenamientos muy
+          intensos. Pero para la inmensa mayoría de la gente,
+          <strong>con el estándar ya vas que chutas</strong>.
+        </p>
+        <p class="cs-text">
+          Y compra <strong>monohidrato</strong>. Las versiones «avanzadas» —clorhidrato,
+          kre-alkalyn, tamponadas— cuestan dos o tres veces más y no han demostrado ser
+          mejores. Es el caso más claro de pagar por el envase.
+        </p>
+
+        <h3 class="cs-h3">Busca el sello Creapure®</h3>
+        <p class="cs-text">
+          Si puedes elegir, coge un bote que lleve el sello
+          <strong>Creapure®</strong> en la etiqueta. Es la creatina monohidrato que fabrica
+          AlzChem en Trostberg (Alemania), y lo que compras con ese sello es concreto:
+        </p>
+        <ul class="cs-lista">
+          <li><strong>99,9 % de pureza</strong>, con cada lote analizado antes de salir de fábrica.</li>
+          <li>
+            Está en la <strong>Cologne List®</strong>, que analiza el producto en un laboratorio
+            alemán para verificar que no contiene esteroides ni estimulantes.
+          </li>
+        </ul>
+        <p class="cs-text">
+          Ahora la parte honesta: <strong>no es una creatina «mejor» en el sentido de que haga
+          más</strong>. Es la misma molécula, el mismo monohidrato y el mismo efecto. Lo que te
+          llevas es la <strong>garantía de que dentro del bote hay lo que pone y nada más</strong>,
+          que en un mercado sin apenas control no es poco: las creatinas baratas de origen
+          opaco pueden arrastrar subproductos de fabricación.
+        </p>
+        <div class="cs-highlight">
+          <strong>Dónde importa de verdad:</strong> si compites en algo con control antidopaje,
+          esto no es un detalle, es lo único sensato. Un positivo por contaminación cuenta
+          igual que uno buscado. Y si no compites, sigue siendo la opción tranquila por muy
+          poca diferencia de precio.
+        </div>
+
+        <h3 class="cs-h3">La fase de carga: opcional de verdad</h3>
+        <p class="cs-text">
+          Cargar significa tomar <strong>0,3 g por kilo de peso repartidos en cuatro tomas
+          durante 5-7 días</strong>. Para 70 kg son unos 21 g diarios, en cuatro veces. Eso
+          llena los depósitos musculares en una semana.
+        </p>
+        <p class="cs-text">
+          Si no cargas y tomas 3 g al día, llegas <strong>exactamente al mismo nivel en unas
+          cuatro semanas</strong>. El destino es el mismo. La carga solo acorta el camino, y a
+          cambio a bastante gente le sienta mal al estómago. Si no tienes prisa, sáltatela.
+        </p>
+
+        <h3 class="cs-h3">Qué vas a notar, y cuándo</h3>
+        <p class="cs-text">
+          <strong>No es un preentreno.</strong> No lo vas a notar el primer día ni te va a dar
+          energía. Lo que hace es rellenar un depósito de energía rápida del músculo, y eso se
+          traduce en <strong>una o dos repeticiones más en las series pesadas</strong>. Poco por
+          sesión; mucho acumulado en seis meses.
+        </p>
+
+        <h3 class="cs-h3">Los tres mitos de siempre</h3>
+        <p class="cs-text">
+          <strong>«Retiene líquidos y te hincha».</strong> Retiene agua, sí, pero
+          <strong>dentro de la célula muscular</strong>, no debajo de la piel. No tapa la
+          definición: el músculo se ve más lleno, que es justo lo que se busca. Vas a ver 1-2 kg
+          de subida en la báscula las primeras semanas, y es agua intramuscular, no grasa.
+        </p>
+        <p class="cs-text">
+          <strong>«Es mala para los riñones».</strong> La revisión de la ISSN concluye que
+          <strong>no hay evidencia de efectos perjudiciales con hasta 30 g diarios durante cinco
+          años</strong> en personas sanas. Si tienes una patología renal diagnosticada, eso es
+          otra conversación y la tienes que tener con tu médico.
+        </p>
+        <p class="cs-text">
+          <strong>«Hace caer el pelo».</strong> Sale de <strong>un solo estudio de 2009</strong>
+          en veinte jugadores de rugby que midió una hormona, la DHT, y
+          <strong>no midió la caída del pelo</strong>. Nadie ha conseguido replicarlo desde
+          entonces. Un estudio, veinte personas, medición indirecta, sin réplica: eso no es una
+          base para decidir nada.
+        </p>
+      </div>
+
+      <!-- ─────────── PROTEÍNA EN POLVO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Comida, no magia</div>
+        <h2 class="cs-title">Cuánta proteína en polvo tomar</h2>
+        <p class="cs-text">
+          Aquí hay que empezar por lo importante:
+          <strong>la proteína en polvo no es un suplemento, es comida rápida</strong>. Un batido
+          es leche con proteína. No tiene ningún efecto que no tenga un filete.
+        </p>
+        <p class="cs-text">
+          Por eso la pregunta «¿cuánta proteína en polvo tomo?» está mal planteada. La pregunta
+          real es <strong>cuánta proteína necesitas al día en total</strong>, y el polvo solo
+          cubre lo que te falte. Nuestro rango es
+          <strong>entre 1,2 y 1,6 gramos por kilo de peso</strong>, contando toda la comida del
+          día. Si con el pollo, los huevos, el pescado y los lácteos ya llegas,
+          <strong>no necesitas ni un cacito</strong>.
+        </p>
+        <div class="cs-highlight">
+          Tienes el desarrollo completo, con tabla por peso corporal, en
+          <a href="/guias/cuanta-proteina-necesito-al-dia" style="color:var(--lime)"
+            >cuánta proteína necesito al día</a
+          >. Y si quieres ver de dónde sacarla sin batidos,
+          <a href="/guias/proteina-de-los-alimentos" style="color:var(--lime)"
+            >proteína de los alimentos</a
+          >.
+        </div>
+
+        <h3 class="cs-h3">Dónde sí ayuda de verdad</h3>
+        <p class="cs-text">
+          En <strong>desayunos y meriendas</strong>. Es donde cuesta meter proteína sin acabar
+          comiendo pechuga de pollo a las cinco de la tarde. Una avena con proteína o una crema
+          de arroz de sabores resuelve 30 gramos y además
+          <strong>quita el antojo de dulce</strong>, que en definición es media batalla.
+        </p>
+        <p class="cs-text">
+          Sobre qué tipo: <strong>concentrada</strong> vale para casi todo el mundo. El
+          <strong>aislado</strong> solo tiene sentido si te sienta mal la lactosa, porque lleva
+          bastante menos. Las versiones vegetales funcionan igual de bien si son mezcla de
+          varias fuentes, por ejemplo guisante y arroz.
+        </p>
+      </div>
+
+      <!-- ─────────── OMEGA 3 ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Depende de lo que comas</div>
+        <h2 class="cs-title">Cuánto omega 3 hace falta</h2>
+        <p class="cs-text">
+          El omega 3 no va de rendimiento, va de <strong>salud general y recuperación</strong>.
+          Y cuánto necesitas depende por completo de una cosa: si comes pescado azul o no.
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Para qué</th><th>EPA + DHA al día</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Referencia de población general (EFSA)</td>
+              <td><strong>250-500 mg</strong></td>
+            </tr>
+            <tr>
+              <td>Estudios de recuperación e inflamación en deportistas</td>
+              <td><strong>1,5-3 g</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Si comes <strong>pescado azul dos o tres veces por semana</strong> —salmón, sardinas,
+          caballa, atún fresco— probablemente ya estés cubierto y el bote te sobre.
+        </p>
+        <div class="cs-highlight">
+          <strong>⚠️ El truco de las etiquetas.</strong> Un bote que anuncia «1.000 mg de aceite
+          de pescado» no lleva 1.000 mg de omega 3.
+          <strong>Lleva 1.000 mg de aceite</strong>, del cual el EPA y el DHA suelen ser unos
+          300 mg. Mira siempre las cifras de <strong>EPA y DHA por cápsula</strong>, no el peso
+          total. Es la diferencia entre tomar la dosis que crees y un tercio de ella.
+        </div>
+      </div>
+
+      <!-- ─────────── MULTIVITAMÍNICOS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">El más sobrevalorado</div>
+        <h2 class="cs-title">¿Sirven los multivitamínicos?</h2>
+        <p class="cs-text">
+          La respuesta honesta: <strong>solo si tienes un déficit</strong>. Y la mayoría de la
+          gente que come variado no lo tiene.
+        </p>
+        <p class="cs-text">
+          La evidencia en deportistas es bastante consistente en esto:
+          <strong>tomar vitaminas por encima de las cantidades recomendadas no mejora el
+          rendimiento</strong>. La suplementación corrige carencias, no crea ventajas. Si no te
+          falta nada, un multivitamínico es orina cara.
+        </p>
+        <p class="cs-text">
+          Donde sí puede tener sentido es si comes muy poco variado, si estás en un déficit
+          agresivo durante meses o si por el motivo que sea dejas fuera grupos enteros de
+          alimentos.
+        </p>
+
+        <h3 class="cs-h3">La excepción de verdad: la vitamina D</h3>
+        <p class="cs-text">
+          Esta sí tiene respaldo. Los niveles bajos de vitamina D son
+          <strong>muy frecuentes en deportistas</strong>, y las revisiones encuentran cifras que
+          van de una cuarta parte a más de la mitad según la población estudiada. Los factores
+          de riesgo son claros: <strong>entrenar en interior, el invierno, vivir en latitudes
+          del norte y tener la piel más oscura</strong>. En el norte de España, entrenando en
+          gimnasio y de octubre a marzo, se juntan casi todos.
+        </p>
+        <div class="cs-highlight">
+          <strong>La recomendación sensata:</strong> un análisis de sangre cuesta menos que un
+          año de botes y te dice exactamente qué te falta. Suplementar a ciegas es adivinar
+          pagando.
+        </div>
+      </div>
+
+      <!-- ─────────── LO QUE NO ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Ahórrate el dinero</div>
+        <h2 class="cs-title">Lo que no merece la pena</h2>
+        <p class="cs-text">
+          <strong>BCAAs y aminoácidos ramificados.</strong> Si llegas a tu proteína del día, ya
+          te los estás comiendo. Son un trozo de la proteína completa vendido aparte y más caro.
+          Solo tendrían algo de sentido en un contexto de proteína muy baja, que es justo el
+          problema que habría que arreglar primero.
+        </p>
+        <p class="cs-text">
+          <strong>Quemagrasas y termogénicos.</strong> Lo que quema grasa es el déficit
+          calórico. Casi todos son cafeína con extractos vegetales, y la diferencia real sobre
+          el gasto diario es despreciable frente a lo que cuestan.
+        </p>
+        <p class="cs-text">
+          <strong>Glutamina.</strong> Muy popular en los noventa, sin respaldo para ganancia
+          muscular ni recuperación en personas sanas que comen suficiente proteína.
+        </p>
+        <p class="cs-text">
+          <strong>Los preentrenos, con matices.</strong> Funcionan porque llevan cafeína, y la
+          cafeína sí tiene evidencia. Pero pagas un precio alto por algo que un café te da igual
+          de bien. Si te gusta el ritual, adelante; si buscas el efecto, es café.
+        </p>
+      </div>
+
+      <!-- ─────────── RESUMEN ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Resumen</div>
+        <h2 class="cs-title">Si solo te vas a llevar una cosa</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Suplemento</th><th>¿Merece la pena?</th><th>Dosis</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Creatina monohidrato</strong></td>
+              <td>✅ Sí, el más claro</td>
+              <td>3-5 g al día, siempre</td>
+            </tr>
+            <tr>
+              <td><strong>Proteína en polvo</strong></td>
+              <td>✅ Si no llegas comiendo</td>
+              <td>La que falte para 1,2-1,6 g/kg</td>
+            </tr>
+            <tr>
+              <td><strong>Omega 3</strong></td>
+              <td>⚠️ Si no comes pescado azul</td>
+              <td>1,5-3 g de EPA+DHA</td>
+            </tr>
+            <tr>
+              <td><strong>Multivitamínico</strong></td>
+              <td>⚠️ Solo con déficit</td>
+              <td>Hazte un análisis primero</td>
+            </tr>
+            <tr>
+              <td><strong>BCAAs, quemagrasas…</strong></td>
+              <td>❌ No</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Y una vez tengas esto claro, lo que de verdad mueve la aguja es la comida del día a
+          día. Puedes montarla en un momento con el
+          <a href="/generador-dieta" style="color:var(--lime)">generador de dieta</a>, que ya
+          incluye la proteína en polvo y la crema de arroz como opción si las usas.
+        </p>
+      </div>
+
+      <!-- ─────────── FAQ ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes sobre suplementos</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          ⚠️ <strong>Esta guía es información general</strong>, no una pauta individualizada ni
+          consejo médico. Si tomas medicación, tienes alguna patología —especialmente renal o
+          hepática— o estás embarazada, consulta con un profesional sanitario antes de tomar
+          cualquier suplemento.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>
