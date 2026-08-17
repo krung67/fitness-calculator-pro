@@ -114,7 +114,13 @@ const todosLosSchemas = [...schemaSitio, ...schemasPagina];
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
+    <!-- El SVG lo usan los navegadores modernos; el .ico es el que piden por
+         defecto los antiguos y algunas herramientas, y estaba devolviendo 404.
+         El apple-touch-icon es el que sale al añadir la web a la pantalla de
+         inicio en iPhone. -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Fuentes alojadas en el propio dominio (ver @font-face en global.css).
          Se precargan las dos que aparecen en el primer pantallazo: la del
