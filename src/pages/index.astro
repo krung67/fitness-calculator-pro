@@ -100,7 +100,7 @@ const schema = [
   </nav>
   <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
 
-  <main>
+  <main id="contenido">
     <!-- ─────────── PANEL 0 : BMR ─────────── -->
     <div class="panel active" id="panel0">
       <div class="wrap">
@@ -848,7 +848,9 @@ function goStep(n){
   // resumen como un quinto paso pendiente.
   const PASOS=4;
   document.getElementById('progFill').style.width=(Math.min(n+1,PASOS)/PASOS*100)+'%';
-  window.scrollTo({top:0,behavior:'smooth'});
+  // Respeta "reducir movimiento": el scroll pedido desde JS ignora el CSS.
+  const reduce=!!window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
 }
 
 function calcBMR(){

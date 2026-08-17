@@ -1,0 +1,86 @@
+---
+/**
+ * Página 404.
+ *
+ * Antes de existir, una URL rota devolvía la página por defecto de Vercel:
+ * 79 bytes, sin título y sin un solo enlace. El código HTTP era correcto
+ * (404 de verdad, no un soft 404), pero quien llegaba ahí se quedaba
+ * atrapado sin forma de volver.
+ *
+ * Va con noindex y fuera del sitemap: es una página de servicio, no
+ * contenido que Google deba tener en su índice.
+ */
+import Base from '../layouts/Base.astro';
+import { GUIAS } from '../config/site';
+
+// Las tres guías más buscadas, como salida de emergencia.
+const sugeridas = GUIAS.slice(0, 3);
+---
+
+<Base
+  title="Página no encontrada"
+  description="La página que buscas no existe o ha cambiado de dirección."
+  noindex={true}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Error 404</div>
+    <h1>Esta página no existe</h1>
+    <p class="hero-sub">
+      O la dirección está mal escrita, o el contenido se ha movido. No te vayas todavía: casi
+      seguro que lo que buscas está a un clic.
+    </p>
+  </div>
+
+  <main id="contenido">
+    <div class="wrap" style="padding-top:2.5rem">
+      <div class="content-section" style="border-top:none">
+        <div class="cs-tag">Las herramientas</div>
+        <h2 class="cs-title">Empieza por aquí</h2>
+        <div class="prod-grid">
+          <a href="/" class="prod-card" style="padding:1.4rem">
+            <div class="prod-icon">🔢</div>
+            <div class="prod-name" style="font-size:0.95rem;margin-bottom:8px">
+              Calculadora de calorías y macros
+            </div>
+            <div class="cs-text" style="font-size:0.8rem;margin:0">
+              Tus calorías de mantenimiento y tu reparto de macros en cuatro pasos.
+            </div>
+          </a>
+          <a href="/generador-dieta" class="prod-card" style="padding:1.4rem">
+            <div class="prod-icon">🍽️</div>
+            <div class="prod-name" style="font-size:0.95rem;margin-bottom:8px">
+              Generador de dieta
+            </div>
+            <div class="cs-text" style="font-size:0.8rem;margin:0">
+              Seis opciones para cada comida, ajustadas a tus cifras y a lo que te gusta.
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Guías</div>
+        <h2 class="cs-title">Lo que más lee la gente</h2>
+        <div class="prod-grid">
+          {
+            sugeridas.map((g) => (
+              <a href={g.href} class="prod-card" style="padding:1.4rem">
+                <div class="prod-icon">{g.icono}</div>
+                <div class="prod-name" style="font-size:0.95rem;margin-bottom:8px">
+                  {g.titulo}
+                </div>
+                <div class="cs-text" style="font-size:0.8rem;margin:0">{g.resumen}</div>
+              </a>
+            ))
+          }
+        </div>
+        <p class="cs-text" style="margin-top:1.5rem">
+          También puedes ver <a href="/guias" style="color:var(--lime)">todas las guías</a>, o
+          <a href="/contacto" style="color:var(--lime)">escribirnos</a> si crees que este enlace
+          debería funcionar.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

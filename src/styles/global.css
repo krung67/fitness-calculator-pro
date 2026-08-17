@@ -371,6 +371,30 @@ button:focus-visible,a:focus-visible{
   outline-offset:2px;
 }
 
+/* Enlace de salto al contenido. Fuera de la pantalla hasta que se enfoca con
+   el tabulador: no se ve con el ratón, pero evita que quien navega con
+   teclado tenga que recorrer todo el menú en cada página. */
+.skip-link{
+  position:absolute;left:-9999px;top:0;z-index:999;
+  background:var(--lime);color:#000;
+  padding:0.75rem 1.25rem;border-radius:0 0 10px 0;
+  font-family:'Sora',sans-serif;font-size:0.8rem;font-weight:700;
+  text-decoration:none;
+}
+.skip-link:focus{left:0}
+
+/* Movimiento reducido: hay gente a la que las animaciones y el scroll suave
+   le provocan mareo o migraña. Si lo han pedido en su sistema operativo, se
+   respeta. No se ocultan elementos: solo se quita el movimiento. */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
 /* ── RESULT CARD ── */
 .rcard{
   margin-top:1.5rem;

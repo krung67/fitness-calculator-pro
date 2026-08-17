@@ -93,6 +93,9 @@ const todosLosSchemas = [...schemaSitio, ...schemasPagina];
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {/* Tiñe la barra del navegador en Android y Safari de iOS con el fondo de
+        la web, en vez del blanco por defecto que corta con el diseño. */}
+    <meta name="theme-color" content="#07090b" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -108,6 +111,10 @@ const todosLosSchemas = [...schemaSitio, ...schemasPagina];
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    {/* Sin ancho y alto, algunas redes descartan la imagen o la recortan mal
+        porque no saben qué proporción tiene hasta que la descargan. */}
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -150,6 +157,14 @@ const todosLosSchemas = [...schemaSitio, ...schemasPagina];
   </head>
 
   <body>
+    {/*
+      Enlace de salto: invisible hasta que se enfoca con el tabulador. Sin él,
+      quien navega con teclado o lector de pantalla tiene que recorrer los seis
+      enlaces del menú en CADA página antes de llegar al contenido.
+      Apunta a #contenido, que es el <main> de cada página.
+    */}
+    <a href="#contenido" class="skip-link">Saltar al contenido</a>
+
     <header class="site-header">
       <a href="/" class="site-logo">Calculadora<span>Fit</span></a>
       <nav class="site-nav" aria-label="Navegación principal">

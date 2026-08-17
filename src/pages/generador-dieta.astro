@@ -86,7 +86,7 @@ const schema = [
 
   <div class="prog-bar"><div class="prog-fill" id="gdProgFill" style="width:17%"></div></div>
 
-  <main>
+  <main id="contenido">
     <div class="wrap" style="padding-top:2.5rem">
       <!-- Asistente: una pregunta por pantalla. Los paneles se muestran de uno
            en uno con gdPaso(); el marcado de todos existe siempre, así que al
@@ -525,6 +525,13 @@ const schema = [
   // DOM, así que generarDieta() puede leer sus campos aunque no se hayan
   // llegado a ver: quien pulse "Generar" sin recorrer los seis pasos obtiene
   // los valores por defecto, no un error.
+  // Respeta "reducir movimiento" del sistema. El CSS no basta: cuando el
+  // scroll suave se pide desde JavaScript, gana lo que diga el JavaScript.
+  const suave = () =>
+    window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 'auto'
+      : 'smooth';
+
   const PASOS_TOTALES = 6;
 
   function gdPaso(n) {
@@ -532,7 +539,7 @@ const schema = [
     paneles.forEach((p, i) => p.classList.toggle('active', i === n));
     document.getElementById('gdProgFill').style.width =
       ((n + 1) / PASOS_TOTALES) * 100 + '%';
-    document.getElementById('gdForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('gdForm').scrollIntoView({ behavior: suave(), block: 'start' });
   }
 
   // ── Alimentos favoritos ──────────────────────────────────
@@ -583,7 +590,9 @@ const schema = [
           )
           .join('')
       : '<p class="gd-sin-hit">No tenemos «' +
-        texto.replace(/</g, '&lt;') +
+        // El & va primero: si se escapara después, convertiría el &lt; recién
+        // creado en &amp;lt; y se vería el código en pantalla.
+        texto.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') +
         '» en la base de datos todavía.</p>';
   }
 
@@ -717,7 +726,7 @@ const schema = [
       'las cantidades son EN CRUDO';
     document.getElementById('gdComidasResultado').innerHTML = html;
     document.getElementById('gdResultado').style.display = 'block';
-    document.getElementById('gdResultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('gdResultado').scrollIntoView({ behavior: suave(), block: 'start' });
   }
 
   // ── Conexión de los botones ──────────────────────────────
