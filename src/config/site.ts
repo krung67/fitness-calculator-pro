@@ -161,6 +161,45 @@ export const GUIAS = [
       'Proteína y carbohidratos, sin prisas: por qué la ventana anabólica de 30 minutos es un mito y cuánto margen tienes en realidad.',
     icono: '🥗',
   },
+  // ── Entrenamiento ──────────────────────────────────────────
+  // Salen del criterio de Enrique (entrevista de agosto de 2026). Todas
+  // enlazan a /masa-muscular, que es la pagina que mas impresiones recibe y
+  // la que menos contenido de entrenamiento tenia alrededor.
+  {
+    href: '/guias/cuantas-series-por-musculo',
+    titulo: 'Cuántas series por músculo a la semana',
+    resumen:
+      'Dos series por ejercicio, tres si priorizas, y cinco días como techo. El criterio no es cuánto aguantas, sino de cuánto te recuperas.',
+    icono: '📊',
+  },
+  {
+    href: '/guias/cuantas-repeticiones-para-ganar-musculo',
+    titulo: 'Cuántas repeticiones para ganar músculo',
+    resumen:
+      'El rango de 6 a 14 y por qué funciona: qué te cuesta bajar de ahí con cargas altas y por qué por encima cuesta medir la intensidad.',
+    icono: '🔁',
+  },
+  {
+    href: '/guias/entrenar-al-fallo-o-dejar-repeticiones',
+    titulo: 'Entrenar al fallo o dejar repeticiones',
+    resumen:
+      'La variable que más pesa. Por qué un principiante debe ir al fallo y en qué ejercicios conviene quedarse en RIR 1.',
+    icono: '🔥',
+  },
+  {
+    href: '/guias/cuantas-veces-entrenar-cada-musculo',
+    titulo: 'Cuántas veces entrenar cada músculo',
+    resumen:
+      'Frecuencia 2 como objetivo y por qué una vez por semana desaprovecha media semana. Qué rutina elegir según los días que tengas.',
+    icono: '📅',
+  },
+  {
+    href: '/guias/cuanto-tarda-en-notarse-el-gimnasio',
+    titulo: 'Cuánto tarda en notarse el gimnasio',
+    resumen:
+      'Qué se nota a las dos semanas, al mes, a los tres meses y a los seis. Y qué revisar si a los tres meses no ves nada.',
+    icono: '⏳',
+  },
 ] as const;
 
 /**

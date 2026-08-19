@@ -1,0 +1,252 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const faq = [
+  {
+    p: '¿Cuántas repeticiones hay que hacer para ganar músculo?',
+    r: 'El rango que mejor funciona en la práctica es entre 6 y 14 repeticiones. Por debajo de 6, con cargas muy altas, aumentan las molestias articulares en bastante gente. Por encima de 14 sigue habiendo hipertrofia, pero cuesta mucho más medir si de verdad estás aplicando intensidad, y la intensidad es lo que decide el resultado.',
+  },
+  {
+    p: '¿Es mejor hacer pocas repeticiones con mucho peso o muchas con poco?',
+    r: 'Ninguna de las dos es claramente superior si el esfuerzo es el mismo. Lo que cambia es el coste: los rangos muy bajos con carga alta cargan más las articulaciones, y los rangos muy altos hacen difícil saber si te has quedado corto. Por eso el punto medio de 6 a 14 es el más práctico para la mayoría.',
+  },
+  {
+    p: '¿Puedo usar rangos distintos en ejercicios distintos?',
+    r: 'Sí, y es lo razonable. En los grupos musculares que sientes mejor y en ejercicios que dominas puedes irte a rangos más altos sin problema. En movimientos que te cargan las articulaciones, conviene no bajar demasiado de repeticiones.',
+  },
+  {
+    p: '¿Menos de 6 repeticiones no sirve para ganar músculo?',
+    r: 'Sirve, pero tiene un precio. Con 4 a 6 repeticiones y cargas muy altas, mucha gente empieza a notar molestias articulares. No le pasa a todo el mundo, pero es la razón principal por la que no se recomienda vivir ahí si tu objetivo es hipertrofia y no fuerza máxima.',
+  },
+  {
+    p: '¿Qué rango de repeticiones debo elegir si empiezo?',
+    r: 'El que te resulte más cómodo y te haga adherente a tu rutina, dentro de 6 a 14. Un rango que te guste y puedas sostener meses vale más que el rango teóricamente óptimo que abandonas en tres semanas.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Cuántas repeticiones para ganar músculo',
+    description:
+      'El rango de 6 a 14 repeticiones, por qué los rangos muy bajos dan molestias articulares y por qué por encima de 14 cuesta medir la intensidad.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/cuantas-repeticiones-para-ganar-musculo`,
+    dateModified: '2026-08-19',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Cuántas repeticiones para ganar músculo',
+        item: `${SITE.url}/guias/cuantas-repeticiones-para-ganar-musculo`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Cuántas Repeticiones para Ganar Músculo"
+  description="El rango de 6 a 14 repeticiones y por qué funciona: qué pasa por debajo con cargas altas y por qué por encima cuesta medir la intensidad real."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía de entrenamiento</div>
+    <h1>Cuántas repeticiones para ganar músculo</h1>
+    <p class="hero-sub">
+      Entre 6 y 14. Y dentro de ahí, el rango que te guste lo suficiente como para seguir
+      haciéndolo dentro de seis meses.
+    </p>
+  </div>
+
+  <main id="contenido">
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          Esta es la pregunta con la respuesta más aburrida del gimnasio:
+          <strong>importa mucho menos de lo que la gente cree</strong>. No hay un número mágico
+          de repeticiones que active la hipertrofia y otro que no.
+        </p>
+        <p class="cs-text">
+          Lo que decide el resultado es <strong>la intensidad con la que haces cada
+          serie</strong>. El rango de repeticiones solo cambia dos cosas: cuánto te castigan las
+          articulaciones y lo fácil que te resulta saber si de verdad te has esforzado.
+        </p>
+        <div class="cs-highlight">
+          <strong>El rango práctico: de 6 a 14 repeticiones.</strong> Dentro de esa horquilla,
+          elige el que te resulte más cómodo y más adherente. El mejor rango es el que sostienes
+          durante meses.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Los extremos</div>
+        <h2 class="cs-title">Qué pasa por debajo de 6 y por encima de 14</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Rango</th><th>¿Genera músculo?</th><th>El problema</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>4-6 reps</strong></td>
+              <td>Sí</td>
+              <td>Cargas muy altas: molestias articulares en bastante gente</td>
+            </tr>
+            <tr>
+              <td><strong>6-14 reps</strong></td>
+              <td>Sí</td>
+              <td>Ninguno. Es la zona práctica</td>
+            </tr>
+            <tr>
+              <td><strong>Más de 14 reps</strong></td>
+              <td>Sí</td>
+              <td>Cuesta saber si estás aplicando intensidad de verdad</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="cs-h3">Por debajo: el precio son las articulaciones</h3>
+        <p class="cs-text">
+          Trabajar entre 4 y 6 repeticiones obliga a usar cargas muy altas, y ahí
+          <strong>mucha gente empieza a notar molestias articulares</strong>. No le pasa a
+          todo el mundo —hay quien vive en ese rango sin problema—, pero es lo bastante común
+          como para no recomendarlo por defecto a quien busca músculo.
+        </p>
+        <p class="cs-text">
+          Si tu objetivo fuera la fuerza máxima, la conversación sería otra. Para hipertrofia,
+          pagar con las articulaciones no compensa cuando tienes toda la zona de 6 a 14
+          disponible.
+        </p>
+
+        <h3 class="cs-h3">Por encima: el problema es medir</h3>
+        <p class="cs-text">
+          Pasar de 14 repeticiones <strong>sí genera hipertrofia</strong>, eso está claro. Lo
+          difícil es otra cosa: cuando llevas 18 o 20 repeticiones,
+          <strong>la sensación de esfuerzo se emborrona</strong>. Aparece el ardor, aparece la
+          fatiga general, y cuesta distinguir si has llegado de verdad al límite del músculo o
+          simplemente te has cansado.
+        </p>
+        <p class="cs-text">
+          Y como la intensidad es la variable que decide, no poder medirla bien es un problema
+          práctico serio. En series de 6 a 14 sabes perfectamente cuándo no te sale otra
+          repetición.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Lo que sí puedes personalizar</div>
+        <h2 class="cs-title">Rangos distintos para músculos distintos</h2>
+        <p class="cs-text">
+          No hace falta usar el mismo rango en toda la rutina. Lo lógico es adaptarlo:
+        </p>
+        <ul class="cs-lista">
+          <li>
+            <strong>Grupos musculares que sientes bien</strong> —ésos en los que notas
+            perfectamente el músculo trabajar— aguantan bien rangos más altos.
+          </li>
+          <li>
+            <strong>Ejercicios que te cargan las articulaciones</strong>: sube repeticiones y
+            baja carga antes que al revés.
+          </li>
+          <li>
+            <strong>Movimientos que dominas técnicamente</strong>: puedes bajar de repeticiones
+            con más seguridad que en uno que estás aprendiendo.
+          </li>
+        </ul>
+        <p class="cs-text">
+          Y si arrastras molestias en una articulación concreta, ese es el factor que manda por
+          encima de cualquier rango teórico.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Lo importante</div>
+        <h2 class="cs-title">La adherencia gana a la teoría</h2>
+        <p class="cs-text">
+          Un rango que te gusta y puedes sostener seis meses produce muchísimo más músculo que
+          el rango teóricamente perfecto que abandonas en tres semanas porque lo odias.
+        </p>
+        <p class="cs-text">
+          Es la misma lógica que aplicamos a la comida en el
+          <a href="/generador-dieta">generador de dieta</a>: una dieta que no te comes no
+          funciona, por muy bien calculada que esté. Un rango de repeticiones que no haces
+          tampoco.
+        </p>
+        <div class="cs-highlight">
+          Elige dentro de 6-14 el rango con el que te sientas cómodo, y dedica la energía que
+          te ahorras a lo que sí mueve la aguja:
+          <a href="/guias/entrenar-al-fallo-o-dejar-repeticiones">llevar cada serie de
+          verdad al límite</a>.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Cómo se usa</div>
+        <h2 class="cs-title">El rango no es un número, es un margen</h2>
+        <p class="cs-text">
+          Elegir «6 a 14» no significa hacer siempre 10. Significa que tienes
+          <strong>un margen dentro del cual progresar sin tocar el peso cada semana</strong>, y
+          esa es justo su utilidad práctica.
+        </p>
+        <p class="cs-text">
+          Funciona así: eliges un tramo estrecho dentro del rango —por ejemplo de 8 a 12— y te
+          quedas con el mismo peso hasta que llegas al tope de repeticiones. El día que sacas 12
+          repeticiones llevando la serie al límite, subes el peso y vuelves a caer a 8. Y otra
+          vez.
+        </p>
+        <div class="cs-highlight">
+          <strong>Por qué importa:</strong> te da una forma objetiva de saber si estás
+          progresando cuando el espejo no te dice nada. Si hace un mes hacías 8 repeticiones con
+          un peso y hoy haces 12, has mejorado, aunque no te veas distinto.
+        </div>
+        <p class="cs-text">
+          Y para tener una referencia que no dependa de la impresión del espejo, calcula tu masa
+          magra y tu FFMI en la
+          <a href="/masa-muscular">calculadora de masa muscular</a>: es el dato que te dice
+          cuánto músculo llevas encima y cuánto te queda de margen realista.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes sobre las repeticiones</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          ⚠️ <strong>Esta guía es información general</strong>, no una pauta individualizada. Si
+          arrastras molestias articulares o una lesión, consúltalo con un profesional sanitario
+          antes de decidir con qué cargas entrenas.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

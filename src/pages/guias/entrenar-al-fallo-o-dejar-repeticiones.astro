@@ -1,0 +1,240 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const faq = [
+  {
+    p: '¿Hay que entrenar al fallo para ganar músculo?',
+    r: 'La mayoría de las series sí, siempre que controles el volumen total. Cuanto más cerca del fallo terminas una serie, más señal de crecimiento dejas. La excepción son los ejercicios que más fatigan y más cargan las articulaciones, donde tiene sentido dejar una o dos repeticiones en recámara.',
+  },
+  {
+    p: '¿Un principiante debe entrenar al fallo?',
+    r: 'Sí, en prácticamente todo. La razón es que un principiante todavía no sabe medir su propio esfuerzo: cuando cree que le queda una repetición, muchas veces le quedan cuatro. Si le dices que pare con dos en recámara, en la práctica va a terminar cinco repeticiones antes del límite real y la serie no le va a servir de nada.',
+  },
+  {
+    p: '¿Qué es el RIR?',
+    r: 'RIR son las siglas de repeticiones en reserva: las que podrías haber hecho pero no has hecho. Un RIR 0 es el fallo, terminar cuando no te sale ni una más. Un RIR 2 significa parar cuando aún te quedaban dos.',
+  },
+  {
+    p: '¿En qué ejercicios conviene no llegar al fallo?',
+    r: 'En los que más fatiga generan y más comprometen las articulaciones: press banca, sentadilla, peso muerto y en general los movimientos con peso libre. Ahí un RIR 1, o como mucho un RIR 2, es lo razonable, porque el coste de fallar con esas cargas es alto y la fatiga que dejan condiciona el resto de la semana.',
+  },
+  {
+    p: '¿Tu fallo de hoy es el mismo que dentro de unos meses?',
+    r: 'No, y esa es la clave del asunto. La capacidad de llevarse al límite se entrena. El punto donde hoy sientes que no puedes más está bastante lejos de donde estará dentro de unos meses, cuando sepas lo que es una serie de verdad dura.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Entrenar al fallo o dejar repeticiones en recámara',
+    description:
+      'Cuándo llegar al fallo y cuándo dejar repeticiones en reserva, por qué un principiante debe ir al fallo y en qué ejercicios conviene no hacerlo.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/entrenar-al-fallo-o-dejar-repeticiones`,
+    dateModified: '2026-08-19',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Entrenar al fallo o dejar repeticiones',
+        item: `${SITE.url}/guias/entrenar-al-fallo-o-dejar-repeticiones`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Entrenar al Fallo o Dejar Repeticiones en Recámara"
+  description="Cuándo llegar al fallo y cuándo parar antes, por qué un principiante debe ir al fallo y en qué ejercicios conviene dejar repeticiones en reserva."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía de entrenamiento</div>
+    <h1>Entrenar al fallo o dejar repeticiones</h1>
+    <p class="hero-sub">
+      La variable que más pesa de todas. Y la que casi todo el mundo cree que controla mucho
+      mejor de lo que la controla.
+    </p>
+  </div>
+
+  <main id="contenido">
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          De todas las decisiones que tomas en una sesión —cuántas series, qué rango, qué
+          ejercicio— <strong>ésta es la que más determina si creces</strong>. Y es también la
+          que más se malinterpreta.
+        </p>
+        <p class="cs-text">
+          El planteamiento aquí es claro: <strong>la mayoría de las series, al fallo</strong>.
+          Con dos matices importantes, uno para principiantes y otro para ejercicios concretos.
+        </p>
+        <div class="cs-highlight">
+          <strong>RIR</strong> significa <em>repeticiones en reserva</em>: las que podrías haber
+          hecho y no has hecho. <strong>RIR 0 es el fallo</strong>. RIR 2 es parar cuando aún te
+          quedaban dos. Es la forma estándar de hablar de cuánto aprietas.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Si empiezas</div>
+        <h2 class="cs-title">Principiante: al fallo en todo</h2>
+        <p class="cs-text">
+          Puede sonar contraintuitivo, porque el consejo habitual es justo el contrario. Pero
+          la razón es sólida: <strong>un principiante todavía no sabe medir su propio
+          esfuerzo</strong>.
+        </p>
+        <p class="cs-text">
+          Cuando alguien que lleva un mes entrenando cree que le queda una repetición, la
+          realidad es que muchas veces le quedan tres o cuatro.
+          <strong>Si a esa persona le dices que pare con dos en recámara, va a terminar la
+          serie cinco repeticiones antes del límite real.</strong> Esa serie no le sirve de
+          nada.
+        </p>
+        <p class="cs-text">
+          Yendo al fallo ocurren dos cosas a la vez: la serie cuenta de verdad, y sobre todo
+          <strong>aprendes dónde está tu límite</strong>. Y eso es una habilidad que se
+          entrena. Tu fallo de hoy no es el mismo que tendrás dentro de unos meses, cuando
+          sepas de verdad lo que es una serie dura.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Si llevas años</div>
+        <h2 class="cs-title">Avanzado: RIR 1 en lo que más fatiga</h2>
+        <p class="cs-text">
+          Cuando ya controlas tu esfuerzo, el cálculo cambia. No porque el fallo deje de
+          funcionar, sino porque <strong>la fatiga que genera empieza a costarte
+          caro</strong> en el resto de la semana.
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Tipo de ejercicio</th><th>Hasta dónde</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Press banca, sentadilla, peso muerto y pesos libres en general</td>
+              <td><strong>RIR 1</strong>, como mucho RIR 2</td>
+            </tr>
+            <tr>
+              <td>El resto de ejercicios</td>
+              <td><strong>Al fallo</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          El motivo de la excepción es doble. Uno,
+          <strong>son los que más comprometen las articulaciones</strong>, y fallar con esas
+          cargas tiene un coste real. Y dos, son los que dejan más fatiga acumulada: llevar al
+          fallo una sentadilla pesada te condiciona los dos días siguientes.
+        </p>
+        <p class="cs-text">
+          Ese RIR 2 se reserva para los días en que sabes que vas fatigado, o para los
+          ejercicios en los que notas que estás nervioso con la carga. En el resto, RIR 1.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">La condición</div>
+        <h2 class="cs-title">Al fallo sí, pero con el volumen controlado</h2>
+        <p class="cs-text">
+          Esto no es negociable y es donde la gente se lo carga.
+          <strong>Entrenar al fallo solo funciona si haces pocas series.</strong>
+        </p>
+        <p class="cs-text">
+          Son las dos caras de la misma moneda: si haces dos series por ejercicio, puedes
+          llevarlas al límite y recuperarte. Si haces seis,
+          <strong>o no las llevas al límite o no te recuperas</strong>. No hay una tercera
+          opción.
+        </p>
+        <p class="cs-text">
+          Por eso las dos guías van juntas: los números de
+          <a href="/guias/cuantas-series-por-musculo">cuántas series por músculo</a> solo tienen
+          sentido con esta intensidad, y esta intensidad solo es sostenible con esos números.
+        </p>
+        <div class="cs-highlight">
+          <strong>La señal de que te has pasado:</strong> las cargas dejan de subir y llegas
+          agotado a cada sesión. Cuando eso ocurre, no hace falta entrenar más flojo: hace falta
+          entrenar menos series igual de fuerte.
+        </div>
+        <p class="cs-text">
+          Y para saber si todo este esfuerzo se está convirtiendo en músculo y no solo en
+          cansancio, mide en vez de mirarte: la
+          <a href="/masa-muscular">calculadora de masa muscular</a> te da tu masa magra y tu
+          FFMI, que es la referencia objetiva que el espejo no te da de un mes para otro.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Qué dice la evidencia</div>
+        <h2 class="cs-title">Esto no es una opinión aislada</h2>
+        <p class="cs-text">
+          Las revisiones más recientes que han analizado la relación entre cercanía al fallo e
+          hipertrofia apuntan en la misma dirección:
+          <strong>cuanto más cerca del fallo se termina la serie, mayor es el crecimiento
+          muscular</strong>, mientras que el efecto sobre la fuerza máxima es prácticamente
+          indiferente.
+        </p>
+        <p class="cs-text">
+          Conviene decir también lo que la evidencia <em>no</em> dice: no dice que sea
+          obligatorio fallar en todas las series para crecer. Se puede progresar sin llegar al
+          fallo. Lo que sostiene el planteamiento de esta página es la parte práctica —que
+          estimar mal el RIR es facilísimo, y que quien se queda corto sistemáticamente entrena
+          durante meses por debajo de lo que necesita.
+        </p>
+        <p class="cs-text">
+          Referencia:
+          <a
+            href="https://pubmed.ncbi.nlm.nih.gov/38970765/"
+            rel="noopener nofollow"
+            target="_blank">Robinson et al., meta-regresión sobre proximidad al fallo,
+            hipertrofia y fuerza (2024)</a
+          >.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes sobre el fallo muscular</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          ⚠️ <strong>Esta guía es información general</strong>, no una pauta individualizada.
+          Entrenar al fallo con cargas altas requiere técnica sólida y, en ejercicios como
+          sentadilla o press banca, medidas de seguridad. Si empiezas, busca supervisión.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

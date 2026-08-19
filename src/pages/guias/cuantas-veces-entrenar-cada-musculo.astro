@@ -1,0 +1,255 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const faq = [
+  {
+    p: '¿Cuántas veces hay que entrenar cada músculo a la semana?',
+    r: 'Dos veces por semana es lo ideal. Una sola vez se queda corto: el estímulo de crecimiento no dura siete días, así que pasas la mayor parte de la semana sin señal. Si por horarios no puedes llegar a dos en todos los músculos, el mínimo razonable es una frecuencia de 1,5.',
+  },
+  {
+    p: '¿Por qué entrenar un músculo una vez por semana es poco?',
+    r: 'Porque la señal que dejas al entrenar tiene una duración limitada. Si tocas el pecho el lunes y no lo vuelves a tocar hasta el lunes siguiente, hay varios días en los que ese músculo ya no está recibiendo ningún estímulo para crecer. Repartir el mismo trabajo en dos días aprovecha mucho mejor la semana.',
+  },
+  {
+    p: '¿Qué rutina permite frecuencia 2?',
+    r: 'Torso-pierna es la que mejor lo resuelve con cuatro días. El full body llega a frecuencia 2 o incluso 3 con solo tres días, metiendo menos volumen por sesión pero más músculos en cada una. Lo que casi nunca da frecuencia 2 es la rutina clásica de un músculo por día.',
+  },
+  {
+    p: '¿Qué es una frecuencia 1,5?',
+    r: 'Es entrenar un músculo tres veces cada dos semanas, o dos veces algunos músculos y una vez otros. Es la solución de compromiso cuando no puedes llegar a frecuencia 2 en todo: mejor eso que quedarse en una vez por semana.',
+  },
+  {
+    p: '¿Hay que hacer el mismo volumen en las dos sesiones?',
+    r: 'No hace falta. Si repartes el trabajo semanal en dos días, cada sesión lleva menos series que si lo concentraras todo en una. El total de la semana es lo que cuenta, y repartirlo permite que cada serie se haga con más intensidad.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Cuántas veces entrenar cada músculo a la semana',
+    description:
+      'Por qué la frecuencia 2 es el objetivo, por qué una vez por semana se queda corto y qué rutinas permiten llegar según los días que entrenes.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/cuantas-veces-entrenar-cada-musculo`,
+    dateModified: '2026-08-19',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Cuántas veces entrenar cada músculo',
+        item: `${SITE.url}/guias/cuantas-veces-entrenar-cada-musculo`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Cuántas Veces Entrenar Cada Músculo a la Semana"
+  description="Por qué la frecuencia 2 es el objetivo, por qué entrenar un músculo una vez por semana se queda corto y qué rutina elegir según tus días."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía de entrenamiento</div>
+    <h1>Cuántas veces entrenar cada músculo</h1>
+    <p class="hero-sub">
+      Dos veces por semana. Y si no llegas a dos en todo, al menos no te quedes en una.
+    </p>
+  </div>
+
+  <main id="contenido">
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          La rutina clásica del gimnasio —lunes pecho, martes espalda, miércoles pierna— tiene
+          un problema estructural: <strong>toca cada músculo una sola vez cada siete
+          días</strong>.
+        </p>
+        <p class="cs-text">
+          Y ese es el fallo. El estímulo que dejas al entrenar
+          <strong>no dura una semana entera</strong>. Si entrenas pecho el lunes y no lo
+          vuelves a tocar hasta el lunes siguiente, hay varios días en los que ese músculo ya no
+          está recibiendo ninguna señal para crecer. Estás desperdiciando media semana.
+        </p>
+        <div class="cs-highlight">
+          <strong>El objetivo: frecuencia 2.</strong> Cada músculo, dos veces por semana. Si por
+          horarios no puedes en todos, el suelo es <strong>frecuencia 1,5</strong>. Frecuencia 1
+          es poco para darle al músculo el chip de que tiene que crecer.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">La idea</div>
+        <h2 class="cs-title">El mismo trabajo, mejor repartido</h2>
+        <p class="cs-text">
+          Frecuencia 2 <strong>no significa entrenar el doble</strong>. Significa repartir el
+          trabajo de la semana en dos días en vez de concentrarlo en uno.
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th></th><th>Frecuencia 1</th><th>Frecuencia 2</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Sesiones por músculo</strong></td>
+              <td>1</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td><strong>Series por sesión</strong></td>
+              <td>Muchas</td>
+              <td>La mitad</td>
+            </tr>
+            <tr>
+              <td><strong>Total semanal</strong></td>
+              <td colspan="2">Prácticamente el mismo</td>
+            </tr>
+            <tr>
+              <td><strong>Intensidad por serie</strong></td>
+              <td>Cae según avanza la sesión</td>
+              <td>Alta en todas</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Y ahí aparece la ventaja escondida: <strong>menos series por sesión significa que
+          puedes llevarlas todas al límite</strong>. En una sesión de doce series de pecho, las
+          últimas salen a medio gas por pura fatiga. En dos sesiones de seis, todas cuentan.
+        </p>
+        <p class="cs-text">
+          Es exactamente la misma lógica de
+          <a href="/guias/cuantas-series-por-musculo">pocas series muy intensas</a> aplicada al
+          calendario en lugar de a la sesión.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">En la práctica</div>
+        <h2 class="cs-title">Qué rutina elegir según tus días</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Días</th><th>Rutina</th><th>Frecuencia que consigues</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>3</strong></td>
+              <td>Full body</td>
+              <td>2 o incluso 3 en todo</td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td>Torso - pierna</td>
+              <td>2 en todo</td>
+            </tr>
+            <tr>
+              <td><strong>5</strong></td>
+              <td>Torso - pierna + un día de prioridad</td>
+              <td>2, con algún músculo a 3</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          <strong>Con tres días, el full body es la mejor opción que existe</strong> y casi
+          nadie la usa. Metes menos volumen por sesión pero tocas más músculos en cada una, y
+          acabas la semana con frecuencia 2 sin pisar el gimnasio más de tres veces.
+        </p>
+        <p class="cs-text">
+          <strong>Con cuatro días, torso-pierna</strong> lo resuelve de forma limpia: dos
+          torsos y dos piernas, frecuencia 2 en todo el cuerpo.
+        </p>
+        <p class="cs-text">
+          Recuerda el techo: <strong>cinco días es el máximo</strong>, porque a partir de ahí
+          la recuperación deja de estar garantizada y las sesiones bajan de calidad. El
+          razonamiento completo está en
+          <a href="/guias/cuantas-series-por-musculo">cuántas series por músculo a la
+          semana</a>.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Si no llegas</div>
+        <h2 class="cs-title">La frecuencia 1,5, y por qué existe</h2>
+        <p class="cs-text">
+          No todo el mundo puede organizar la semana para tocarlo todo dos veces. Si es tu caso,
+          <strong>no te resignes a la frecuencia 1</strong>: hay un punto intermedio.
+        </p>
+        <p class="cs-text">
+          Frecuencia 1,5 significa entrenar un músculo tres veces cada dos semanas, o llegar a
+          dos veces en unos grupos y quedarte en una en otros. Lo lógico es
+          <strong>reservar la frecuencia 2 para lo que quieras priorizar</strong> y dejar en una
+          lo que ya vas sobrado o te interesa menos.
+        </p>
+        <p class="cs-text">
+          No es lo óptimo, pero está muy por encima de tocar todo una vez por semana. Y en
+          entrenamiento, lo que puedes sostener siempre gana a lo perfecto que no encaja en tu
+          vida.
+        </p>
+        <p class="cs-text">
+          Una duda que sale siempre:
+          <strong>¿hay que dejar días entre las dos sesiones del mismo músculo?</strong> Lo
+          razonable es separarlas 48 o 72 horas, que es cuando ese músculo vuelve a estar
+          disponible para rendir. Pegarlas en días consecutivos convierte la segunda sesión en
+          un entrenamiento a medio gas, que es exactamente lo que estamos intentando evitar.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Y la comida</div>
+        <h2 class="cs-title">Sin comer no hay frecuencia que valga</h2>
+        <p class="cs-text">
+          Puedes tener la frecuencia perfecta que si no comes suficiente no vas a construir
+          nada. El entrenamiento es la señal; el material lo pones con la comida y el descanso.
+        </p>
+        <p class="cs-text">
+          Calcula tus cifras en la <a href="/">calculadora de calorías y macros</a>, mira dónde
+          estás con la <a href="/masa-muscular">calculadora de masa muscular</a> y organiza el
+          día con el <a href="/generador-dieta">generador de dieta</a>. Y si tu objetivo es
+          ganar, tienes el planteamiento completo en
+          <a href="/guias/volumen-limpio">volumen limpio</a>.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes sobre la frecuencia</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          ⚠️ <strong>Esta guía es información general</strong>, no una pauta individualizada. Si
+          tienes lesiones o limitaciones, la distribución de tu semana debería valorarla alguien
+          que pueda verte entrenar.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

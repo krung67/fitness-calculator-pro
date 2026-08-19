@@ -1,0 +1,251 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const faq = [
+  {
+    p: '¿Cuánto tarda en notarse el gimnasio?',
+    r: 'Los cambios claros llegan a los tres meses. Antes de eso hay señales: en las dos primeras semanas notas el músculo algo más duro, y al mes ya percibes algo, aunque nada evidente para los demás. A los tres meses es cuando dices que se te nota el gimnasio, y a los seis, con constancia y una alimentación estructurada, eres otra persona.',
+  },
+  {
+    p: '¿Qué se nota en las primeras semanas?',
+    r: 'Poca cosa a nivel visual, pero sí un tacto algo más duro del músculo. Lo que sí cambia muchísimo al principio son las cargas: si eres constante y no fallas sesiones, vas a subir de peso en los ejercicios a una velocidad que no vuelve a repetirse nunca más.',
+  },
+  {
+    p: '¿Por qué al principio se sube tanto de peso en los ejercicios?',
+    r: 'Porque las primeras mejoras son sobre todo de coordinación y técnica, no de músculo nuevo. Tu sistema nervioso aprende a reclutar mejor las fibras que ya tienes. Por eso las cargas suben rápido las primeras semanas y luego la progresión se vuelve mucho más lenta.',
+  },
+  {
+    p: '¿Cuánto cambia la dieta el resultado?',
+    r: 'Lo multiplica. Tres meses entrenando bien pero comiendo a lo que salga dan un resultado; los mismos tres meses con calorías y proteína controladas dan un cambio incomparablemente mayor. El entrenamiento es la señal, la comida es el material.',
+  },
+  {
+    p: '¿Y si a los tres meses no veo nada?',
+    r: 'Revisa dos cosas antes de cambiar de rutina. Primero, si estás progresando en cargas o repeticiones: si no subes nada en tres meses, el problema es la intensidad. Y segundo, si estás comiendo suficiente, porque en déficit sin querer no se construye músculo. Cambiar de rutina es lo último que hay que tocar, no lo primero.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Cuánto tarda en notarse el gimnasio',
+    description:
+      'Qué se nota a las dos semanas, al mes, a los tres meses y a los seis, y por qué la alimentación multiplica el cambio en ese mismo tiempo.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/cuanto-tarda-en-notarse-el-gimnasio`,
+    dateModified: '2026-08-19',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Cuánto tarda en notarse el gimnasio',
+        item: `${SITE.url}/guias/cuanto-tarda-en-notarse-el-gimnasio`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Cuánto Tarda en Notarse el Gimnasio"
+  description="Qué se nota a las dos semanas, al mes, a los tres meses y a los seis. Con expectativas realistas y por qué la comida multiplica el resultado."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía de entrenamiento</div>
+    <h1>Cuánto tarda en notarse el gimnasio</h1>
+    <p class="hero-sub">
+      Tres meses para el cambio claro. Seis para ser otra persona. Y lo que pasa por el camino,
+      que es donde la gente lo deja.
+    </p>
+  </div>
+
+  <main id="contenido">
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          Esta pregunta se hace por una razón muy concreta:
+          <strong>la gente abandona en las semanas en que no ve nada</strong>. Saber qué esperar
+          y cuándo esperarlo es, en la práctica, lo que separa a quien sigue de quien lo deja.
+        </p>
+        <div class="cs-highlight">
+          <strong>El resumen:</strong> a las dos semanas notas algo tú. Al mes lo notas más. A
+          los tres meses se te nota. A los seis, con constancia y comiendo con estructura, eres
+          otra persona.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">La línea temporal</div>
+        <h2 class="cs-title">Qué esperar y cuándo</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Cuándo</th><th>Qué notas tú</th><th>Qué notan los demás</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>2 semanas</strong></td>
+              <td>El músculo algo más duro. Cargas subiendo rápido</td>
+              <td>Nada</td>
+            </tr>
+            <tr>
+              <td><strong>1 mes</strong></td>
+              <td>Algo, sin ser evidente. Cargas bastante más altas</td>
+              <td>Casi nada</td>
+            </tr>
+            <tr>
+              <td><strong>3 meses</strong></td>
+              <td>Cambio claro</td>
+              <td><strong>Sí, se nota</strong></td>
+            </tr>
+            <tr>
+              <td><strong>6 meses</strong></td>
+              <td>Otra persona</td>
+              <td>Evidente</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="cs-h3">Las dos primeras semanas</h3>
+        <p class="cs-text">
+          Vas a notar algo, pero poco: <strong>el músculo un poquito más duro al tacto</strong>,
+          esa sensación de tener algo más de bíceps. No es un cambio visible, y quien espere
+          verse distinto en el espejo a los quince días se va a llevar un chasco.
+        </p>
+        <p class="cs-text">
+          <strong>La clave de estas dos semanas es no parar.</strong> Es el tramo donde más
+          gente lo deja, precisamente porque el esfuerzo es máximo y el resultado visible es
+          cero.
+        </p>
+
+        <h3 class="cs-h3">Lo que sí se dispara desde el primer día</h3>
+        <p class="cs-text">
+          Las cargas. <strong>Si eres constante y no fallas sesiones, vas a mejorar
+          muchísimo en peso movido</strong> las primeras semanas, a una velocidad que no se
+          vuelve a repetir nunca.
+        </p>
+        <p class="cs-text">
+          Eso pasa porque las primeras mejoras son sobre todo de coordinación: tu sistema
+          nervioso está aprendiendo a usar mejor las fibras que
+          <em>ya tenías</em>. Es aprendizaje, no músculo nuevo. Por eso después la progresión se
+          vuelve mucho más lenta, y eso <strong>no significa que algo vaya mal</strong>.
+        </p>
+        <div class="cs-highlight">
+          Aprovecha ese arranque: <strong>apunta las cargas desde el primer día</strong>. Cuando
+          llegue la semana en que no te veas ningún cambio en el espejo, ese registro es la
+          prueba objetiva de que estás progresando.
+        </div>
+
+        <h3 class="cs-h3">Los tres meses</h3>
+        <p class="cs-text">
+          Aquí es donde llega el momento de <em>«se me nota el gimnasio»</em>. Es el primer
+          punto en el que el cambio es claro para ti y perceptible para los demás.
+        </p>
+
+        <h3 class="cs-h3">Los seis meses</h3>
+        <p class="cs-text">
+          Con constancia, un plan de entrenamiento y una estructura de alimentación detrás,
+          <strong>medio año te convierte en otra persona</strong>. No es una exageración: es lo
+          que da la suma de constancia y estructura cuando nadie ha tirado la toalla por el
+          camino.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">El multiplicador</div>
+        <h2 class="cs-title">Con dieta, el cambio se multiplica</h2>
+        <p class="cs-text">
+          Estos plazos asumen que entrenas bien. Si además
+          <strong>cuidas la alimentación —una estructura, un plan, unas cifras—, el cambio en
+          esos mismos tres meses no tiene comparación</strong>.
+        </p>
+        <p class="cs-text">
+          Es la diferencia entre dar la señal y dar además el material. Entrenar le dice al
+          cuerpo que necesita más músculo; la comida es de lo que lo construye. Puedes tener la
+          rutina perfecta que, sin proteína y sin calorías suficientes, no hay de dónde sacarlo.
+        </p>
+        <p class="cs-text">
+          Por dónde empezar, en orden: calcula tus cifras en la
+          <a href="/">calculadora de calorías y macros</a>, conviértelas en comidas concretas
+          con el <a href="/generador-dieta">generador de dieta</a>, y si tu objetivo es ganar,
+          lee <a href="/guias/volumen-limpio">volumen limpio</a>.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Si no ves nada</div>
+        <h2 class="cs-title">Qué revisar antes de cambiar de rutina</h2>
+        <p class="cs-text">
+          Cambiar de rutina es lo que hace todo el mundo y casi siempre es lo último que habría
+          que tocar. Antes, dos comprobaciones:
+        </p>
+        <ul class="cs-lista">
+          <li>
+            <strong>¿Estás progresando en cargas o repeticiones?</strong> Si en tres meses no
+            has subido nada, el problema es la intensidad con la que entrenas, no los
+            ejercicios que haces. Empieza por
+            <a href="/guias/entrenar-al-fallo-o-dejar-repeticiones">llevar las series de verdad
+            al límite</a>.
+          </li>
+          <li>
+            <strong>¿Estás comiendo suficiente?</strong> Mucha gente está en déficit sin
+            saberlo, y en déficit construir músculo es cuesta arriba. Compruébalo con la
+            <a href="/">calculadora</a>.
+          </li>
+          <li>
+            <strong>¿Tocas cada músculo dos veces por semana?</strong> Con frecuencia 1 estás
+            desaprovechando media semana. Lo tienes en
+            <a href="/guias/cuantas-veces-entrenar-cada-musculo">cuántas veces entrenar cada
+            músculo</a>.
+          </li>
+        </ul>
+        <p class="cs-text">
+          Y si lo que quieres es una referencia objetiva en vez de la impresión del espejo,
+          calcula tu masa magra y tu FFMI en la
+          <a href="/masa-muscular">calculadora de masa muscular</a>. Es la forma de ver
+          progreso los meses en que el espejo no te lo enseña.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes sobre los resultados</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          ⚠️ <strong>Esta guía es información general</strong>, no una pauta individualizada.
+          Los plazos son orientativos: la genética, la edad, el punto de partida y el descanso
+          hacen que varíen bastante de una persona a otra.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>

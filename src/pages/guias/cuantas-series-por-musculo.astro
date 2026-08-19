@@ -1,0 +1,251 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config/site';
+
+const faq = [
+  {
+    p: '¿Cuántas series hay que hacer por ejercicio?',
+    r: 'Entre dos y tres series por ejercicio, y la mayoría de las veces dos. Se reservan las tres para los grupos musculares que quieras priorizar o para el día dedicado a ese músculo. Lo que hace que esas dos series funcionen es la intensidad: si las haces cómodo, no valen.',
+  },
+  {
+    p: '¿Cuántos días a la semana hay que entrenar?',
+    r: 'Cinco como máximo. El criterio no es cuántos días aguantas, sino de cuántos te recuperas: el objetivo es llegar a cada sesión fresco para poder darlo todo. Un sexto o séptimo día suele restar, porque convierte las sesiones siguientes en entrenamientos a medio gas.',
+  },
+  {
+    p: '¿Más volumen de entrenamiento es siempre mejor?',
+    r: 'No. Existe una relación entre volumen e hipertrofia, pero solo mientras te recuperes de ese volumen. En cuanto acumulas más del que puedes asimilar, las sesiones bajan de calidad y acabas haciendo más series con menos intensidad, que es el peor de los dos mundos.',
+  },
+  {
+    p: '¿Todo el mundo tolera el mismo volumen de entrenamiento?',
+    r: 'No, y es una de las diferencias individuales más grandes que hay. Hay gente que rinde bien con bastante volumen y gente que con la mitad progresa igual o mejor. El descanso, el estrés, la edad, la alimentación y los años entrenando influyen. Por eso el número que te sirva a ti se encuentra probando, no copiando.',
+  },
+  {
+    p: '¿Qué es más importante, las series o la intensidad?',
+    r: 'La intensidad. Diez series flojas no valen lo que dos series llevadas de verdad al límite. El volumen solo cuenta cuando cada serie se hace con esfuerzo real; si no, son repeticiones que pasan por el músculo sin dejar señal.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Cuántas series por músculo a la semana',
+    description:
+      'Cuántas series hacer por ejercicio y por semana, cuántos días entrenar y por qué la intensidad de cada serie pesa más que el número de series.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/guias/cuantas-series-por-musculo`,
+    dateModified: '2026-08-19',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/guias` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Cuántas series por músculo a la semana',
+        item: `${SITE.url}/guias/cuantas-series-por-musculo`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Cuántas Series por Músculo a la Semana"
+  description="Cuántas series hacer por ejercicio, cuántos días entrenar y por qué la intensidad de cada serie pesa más que el número total de series."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Guía de entrenamiento</div>
+    <h1>Cuántas series por músculo a la semana</h1>
+    <p class="hero-sub">
+      Menos series de las que crees, llevadas mucho más lejos de lo que sueles llevarlas.
+    </p>
+  </div>
+
+  <main id="contenido">
+    <div class="wrap">
+      <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <p class="cs-text">
+          Antes de hablar de números hay que cambiar la pregunta. La gente pregunta
+          <em>cuántas series aguanto</em>, y la pregunta correcta es
+          <strong>de cuántas me recupero</strong>.
+        </p>
+        <p class="cs-text">
+          Todo el planteamiento sale de ahí: el objetivo es que
+          <strong>te recuperes de cada sesión para llegar a la siguiente pudiendo dar el
+          máximo</strong>. Si el lunes haces tanto volumen que el miércoles vas a medio gas, no
+          has entrenado más: has entrenado peor dos veces.
+        </p>
+        <div class="cs-highlight">
+          <strong>La regla en una línea:</strong> pocas series, muy intensas, con margen de
+          recuperación. Es lo contrario de lo que hace casi todo el mundo, que son muchas series
+          a media intensidad sin recuperarse nunca del todo.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Los números</div>
+        <h2 class="cs-title">Dos series por ejercicio, tres si priorizas</h2>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Qué</th><th>Cuánto</th><th>Cuándo</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Series por ejercicio</strong></td>
+              <td>2</td>
+              <td>Lo habitual, la mayoría de las veces</td>
+            </tr>
+            <tr>
+              <td><strong>Series por ejercicio</strong></td>
+              <td>3</td>
+              <td>Músculo que priorizas o su día dedicado</td>
+            </tr>
+            <tr>
+              <td><strong>Días de entrenamiento</strong></td>
+              <td>5 máximo</td>
+              <td>Siempre. Más días no compensan</td>
+            </tr>
+            <tr>
+              <td><strong>Intensidad</strong></td>
+              <td>Alta en todas</td>
+              <td>Es lo que hace que dos series basten</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="cs-text">
+          Dos series parecen pocas escritas en una tabla. Dejan de parecerlo cuando las haces
+          como hay que hacerlas. <strong>El número solo tiene sentido acompañado de la
+          intensidad</strong>: dos series llevadas al límite de verdad dejan una señal que diez
+          series cómodas no dejan.
+        </p>
+        <p class="cs-text">
+          Por eso el error más repetido no es hacer pocas series, sino hacer muchas y flojas.
+          Quien hace seis series por ejercicio casi nunca puede llevarlas al límite —no le da
+          el cuerpo—, así que acaba acumulando repeticiones que pasan por el músculo sin
+          pedirle nada.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Los días</div>
+        <h2 class="cs-title">Cinco días como máximo, y por qué</h2>
+        <p class="cs-text">
+          Cinco días a la semana es el techo. No porque más sea imposible, sino porque
+          <strong>con cinco te aseguras recuperarte sí o sí</strong>, y esa garantía es lo que
+          permite que cada sesión valga.
+        </p>
+        <p class="cs-text">
+          Los días de descanso no son días perdidos: <strong>es cuando el músculo se
+          construye</strong>. Entrenar es la señal; la reparación pasa después, con el descanso
+          y la comida. Meter un sexto día suele significar entregar esa reparación a cambio de
+          más trabajo de peor calidad.
+        </p>
+        <p class="cs-text">
+          Y hay una trampa práctica: quien entrena seis o siete días rara vez descansa de
+          verdad ninguno, así que llega a todos los entrenamientos con algo de fatiga
+          acumulada. El resultado es un mes entero de sesiones al 80 %.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Lo que nadie te dice</div>
+        <h2 class="cs-title">Tu volumen no es el mío</h2>
+        <p class="cs-text">
+          Esta es de las diferencias individuales más grandes que existen en entrenamiento.
+          <strong>Hay quien tolera bastante volumen y quien con la mitad progresa igual o
+          mejor.</strong> No es cuestión de ser más duro: influyen el descanso que llevas, el
+          estrés del trabajo, la edad, cómo comes y los años que llevas entrenando.
+        </p>
+        <p class="cs-text">
+          Por eso copiar la rutina de otro casi nunca funciona bien. Los números de esta página
+          son <strong>un punto de partida sensato</strong>, no una ley. Empiezas ahí, entrenas
+          seis u ocho semanas y miras dos cosas: si las cargas suben y si llegas descansado a
+          cada sesión. Si las cargas se estancan y llegas siempre reventado, sobra volumen. Si
+          progresas y acabas fresco, puedes probar a añadir una serie donde más te interese.
+        </p>
+        <div class="cs-highlight">
+          <strong>El indicador que sí sirve:</strong> ¿estás moviendo más peso o más
+          repeticiones que hace un mes? Si la respuesta es sí, tu volumen está bien. Si es no y
+          además llegas agotado, el problema casi nunca es que entrenes poco.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Cómo encaja</div>
+        <h2 class="cs-title">El volumen no va solo</h2>
+        <p class="cs-text">
+          Las series son una de las cuatro variables que decides cada vez que entrenas, y
+          ninguna funciona aislada:
+        </p>
+        <ul class="cs-lista">
+          <li>
+            <strong>Cuántas series</strong> — esta guía.
+          </li>
+          <li>
+            <strong>Con cuántas repeticiones</strong> — el rango que eliges cambia las
+            molestias articulares y lo medible que es tu esfuerzo. Lo tienes en
+            <a href="/guias/cuantas-repeticiones-para-ganar-musculo">cuántas repeticiones para
+            ganar músculo</a>.
+          </li>
+          <li>
+            <strong>Hasta dónde llevas cada serie</strong> — la variable que más pesa, y la
+            que convierte dos series en suficientes. En
+            <a href="/guias/entrenar-al-fallo-o-dejar-repeticiones">entrenar al fallo o dejar
+            repeticiones</a>.
+          </li>
+          <li>
+            <strong>Cuántas veces tocas cada músculo</strong> — reparte estas series a lo largo
+            de la semana. En
+            <a href="/guias/cuantas-veces-entrenar-cada-musculo">cuántas veces entrenar cada
+            músculo</a>.
+          </li>
+        </ul>
+        <p class="cs-text">
+          Y por encima de las cuatro está la comida. Puedes ajustar el volumen al milímetro
+          que, si no comes suficiente proteína ni cubres tus calorías, el músculo no aparece.
+          Calcula tus cifras en la
+          <a href="/">calculadora de calorías y macros</a> y comprueba dónde estás con la
+          <a href="/masa-muscular">calculadora de masa muscular</a>.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes sobre el volumen</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text">
+          ⚠️ <strong>Esta guía es información general</strong>, no una pauta individualizada. Si
+          tienes una lesión, una patología o dudas sobre si un ejercicio es adecuado para ti,
+          consúltalo con un profesional que pueda valorarte en persona.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>
