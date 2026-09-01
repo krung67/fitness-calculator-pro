@@ -23,11 +23,21 @@ import { SITE } from '../src/config/site.js';
  *  que ya da la web de recalcular cada 4-6 semanas. */
 export const DIAS_RECORDATORIO = 28;
 
+/** Una comida del día con sus seis alternativas, tal y como la envía el
+ *  generador de dieta. */
+export interface Comida {
+  nombre: string;
+  kcal: number;
+  prot: number;
+  opciones: { nombre: string; ingredientes: string }[];
+}
+
 export interface DatosPlan {
   kcal: number;
   prot: number;
-  grasa: number;
-  carb: number;
+  /** Opcionales: el generador de dieta no reparte grasa y carbohidratos. */
+  grasa?: number;
+  carb?: number;
   bmr?: number;
   mant?: number;
   tipo?: string;

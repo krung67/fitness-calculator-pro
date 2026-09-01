@@ -20,7 +20,13 @@
  * parte.
  */
 import { Resend } from 'resend';
-import { DIAS_RECORDATORIO, emailValido, enlaceBaja, type DatosPlan } from '../lib/correo.js';
+import {
+  DIAS_RECORDATORIO,
+  emailValido,
+  enlaceBaja,
+  type Comida,
+  type DatosPlan,
+} from '../lib/correo.js';
 import { correoPlan, correoRecordatorio } from '../lib/plantillas.js';
 
 const json = (datos: unknown, status = 200) =>
@@ -55,19 +61,19 @@ export async function POST(request: Request): Promise<Response> {
     return json({ error: 'Hay que marcar la casilla para poder enviártelo.' }, 400);
   }
 
+  // Solo kcal y proteína son obligatorias: el generador de dieta trabaja con
+  // esas dos y no conoce el reparto de grasa y carbohidratos.
   const kcal = num(cuerpo.kcal, 800, 8000);
   const prot = num(cuerpo.prot, 20, 500);
-  const grasa = num(cuerpo.grasa, 10, 300);
-  const carb = num(cuerpo.carb, 0, 1200);
-  if (kcal === undefined || prot === undefined || grasa === undefined || carb === undefined) {
+  if (kcal === undefined || prot === undefined) {
     return json({ error: 'Faltan cifras del cálculo o están fuera de rango.' }, 400);
   }
 
   const datos: DatosPlan = {
     kcal,
     prot,
-    grasa,
-    carb,
+    grasa: num(cuerpo.grasa, 10, 300),
+    carb: num(cuerpo.carb, 0, 1200),
     bmr: num(cuerpo.bmr, 500, 5000),
     mant: num(cuerpo.mant, 800, 8000),
     peso: num(cuerpo.peso, 30, 300),
@@ -76,6 +82,33 @@ export async function POST(request: Request): Promise<Response> {
       ? String(cuerpo.tipo)
       : undefined,
   };
+
+  // El menú es opcional y llega del generador de dieta. Se limita en tamaño y
+  // se recorta cada texto: lo que entra en el correo no puede ser arbitrario.
+  let menu: Comida[] | undefined;
+  if (Array.isArray(cuerpo.menu)) {
+    menu = (cuerpo.menu as unknown[])
+      .slice(0, 6)
+      .map((c) => {
+        const o = c as Record<string, unknown>;
+        return {
+          nombre: String(o.nombre ?? '').slice(0, 40),
+          kcal: num(o.kcal, 0, 5000) ?? 0,
+          prot: num(o.prot, 0, 400) ?? 0,
+          opciones: Array.isArray(o.opciones)
+            ? (o.opciones as unknown[]).slice(0, 6).map((p) => {
+                const q = p as Record<string, unknown>;
+                return {
+                  nombre: String(q.nombre ?? '').slice(0, 80),
+                  ingredientes: String(q.ingredientes ?? '').slice(0, 300),
+                };
+              })
+            : [],
+        };
+      })
+      .filter((c) => c.nombre && c.opciones.length);
+    if (!menu.length) menu = undefined;
+  }
 
   const clave = process.env.RESEND_API_KEY;
   const remitente = process.env.CORREO_REMITENTE;
@@ -105,7 +138,7 @@ export async function POST(request: Request): Promise<Response> {
     const baja = enlaceBaja(prog.data.id);
 
     // 3. Y el correo con sus cifras, ahora mismo.
-    const plan = correoPlan(datos, baja);
+    const plan = correoPlan(datos, baja, menu);
     const envio = await resend.emails.send({
       from: remitente,
       to: email,

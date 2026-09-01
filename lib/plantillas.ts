@@ -6,7 +6,7 @@
  * estilos en línea es lo único que se ve igual en todas partes.
  */
 import { SITE } from '../src/config/site.js';
-import { esc, type DatosPlan } from './correo.js';
+import { esc, type Comida, type DatosPlan } from './correo.js';
 
 const FONDO = '#07090b';
 const LIMA = '#c8f135';
@@ -54,16 +54,44 @@ function fila(etiqueta: string, valor: string): string {
   </tr>`;
 }
 
-/** Correo 1: se envía al momento, con sus cifras. */
-export function correoPlan(d: DatosPlan, urlBaja: string) {
+/** El menú del día, cuando el correo se pide desde el generador de dieta. */
+function bloqueMenu(menu: Comida[]): string {
+  const comidas = menu
+    .map(
+      (c) => `
+    <tr><td style="padding:18px 0 6px;">
+      <div style="font-size:15px;font-weight:bold;color:${LIMA};">${esc(c.nombre)}</div>
+      <div style="font-size:12px;color:${APAGADO};">${esc(String(c.kcal))} kcal · ${esc(String(c.prot))} g proteína</div>
+    </td></tr>
+    ${c.opciones
+      .map(
+        (o) => `<tr><td style="padding:7px 0;border-bottom:1px solid #1a2330;">
+        <div style="font-size:14px;color:${TEXTO};">${esc(o.nombre)}</div>
+        <div style="font-size:12px;color:${APAGADO};line-height:1.5;">${esc(o.ingredientes)}</div>
+      </td></tr>`
+      )
+      .join('')}`
+    )
+    .join('');
+  return `
+    <h2 style="margin:28px 0 4px;font-size:17px;color:${TEXTO};">Tu menú</h2>
+    <p style="margin:0 0 6px;font-size:13px;color:${APAGADO};">
+      Seis opciones por comida: elige una cada día y ve rotando.
+      <strong style="color:${TEXTO};">Las cantidades son en crudo.</strong>
+    </p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${comidas}</table>`;
+}
+
+/** Correo 1: se envía al momento, con sus cifras y, si viene, su menú. */
+export function correoPlan(d: DatosPlan, urlBaja: string, menu?: Comida[]) {
   const filas = [
     d.bmr ? fila('Metabolismo basal', `${d.bmr} kcal`) : '',
     d.mant ? fila('Mantenimiento (TDEE)', `${d.mant} kcal`) : '',
     fila('Calorías objetivo', `${d.kcal} kcal`),
     d.tipo ? fila('Objetivo', d.tipo) : '',
     fila('Proteína', `${d.prot} g`),
-    fila('Grasa', `${d.grasa} g`),
-    fila('Carbohidratos', `${d.carb} g`),
+    d.grasa ? fila('Grasa', `${d.grasa} g`) : '',
+    d.carb ? fila('Carbohidratos', `${d.carb} g`) : '',
     d.peso ? fila('Peso registrado', `${d.peso} kg`) : '',
   ].join('');
 
@@ -74,8 +102,9 @@ export function correoPlan(d: DatosPlan, urlBaja: string) {
       escribiremos una sola vez más para recordarte que conviene revisarlas.
     </p>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:22px;">${filas}</table>
-    <p style="margin:0 0 18px;font-size:14px;">
-      El siguiente paso es convertir esos números en comida real.
+    ${menu ? bloqueMenu(menu) : ''}
+    <p style="margin:24px 0 18px;font-size:14px;">
+      ${menu ? '¿Te apetece otra combinación? Vuelve a generar cuando quieras.' : 'El siguiente paso es convertir esos números en comida real.'}
     </p>
     <table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="background:${LIMA};border-radius:9px;">
       <a href="${SITE.url}/generador-dieta" style="display:inline-block;padding:13px 26px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#000;text-decoration:none;">

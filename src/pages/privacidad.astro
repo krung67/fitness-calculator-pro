@@ -54,6 +54,11 @@ import { SITE } from '../config/site';
       momento.
     </p>
     <p>
+      La <strong>única excepción</strong> es si decides usar la función de envío por correo
+      descrita en el apartado 2.3, que es voluntaria y requiere que marques una casilla de
+      forma expresa. Si no la usas, nada de lo que calculas sale de tu dispositivo.
+    </p>
+    <p>
       Si utilizas la función «Guardar en historial», los resultados se guardan en el
       <strong>almacenamiento local</strong> (<em>localStorage</em>) de tu propio dispositivo.
       Permanecen ahí hasta que pulses «Borrar historial» o vacíes los datos de navegación.
@@ -65,7 +70,7 @@ import { SITE } from '../config/site';
       La función «Descargar mi plan en PDF» genera el documento
       <strong>en tu propio dispositivo</strong>, a través del diálogo de impresión de tu
       navegador. No se envía a ningún servidor, no se guarda copia alguna y
-      <strong>no se solicita tu dirección de correo electrónico</strong>.
+      <strong>no se solicita tu dirección de correo electrónico</strong> para descargarlo.
     </p>
     <p>
       Este sitio <strong>no dispone de lista de suscripción ni envía boletines</strong>. No
@@ -74,7 +79,65 @@ import { SITE } from '../config/site';
       <a href="/contacto">Contacto</a>, que utilizas tú por iniciativa propia.
     </p>
 
-    <h3>2.3. Publicidad y analítica</h3>
+    <h3>2.3. Envío de tus resultados por correo electrónico</h3>
+    <p>
+      De forma <strong>voluntaria</strong>, puedes pedir que te enviemos por correo los
+      resultados de tu cálculo. Esta función es la única de todo el sitio que transmite
+      información fuera de tu navegador, y solo se activa si marcas expresamente la casilla
+      de aceptación, que <strong>nunca viene marcada por defecto</strong>.
+    </p>
+
+    <table class="tabla-legal">
+      <tbody>
+        <tr>
+          <td><strong>Datos tratados</strong></td>
+          <td>
+            Tu dirección de correo electrónico y las cifras de tu cálculo (calorías, macros,
+            metabolismo basal y, si lo has introducido, tu peso).
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Finalidad</strong></td>
+          <td>
+            Enviarte esos resultados y, <strong>una única vez pasadas cuatro semanas</strong>,
+            un recordatorio para que vuelvas a calcularlos. No se envía nada más.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Base legal</strong></td>
+          <td>
+            Tu <strong>consentimiento expreso</strong> (art. 6.1.a del RGPD), que otorgas al
+            marcar la casilla. Puedes retirarlo en cualquier momento.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Conservación</strong></td>
+          <td>
+            <strong>No conservamos tu dirección de correo.</strong> No existe ninguna lista ni
+            base de datos: tu dirección solo pasa por el proveedor de envío durante el tiempo
+            necesario para entregar los dos mensajes.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Cómo cancelar</strong></td>
+          <td>
+            El primer correo incluye un enlace que cancela el recordatorio de forma inmediata.
+            No hay que rellenar nada ni escribir a nadie.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      El envío lo realiza <strong>Resend</strong> (Plus Five Five, Inc.), que actúa como
+      encargado del tratamiento y trata los datos siguiendo nuestras instrucciones. Su
+      política de privacidad está disponible en
+      <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener nofollow"
+        >resend.com/legal/privacy-policy</a
+      >.
+    </p>
+
+    <h3>2.4. Publicidad y analítica</h3>
     <table class="tabla-legal">
       <tbody>
         <tr>
@@ -99,7 +162,7 @@ import { SITE } from '../config/site';
       <a href="/cookies">Política de Cookies</a>.
     </p>
 
-    <h3>2.4. Estadísticas de uso sin cookies</h3>
+    <h3>2.5. Estadísticas de uso sin cookies</h3>
     <p>
       Para saber qué páginas se visitan y cómo de rápido cargan, se utiliza la analítica de
       <strong>Vercel</strong> (Web Analytics y Speed Insights). A diferencia de las
@@ -164,6 +227,15 @@ import { SITE } from '../config/site';
           <td>
             <a href="https://www.amazon.es/gp/help/customer/display.html?nodeId=201909010" target="_blank" rel="noopener">
               amazon.es
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Plus Five Five, Inc. (Resend)</td>
+          <td>Envío del correo con tus resultados y su recordatorio</td>
+          <td>
+            <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">
+              resend.com/legal
             </a>
           </td>
         </tr>

@@ -6,7 +6,7 @@ import { ALIMENTOS, PLATOS, RESTRICCIONES, REPARTOS, BEBIDAS } from '../config/a
 const faq = [
   {
     p: '¿Cómo funciona el generador de dietas?',
-    r: 'Partiendo de tus calorías y macros, reparte el total entre las comidas que hagas al día y te propone seis opciones para cada una, ajustando los gramos de cada ingrediente a tus números. Todo se calcula en tu navegador: no se envía nada a ningún servidor ni se te pide el correo.',
+    r: 'Partiendo de tus calorías y macros, reparte el total entre las comidas que hagas al día y te propone seis opciones para cada una, ajustando los gramos de cada ingrediente a tus números. Todo se calcula en tu navegador: no se envía nada a ningún servidor y no hace falta registrarse. Si quieres, puedes pedir que te lo enviemos por correo, pero es opcional y el generador funciona igual sin dar ninguna dirección.',
   },
   {
     p: '¿Por qué seis opciones por comida y no una dieta cerrada?',
@@ -71,7 +71,7 @@ const schema = [
 
 <Base
   title="Generador de Dieta Personalizada Gratis"
-  description="Genera tu dieta con seis opciones por comida ajustadas a tus calorías, macros, intolerancias y gustos. Gratis, sin registro y con pizza incluida."
+  description="Genera tu dieta con seis opciones por comida ajustadas a tus calorías, macros, intolerancias y gustos. Gratis, sin cuenta de usuario y con pizza incluida."
   schema={schema}
 >
   <div class="hero hero-sm">
@@ -309,6 +309,45 @@ const schema = [
           <button class="btn-sub" onclick="window.print()" style="width:100%">
             Descargar mi dieta en PDF
           </button>
+        </div>
+
+        <!-- ENVIAR POR CORREO + RECORDATORIO -->
+        <div class="sub-section" style="margin-top:2rem">
+          <div class="sub-title">✉️ Recíbela por correo</div>
+          <p class="sub-desc">
+            Te mandamos este menú y tus cifras al correo y, <strong>una sola vez dentro de
+            cuatro semanas</strong>, un aviso para que las revises: si tu peso cambia, tus
+            calorías cambian con él.
+          </p>
+
+          <div class="field" style="margin-bottom:0.9rem">
+            <label for="gdMail">Tu correo</label>
+            <input
+              type="email"
+              id="gdMail"
+              placeholder="tucorreo@ejemplo.com"
+              autocomplete="email"
+              inputmode="email"
+            />
+          </div>
+
+          <label class="gd-check" style="margin-bottom:0.9rem">
+            <input type="checkbox" id="gdMailConsent" />
+            <span>
+              Acepto recibir estos dos correos. Puedo cancelar el recordatorio desde el enlace
+              del primero. <a href="/privacidad" style="color:var(--lime)">Más información</a>.
+            </span>
+          </label>
+
+          <div class="sub-row">
+            <button class="btn-sub" id="gdMailBtn" style="width:100%">
+              Enviarme la dieta
+            </button>
+          </div>
+          <p class="sub-note" id="gdMailAviso">
+            Solo usamos tu correo para estos dos envíos. No hay newsletter y no guardamos tu
+            dirección.
+          </p>
         </div>
       </div>
 
@@ -597,7 +636,52 @@ const schema = [
   }
 
   // ── Generación ───────────────────────────────────────────
+
+  // ── ENVÍO DE LA DIETA POR CORREO ─────────────────────────
+  async function enviarDietaPorCorreo() {
+    const btn = document.getElementById('gdMailBtn');
+    const aviso = document.getElementById('gdMailAviso');
+    const email = document.getElementById('gdMail').value.trim();
+    const consent = document.getElementById('gdMailConsent').checked;
+    const decir = (t, c) => { aviso.innerHTML = t; aviso.style.color = c || ''; };
+
+    if (!ultimoMenu.length) { decir('Genera primero tu dieta: aún no hay nada que enviarte.', '#ff8080'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { decir('Revisa el correo: no parece una dirección válida.', '#ff8080'); return; }
+    if (!consent) { decir('Marca la casilla para que podamos enviártelo.', '#ff8080'); return; }
+
+    const kcal = parseFloat(document.getElementById('gdKcal').value);
+    const prot = parseFloat(document.getElementById('gdProt').value);
+
+    btn.disabled = true;
+    const original = btn.textContent;
+    btn.textContent = 'Enviando…';
+    decir('Enviando…');
+
+    try {
+      const r = await fetch('/api/enviar-plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, consentimiento: true, kcal, prot, menu: ultimoMenu }),
+      });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) { decir(d.error || 'No hemos podido enviarlo. Inténtalo en un rato.', '#ff8080'); return; }
+      decir('✅ Enviada. Revisa tu bandeja — y la carpeta de spam, que la primera vez suele caer ahí. ' +
+            'Dentro de ' + (d.dias || 28) + ' días te llegará el aviso para recalcular.', '#c8f135');
+      btn.textContent = 'Enviada';
+      return;
+    } catch (e) {
+      decir('No hemos podido conectar. Comprueba tu conexión e inténtalo otra vez.', '#ff8080');
+    } finally {
+      if (btn.textContent === 'Enviando…') { btn.textContent = original; btn.disabled = false; }
+    }
+  }
+
+  // Último menú generado, en formato de datos. Se vacía en cada generación
+  // para que el correo no mande una dieta antigua.
+  let ultimoMenu = [];
+
   function generarDieta() {
+    ultimoMenu = [];
     const kcal = parseFloat(document.getElementById('gdKcal').value);
     const prot = parseFloat(document.getElementById('gdProt').value);
     const nComidas = parseInt(document.getElementById('gdComidas').value);
@@ -686,6 +770,16 @@ const schema = [
             .slice(0, 6)
             .map((x) => x.p);
 
+      // Además del HTML se guarda el menú como datos: es lo que se manda por
+      // correo si el usuario lo pide, sin tener que volver a generarlo.
+      const comidaDatos = {
+        nombre: slot.nombre,
+        kcal: Math.round(objetivo.kcal),
+        prot: Math.round(objetivo.p),
+        opciones: [],
+      };
+      ultimoMenu.push(comidaDatos);
+
       html += '<div class="gd-comida">';
       html += '<div class="gd-comida-cab"><h3>' + slot.nombre + '</h3>' +
               '<span>' + Math.round(objetivo.kcal) + ' kcal · ' + Math.round(objetivo.p) + ' g proteína</span></div>';
@@ -697,6 +791,13 @@ const schema = [
         html += '<div class="gd-opcion">';
         html += '<div class="gd-opcion-num">Opción ' + (idx + 1) + '</div>';
         html += '<div class="gd-opcion-nombre">' + plato.nombre + '</div>';
+        comidaDatos.opciones.push({
+          nombre: plato.nombre,
+          ingredientes: ings
+            .map((i) => ALIMENTOS[i.id].nombre + ' ' + i.cantidad +
+                 (ALIMENTOS[i.id].unidad === 'ud' ? ' ud' : ' ' + ALIMENTOS[i.id].unidad))
+            .join(' · '),
+        });
         html += '<ul class="gd-ings">';
         ings.forEach((i) => {
           const a = ALIMENTOS[i.id];
@@ -741,6 +842,7 @@ const schema = [
   });
 
   document.getElementById('gdGenerar').addEventListener('click', generarDieta);
+  document.getElementById('gdMailBtn').addEventListener('click', enviarDietaPorCorreo);
 
   const busca = document.getElementById('gdBuscaAlimento');
   busca.addEventListener('input', () => buscarAlimentos(busca.value));
