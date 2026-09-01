@@ -325,7 +325,7 @@ const schema = [
           <p class="sub-desc">
             Descarga tu cálculo completo en PDF para tenerlo siempre a mano, imprimirlo o
             enviárselo a quien quieras. Se genera en tu propio dispositivo:
-            <strong>no pedimos tu correo ni sale nada de tu navegador</strong>.
+            <strong>sin correo y sin que nada salga de tu navegador</strong>.
           </p>
           <div class="sub-row">
             <button class="btn-sub" onclick="descargarPlan()" style="width:100%">
@@ -335,6 +335,49 @@ const schema = [
           <p class="sub-note">
             Se abrirá el diálogo de impresión: elige <strong>«Guardar como PDF»</strong> como
             destino.
+          </p>
+        </div>
+
+        <!-- ENVIAR POR CORREO + RECORDATORIO -->
+        <!-- Es lo unico de toda la web que sale del navegador. Por eso el
+             consentimiento es explicito, la casilla NO viene marcada y se dice
+             exactamente que se envia y cuando. -->
+        <div class="sub-section" style="margin-top:2rem">
+          <div class="sub-title">✉️ Recíbelo por correo</div>
+          <p class="sub-desc">
+            Te mandamos tus cifras al correo y, <strong>una sola vez dentro de cuatro
+            semanas</strong>, un aviso para que las revises. Es cuando conviene: si tu peso
+            cambia, tus calorías cambian con él, y seguir comiendo para el cuerpo que tenías
+            es el motivo más común de estancarse.
+          </p>
+
+          <div class="field" style="margin-bottom:0.9rem">
+            <label for="mailPlan">Tu correo</label>
+            <input
+              type="email"
+              id="mailPlan"
+              placeholder="tucorreo@ejemplo.com"
+              autocomplete="email"
+              inputmode="email"
+            />
+          </div>
+
+          <label class="gd-check" style="margin-bottom:0.9rem">
+            <input type="checkbox" id="mailConsent" />
+            <span>
+              Acepto recibir estos dos correos. Puedo cancelar el recordatorio desde el enlace
+              del primero. <a href="/privacidad" style="color:var(--lime)">Más información</a>.
+            </span>
+          </label>
+
+          <div class="sub-row">
+            <button class="btn-sub" id="mailBtn" onclick="enviarPorCorreo()" style="width:100%">
+              Enviarme mis cifras
+            </button>
+          </div>
+          <p class="sub-note" id="mailAviso">
+            Solo usamos tu correo para estos dos envíos. No hay newsletter, no se cede a nadie
+            y no guardamos tu dirección.
           </p>
         </div>
 
@@ -958,6 +1001,51 @@ function syncResumen(){
     const peso=parseFloat(document.getElementById('peso').value)||'?';
     document.getElementById('sumTip').textContent='Plan calculado para '+peso+'kg. Recalcula cada mes o cuando tu peso cambie más de 3 kg.';
     document.querySelectorAll('.srail-btn')[4].classList.add('done');
+  }
+}
+
+// ── ENVÍO POR CORREO ─────────────────────────────────────────
+// Lo único de toda la página que sale del navegador. Todo lo demás
+// (cálculos, historial, PDF) sigue ocurriendo en el dispositivo.
+async function enviarPorCorreo(){
+  const btn=document.getElementById('mailBtn');
+  const aviso=document.getElementById('mailAviso');
+  const email=document.getElementById('mailPlan').value.trim();
+  const consent=document.getElementById('mailConsent').checked;
+
+  const decir=(txt,color)=>{aviso.innerHTML=txt;aviso.style.color=color||''};
+
+  if(!D.obj||!D.prot){decir('Calcula primero tus macros: aún no hay nada que enviarte.','#ff8080');return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){decir('Revisa el correo: no parece una dirección válida.','#ff8080');return}
+  if(!consent){decir('Marca la casilla para que podamos enviártelo.','#ff8080');return}
+
+  btn.disabled=true;
+  const textoOriginal=btn.textContent;
+  btn.textContent='Enviando…';
+  decir('Enviando…');
+
+  try{
+    const r=await fetch('/api/enviar-plan',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        email,consentimiento:true,
+        kcal:D.obj,prot:D.prot,grasa:D.grasa,carb:D.carb,
+        bmr:D.bmr,mant:D.mant,tipo:D.tipo,
+        peso:parseFloat(document.getElementById('peso').value)||null
+      })
+    });
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok){decir(d.error||'No hemos podido enviarlo. Inténtalo en un rato.','#ff8080');return}
+    decir('✅ Enviado. Revisa tu bandeja — y la carpeta de spam, que la primera vez suele caer ahí. '+
+          'Dentro de '+(d.dias||28)+' días te llegará el aviso para recalcular.','#c8f135');
+    btn.textContent='Enviado';
+    return;
+  }catch(e){
+    decir('No hemos podido conectar. Comprueba tu conexión e inténtalo otra vez.','#ff8080');
+  }finally{
+    // Si ha ido bien el botón se queda en "Enviado" para no duplicar envíos.
+    if(btn.textContent==='Enviando…'){btn.textContent=textoOriginal;btn.disabled=false}
   }
 }
 
