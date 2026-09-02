@@ -64,8 +64,28 @@ export function firmaValida(id: string, firma: string): boolean {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
+/**
+ * Dominio base de los enlaces del correo.
+ *
+ * En producción, siempre calculadora-fit.com. En un despliegue de vista
+ * previa, la propia vista previa: si no, el enlace de baja apunta a
+ * producción —donde el endpoint aún no existe— y devuelve un 404, que es
+ * justo con lo que nos encontramos al probarlo la primera vez.
+ *
+ * VERCEL_BRANCH_URL es estable para la rama; VERCEL_URL cambia en cada
+ * despliegue y se usa solo como respaldo.
+ */
+function dominioBase(): string {
+  const entorno = process.env.VERCEL_ENV;
+  if (entorno && entorno !== 'production') {
+    const host = process.env.VERCEL_BRANCH_URL || process.env.VERCEL_URL;
+    if (host) return `https://${host}`;
+  }
+  return SITE.url;
+}
+
 export function enlaceBaja(id: string): string {
-  return `${SITE.url}/api/baja?id=${encodeURIComponent(id)}&f=${firmar(id)}`;
+  return `${dominioBase()}/api/baja?id=${encodeURIComponent(id)}&f=${firmar(id)}`;
 }
 
 /** Escapa para interpolar dentro de HTML. */
