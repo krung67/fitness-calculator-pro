@@ -8,7 +8,8 @@
  */
 export interface Fuente {
   autores: string;
-  anio: number;
+  /** Año de publicación, o «consultado …» si la fuente no fecha su versión. */
+  anio: number | string;
   titulo: string;
   publicacion: string;
   url: string;
