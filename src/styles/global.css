@@ -911,3 +911,27 @@ footer a:hover{color:var(--lime)}
 .gs-body{flex:1}
 .gs-title{font-size:0.9rem;font-weight:600;color:var(--lime);margin-bottom:5px}
 .gs-text{font-size:0.82rem;color:var(--text2);line-height:1.8;margin:0}
+
+/* ── Guías con fuentes (sept. 2026) ─────────────────────────────
+   Firma, bloques «antes / ahora» y lista de fuentes. Nacen de la
+   denegación de AdSense de septiembre: ninguna guía mostraba autor,
+   fecha ni de dónde salía cada dato. */
+.autoria{border-left:3px solid var(--lime);padding:.2rem 0 .2rem 1rem;margin:0 0 1.6rem}
+.autoria-linea{font-size:.85rem;color:var(--text);margin:0 0 .3rem}
+.autoria-linea a{color:var(--lime)}
+.autoria-nota{font-size:.78rem;color:var(--text2);line-height:1.6;margin:0}
+.autoria-nota a{color:var(--text2);text-decoration:underline}
+
+.antes-ahora{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:1rem 0 1.3rem}
+@media (max-width:640px){.antes-ahora{grid-template-columns:1fr}}
+.aa-antes,.aa-ahora{border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem;font-size:.84rem;line-height:1.7;color:var(--text2)}
+.aa-ahora{border-color:rgba(200,241,53,.3);background:var(--lime-deep)}
+.aa-etq{font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:.4rem;color:var(--text2)}
+.aa-ahora .aa-etq{color:var(--lime)}
+.aa-antes p,.aa-ahora p{margin:0}
+.aa-antes a,.aa-ahora a{color:var(--lime)}
+
+.fuentes-lista{font-size:.8rem;color:var(--text2);line-height:1.75;padding-left:1.3rem;margin:0}
+.fuentes-lista li{margin-bottom:.55rem}
+.fuentes-lista a{color:var(--lime)}
+.cs-text a,.cs-lista a{color:var(--lime)}

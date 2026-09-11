@@ -1,0 +1,40 @@
+---
+/**
+ * Lista de fuentes al final de una guía.
+ *
+ * Regla: aquí solo entra lo que se ha comprobado que existe y dice lo que la
+ * guía afirma. Si una afirmación no tiene fuente verificada, se quita de la
+ * guía; no se le busca una cita a posteriori.
+ */
+export interface Fuente {
+  autores: string;
+  anio: number;
+  titulo: string;
+  publicacion: string;
+  url: string;
+}
+
+interface Props {
+  fuentes: Fuente[];
+}
+
+const { fuentes } = Astro.props;
+---
+
+<div class="content-section" id="fuentes">
+  <div class="cs-tag">Fuentes</div>
+  <h2 class="cs-title">De dónde sale cada dato</h2>
+  <ol class="fuentes-lista">
+    {
+      fuentes.map((f) => (
+        <li>
+          {f.autores} ({f.anio}).{' '}
+          <a href={f.url} target="_blank" rel="noopener">
+            {f.titulo}
+          </a>
+          . <em>{f.publicacion}</em>.
+        </li>
+      ))
+    }
+  </ol>
+</div>
