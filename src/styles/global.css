@@ -163,11 +163,20 @@ h1{
 }
 /* El salto de línea del h1 se hace con CSS, no con <br>.
    Un <br> parte la frase para los buscadores y los lectores de pantalla;
-   así el texto sigue siendo uno solo y el diseño no cambia. */
+   así el texto sigue siendo uno solo y el diseño no cambia.
+
+   OJO con el max-width: tiene que ser MAYOR que la palabra más larga del
+   título. Estuvo en 9ch desde julio, cuando el título era "Calculadora
+   Calorías & Macros"; al cambiarlo en agosto por "Calculadora de calorías y
+   macros", la palabra CALCULADORA (11 caracteres) ya no cabía en su propia
+   caja, se desbordaba y el título se veía descentrado.
+   text-wrap:balance reparte las líneas de forma pareja en vez de dejar una
+   larga y otra suelta; donde no esté soportado, simplemente se ignora. */
 .hero h1{
-  max-width:9ch;
+  max-width:18ch;
   margin-left:auto;
   margin-right:auto;
+  text-wrap:balance;
 }
 .hero-sub{
   font-size:0.88rem;
