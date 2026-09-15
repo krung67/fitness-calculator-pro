@@ -944,3 +944,9 @@ footer a:hover{color:var(--lime)}
 .fuentes-lista li{margin-bottom:.55rem}
 .fuentes-lista a{color:var(--lime)}
 .cs-text a,.cs-lista a{color:var(--lime)}
+
+/* Deslizador para ajustar la proteína (sept. 2026). accent-color tiñe el
+   control nativo sin reconstruirlo: menos código y mantiene el
+   comportamiento con teclado y lectores de pantalla. */
+.rango{width:100%;accent-color:var(--lime);margin:.2rem 0 .6rem;height:1.6rem;cursor:pointer}
+.rango:focus-visible{outline:2px solid var(--lime);outline-offset:4px}
