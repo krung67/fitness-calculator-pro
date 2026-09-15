@@ -950,3 +950,9 @@ footer a:hover{color:var(--lime)}
    comportamiento con teclado y lectores de pantalla. */
 .rango{width:100%;accent-color:var(--lime);margin:.2rem 0 .6rem;height:1.6rem;cursor:pointer}
 .rango:focus-visible{outline:2px solid var(--lime);outline-offset:4px}
+
+/* Figuras y gráficos propios (sept. 2026). El SVG va en línea para que
+   herede los colores del tema y no añada una peticion mas. */
+.figura{margin:1.4rem 0;padding:0}
+.figura-svg{width:100%;height:auto;display:block;background:var(--bg2);border:1px solid var(--border);border-radius:12px}
+.figura-pie{margin-top:.6rem;font-size:.76rem;line-height:1.6;color:var(--text2)}

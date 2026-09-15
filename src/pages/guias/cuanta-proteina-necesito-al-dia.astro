@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Autoria from '../../components/Autoria.astro';
+import GraficoProteina from '../../components/GraficoProteina.astro';
 import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
 
@@ -195,6 +196,8 @@ const schema = [
             </p>
           </div>
         </div>
+
+        <GraficoProteina />
 
         <p class="cs-text">
           Que no sume más no significa que perjudique: por encima de 1,6 g/kg simplemente deja de
