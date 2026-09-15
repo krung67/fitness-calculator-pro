@@ -14,12 +14,14 @@ const S = {
   tagawa: 'https://pubmed.ncbi.nlm.nih.gov/33300582/',
   acsm: 'https://www.dietitians.ca/DietitiansOfCanada/media/Documents/Resources/noap-position-paper.pdf?ext=.pdf',
   issn: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5477153/',
+  helms: 'https://pubmed.ncbi.nlm.nih.gov/24864135/',
 };
 
 const fuentes: Fuente[] = [
   { autores: 'Thomas DT, Erdman KA, Burke LM', anio: 2016, titulo: 'Nutrition and Athletic Performance. Joint position of the Academy of Nutrition and Dietetics, Dietitians of Canada and the American College of Sports Medicine', publicacion: 'Medicine & Science in Sports & Exercise (texto publicado por Dietitians of Canada)', url: S.acsm },
   { autores: 'Morton RW, et al.', anio: 2018, titulo: 'A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength in healthy adults', publicacion: 'British Journal of Sports Medicine', url: S.morton },
   { autores: 'Tagawa R, et al.', anio: 2020, titulo: 'Dose-response relationship between protein intake and muscle mass increase: a systematic review and meta-analysis of randomized controlled trials', publicacion: 'Nutrition Reviews', url: S.tagawa },
+  { autores: 'Helms ER, Aragon AA, Fitschen PJ', anio: 2014, titulo: 'Evidence-based recommendations for natural bodybuilding contest preparation: nutrition and supplementation', publicacion: 'Journal of the International Society of Sports Nutrition', url: S.helms },
   { autores: 'Jäger R, et al.', anio: 2017, titulo: 'International Society of Sports Nutrition Position Stand: protein and exercise', publicacion: 'Journal of the International Society of Sports Nutrition', url: S.issn },
 ];
 
@@ -198,6 +200,23 @@ const schema = [
         </div>
 
         <GraficoProteina />
+
+        <h3 class="cs-h3">Si estás definiendo muy seco, sube</h3>
+        <p class="cs-text">
+          Hay un caso en el que sí conviene ir alto, y las cifras de arriba no lo recogen: cuando
+          ya estás bastante definido y el déficit es agresivo. La revisión de
+          <a href={S.helms} target="_blank" rel="noopener">Helms, Aragon y Fitschen (2014)</a>,
+          hecha sobre preparación de competición natural, recomienda
+          <strong>2,3-3,1 g por kilo de masa magra</strong> —no de peso total— y dice
+          expresamente que <strong>cuanto menos grasa tienes y más agresivo es el recorte, más
+          arriba de ese rango conviene estar</strong>.
+        </p>
+        <p class="cs-text">
+          Traducido: alguien con un 15&nbsp;% de grasa estaría en torno a 2,0-2,6 g por kilo de
+          peso total. Por eso el deslizador de la calculadora llega hasta 2,0. Si preparas una
+          competición y necesitas pasar de ahí, eso ya es terreno de un profesional que te siga de
+          cerca, no de una calculadora.
+        </p>
 
         <p class="cs-text">
           Que no sume más no significa que perjudique: por encima de 1,6 g/kg simplemente deja de
