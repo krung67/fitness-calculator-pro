@@ -241,19 +241,20 @@ const schema = [
             <a href="https://pubmed.ncbi.nlm.nih.gov/28698222/" target="_blank" rel="noopener"
               >metaanálisis de Morton (2018)</a
             >, con 49 estudios y 1.863 personas, encontró que dejan de aumentar las ganancias de
-            músculo. Puedes moverlo entre 1,2 y 2,0, que es el rango que recomiendan el
+            músculo: por encima de esa cifra, comer más proteína no añadió nada. Puedes bajarlo
+            hasta 1,2, que es el mínimo que recomiendan el
             <a
               href="https://www.dietitians.ca/DietitiansOfCanada/media/Documents/Resources/noap-position-paper.pdf?ext=.pdf"
               target="_blank"
               rel="noopener">ACSM y las asociaciones de dietistas (2016)</a
-            > para deportistas. Al subir la proteína bajan los carbohidratos: las calorías no cambian.
+            > para deportistas. Al bajar la proteína suben los carbohidratos: las calorías no cambian.
           </p>
           <input
             type="range"
             id="protRango"
             class="rango"
             min="1.2"
-            max="2.0"
+            max="1.6"
             step="0.1"
             value="1.6"
             oninput="pintarMacros(parseFloat(this.value))"
@@ -936,7 +937,7 @@ function calcObj(){
 // ajustarlo dentro del rango oficial. Hasta septiembre de 2026 la proteína
 // BAJABA al subir la actividad (2,0 sedentario → 1,2 alta actividad); era
 // criterio propio y contradecía a Morton (2018) y al ACSM (2016).
-const PROT_MIN = 1.2, PROT_MAX = 2.0;
+const PROT_MIN = 1.2, PROT_MAX = 1.6;
 
 function calcMacros(){
   if(!D.obj){alert('Completa los pasos anteriores primero');return}
@@ -949,7 +950,7 @@ function calcMacros(){
   } else if(act<=1.375){ gKg=0.9; alerta=''; }
   else if(act<=1.55){ gKg=0.7; alerta=''; }
   else { gKg=0.5; alerta=''; }
-  if(!alerta) alerta='Partimos de 1,6 g/kg de proteína: es donde el metaanálisis de Morton (2018) encontró que dejan de aumentar las ganancias de músculo. Puedes ajustarlo justo debajo, entre 1,2 y 2,0 g/kg.';
+  if(!alerta) alerta='Partimos de 1,6 g/kg de proteína: es donde el metaanálisis de Morton (2018) encontró que dejan de aumentar las ganancias de músculo. Puedes ajustarlo justo debajo, entre 1,2 y 1,6 g/kg.';
   D.gKg=gKg;
   const alertaEl=document.getElementById('macroAlerta');
   alertaEl.textContent=alerta;alertaEl.style.display='block';
@@ -986,7 +987,7 @@ function pintarMacros(pKg){
   const info=document.getElementById('protInfo');
   if(info){
     info.textContent=pKg.toFixed(1).replace('.',',')+' g por kilo · '+prot+' g de proteína al día'+
-      (pKg>1.6?' · por encima de 1,6 no se han visto más ganancias de músculo, pero tampoco perjudica':'');
+      (pKg<1.6?' · 1,6 es donde dejan de aumentar las ganancias; por debajo sigues dentro del rango recomendado':'');
   }
   syncResumen();
 }

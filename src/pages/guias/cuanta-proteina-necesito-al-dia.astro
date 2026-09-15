@@ -29,15 +29,15 @@ const PESOS = [60, 70, 80, 90, 100];
 // Sustituye al reparto anterior, que bajaba la proteína al subir la actividad.
 // Ahora son los tres puntos del rango oficial del ACSM (2016).
 const PERFILES = [
-  { nombre: 'Mínimo del rango · si no entrenas fuerza', gkg: 1.2 },
+  { nombre: 'Mínimo · si no entrenas fuerza', gkg: 1.2 },
+  { nombre: 'Intermedio', gkg: 1.4 },
   { nombre: 'Referencia si entrenas para ganar músculo', gkg: 1.6 },
-  { nombre: 'Máximo del rango · si te sienta mejor así', gkg: 2.0 },
 ];
 
 const faq = [
   {
     p: '¿Cuánta proteína necesito si peso 70 kilos?',
-    r: 'Entre 84 y 140 g al día. El ACSM y las asociaciones de dietistas de Estados Unidos y Canadá (2016) sitúan a los deportistas entre 1,2 y 2,0 g por kilo, lo que para 70 kg son de 84 a 140 g. Si entrenas para ganar músculo, la referencia son 112 g (1,6 g/kg): es donde el metaanálisis de Morton (2018) encontró que dejan de aumentar las ganancias.',
+    r: 'Entre 84 y 112 g al día. La referencia, si entrenas para ganar músculo, son 112 g (1,6 g/kg): es donde el metaanálisis de Morton (2018) encontró que dejan de aumentar las ganancias. El mínimo son 84 g (1,2 g/kg), el límite inferior que el ACSM y las asociaciones de dietistas (2016) recomiendan para deportistas.',
   },
   {
     p: '¿Es mejor repartir la proteína en varias comidas?',
@@ -120,10 +120,11 @@ const schema = [
       <div class="content-section" style="border-top:none;padding-top:2.5rem">
         <Autoria actualizado={ACTUALIZADO} />
         <p class="cs-text">
-          La respuesta corta: <strong>entre 1,2 y 2,0 gramos por kilo de peso corporal</strong>,
-          según el <a href={S.acsm} target="_blank" rel="noopener">ACSM y las asociaciones de
-          dietistas de Estados Unidos y Canadá (2016)</a>. Y si entrenas para ganar músculo, la
-          referencia son <strong>1,6 g/kg</strong>.
+          La respuesta corta: <strong>entre 1,2 y 1,6 gramos por kilo de peso corporal</strong>.
+          El <a href={S.acsm} target="_blank" rel="noopener">ACSM y las asociaciones de dietistas
+          de Estados Unidos y Canadá (2016)</a> sitúan a los deportistas entre 1,2 y 2,0, pero por
+          encima de <strong>1,6 g/kg</strong> los estudios dejan de encontrar más músculo, así que
+          no tiene sentido pasar de ahí.
         </p>
         <p class="cs-text">
           Lo interesante no es el número, sino lo que hay detrás: <strong>más proteína no es
@@ -213,9 +214,9 @@ const schema = [
         </p>
         <p class="cs-text">
           Traducido: alguien con un 15&nbsp;% de grasa estaría en torno a 2,0-2,6 g por kilo de
-          peso total. Por eso el deslizador de la calculadora llega hasta 2,0. Si preparas una
-          competición y necesitas pasar de ahí, eso ya es terreno de un profesional que te siga de
-          cerca, no de una calculadora.
+          peso total, bastante por encima del 1,6 con el que trabaja esta calculadora. Es un caso
+          de competición: si estás ahí, necesitas a un profesional que te siga de cerca, no una
+          calculadora.
         </p>
 
         <p class="cs-text">
@@ -241,9 +242,9 @@ const schema = [
           de verdad te protege.
         </p>
         <p class="cs-text">
-          Por eso la calculadora parte de 1,6 g/kg y te deja moverlo entre 1,2 y 2,0: dentro de
-          ese rango la decisión es tuya. La <a href={S.issn} target="_blank" rel="noopener">ISSN
-          (2017)</a> lo sitúa entre 1,4 y 2,0 g/kg. Tienes el planteamiento completo en
+          Por eso la calculadora parte de 1,6 g/kg y te deja bajarlo hasta 1,2: dentro de ese
+          rango la decisión es tuya. La <a href={S.issn} target="_blank" rel="noopener">ISSN
+          (2017)</a> sitúa su recomendación entre 1,4 y 2,0 g/kg. Tienes el planteamiento completo en
           <a href="/metodo" style="color:var(--lime)">Nuestro método</a>.
         </p>
       </div>
