@@ -1,7 +1,20 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
+
+const S = {
+  mifflin: 'https://pubmed.ncbi.nlm.nih.gov/2305711/',
+  validacion: 'https://pubmed.ncbi.nlm.nih.gov/15883556/',
+  lichtman: 'https://pubmed.ncbi.nlm.nih.gov/1454084/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Mifflin MD, St Jeor ST, Hill LA, et al.', anio: 1990, titulo: 'A new predictive equation for resting energy expenditure in healthy individuals', publicacion: 'The American Journal of Clinical Nutrition', url: S.mifflin },
+  { autores: 'Frankenfield D, Roth-Yousey L, Compher C', anio: 2005, titulo: 'Comparison of predictive equations for resting metabolic rate in healthy nonobese and obese adults: a systematic review', publicacion: 'Journal of the American Dietetic Association', url: S.validacion },
+  { autores: 'Lichtman SW, Pisarska K, Berman ER, et al.', anio: 1992, titulo: 'Discrepancy between self-reported and actual caloric intake and exercise in obese subjects', publicacion: 'The New England Journal of Medicine', url: S.lichtman },
+];
 
 /**
  * Tabla de referencia calculada con Mifflin-St Jeor, la misma fórmula de la
@@ -170,7 +183,10 @@ const schema = [
         <div class="cs-tag">Tu cifra</div>
         <h2 class="cs-title">Tabla de mantenimiento por perfil</h2>
         <p class="cs-text">
-          Calculado con la fórmula <strong>Mifflin-St Jeor</strong> para {EDAD_REF} años, que
+          Calculado con la fórmula
+          <a href={S.mifflin} target="_blank" rel="noopener"><strong>Mifflin-St Jeor</strong></a>
+          —publicada en 1990 a partir del gasto medido por calorimetría indirecta en 498
+          personas— para {EDAD_REF} años, que
           es la misma que aplica nuestra <a href="/">calculadora</a>:
         </p>
         <table class="tabla-legal">
@@ -291,6 +307,17 @@ const schema = [
           250 arriba o abajo.
         </p>
         <p class="cs-text">
+          Ese ±10&nbsp;% no me lo invento. Una
+          <a href={S.validacion} target="_blank" rel="noopener">revisión sistemática de la
+          Asociación Dietética Americana (2005)</a> comparó las fórmulas más usadas frente al
+          gasto medido por calorimetría y concluyó que Mifflin-St Jeor es
+          <strong>la más fiable</strong>: la que acierta dentro de ese 10&nbsp;% en más
+          personas, con el margen de error más estrecho. Y añade la advertencia que importa
+          aquí: <strong>aplicada a un individuo concreto, los errores pueden ser
+          notables</strong>. Es decir, es la mejor estimación disponible y aun así hay que
+          comprobarla contigo.
+        </p>
+        <p class="cs-text">
           La fórmula no es un veredicto: <strong>es un punto de partida que hay que
           validar</strong>.
         </p>
@@ -320,6 +347,15 @@ const schema = [
         <p class="cs-text">
           Es el error más caro, porque el factor de actividad multiplica. Marcar «alto» cuando
           en realidad eres «ligero» infla tu cifra en más de 500 kcal.
+        </p>
+        <p class="cs-text">
+          Y es un error medido, no una sospecha. Un
+          <a href={S.lichtman} target="_blank" rel="noopener">estudio publicado en el
+          <em>New England Journal of Medicine</em> (1992)</a> siguió durante dos semanas a
+          personas convencidas de tener un metabolismo lento. Su gasto energético real estaba
+          dentro del 5&nbsp;% de lo previsto —el metabolismo estaba bien—, pero
+          <strong>sobreestimaban su actividad física en un 51&nbsp;%</strong> de media. No
+          fallaba la fórmula: fallaba la casilla que marcaban.
         </p>
         <p class="cs-text">
           Sé honesto: cuenta solo los días que entrenas <strong>con intensidad suficiente para
@@ -354,6 +390,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">

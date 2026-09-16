@@ -1,6 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
+import Fuentes, { type Fuente } from '../components/Fuentes.astro';
 import { SITE } from '../config/site';
+
+const S = {
+  morton: 'https://pubmed.ncbi.nlm.nih.gov/28698222/',
+  acsm: 'https://pubmed.ncbi.nlm.nih.gov/26920240/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Morton RW, Murphy KT, McKellar SR, et al.', anio: 2018, titulo: 'A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength in healthy adults', publicacion: 'British Journal of Sports Medicine', url: S.morton },
+  { autores: 'Thomas DT, Erdman KA, Burke LM', anio: 2016, titulo: 'Position of the Academy of Nutrition and Dietetics, Dietitians of Canada, and the American College of Sports Medicine: nutrition and athletic performance', publicacion: 'Journal of the Academy of Nutrition and Dietetics', url: S.acsm },
+];
 
 const schema = [
   {
@@ -87,16 +98,28 @@ const schema = [
 
     <h2>Qué hacemos en su lugar</h2>
     <p>
-      Si entrenas con intensidad, subimos los carbohidratos y bajamos los gramos de proteína
-      por kilo hasta un rango que sigue siendo suficiente. El objetivo es
-      <strong>maximizar cada entrenamiento</strong> para que puedas rendir al 100 % dentro
-      del déficit.
+      La proteína por defecto la marca la evidencia, no nuestra opinión, y
+      <strong>tú puedes ajustarla</strong>. Si entrenas fuerza, partimos de
+      <strong>1,6 g por kilo</strong>: es el punto donde el
+      <a href={S.morton} target="_blank" rel="noopener">metaanálisis de Morton y colaboradores
+      (2018)</a> encontró que las ganancias de masa muscular dejan de aumentar por comer más
+      proteína. Si no entrenas fuerza, partimos de <strong>1,2 g por kilo</strong>, el límite
+      inferior del rango que recomienda la
+      <a href={S.acsm} target="_blank" rel="noopener">declaración conjunta del Colegio
+      Americano de Medicina del Deporte y la Academia de Nutrición y Dietética (2016)</a>.
     </p>
     <p>
-      Y al revés: si no haces hipertrofia, no entrenas a alta intensidad y tu demanda
-      energética no es alta, tu cuerpo no necesita ese extra de combustible. Ahí no tiene
-      sentido priorizar carbohidratos, y la calculadora sube la proteína y la grasa.
+      A partir de ahí, un deslizador te permite <strong>bajar hasta 1,2 g/kg</strong>. Lo que
+      quitas de proteína se convierte en carbohidratos y las calorías totales no cambian. Ese
+      margen existe porque los carbohidratos son los que te permiten entrenar con intensidad,
+      y la intensidad es lo que de verdad protege el músculo en déficit.
     </p>
+    <div class="cs-highlight">
+      <strong>Por qué nos paramos en 1,6 y no seguimos subiendo.</strong> Las fuentes citadas
+      dan rangos más amplios (el ACSM habla de 1,2 a 2,0 g/kg). Nos quedamos en 1,6 porque es
+      donde Morton situó el techo de las ganancias: por encima, cada gramo extra de proteína
+      es un gramo de carbohidrato que le quitas al entrenamiento sin recibir nada a cambio.
+    </div>
 
     <h2>Los números exactos</h2>
     <p>
@@ -116,7 +139,7 @@ const schema = [
       <tbody>
         <tr>
           <td>Sedentario (×1,2)</td>
-          <td>2,0 g/kg</td>
+          <td>1,2 g/kg</td>
           <td>1,0 g/kg</td>
           <td rowspan="4" style="vertical-align:middle">
             El resto de las calorías objetivo, una vez cubiertas proteína y grasa
@@ -124,34 +147,35 @@ const schema = [
         </tr>
         <tr>
           <td>Ligero (×1,375)</td>
-          <td>1,8 g/kg</td>
+          <td>1,6 g/kg</td>
           <td>0,9 g/kg</td>
         </tr>
         <tr>
           <td>Moderado (×1,55)</td>
-          <td>1,4 g/kg</td>
+          <td>1,6 g/kg</td>
           <td>0,7 g/kg</td>
         </tr>
         <tr>
           <td>Alto o muy alto (×1,725–1,9)</td>
-          <td>1,2–1,6 g/kg</td>
-          <td>0,5–0,8 g/kg</td>
+          <td>1,6 g/kg</td>
+          <td>0,5 g/kg</td>
         </tr>
       </tbody>
     </table>
 
     <p>
-      En el tramo de actividad alta el valor concreto depende además de tu objetivo: 1,2 g/kg
-      en definición, 1,4 en mantenimiento y 1,6 en volumen. Los carbohidratos nunca se fijan a
-      mano: son lo que queda tras cubrir proteína y grasa, que es la forma de garantizar que
-      el total cuadra con tus calorías objetivo.
+      La columna de proteína es el <strong>punto de partida</strong>: el deslizador de la
+      calculadora te deja bajarla hasta 1,2 g/kg en cualquier nivel de actividad. Los
+      carbohidratos nunca se fijan a mano: son lo que queda tras cubrir proteína y grasa, que
+      es la forma de garantizar que el total cuadra con tus calorías objetivo.
     </p>
 
     <div class="cs-highlight">
-      <strong>Por qué la proteína baja y no sube:</strong> en el rango de 1,2 a 1,6 g/kg
-      sigues cubriendo de sobra la síntesis proteica. Cada gramo de proteína que añades por
-      encima es un gramo de carbohidrato que quitas — y ese carbohidrato es el que sostiene
-      el entrenamiento que de verdad te protege el músculo.
+      <strong>Qué cambió en septiembre de 2026.</strong> Hasta entonces esta tabla hacía lo
+      contrario: la proteína <em>bajaba</em> al subir la actividad (2,0 g/kg en sedentario,
+      1,2 en actividad alta). Era criterio propio y chocaba con las fuentes de arriba, así que
+      lo corregimos. Lo contamos aquí en vez de borrarlo porque nos parece más honesto que
+      fingir que siempre estuvo bien.
     </div>
 
     <h2>Para quién NO es este método</h2>
@@ -190,10 +214,17 @@ const schema = [
 
     <h2>De dónde sale esto</h2>
     <p>
-      No es una teoría que nos hayamos inventado leyendo estudios. Sale de años entrenando
-      aplicándolo y, sobre todo, de aprender de un preparador con una década en el sector que
-      ha llevado a miles de personas y a competidores de culturismo natural con este enfoque.
-      Puedes leer más en <a href="/sobre-nosotros">Sobre nosotros</a>.
+      De dos sitios, y conviene distinguirlos. <strong>Las cifras de proteína salen de la
+      investigación publicada</strong> que tienes enlazada abajo: no las hemos elegido nosotros.
+      <strong>El criterio de priorizar los carbohidratos</strong> dentro del margen que la
+      evidencia permite sale de años entrenando aplicándolo y de aprender de un preparador con
+      una década en el sector, que ha llevado a miles de personas y a competidores de
+      culturismo natural con este enfoque. Puedes leer más en
+      <a href="/sobre-nosotros">Sobre nosotros</a>.
+    </p>
+    <p>
+      Cuando las dos cosas han chocado, ha ganado la evidencia. El recuadro de más arriba
+      sobre lo que cambió en septiembre de 2026 es exactamente eso.
     </p>
 
     <div class="cs-highlight">
@@ -203,6 +234,8 @@ const schema = [
       salud, consulta con un dietista-nutricionista colegiado o con tu médico antes de aplicar
       nada de esto.
     </div>
+
+    <Fuentes fuentes={fuentes} />
 
     <p style="margin-top:2rem">
       <a href="/">← Volver a la calculadora</a>

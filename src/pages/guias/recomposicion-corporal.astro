@@ -1,7 +1,18 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
+
+const S = {
+  longland: 'https://pubmed.ncbi.nlm.nih.gov/26817506/',
+  morton: 'https://pubmed.ncbi.nlm.nih.gov/28698222/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Longland TM, Oikawa SY, Mitchell CJ, Devries MC, Phillips SM', anio: 2016, titulo: 'Higher compared with lower dietary protein during an energy deficit combined with intense exercise promotes greater lean mass gain and fat mass loss: a randomized trial', publicacion: 'The American Journal of Clinical Nutrition', url: S.longland },
+  { autores: 'Morton RW, Murphy KT, McKellar SR, et al.', anio: 2018, titulo: 'A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength in healthy adults', publicacion: 'British Journal of Sports Medicine', url: S.morton },
+];
 
 const faq = [
   {
@@ -184,10 +195,31 @@ const schema = [
 
         <h3 class="cs-h3">Proteína y carbohidratos</h3>
         <p class="cs-text">
-          En mantenimiento con actividad alta, nuestro reparto usa
-          <strong>1,4 g de proteína por kilo</strong>. Suena menos de lo que se suele
-          recomendar, y es deliberado: los carbohidratos son los que te permiten entrenar con
-          intensidad, y la intensidad es lo que construye el músculo.
+          Si entrenas fuerza, nuestro reparto parte de <strong>1,6 g de proteína por
+          kilo</strong>: es donde el
+          <a href={S.morton} target="_blank" rel="noopener">metaanálisis de Morton y
+          colaboradores (2018)</a> situó el techo a partir del cual comer más proteína ya no
+          añade masa muscular. La calculadora te deja bajarlo hasta 1,2 g/kg con un deslizador,
+          y lo que quitas de proteína pasa a carbohidratos sin cambiar las calorías.
+        </p>
+        <p class="cs-text">
+          En recomposición, la proteína es probablemente la variable que más pesa. Un
+          <a href={S.longland} target="_blank" rel="noopener">ensayo aleatorizado de Longland y
+          colaboradores (2016)</a> puso a 40 hombres jóvenes en un déficit del 40&nbsp;% —muy
+          agresivo— entrenando seis días por semana durante cuatro semanas. La única diferencia
+          entre grupos era la proteína: 1,2 frente a 2,4 g/kg.
+        </p>
+        <div class="cs-highlight">
+          <strong>El grupo de proteína alta ganó masa magra y perdió más grasa a la vez</strong>,
+          y eso comiendo un 40&nbsp;% por debajo de sus necesidades. Es la demostración más
+          limpia de que la recomposición existe, y de que la proteína es la palanca.
+        </div>
+        <p class="cs-text">
+          Con una salvedad importante para no sacar la conclusión equivocada: aquello fue un
+          experimento de cuatro semanas, supervisado, con un déficit que nadie debería sostener
+          en la vida real. Aquí proponemos lo contrario —mantenimiento o déficit pequeño— porque
+          es lo que se puede mantener meses. Lo que sí conviene llevarse es la lección sobre la
+          proteína.
         </p>
         <p class="cs-text">
           El razonamiento completo está en
@@ -339,6 +371,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">
