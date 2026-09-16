@@ -1,7 +1,20 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
+
+const S = {
+  timing: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3879660/',
+  ventana: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3577439/',
+  issn: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5596471/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Schoenfeld BJ, Aragon AA, Krieger JW', anio: 2013, titulo: 'The effect of protein timing on muscle strength and hypertrophy: a meta-analysis', publicacion: 'Journal of the International Society of Sports Nutrition', url: S.timing },
+  { autores: 'Aragon AA, Schoenfeld BJ', anio: 2013, titulo: 'Nutrient timing revisited: is there a post-exercise anabolic window?', publicacion: 'Journal of the International Society of Sports Nutrition', url: S.ventana },
+  { autores: 'Kerksick CM, et al. (Sociedad Internacional de Nutrición Deportiva)', anio: 2017, titulo: 'International Society of Sports Nutrition position stand: nutrient timing', publicacion: 'Journal of the International Society of Sports Nutrition', url: S.issn },
+];
 
 const faq = [
   {
@@ -113,6 +126,32 @@ const schema = [
           más.
         </div>
         <p class="cs-text">
+          Es justo lo que revisaron
+          <a href={S.ventana} target="_blank" rel="noopener">Aragon y Schoenfeld (2013)</a> al
+          repasar de dónde salía la idea de la ventana: el tamaño y el momento de la comida
+          <em>previa</em> al entrenamiento condicionan cuánta urgencia tiene la posterior. Si
+          has comido dos horas antes, no hay ninguna carrera que correr.
+        </p>
+        <div class="antes-ahora">
+          <div class="aa-antes">
+            <div class="aa-etq">Lo que se decía</div>
+            <p>
+              Media hora. Si no metes el batido dentro de esa ventana, buena parte de la
+              sesión se pierde.
+            </p>
+          </div>
+          <div class="aa-ahora">
+            <div class="aa-etq">Lo que encontró el metaanálisis</div>
+            <p>
+              <a href={S.timing} target="_blank" rel="noopener">Schoenfeld, Aragon y Krieger
+              (2013)</a> analizaron 23 estudios de hipertrofia y 20 de fuerza. Al ajustar por
+              la proteína total del día, <strong>la diferencia entre tomarla pegada al
+              entrenamiento o no desapareció</strong>. El mejor predictor del crecimiento fue
+              la proteína total diaria.
+            </p>
+          </div>
+        </div>
+        <p class="cs-text">
           El origen de la idea no es casual: la industria de los suplementos tenía un interés
           evidente en que existiera un momento crítico que solo un batido rápido podía cubrir.
         </p>
@@ -120,6 +159,15 @@ const schema = [
           <strong>Lo que de verdad determina tu resultado es el total del día</strong>: cuántas
           calorías y cuánta proteína comes en 24 horas. La distribución ayuda, pero es un
           detalle comparado con eso.
+        </p>
+        <p class="cs-text">
+          Eso no significa que el reparto dé igual del todo. La
+          <a href={S.issn} target="_blank" rel="noopener">declaración de posición sobre el
+          momento de los nutrientes de la Sociedad Internacional de Nutrición Deportiva
+          (2017)</a> recomienda repartir la proteína en tomas de <strong>20 a 40 g cada tres o
+          cuatro horas</strong> (0,25-0,40 g por kilo en cada una). Es un ajuste fino, no una
+          carrera contrarreloj: importa el patrón del día, no el cronómetro al salir del
+          gimnasio.
         </p>
       </div>
 
@@ -266,6 +314,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">
