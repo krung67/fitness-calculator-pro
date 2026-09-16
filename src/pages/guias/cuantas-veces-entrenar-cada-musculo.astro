@@ -1,7 +1,18 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
+
+const S = {
+  schoenfeld: 'https://pubmed.ncbi.nlm.nih.gov/27102172/',
+  acsm: 'https://pubmed.ncbi.nlm.nih.gov/41843416/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Schoenfeld BJ, Ogborn D, Krieger JW', anio: 2016, titulo: 'Effects of resistance training frequency on measures of muscle hypertrophy: a systematic review and meta-analysis', publicacion: 'Sports Medicine', url: S.schoenfeld },
+  { autores: 'Colegio Americano de Medicina del Deporte (ACSM)', anio: 2026, titulo: 'Resistance training prescription for muscle function, hypertrophy, and physical performance in healthy adults: an overview of reviews (Position Stand)', publicacion: 'Medicine & Science in Sports & Exercise', url: S.acsm },
+];
 
 const faq = [
   {
@@ -99,6 +110,19 @@ const schema = [
           horarios no puedes en todos, el suelo es <strong>frecuencia 1,5</strong>. Frecuencia 1
           es poco para darle al músculo el chip de que tiene que crecer.
         </div>
+        <p class="cs-text">
+          Esto no es una manía mía. Un
+          <a href={S.schoenfeld} target="_blank" rel="noopener">metaanálisis de Schoenfeld,
+          Ogborn y Krieger (2016)</a> reunió los estudios que comparaban frecuencias
+          <strong>igualando el volumen total de la semana</strong> —el mismo número de series,
+          repartidas de distinta forma— y encontró más hipertrofia con la frecuencia alta que
+          con la baja (tamaño del efecto 0,49 frente a 0,30). Su conclusión literal es que los
+          grandes grupos musculares deberían entrenarse <strong>al menos dos veces por
+          semana</strong>. Y la <a href={S.acsm} target="_blank" rel="noopener">declaración de
+          posición del Colegio Americano de Medicina del Deporte (2026)</a>, que resume 137
+          revisiones sistemáticas y más de 30.000 participantes, llega a lo mismo: dos o más
+          sesiones semanales.
+        </p>
       </div>
 
       <div class="content-section">
@@ -144,6 +168,24 @@ const schema = [
           <a href="/guias/cuantas-series-por-musculo">pocas series muy intensas</a> aplicada al
           calendario en lugar de a la sesión.
         </p>
+        <div class="antes-ahora">
+          <div class="aa-antes">
+            <div class="aa-etq">Lo que se hacía</div>
+            <p>
+              Un músculo por día y a machacarlo: lunes pecho, martes espalda. Si el pecho
+              acaba destrozado, ya volverá dentro de siete días.
+            </p>
+          </div>
+          <div class="aa-ahora">
+            <div class="aa-etq">Lo que dicen los estudios</div>
+            <p>
+              Con el mismo número de series semanales, repartirlas en dos días da más
+              crecimiento que concentrarlas en uno
+              (<a href={S.schoenfeld} target="_blank" rel="noopener">Schoenfeld, 2016</a>). No
+              entrenas más: entrenas mejor repartido.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div class="content-section">
@@ -244,6 +286,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">
