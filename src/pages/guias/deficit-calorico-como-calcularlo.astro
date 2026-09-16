@@ -1,6 +1,25 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
+
+const S = {
+  garthe: 'https://pubmed.ncbi.nlm.nih.gov/21558571/',
+  helms: 'https://pubmed.ncbi.nlm.nih.gov/24864135/',
+  ayuno: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC6304782/',
+  reds: 'https://pubmed.ncbi.nlm.nih.gov/29773536/',
+  neat: 'https://pubmed.ncbi.nlm.nih.gov/25841254/',
+  ciclo: 'https://pubmed.ncbi.nlm.nih.gov/37395124/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Garthe I, Raastad T, et al.', anio: 2011, titulo: 'Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes', publicacion: 'International Journal of Sport Nutrition and Exercise Metabolism', url: S.garthe },
+  { autores: 'Helms ER, Aragon AA, Fitschen PJ', anio: 2014, titulo: 'Evidence-based recommendations for natural bodybuilding contest preparation: nutrition and supplementation', publicacion: 'Journal of the International Society of Sports Nutrition', url: S.helms },
+  { autores: 'Cioffi I, et al.', anio: 2018, titulo: 'Intermittent versus continuous energy restriction on weight loss and cardiometabolic outcomes: a systematic review and meta-analysis of randomized controlled trials', publicacion: 'Journal of Translational Medicine', url: S.ayuno },
+  { autores: 'Mountjoy M, et al.', anio: 2018, titulo: 'IOC consensus statement on relative energy deficiency in sport (RED-S): 2018 update', publicacion: 'British Journal of Sports Medicine (Comité Olímpico Internacional)', url: S.reds },
+  { autores: 'Villablanca PA, et al. (con Levine JA)', anio: 2015, titulo: 'Nonexercise activity thermogenesis in obesity management', publicacion: 'Mayo Clinic Proceedings', url: S.neat },
+  { autores: 'Kanellakis S, et al.', anio: 2023, titulo: 'Changes in body weight and body composition during the menstrual cycle', publicacion: 'American Journal of Human Biology', url: S.ciclo },
+];
 import { SITE } from '../../config/site';
 
 // Ejemplos de déficit sobre distintos mantenimientos. Se calculan aquí para
@@ -122,6 +141,15 @@ const schema = [
           <strong>Déficit = calorías de mantenimiento (TDEE) − 200 a 500 kcal</strong>
         </div>
         <p class="cs-text">
+          Un matiz que casi nadie cuenta: <strong>los estudios no miden el déficit en calorías,
+          sino el ritmo al que bajas</strong>. <a href={S.garthe} target="_blank" rel="noopener">Garthe
+          et al. (2011)</a> trabajaron con un 0,7&nbsp;% del peso corporal por semana, y
+          <a href={S.helms} target="_blank" rel="noopener">Helms et al. (2014)</a> recomiendan
+          entre el 0,5 y el 1&nbsp;% semanal para conservar masa magra. Para 70 kg, ese
+          0,7&nbsp;% son unos 0,5 kg a la semana: justo lo que suele salir al restar de 200 a
+          500 kcal.
+        </p>
+        <p class="cs-text">
           Si no conoces tu mantenimiento, la
           <a href="/" style="color:var(--lime)">calculadora de calorías y macros</a> te lo da
           en dos pasos. Mientras tanto, así queda el cálculo según distintos mantenimientos:
@@ -157,6 +185,21 @@ const schema = [
           La tentación es evidente: si recortando 400 kcal pierdo grasa, recortando 900
           perderé el doble de rápido. En una hoja de cálculo, sí. En la práctica, no.
         </p>
+        <div class="antes-ahora">
+          <div class="aa-antes">
+            <div class="aa-etq">Lo que parece lógico</div>
+            <p>Cuanto mayor sea el déficit, antes se acaba. Total, la grasa es la que se va.</p>
+          </div>
+          <div class="aa-ahora">
+            <div class="aa-etq">Lo que midió el estudio</div>
+            <p>
+              <a href={S.garthe} target="_blank" rel="noopener">Garthe et al. (2011)</a> comparó
+              bajar un 0,7&nbsp;% del peso por semana frente a un 1,4&nbsp;%, en deportistas que
+              entrenaban fuerza. Ambos grupos perdieron grasa, pero el lento <strong>ganó un
+              2,1&nbsp;% de masa magra</strong> y el rápido no ganó nada (−0,2&nbsp;%).
+            </p>
+          </div>
+        </div>
         <p class="cs-text">
           Con un déficit de 800 o 1.000 kcal <strong>vas a pasar mucha hambre y vas a perder
           mucha fuerza</strong>. Y perder fuerza es perder músculo: si dejas de mover las
@@ -198,6 +241,14 @@ const schema = [
           rendir en el gimnasio, que es el objetivo. Lo de ayunar «para limpiar el cuerpo» no
           entra en esa ecuación.
         </p>
+        <p class="cs-text">
+          Y no es solo opinión mía: una
+          <a href={S.ayuno} target="_blank" rel="noopener">revisión sistemática con metaanálisis
+          de ensayos controlados (Cioffi et al., 2018)</a> comparó el ayuno intermitente con la
+          restricción continua de calorías y encontró una pérdida de peso
+          <strong>equivalente</strong>, sin diferencia estadísticamente significativa. Quédate
+          con el horario que mejor lleves.
+        </p>
       </div>
 
       <!-- ─────────── CÓMO SABER SI FUNCIONA ─────────── -->
@@ -236,6 +287,17 @@ const schema = [
           Al principio bajarás más rápido, y es normal: buena parte es agua y glucógeno, no
           grasa. Luego se estabiliza porque el cuerpo se adapta.
         </p>
+        <p class="cs-text">
+          Ese rango no es arbitrario: para una persona de 70 kg equivale a bajar entre el 0,3 y
+          el 0,9&nbsp;% del peso por semana, que es la ventana que manejan tanto
+          <a href={S.garthe} target="_blank" rel="noopener">Garthe (2011)</a> como
+          <a href={S.helms} target="_blank" rel="noopener">Helms (2014)</a>. Sostenerlo mucho
+          tiempo por debajo tiene su propio riesgo: el
+          <a href={S.reds} target="_blank" rel="noopener">consenso del Comité Olímpico
+          Internacional sobre RED-S (2018)</a> describe qué ocurre cuando la disponibilidad
+          energética se queda baja demasiadas semanas —hormonas, hueso, sistema inmune y
+          rendimiento—, y por eso una definición tiene fecha de caducidad.
+        </p>
 
         <h3 class="cs-h3">Cuando la báscula se planta</h3>
         <p class="cs-text">
@@ -271,7 +333,11 @@ const schema = [
         <p class="cs-text">
           Mi forma de definir ha sido mantener la comida alta —en torno a 2.200-2.500 kcal— y
           tener el <strong>NEAT</strong> muy alto. NEAT es todo lo que gastas moviéndote sin
-          entrenar: andar, subir escaleras, no estar sentado.
+          entrenar: andar, subir escaleras, no estar sentado. No es un detalle menor: según una
+          <a href={S.neat} target="_blank" rel="noopener">revisión publicada en Mayo Clinic
+          Proceedings (Villablanca et al., 2015)</a>, la diferencia de NEAT entre dos personas
+          puede llegar a <strong>2.000 kcal al día</strong>. Eso es más de lo que quema
+          cualquier sesión de cardio.
         </p>
         <p class="cs-text">La progresión que uso:</p>
         <table class="tabla-legal">
@@ -418,8 +484,12 @@ const schema = [
         <h3 class="cs-h3">2. El ciclo menstrual esconde el progreso</h3>
         <p class="cs-text">
           Esto es lo más práctico de toda esta sección. Las
-          <strong>retenciones de líquido a lo largo del ciclo</strong> pueden mover la báscula
-          uno o dos kilos <em>sin ninguna relación con la grasa corporal</em>.
+          <strong>retenciones de líquido a lo largo del ciclo</strong> mueven la báscula
+          <em>sin ninguna relación con la grasa corporal</em>. Un
+          <a href={S.ciclo} target="_blank" rel="noopener">estudio con 42 mujeres (Kanellakis et
+          al., 2023)</a> midió un aumento medio de <strong>0,45 kg durante la menstruación</strong>,
+          y al analizar la composición corporal vio que prácticamente todo era
+          <strong>agua extracelular</strong>: 0,474 kg. Ni un gramo de grasa nueva.
         </p>
         <div class="cs-highlight">
           <strong>Compara semanas equivalentes de ciclos distintos</strong>, no una semana con
@@ -480,6 +550,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">
