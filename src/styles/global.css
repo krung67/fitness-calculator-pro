@@ -542,6 +542,11 @@ button:focus-visible,a:focus-visible{
 .prod-card:hover{border-color:var(--lime);transform:translateY(-2px)}
 .prod-icon{font-size:1.4rem;margin-bottom:8px}
 .prod-name{font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.aviso-afiliado{
+  font-size:0.72rem;line-height:1.5;color:var(--muted);
+  margin-top:0.85rem;max-width:62ch;
+}
+.aviso-afiliado a{color:var(--lime-dim)}
 .prod-tag{
   font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;
   color:var(--lime-dim);
