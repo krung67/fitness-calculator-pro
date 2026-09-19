@@ -1,6 +1,19 @@
 ---
 import Base from '../layouts/Base.astro';
+import Fuentes, { type Fuente } from '../components/Fuentes.astro';
 import { SITE, GUIAS } from '../config/site';
+
+const fuentes: Fuente[] = [
+  { autores: 'Mifflin MD, St Jeor ST, Hill LA, et al.', anio: 1990, titulo: 'A new predictive equation for resting energy expenditure in healthy individuals', publicacion: 'The American Journal of Clinical Nutrition', url: 'https://pubmed.ncbi.nlm.nih.gov/2305711/' },
+  { autores: 'Frankenfield D, Roth-Yousey L, Compher C', anio: 2005, titulo: 'Comparison of predictive equations for resting metabolic rate in healthy nonobese and obese adults: a systematic review', publicacion: 'Journal of the American Dietetic Association', url: 'https://pubmed.ncbi.nlm.nih.gov/15883556/' },
+  { autores: 'Thomas DT, Erdman KA, Burke LM', anio: 2016, titulo: 'Position of the Academy of Nutrition and Dietetics, Dietitians of Canada, and the American College of Sports Medicine: nutrition and athletic performance', publicacion: 'Journal of the Academy of Nutrition and Dietetics', url: 'https://pubmed.ncbi.nlm.nih.gov/26920240/' },
+  { autores: 'Morton RW, Murphy KT, McKellar SR, et al.', anio: 2018, titulo: 'A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength in healthy adults', publicacion: 'British Journal of Sports Medicine', url: 'https://pubmed.ncbi.nlm.nih.gov/28698222/' },
+  { autores: 'Helms ER, Aragon AA, Fitschen PJ', anio: 2014, titulo: 'Evidence-based recommendations for natural bodybuilding contest preparation: nutrition and supplementation', publicacion: 'Journal of the International Society of Sports Nutrition', url: 'https://pubmed.ncbi.nlm.nih.gov/24864135/' },
+  { autores: 'Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J', anio: 2011, titulo: 'Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes', publicacion: 'International Journal of Sport Nutrition and Exercise Metabolism', url: 'https://pubmed.ncbi.nlm.nih.gov/21558571/' },
+];
+
+const introFuentes =
+  'Esta calculadora no usa fórmulas propias: aplica las publicadas en los estudios de abajo, que he recopilado y explicado. El metabolismo basal sale de la ecuación de <strong>Mifflin-St Jeor</strong>; la proteína, del ACSM y de Morton; el ritmo de pérdida, de Helms y Garthe. Dos cosas <strong>no</strong> salen de un estudio concreto y prefiero decirlo: los <strong>factores de actividad</strong> (×1,2 a ×1,9), que son la convención habitual en nutrición deportiva, y los <strong>gramos de grasa por kilo</strong> de partida, que son el criterio del método explicado en <a href="/metodo">Nuestro método</a>, siempre con el mínimo del 20 % de las calorías que recomienda el ACSM.';
 
 // Las respuestas deben coincidir con lo que ve el usuario en la página.
 // Si el schema dice una cosa y la página otra, Google lo trata como
@@ -539,8 +552,10 @@ const schema = [
         <p class="cs-text">
           El TDEE (<em>Total Daily Energy Expenditure</em>) o gasto energético total diario es
           la cantidad real de calorías que quemas en un día teniendo en cuenta tu nivel de
-          actividad física. Se calcula multiplicando tu BMR por un factor de actividad
-          conocido como <strong>multiplicador de Harris</strong>.
+          actividad física. Se calcula multiplicando tu BMR por un <strong>factor de
+          actividad</strong>. Los valores que usa esta calculadora, de 1,2 a 1,9, son la
+          convención habitual en nutrición deportiva: no proceden de un estudio concreto, y
+          por eso tu cifra hay que confirmarla con la báscula durante unas semanas.
         </p>
         <p class="cs-text">
           Este factor varía desde 1,2 para personas completamente sedentarias hasta 1,9 para
@@ -629,8 +644,12 @@ const schema = [
           puede afectar negativamente a los niveles hormonales, especialmente en hombres.
         </p>
         <p class="cs-text">
-          La recomendación general es mantener las grasas entre 0,5 y 1,2 gramos por kilogramo
-          de peso. Las fuentes de grasa de calidad incluyen el aguacate, los frutos secos, el
+          La referencia para personas que entrenan es que la grasa aporte
+          <strong>entre el 20 y el 35 % de las calorías</strong>, y no menos del 20 % de forma
+          continuada
+          (<a href="https://pubmed.ncbi.nlm.nih.gov/26920240/" target="_blank" rel="noopener">ACSM y asociaciones de dietistas, 2016</a>).
+          Esta calculadora parte de unos gramos por kilo según tu actividad y nunca baja de
+          ese 20 %. Las fuentes de grasa de calidad incluyen el aguacate, los frutos secos, el
           aceite de oliva virgen extra, el salmón y los huevos enteros.
         </p>
 
@@ -682,10 +701,15 @@ const schema = [
 
         <h3 class="cs-h3">Déficit calórico — para perder grasa</h3>
         <p class="cs-text">
-          Un déficit de entre 300 y 500 kcal diarias es el rango considerado óptimo para
-          perder grasa de forma sostenible sin sacrificar masa muscular ni rendimiento.
-          Déficits más agresivos (superiores a 700–1000 kcal) pueden provocar pérdida
-          muscular, fatiga crónica, bajada del metabolismo y déficits nutricionales. Nuestra
+          Esta web trabaja con un déficit de <strong>entre 200 y 500 kcal diarias</strong>
+          para perder grasa sin sacrificar músculo ni rendimiento. La referencia es el ritmo de
+          pérdida, no las calorías: los estudios recomiendan bajar entre el 0,5 y el 1&nbsp;%
+          del peso por semana
+          (<a href="https://pubmed.ncbi.nlm.nih.gov/24864135/" target="_blank" rel="noopener">Helms et al., 2014</a>),
+          y en deportistas, bajar al 0,7&nbsp;% semanal conservó más masa magra que hacerlo al
+          1,4&nbsp;%
+          (<a href="https://pubmed.ncbi.nlm.nih.gov/21558571/" target="_blank" rel="noopener">Garthe et al., 2011</a>).
+          Déficits mucho más agresivos disparan el hambre y la pérdida de fuerza. Nuestra
           calculadora aplica un déficit fijo de 400 kcal, que corresponde a perder
           aproximadamente 0,3–0,5 kg de grasa por semana.
         </p>
@@ -710,6 +734,8 @@ const schema = [
       </div>
 
       <!-- SECCIÓN 5: FAQ -->
+      <Fuentes fuentes={fuentes} intro={introFuentes} />
+
       <div class="content-section">
         <div class="cs-tag">Preguntas frecuentes</div>
         <h2 class="cs-title">Preguntas frecuentes sobre calorías y macros</h2>
@@ -971,10 +997,21 @@ function calcObj(){
 // criterio propio y contradecía a Morton (2018) y al ACSM (2016).
 const PROT_MIN = 1.2, PROT_MAX = 1.6;
 
+// Grasa: se parte de los g/kg del método, pero nunca por debajo del 20 % de las
+// calorías objetivo. El ACSM (2016) desaconseja mantener la grasa por debajo del
+// 20 % de la energía; sin este suelo, con actividad moderada o alta el reparto
+// daba un 9-18 %. Decisión de Enrique, 19 sep 2026.
+const GRASA_MIN_PCT = 0.20;
+function gramosGrasa(peso){
+  const porKilo=Math.round(peso*(D.gKg||0.7));
+  const minimo=Math.ceil(D.obj*GRASA_MIN_PCT/9);
+  return Math.max(porKilo,minimo);
+}
+
 function calcMacros(){
   if(!D.obj){alert('Completa los pasos anteriores primero');return}
   const act=parseFloat(document.getElementById('actividad').value)||1.2;
-  // La grasa se mantiene como estaba: no cambia con esta decisión.
+  // Grasa de partida por kilo según actividad; gramosGrasa() le aplica el suelo del 20 %.
   let gKg,alerta;
   if(act<=1.2){
     gKg=1.0;
@@ -984,6 +1021,10 @@ function calcMacros(){
   else { gKg=0.5; alerta=''; }
   if(!alerta) alerta='Partimos de 1,6 g/kg de proteína: es donde el metaanálisis de Morton (2018) encontró que dejan de aumentar las ganancias de músculo. Puedes ajustarlo justo debajo, entre 1,2 y 1,6 g/kg.';
   D.gKg=gKg;
+  const pesoA=parseFloat(document.getElementById('peso').value)||70;
+  if(gramosGrasa(pesoA)>Math.round(pesoA*gKg)){
+    alerta+=' La grasa se ha subido al 20 % de tus calorías: es el mínimo que recomienda el ACSM (2016) para quien entrena, por las vitaminas y los ácidos grasos esenciales.';
+  }
   const alertaEl=document.getElementById('macroAlerta');
   alertaEl.textContent=alerta;alertaEl.style.display='block';
 
@@ -1004,7 +1045,7 @@ function pintarMacros(pKg){
   pKg=Math.min(PROT_MAX,Math.max(PROT_MIN,pKg));
   const peso=parseFloat(document.getElementById('peso').value)||70;
   const prot=Math.round(peso*pKg);
-  const gras=Math.round(peso*(D.gKg||0.7));
+  const gras=gramosGrasa(peso);
   const calP=prot*4,calG=gras*9;
   const calC=Math.max(0,D.obj-calP-calG);
   const carb=Math.round(calC/4);

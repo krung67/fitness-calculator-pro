@@ -56,7 +56,9 @@ const schema = [
     <p>
       <strong>
         Nuestra calculadora ajusta el reparto según cuánto entrenas: cuanto mayor es la
-        demanda energética, más carbohidratos y menos gramos de proteína por kilo.
+        demanda energética, más carbohidratos. La proteína se queda en la cifra que marcan
+        los estudios, y lo que baja es la grasa por kilo, sin pasar nunca del mínimo del
+        20 % de tus calorías.
       </strong>
       Esta página explica por qué, porque un número sin explicación no sirve de nada.
     </p>
@@ -140,7 +142,7 @@ const schema = [
         <tr>
           <td>Sedentario (×1,2)</td>
           <td>1,2 g/kg</td>
-          <td>1,0 g/kg</td>
+          <td>1,0 g/kg*</td>
           <td rowspan="4" style="vertical-align:middle">
             El resto de las calorías objetivo, una vez cubiertas proteína y grasa
           </td>
@@ -148,17 +150,17 @@ const schema = [
         <tr>
           <td>Ligero (×1,375)</td>
           <td>1,6 g/kg</td>
-          <td>0,9 g/kg</td>
+          <td>0,9 g/kg*</td>
         </tr>
         <tr>
           <td>Moderado (×1,55)</td>
           <td>1,6 g/kg</td>
-          <td>0,7 g/kg</td>
+          <td>0,7 g/kg*</td>
         </tr>
         <tr>
           <td>Alto o muy alto (×1,725–1,9)</td>
           <td>1,6 g/kg</td>
-          <td>0,5 g/kg</td>
+          <td>0,5 g/kg*</td>
         </tr>
       </tbody>
     </table>
@@ -169,13 +171,24 @@ const schema = [
       carbohidratos nunca se fijan a mano: son lo que queda tras cubrir proteína y grasa, que
       es la forma de garantizar que el total cuadra con tus calorías objetivo.
     </p>
+    <p>
+      <strong>* La grasa nunca baja del 20 % de tus calorías.</strong> Los gramos por kilo
+      de la tabla son el punto de partida del método, pero con actividad moderada o alta
+      daban un 9-18 % de la energía. La
+      <a href="https://pubmed.ncbi.nlm.nih.gov/26920240/" target="_blank" rel="noopener">declaración conjunta del ACSM y las
+      asociaciones de dietistas (2016)</a> desaconseja mantener la grasa por debajo del 20 %,
+      porque con menos cuesta cubrir las vitaminas liposolubles y los ácidos grasos
+      esenciales, y sitúa lo habitual entre el 20 y el 35 %. Así que la calculadora aplica lo
+      que sea mayor: tus gramos por kilo o ese 20 %.
+    </p>
 
     <div class="cs-highlight">
       <strong>Qué cambió en septiembre de 2026.</strong> Hasta entonces esta tabla hacía lo
       contrario: la proteína <em>bajaba</em> al subir la actividad (2,0 g/kg en sedentario,
       1,2 en actividad alta). Era criterio propio y chocaba con las fuentes de arriba, así que
-      lo corregimos. Lo contamos aquí en vez de borrarlo porque nos parece más honesto que
-      fingir que siempre estuvo bien.
+      lo corregimos. En la misma revisión añadimos el suelo del 20 % a la grasa. Lo contamos
+      aquí en vez de borrarlo porque nos parece más honesto que fingir que siempre estuvo
+      bien.
     </div>
 
     <h2>Para quién NO es este método</h2>
