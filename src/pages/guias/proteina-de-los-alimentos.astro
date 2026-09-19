@@ -1,7 +1,18 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
+
+const S = {
+  fdc: 'https://fdc.nal.usda.gov/',
+  bedca: 'https://www.bedca.net/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Departamento de Agricultura de Estados Unidos (USDA)', anio: 'Consultado en 2026', titulo: 'FoodData Central, SR Legacy: composición de carnes, pescados, huevos, lácteos, legumbres, frutos secos y cereales', publicacion: 'USDA Agricultural Research Service', url: S.fdc },
+  { autores: 'Agencia Española de Seguridad Alimentaria y Nutrición (AESAN)', anio: 'Consultado en 2026', titulo: 'BEDCA, Base de Datos Española de Composición de Alimentos: berberechos en conserva, pan integral y queso manchego', publicacion: 'Red BEDCA · Ministerio de Ciencia e Innovación', url: S.bedca },
+];
 
 /**
  * Valores de referencia habituales por 100 g de porción comestible.
@@ -15,7 +26,7 @@ const TABLAS = [
     nota: 'Valores en crudo. Al cocinarse pierden agua y la proteína se concentra.',
     items: [
       { nombre: 'Pechuga de pavo', g: 24 },
-      { nombre: 'Pechuga de pollo', g: 23 },
+      { nombre: 'Pechuga de pollo', g: 22.5 },
       { nombre: 'Solomillo de ternera', g: 21 },
       { nombre: 'Lomo de cerdo', g: 21 },
       { nombre: 'Carne picada de ternera (5 % grasa)', g: 21 },
@@ -38,7 +49,7 @@ const TABLAS = [
     items: [
       { nombre: 'Atún al natural', g: 25 },
       { nombre: 'Sardinas en aceite', g: 22 },
-      { nombre: 'Berberechos', g: 12 },
+      { nombre: 'Berberechos', g: 11 },
     ],
   },
   {
@@ -53,7 +64,7 @@ const TABLAS = [
     grupo: 'Lácteos',
     nota: '',
     items: [
-      { nombre: 'Queso curado', g: 27 },
+      { nombre: 'Queso manchego curado', g: 29 },
       { nombre: 'Requesón', g: 11 },
       { nombre: 'Queso batido 0 % / skyr', g: 10.5 },
       { nombre: 'Yogur griego natural', g: 9 },
@@ -80,7 +91,7 @@ const TABLAS = [
       { nombre: 'Cacahuetes', g: 26 },
       { nombre: 'Almendras', g: 21 },
       { nombre: 'Avena', g: 13 },
-      { nombre: 'Pan integral', g: 8 },
+      { nombre: 'Pan integral', g: 11 },
       { nombre: 'Pasta cocida', g: 5 },
       { nombre: 'Arroz cocido', g: 2.7 },
     ],
@@ -94,7 +105,7 @@ const POR_UNIDAD = [
   { nombre: 'Una clara de huevo', g: '3,5 g' },
   { nombre: 'Una lata de atún al natural (52 g escurrido)', g: '13 g' },
   { nombre: 'Una pechuga de pollo entera (unos 180 g)', g: '41 g' },
-  { nombre: 'Un filete de pechuga (unos 120 g)', g: '28 g' },
+  { nombre: 'Un filete de pechuga (unos 120 g)', g: '27 g' },
   { nombre: 'Un yogur griego natural (125 g)', g: '11 g' },
   { nombre: 'Un vaso de leche (250 ml)', g: '8 g' },
   { nombre: 'Un cacito de proteína whey (30 g)', g: '23 g' },
@@ -115,7 +126,7 @@ const faq = [
   },
   {
     p: '¿Cuánta proteína tiene una pechuga de pollo?',
-    r: 'Unos 23 gramos por cada 100 g de pollo crudo. Una pechuga entera de unos 180 g aporta cerca de 41 g. Ojo: si la pesas ya cocinada, la cifra por 100 g sube a unos 30 g, porque al cocinarse pierde agua y la proteína se concentra.',
+    r: 'Unos 22,5 gramos por cada 100 g de pollo crudo, según la base de datos del USDA. Una pechuga entera de unos 180 g aporta cerca de 41 g. Ojo: si la pesas ya cocinada, la cifra por 100 g sube a unos 31 g, porque al cocinarse pierde agua y la proteína se concentra.',
   },
   {
     p: '¿Cuánta proteína tiene una lata de atún?',
@@ -243,17 +254,17 @@ const schema = [
           la proteína sigue ahí. Resultado: la proteína queda más concentrada.
         </p>
         <div class="cs-highlight">
-          <strong>100 g de pollo crudo → unos 75 g una vez cocinado.</strong><br />
-          Esos 100 g crudos tenían 23 g de proteína. Los 75 g cocinados siguen teniendo esos
-          mismos 23 g.<br />
+          <strong>100 g de pollo crudo → unos 73 g una vez cocinado.</strong><br />
+          Esos 100 g crudos tenían 22,5 g de proteína. Los 73 g cocinados siguen teniendo esos
+          mismos 22,5 g.<br />
           <br />
-          Es decir: <strong>100 g de pollo cocinado rondan los 30 g de proteína</strong>, no
-          23.
+          Es decir: <strong>100 g de pollo cocinado rondan los 31 g de proteína</strong>, no
+          22,5. Son las cifras de la base de composición del USDA para pechuga cruda y asada.
         </div>
         <p class="cs-text">
           Si pesas en cocinado y aplicas los valores en crudo,
-          <strong>te estás quedando corto en un 25 % aproximadamente</strong>. Con 150 g de
-          proteína diarios, eso son casi 40 gramos de diferencia.
+          <strong>te estás quedando corto cerca de un 28 %</strong>. Con 150 g de proteína
+          diarios, eso son unos 40 gramos de diferencia.
         </p>
         <p class="cs-text">
           <strong>Lo más práctico:</strong> pesa siempre en crudo y usa esta tabla. Es lo que
@@ -365,8 +376,14 @@ const schema = [
         <div class="cs-tag">Sobre estos datos</div>
         <h2 class="cs-title">Son orientativos, y conviene saber por qué</h2>
         <p class="cs-text">
-          Los valores de esta página son <strong>cifras de referencia habituales</strong>, y
-          la realidad varía:
+          Los valores de esta página salen de dos bases de datos oficiales: la
+          <a href={S.fdc} target="_blank" rel="noopener">FoodData Central del Departamento de
+          Agricultura de Estados Unidos</a> para la mayoría de alimentos, y
+          <a href={S.bedca} target="_blank" rel="noopener">BEDCA, la base española de
+          composición de alimentos de la AESAN</a>, para los que se consumen sobre todo aquí
+          —berberechos, pan integral, queso manchego—, donde los datos americanos no son buena
+          referencia. Aun así, <strong>son valores de referencia</strong>, y la realidad
+          varía:
         </p>
         <ul style="padding-left:1.2rem;margin-bottom:1rem">
           <li class="cs-text" style="margin-bottom:0.4rem">
@@ -390,6 +407,8 @@ const schema = [
       </div>
 
       <!-- ─────────── FAQ ─────────── -->
+      <Fuentes fuentes={fuentes} />
+
       <div class="content-section">
         <div class="cs-tag">Preguntas frecuentes</div>
         <h2 class="cs-title">Preguntas frecuentes</h2>

@@ -3,7 +3,7 @@
  *
  * MACROS POR 100 g EN CRUDO, salvo donde la unidad diga otra cosa. Es la
  * referencia de las etiquetas y la que usa el resto de la web: mezclarla con
- * valores en cocinado descuadraría las cantidades en torno a un 25 %.
+ * valores en cocinado descuadraría las cantidades cerca de un 28 % (USDA).
  *
  * Son valores de referencia habituales. Varían según corte y marca, por eso
  * la página remite siempre a la etiqueta del producto.
