@@ -1,11 +1,26 @@
 ---
 import Base from '../layouts/Base.astro';
+import Fuentes, { type Fuente } from '../components/Fuentes.astro';
 import { SITE } from '../config/site';
+
+// Los dos informes originales de 1984 no tienen una dirección estable que se haya
+// podido verificar (el archivo DTIC bloquea el acceso automático): se citan sin
+// enlace, como en cualquier bibliografía.
+const fuentes: Fuente[] = [
+  { autores: 'Hodgdon JA, Beckett MB', anio: 1984, titulo: 'Prediction of percent body fat for U.S. Navy men from body circumferences and height (Report No. 84-11)', publicacion: 'Naval Health Research Center, San Diego' },
+  { autores: 'Hodgdon JA, Beckett MB', anio: 1984, titulo: 'Prediction of percent body fat for U.S. Navy women from body circumferences and height (Report No. 84-29)', publicacion: 'Naval Health Research Center, San Diego' },
+  { autores: 'Shake CL, Schlichting C, Mooney LW, Callahan AB, Cohen ME', anio: 1993, titulo: 'Predicting percent body fat from circumference measurements', publicacion: 'Military Medicine', url: 'https://pubmed.ncbi.nlm.nih.gov/8437737/' },
+  { autores: 'Combest TM, Howard RS, Andrews AM', anio: 2017, titulo: 'Comparison of circumference body composition measurements and eight-point bioelectrical impedance analysis to dual energy X-ray absorptiometry to measure body fat percentage', publicacion: 'Military Medicine', url: 'https://pubmed.ncbi.nlm.nih.gov/28810989/' },
+  { autores: 'Combest TM, Khan J, Tufano JJ, et al.', anio: 2025, titulo: 'Comparison of four body composition methods: circumference measurements, eight-point bioelectrical impedance analysis up to 500 and 1000 kHz to dual-energy X-ray absorptiometry to measure body fat percentage', publicacion: 'Military Medicine', url: 'https://pubmed.ncbi.nlm.nih.gov/39292528/' },
+];
+
+const introFuentes =
+  'La fórmula no es mía: es la que publicaron Hodgdon y Beckett en 1984 para la Marina de Estados Unidos, que estima la densidad corporal a partir de los contornos y la altura y la convierte en porcentaje de grasa. Los estudios posteriores que la comparan con la DEXA, la referencia clínica, encuentran una <strong>concordancia moderada</strong>: sirve para seguir tu evolución, no para conocer tu cifra exacta.';
 
 const faq = [
   {
     p: '¿Es fiable el método US Navy?',
-    r: 'Tiene un margen de error de aproximadamente ±3-4 puntos porcentuales frente a una densitometría DEXA, que es la referencia clínica. No sirve para saber tu porcentaje exacto, pero sí para seguir tu evolución: si mides siempre igual, la tendencia a lo largo de las semanas es fiable aunque el número absoluto no sea perfecto.',
+    r: 'Es una estimación, no una medición. Comparado con una densitometría DEXA, que es la referencia clínica, su concordancia es moderada: en militares estadounidenses se obtuvieron coeficientes de 0,72 en hombres y 0,83 en mujeres (Combest et al., 2017). No sirve para saber tu porcentaje exacto, pero sí para seguir tu evolución: si mides siempre igual, la tendencia a lo largo de las semanas es fiable aunque el número absoluto no sea perfecto.',
   },
   {
     p: '¿Por qué los hombres y las mujeres miden la cintura en sitios distintos?',
@@ -246,7 +261,7 @@ const schema = [
             <tr><td>Qué necesitas</td><td>Báscula</td><td>Cinta métrica</td></tr>
             <tr><td>¿Distingue músculo de grasa?</td><td>No</td><td>Sí, de forma estimada</td></tr>
             <tr><td>¿Sirve si entrenas fuerza?</td><td>Poco</td><td>Sí</td></tr>
-            <tr><td>Margen de error</td><td>No aplica: no mide grasa</td><td>±3-4 puntos</td></tr>
+            <tr><td>Precisión</td><td>No aplica: no mide grasa</td><td>Moderada frente a DEXA; varios puntos de margen</td></tr>
           </tbody>
         </table>
         <p class="cs-text">
@@ -255,6 +270,8 @@ const schema = [
           cosas distintas, y solo una de las dos describe tu composición corporal.
         </p>
       </div>
+
+      <Fuentes fuentes={fuentes} intro={introFuentes} />
 
       <!-- ─────────── FAQ ─────────── -->
       <div class="content-section">
@@ -341,11 +358,11 @@ function calcGrasa() {
       'de forma prolongada se asocia a alteraciones hormonales y pérdida de densidad ósea. Conviene ' +
       'consultarlo con un profesional sanitario.';
   } else if (r.nota === 'alto') {
-    nota.innerHTML = '<strong>Recuerda el margen de error de ±3-4 puntos</strong> y que este método pierde ' +
+    nota.innerHTML = '<strong>Recuerda que es una estimación con varios puntos de margen</strong> y que este método pierde ' +
       'precisión en los extremos. Si quieres reducirlo, empieza por ' +
       '<a href="/" style="color:var(--lime)">calcular tus calorías objetivo</a>.';
   } else {
-    nota.innerHTML = '<strong>Recuerda:</strong> el valor absoluto tiene un margen de ±3-4 puntos. ' +
+    nota.innerHTML = '<strong>Recuerda:</strong> el valor absoluto tiene varios puntos de margen. ' +
       'Lo útil es repetir la medición cada 2-4 semanas, siempre igual, y observar la tendencia.';
   }
 

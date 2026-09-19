@@ -1,6 +1,6 @@
 ---
 /**
- * Lista de fuentes al final de una guía.
+ * Lista de fuentes al final de una guía o de una calculadora.
  *
  * Regla: aquí solo entra lo que se ha comprobado que existe y dice lo que la
  * guía afirma. Si una afirmación no tiene fuente verificada, se quita de la
@@ -12,27 +12,39 @@ export interface Fuente {
   anio: number | string;
   titulo: string;
   publicacion: string;
-  url: string;
+  /**
+   * Enlace comprobado. Se omite solo cuando la fuente existe pero no hay una
+   * dirección estable que se haya podido verificar (p. ej. informes técnicos
+   * antiguos): entonces se cita sin enlace, como en cualquier bibliografía.
+   */
+  url?: string;
 }
 
 interface Props {
   fuentes: Fuente[];
+  /** Párrafo opcional antes de la lista (p. ej. qué es fórmula publicada y qué no). */
+  intro?: string;
 }
 
-const { fuentes } = Astro.props;
+const { fuentes, intro } = Astro.props;
 ---
 
 <div class="content-section" id="fuentes">
   <div class="cs-tag">Fuentes</div>
   <h2 class="cs-title">De dónde sale cada dato</h2>
+  {intro && <p class="cs-text" set:html={intro} />}
   <ol class="fuentes-lista">
     {
       fuentes.map((f) => (
         <li>
           {f.autores} ({f.anio}).{' '}
-          <a href={f.url} target="_blank" rel="noopener">
-            {f.titulo}
-          </a>
+          {f.url ? (
+            <a href={f.url} target="_blank" rel="noopener">
+              {f.titulo}
+            </a>
+          ) : (
+            f.titulo
+          )}
           . <em>{f.publicacion}</em>.
         </li>
       ))

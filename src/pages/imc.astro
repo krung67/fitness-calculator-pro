@@ -1,6 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
+import Fuentes, { type Fuente } from '../components/Fuentes.astro';
 import { SITE } from '../config/site';
+
+const fuentes: Fuente[] = [
+  { autores: 'Organización Mundial de la Salud (OMS)', anio: 'Consultado en 2026', titulo: 'Body mass index (BMI): indicadores de bajo peso (IMC < 18,5), sobrepeso (≥ 25) y obesidad (≥ 30) en adultos', publicacion: 'Global Health Observatory', url: 'https://www.who.int/data/gho/data/themes/topics/topic-details/GHO/body-mass-index' },
+  { autores: 'Organización Mundial de la Salud (OMS)', anio: 2025, titulo: 'Obesity and overweight (nota descriptiva)', publicacion: 'OMS', url: 'https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight' },
+  { autores: 'Organización Mundial de la Salud (OMS)', anio: 2000, titulo: 'Obesity: preventing and managing the global epidemic. Report of a WHO Consultation (WHO Technical Report Series 894), donde se definen los grados I, II y III de obesidad', publicacion: 'OMS, Ginebra' },
+  { autores: 'Ode JJ, Pivarnik JM, Reeves MJ, Knous JL', anio: 2007, titulo: 'Body mass index as a predictor of percent fat in college athletes and nonathletes', publicacion: 'Medicine & Science in Sports & Exercise', url: 'https://pubmed.ncbi.nlm.nih.gov/17473765/' },
+];
+
+const introFuentes =
+  'La fórmula (peso entre altura al cuadrado) y las categorías son las de la <strong>Organización Mundial de la Salud</strong>; yo solo las he recopilado y explicado. La advertencia sobre quien entrena fuerza no es una opinión: está medida en deportistas.';
 
 const faq = [
   {
@@ -200,11 +211,21 @@ const schema = [
           IMC exacto— pueden tener aspectos y estados de salud radicalmente distintos.
         </p>
         <div class="cs-highlight">
-          <strong>Ejemplo real y frecuente:</strong> un hombre de 1,78 m y 88 kg que entrena
+          <strong>Un caso típico:</strong> un hombre de 1,78 m y 88 kg que entrena
           fuerza cuatro veces por semana tiene un IMC de 27,8, categoría «sobrepeso». Si su
           porcentaje de grasa está en el 12 %, esa etiqueta no describe absolutamente nada
           útil sobre él.
         </div>
+        <p class="cs-text">
+          Y está medido. En un
+          <a href="https://pubmed.ncbi.nlm.nih.gov/17473765/" target="_blank" rel="noopener">estudio
+          con 439 universitarios publicado en <em>Medicine &amp; Science in Sports &amp;
+          Exercise</em> (Ode et al., 2007)</a>, el umbral de IMC 25 etiquetó como «sobrepeso» a
+          muchos deportistas que, medidos con pletismografía, no tenían exceso de grasa. El
+          punto de corte que mejor funcionaba en deportistas varones no era 25, sino
+          <strong>27,9</strong>, y los autores concluyen que el IMC debe usarse con cautela en
+          esta población.
+        </p>
         <p class="cs-text">
           Ocurre lo contrario también, y es menos comentado pero igual de relevante: alguien
           sedentario con poca masa muscular y bastante grasa puede tener un IMC dentro del
@@ -268,6 +289,8 @@ const schema = [
           razonamiento detrás está en <a href="/metodo" style="color:var(--lime)">Nuestro método</a>.
         </p>
       </div>
+
+      <Fuentes fuentes={fuentes} intro={introFuentes} />
 
       <div class="content-section">
         <div class="cs-tag">Preguntas frecuentes</div>
