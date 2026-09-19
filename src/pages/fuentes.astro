@@ -1,0 +1,243 @@
+---
+/**
+ * De dónde sale la información: quién recopila el contenido, qué tipo de fuentes
+ * se usan, cómo se verifican, qué NO sale de un estudio y qué se ha corregido.
+ *
+ * Existe porque las pautas de Google sobre contenido útil piden que se vea
+ * «quién» hace el contenido y «cómo» se hace, con más exigencia en temas de
+ * salud. La firma de todas las guías enlaza aquí. Solo se enlazan documentos
+ * concretos ya verificados, nunca la portada genérica de un organismo.
+ */
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+
+const ACTUALIZADO = '2026-09-19';
+
+const organismos = [
+  {
+    nombre: 'Colegio Americano de Medicina del Deporte (ACSM)',
+    doc: 'Declaración de posición sobre entrenamiento de fuerza (2026) y declaración conjunta sobre nutrición y rendimiento (2016)',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/41843416/',
+  },
+  {
+    nombre: 'Sociedad Internacional de Nutrición Deportiva (ISSN)',
+    doc: 'Declaraciones de posición sobre el momento de los nutrientes (2017) y la cafeína (2021)',
+    url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5596471/',
+  },
+  {
+    nombre: 'Comité Olímpico Internacional (COI)',
+    doc: 'Consenso sobre deficiencia energética relativa en el deporte, RED-S (2018)',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/29773536/',
+  },
+  {
+    nombre: 'Organización Mundial de la Salud (OMS)',
+    doc: 'Clasificación del índice de masa corporal en adultos',
+    url: 'https://www.who.int/data/gho/data/themes/topics/topic-details/GHO/body-mass-index',
+  },
+  {
+    nombre: 'Academia Americana de Medicina del Sueño (AASM)',
+    doc: 'Consenso sobre las horas de sueño recomendadas en adultos (2015)',
+    url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4434546/',
+  },
+  {
+    nombre: 'Agencia Española de Seguridad Alimentaria y Nutrición (AESAN)',
+    doc: 'BEDCA, Base de Datos Española de Composición de Alimentos',
+    url: 'https://www.bedca.net/',
+  },
+  {
+    nombre: 'Departamento de Agricultura de Estados Unidos (USDA)',
+    doc: 'FoodData Central, base de datos de composición de alimentos',
+    url: 'https://fdc.nal.usda.gov/',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'De dónde sale la información de Calculadora Fit',
+    description:
+      'Quién recopila el contenido, qué fuentes científicas y organismos oficiales se usan, cómo se verifican y qué se ha corregido.',
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+    publisher: { '@id': `${SITE.url}/#persona` },
+    mainEntityOfPage: `${SITE.url}/fuentes`,
+    dateModified: ACTUALIZADO,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Fuentes', item: `${SITE.url}/fuentes` },
+    ],
+  },
+];
+---
+
+<Base
+  title="De dónde sale la información · Fuentes y método"
+  description="Quién recopila el contenido de Calculadora Fit, qué estudios y organismos oficiales se usan, cómo se verifica cada dato y qué se ha corregido."
+  schema={schema}
+>
+  <main id="contenido" class="pagina">
+    <h1 class="pagina-titulo">De dónde sale la información</h1>
+    <p class="pagina-fecha">Actualizado el 19 de septiembre de 2026</p>
+
+    <p>
+      Esta web trata de nutrición y entrenamiento, que son temas de salud. Por eso creo que
+      tienes derecho a saber exactamente de dónde sale cada cifra y quién la ha puesto aquí.
+    </p>
+
+    <h2>Quién la recopila</h2>
+    <p>
+      Me llamo {SITE.titular.nombre}. <strong>No soy dietista-nutricionista ni tengo
+      titulación sanitaria</strong>, y precisamente por eso nada de lo que lees aquí se apoya
+      en mi opinión. Mi trabajo es <strong>buscar, leer, contrastar y explicar</strong> lo que
+      dicen los estudios científicos publicados y los organismos oficiales, y ponerlo en un
+      lenguaje que se entienda. Tienes más sobre mí en
+      <a href="/sobre-nosotros">Sobre nosotros</a>.
+    </p>
+
+    <h2>Qué fuentes uso, por orden de peso</h2>
+    <ol>
+      <li>
+        <strong>Declaraciones de posición y consensos de organismos científicos.</strong> Son
+        documentos en los que un panel de expertos revisa toda la evidencia disponible y fija
+        una recomendación. Cuando existen, mandan sobre todo lo demás.
+      </li>
+      <li>
+        <strong>Metaanálisis y revisiones sistemáticas.</strong> Reúnen los resultados de
+        muchos estudios a la vez, así que pesan más que cualquier estudio aislado.
+      </li>
+      <li>
+        <strong>Ensayos controlados.</strong> Estudios individuales publicados en revistas
+        revisadas por expertos, para datos concretos que las revisiones no cubren.
+      </li>
+      <li>
+        <strong>Bases de datos oficiales de composición de alimentos</strong>, para las tablas
+        de proteína y calorías: la española (BEDCA) para alimentos típicos de aquí y la del
+        USDA para el resto.
+      </li>
+    </ol>
+
+    <h2>Organismos que se citan en la web</h2>
+    <table class="tabla-legal">
+      <thead>
+        <tr><th>Organismo</th><th>Documento</th></tr>
+      </thead>
+      <tbody>
+        {
+          organismos.map((o) => (
+            <tr>
+              <td>{o.nombre}</td>
+              <td>
+                <a href={o.url} target="_blank" rel="noopener">{o.doc}</a>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+    <p>
+      Además de estos, cada guía y cada calculadora tiene al final su propio apartado
+      <strong>«De dónde sale cada dato»</strong>, con la lista completa de estudios que usa y
+      un enlace a cada uno.
+    </p>
+
+    <h2>Cómo compruebo cada dato</h2>
+    <ul>
+      <li>
+        <strong>Leo el estudio original</strong>, como mínimo su resumen en PubMed o Europe
+        PMC. No cito nada que solo haya leído en un blog, en una noticia o en el resumen de un
+        buscador: más de una vez esos resúmenes decían algo distinto del estudio.
+      </li>
+      <li>
+        <strong>Recalculo las cifras</strong> en lugar de copiarlas. Si una guía dice que 100 g
+        de pollo crudo quedan en unos 73 g cocinados, es porque sale de los valores del USDA
+        para pechuga cruda y asada, no porque lo diga otra web.
+      </li>
+      <li>
+        <strong>Si una afirmación no tiene una fuente verificada, se quita</strong> o se marca
+        claramente como opinión o estimación. No se le busca una cita a posteriori.
+      </li>
+      <li>
+        <strong>La calculadora y las guías tienen que decir lo mismo.</strong> Si una fuente
+        cambia una cifra, cambio todas las páginas donde aparece.
+      </li>
+    </ul>
+
+    <h2>Lo que no sale de un estudio concreto</h2>
+    <p>
+      Prefiero decirlo yo antes de que lo descubras. Estas cosas son convenciones o criterio
+      propio, y en cada página donde aparecen está indicado:
+    </p>
+    <ul>
+      <li>
+        Los <strong>factores de actividad</strong> de la calculadora de calorías (×1,2 a ×1,9),
+        que son la convención habitual en nutrición deportiva.
+      </li>
+      <li>
+        Los <strong>gramos de grasa por kilo</strong> de partida, que son criterio del método,
+        siempre con el mínimo del 20 % de las calorías que recomienda el ACSM.
+      </li>
+      <li>
+        Los <strong>tramos intermedios de la tabla del FFMI</strong> y la estimación de
+        cuánto músculo se gana al mes según el nivel, que son referencias orientativas de uso
+        habitual entre entrenadores.
+      </li>
+      <li>
+        Las <strong>experiencias en primera persona</strong> («yo lo hago así»), que son eso:
+        experiencia, y así se presentan.
+      </li>
+    </ul>
+
+    <h2>Qué he corregido</h2>
+    <p>
+      Revisar las fuentes una a una sirve también para encontrar errores propios. En
+      septiembre de 2026 corregí estos, y los dejo aquí a la vista:
+    </p>
+    <ul>
+      <li>
+        <strong>Proteína.</strong> La calculadora bajaba la proteína al subir la actividad
+        (de 2,0 a 1,2 g/kg). Ahora parte de 1,6 g/kg si entrenas, que es donde el metaanálisis
+        de Morton (2018) sitúa el techo de las ganancias.
+      </li>
+      <li>
+        <strong>Grasa.</strong> Con actividad moderada o alta, el reparto daba un 9-18 % de
+        grasa. Ahora nunca baja del 20 %, como recomienda el ACSM.
+      </li>
+      <li>
+        <strong>Pesar en crudo o cocinado.</strong> El error al mezclar valores es de cerca de
+        un 28 %, no de un 25 %, según los datos del USDA.
+      </li>
+      <li>
+        <strong>Tabla de proteína.</strong> El pan integral tiene unos 11 g de proteína por
+        100 g según BEDCA, no 8.
+      </li>
+      <li>
+        <strong>Grasa corporal.</strong> El método de la Marina de EE. UU. se presentaba con
+        un margen de ±3-4 puntos frente a la DEXA que ningún estudio respalda; los estudios
+        encuentran una concordancia moderada, y así se explica ahora.
+      </li>
+      <li>
+        <strong>FFMI.</strong> La corrección por altura usaba 6,1 y el estudio original usa
+        6,3. Ya coincide.
+      </li>
+    </ul>
+
+    <h2>Si ves un error</h2>
+    <p>
+      Si encuentras una cifra que no cuadra con su fuente, o un estudio más reciente que
+      cambie algo, <a href="/contacto">escríbeme</a>. Lo reviso, y si tienes razón lo corrijo y
+      lo añado a la lista de arriba.
+    </p>
+
+    <div class="cs-highlight">
+      <strong>Recuerda:</strong> toda la información de esta web es general y orientativa. No
+      sustituye una valoración profesional. Si tienes una condición de salud, estás
+      embarazada o sigues un tratamiento, consulta con un dietista-nutricionista colegiado o
+      con tu médico.
+    </div>
+  </main>
+</Base>

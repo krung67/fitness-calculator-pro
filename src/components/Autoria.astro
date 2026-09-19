@@ -24,11 +24,14 @@ const fecha = new Date(`${actualizado}T12:00:00Z`).toLocaleDateString('es-ES', {
 
 <div class="autoria">
   <p class="autoria-linea">
-    Por <a href="/sobre-nosotros">{SITE.titular.nombre}</a> · Actualizado el{' '}
-    <time datetime={actualizado}>{fecha}</time>
+    Recopilada y explicada por <a href="/sobre-nosotros">{SITE.titular.nombre}</a> ·
+    Actualizada el{' '}<time datetime={actualizado}>{fecha}</time>
   </p>
   <p class="autoria-nota">
-    Basada en estudios y revisiones científicas publicadas. Cada afirmación importante enlaza a
-    su fuente, y la lista completa está al final, en <a href="#fuentes">Fuentes</a>.
+    La información sale de estudios científicos publicados en revistas revisadas por
+    expertos y de organismos oficiales; yo la he reunido, contrastado y explicado. Cada
+    afirmación importante enlaza a su fuente, la lista completa está al final, en
+    <a href="#fuentes">Fuentes</a>, y el proceso lo cuento en
+    <a href="/fuentes">de dónde sale la información</a>.
   </p>
 </div>

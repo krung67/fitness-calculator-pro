@@ -7,10 +7,12 @@ import { SITE } from '../../config/site';
 const S = {
   garthe: 'https://pubmed.ncbi.nlm.nih.gov/23679146/',
   slater: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC6710320/',
+  iraki: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC6680710/',
 };
 
 const fuentes: Fuente[] = [
   { autores: 'Garthe I, Raastad T, Refsnes PE, Sundgot-Borgen J', anio: 2013, titulo: 'Effect of nutritional intervention on body composition and performance in elite athletes', publicacion: 'European Journal of Sport Science', url: S.garthe },
+  { autores: 'Iraki J, Fitschen P, Espinar S, Helms E', anio: 2019, titulo: 'Nutrition recommendations for bodybuilders in the off-season: a narrative review', publicacion: 'Sports', url: S.iraki },
   { autores: 'Slater GJ, Dieter BP, Marsh DJ, Helms ER, Shaw G, Iraki J', anio: 2019, titulo: 'Is an energy surplus required to maximize skeletal muscle hypertrophy associated with resistance training?', publicacion: 'Frontiers in Nutrition', url: S.slater },
 ];
 
@@ -55,7 +57,7 @@ const schema = [
     author: { '@id': `${SITE.url}/#persona` },
     publisher: { '@id': `${SITE.url}/#persona` },
     mainEntityOfPage: `${SITE.url}/guias/volumen-limpio`,
-    dateModified: '2026-08-08',
+    dateModified: '2026-09-19',
   },
   {
     '@context': 'https://schema.org',
@@ -101,7 +103,7 @@ const schema = [
   <main id="contenido">
     <div class="wrap">
       <div class="content-section" style="border-top:none;padding-top:2.5rem">
-        <Autoria actualizado="2026-08-08" />
+        <Autoria actualizado="2026-09-19" />
         <p class="cs-text">
           El músculo solo se construye cuando hay energía disponible. Por eso, para ganar masa
           muscular de forma apreciable hace falta comer por encima del mantenimiento.
@@ -168,8 +170,14 @@ const schema = [
           <strong>tu capacidad de construir músculo tiene un techo</strong>.
         </p>
         <p class="cs-text">
-          Un intermedio puede ganar entre 0,5 y 1 % de su peso corporal al mes en músculo. Para
-          80 kg, eso son 400-800 gramos mensuales como mucho. Toda la energía que aportes por
+          La estimación orientativa que usan muchos entrenadores dice que un intermedio puede
+          ganar entre 0,5 y 1 % de su peso corporal al mes en músculo; para 80 kg, 400-800
+          gramos mensuales como mucho. Esa cifra concreta no sale de un estudio, pero la
+          tendencia sí está respaldada: la
+          <a href={S.iraki} target="_blank" rel="noopener">revisión de Iraki y Helms sobre
+          culturistas naturales (2019)</a> recuerda que el ritmo de ganancia muscular se frena a
+          medida que avanzas, y recomienda subir entre un <strong>0,25 y un 0,5 % del peso por
+          semana</strong> —peso total, no solo músculo—. Toda la energía que aportes por
           encima de lo necesario para construir esos gramos
           <strong>no se convierte en más músculo: se almacena como grasa</strong>.
         </p>
@@ -186,10 +194,17 @@ const schema = [
           resume esta guía entera:
         </p>
         <div class="cs-highlight">
-          El grupo que comió más ganó <strong>cinco veces más grasa</strong> (+15&nbsp;% frente
-          a +3&nbsp;%), y la <strong>ganancia de masa magra no fue distinta entre los dos
-          grupos</strong>. Las 600 kcal extra diarias se fueron íntegras a grasa.
+          El grupo que comió más ganó <strong>cinco veces más grasa</strong>: 1,1 kg frente a
+          0,2 kg, una diferencia estadísticamente significativa. En masa magra ganó 1,7 kg
+          frente a 1,2 kg, pero <strong>esa diferencia no llegó a ser significativa</strong>.
+          Traducido: 600 kcal más al día compraron, como mucho, medio kilo de músculo dudoso a
+          cambio de casi un kilo de grasa segura.
         </div>
+        <p class="cs-text">
+          Los propios autores concluyeron que, en deportistas entrenados, un superávit de
+          <strong>200-300 kcal diarias</strong> es más apropiado que uno de 500. Es
+          prácticamente el rango que usa esta web.
+        </p>
         <p class="cs-text">
           Y esa grasa tiene un coste que casi nadie calcula: <strong>cada mes de exceso son
           semanas de definición después</strong>. Volúmenes agresivos obligan a definiciones
