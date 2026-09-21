@@ -1,6 +1,22 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
+
+const S = {
+  lichtman: 'https://pubmed.ncbi.nlm.nih.gov/1454084/',
+  neat: 'https://pubmed.ncbi.nlm.nih.gov/25841254/',
+  at: 'https://pubmed.ncbi.nlm.nih.gov/33762040/',
+  bl: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4989512/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Lichtman SW, Pisarska K, Berman ER, et al.', anio: 1992, titulo: 'Discrepancy between self-reported and actual caloric intake and exercise in obese subjects', publicacion: 'The New England Journal of Medicine', url: S.lichtman },
+  { autores: 'Villablanca PA, et al. (con Levine JA)', anio: 2015, titulo: 'Nonexercise activity thermogenesis in obesity management', publicacion: 'Mayo Clinic Proceedings', url: S.neat },
+  { autores: 'Nunes CL, Casanova N, Francisco R, et al.', anio: 2022, titulo: 'Does adaptive thermogenesis occur after weight loss in adults? A systematic review', publicacion: 'British Journal of Nutrition', url: S.at },
+  { autores: 'Fothergill E, Guo J, Howard L, et al. (con Hall KD)', anio: 2016, titulo: 'Persistent metabolic adaptation 6 years after "The Biggest Loser" competition', publicacion: 'Obesity', url: S.bl },
+];
 
 const faq = [
   {
@@ -40,7 +56,7 @@ const schema = [
     author: { '@id': `${SITE.url}/#persona` },
     publisher: { '@id': `${SITE.url}/#persona` },
     mainEntityOfPage: `${SITE.url}/guias/por-que-no-bajo-de-peso`,
-    dateModified: '2026-08-08',
+    dateModified: '2026-09-19',
   },
   {
     '@context': 'https://schema.org',
@@ -86,6 +102,7 @@ const schema = [
   <main id="contenido">
     <div class="wrap">
       <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <Autoria actualizado="2026-09-19" />
         <p class="cs-text">
           Llevas semanas comiendo bien, entrenando, y la báscula no se mueve. Es una de las
           situaciones más frustrantes que existen, y casi siempre tiene una explicación
@@ -106,6 +123,25 @@ const schema = [
           Duele oírlo, pero es la explicación en la mayoría de casos.
           <strong>No es que el cuerpo no responda: es que se come más de lo que se cree.</strong>
         </p>
+        <div class="antes-ahora">
+          <div class="aa-antes">
+            <div class="aa-etq">Lo que se siente</div>
+            <p>
+              «Como poquísimo y no bajo. A mí el metabolismo no me funciona como al resto.»
+            </p>
+          </div>
+          <div class="aa-ahora">
+            <div class="aa-etq">Lo que se midió</div>
+            <p>
+              El <a href={S.lichtman} target="_blank" rel="noopener"><em>New England Journal of
+              Medicine</em> (1992)</a> estudió durante 14 días a personas con ese perfil
+              exacto. Su gasto energético real estaba dentro del 5&nbsp;% de lo previsto. Pero
+              <strong>declaraban un 47&nbsp;% menos de comida de la que realmente comían</strong>
+              y un 51&nbsp;% más de ejercicio del que hacían. Sin mentir a nadie: sin darse
+              cuenta.
+            </p>
+          </div>
+        </div>
         <p class="cs-text">Los cuatro puntos donde se escapan las calorías:</p>
 
         <h3 class="cs-h3">Calcular a ojo</h3>
@@ -123,9 +159,9 @@ const schema = [
           las calorías se concentran.
         </p>
         <div class="cs-highlight">
-          100 g de pollo crudo → unos 75 g una vez cocinado.<br />
+          100 g de pollo crudo → unos 73 g una vez cocinado.<br />
           Si pesas 100 g <em>cocinados</em> y apuntas los valores de crudo,
-          <strong>te estás dejando fuera un 25 %</strong>.
+          <strong>te estás dejando fuera cerca de un 28 %</strong>.
         </div>
         <p class="cs-text">
           Lo tienes explicado con más detalle en la
@@ -232,7 +268,11 @@ const schema = [
           Esta es sutil y pilla a mucha gente. Cuando llevas tiempo en déficit,
           <strong>el cuerpo reduce el movimiento espontáneo sin que te des cuenta</strong>:
           gesticulas menos, subes menos escaleras, te levantas menos de la silla, andas más
-          despacio. Es lo que se llama NEAT, y puede caer de forma apreciable.
+          despacio. Es lo que se llama NEAT, y puede caer de forma apreciable: según una
+          <a href={S.neat} target="_blank" rel="noopener">revisión publicada en Mayo Clinic
+          Proceedings (2015)</a>, ese movimiento cotidiano llega a suponer hasta 2.000 kcal
+          diarias de diferencia entre unas personas y otras, así que basta con que baje un poco
+          para tapar tu déficit.
         </p>
         <p class="cs-text">
           A eso se suma algo aritmético: <strong>un cuerpo más ligero gasta menos</strong>. Si
@@ -322,6 +362,23 @@ const schema = [
           no de cientos</strong>. No existe el metabolismo «roto» que explique meses de
           estancamiento comiendo en déficit real.
         </p>
+        <p class="cs-text">
+          Lo revisó una
+          <a href={S.at} target="_blank" rel="noopener">revisión sistemática de 33 estudios y
+          2.528 participantes (Nunes et al., 2022)</a>: la caída del gasto existe, sí, pero
+          <strong>cuanto mejor es el diseño del estudio, más pequeña —o directamente no
+          significativa— sale</strong>. Y prácticamente desaparece una vez el peso se
+          estabiliza.
+        </p>
+        <p class="cs-text">
+          ¿Y los casos famosos de metabolismo hundido? Existen, pero conviene mirar de dónde
+          salen. El más citado es el
+          <a href={S.bl} target="_blank" rel="noopener">seguimiento a seis años de los
+          concursantes de <em>The Biggest Loser</em> (2016)</a>, donde sí persistió una
+          adaptación grande. Esas personas habían perdido <strong>58 kg de media en 30
+          semanas</strong> a base de dietas y ejercicio extremos bajo cámaras. No es tu caso si
+          estás comiendo 400 kcal por debajo de tu mantenimiento.
+        </p>
 
         <h3 class="cs-h3">«Es que como muy poco»</h3>
         <p class="cs-text">
@@ -352,6 +409,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">

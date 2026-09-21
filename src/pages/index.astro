@@ -1,6 +1,19 @@
 ---
 import Base from '../layouts/Base.astro';
+import Fuentes, { type Fuente } from '../components/Fuentes.astro';
 import { SITE, GUIAS } from '../config/site';
+
+const fuentes: Fuente[] = [
+  { autores: 'Mifflin MD, St Jeor ST, Hill LA, et al.', anio: 1990, titulo: 'A new predictive equation for resting energy expenditure in healthy individuals', publicacion: 'The American Journal of Clinical Nutrition', url: 'https://pubmed.ncbi.nlm.nih.gov/2305711/' },
+  { autores: 'Frankenfield D, Roth-Yousey L, Compher C', anio: 2005, titulo: 'Comparison of predictive equations for resting metabolic rate in healthy nonobese and obese adults: a systematic review', publicacion: 'Journal of the American Dietetic Association', url: 'https://pubmed.ncbi.nlm.nih.gov/15883556/' },
+  { autores: 'Thomas DT, Erdman KA, Burke LM', anio: 2016, titulo: 'Position of the Academy of Nutrition and Dietetics, Dietitians of Canada, and the American College of Sports Medicine: nutrition and athletic performance', publicacion: 'Journal of the Academy of Nutrition and Dietetics', url: 'https://pubmed.ncbi.nlm.nih.gov/26920240/' },
+  { autores: 'Morton RW, Murphy KT, McKellar SR, et al.', anio: 2018, titulo: 'A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength in healthy adults', publicacion: 'British Journal of Sports Medicine', url: 'https://pubmed.ncbi.nlm.nih.gov/28698222/' },
+  { autores: 'Helms ER, Aragon AA, Fitschen PJ', anio: 2014, titulo: 'Evidence-based recommendations for natural bodybuilding contest preparation: nutrition and supplementation', publicacion: 'Journal of the International Society of Sports Nutrition', url: 'https://pubmed.ncbi.nlm.nih.gov/24864135/' },
+  { autores: 'Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J', anio: 2011, titulo: 'Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes', publicacion: 'International Journal of Sport Nutrition and Exercise Metabolism', url: 'https://pubmed.ncbi.nlm.nih.gov/21558571/' },
+];
+
+const introFuentes =
+  'Esta calculadora no usa fórmulas propias: aplica las publicadas en los estudios de abajo, que he recopilado y explicado. El metabolismo basal sale de la ecuación de <strong>Mifflin-St Jeor</strong>; la proteína, del ACSM y de Morton; el ritmo de pérdida, de Helms y Garthe. Dos cosas <strong>no</strong> salen de un estudio concreto y prefiero decirlo: los <strong>factores de actividad</strong> (×1,2 a ×1,9), que son la convención habitual en nutrición deportiva, y los <strong>gramos de grasa por kilo</strong> de partida, que son el criterio del método explicado en <a href="/metodo">Nuestro método</a>, siempre con el mínimo del 20 % de las calorías que recomienda el ACSM.';
 
 // Las respuestas deben coincidir con lo que ve el usuario en la página.
 // Si el schema dice una cosa y la página otra, Google lo trata como
@@ -229,6 +242,40 @@ const schema = [
             <div class="mtile-kcal" id="mcc"></div>
           </div>
         </div>
+        <!-- AJUSTE DE PROTEÍNA (decisión de septiembre de 2026)
+             El valor por defecto sale de la evidencia, pero el usuario puede
+             moverlo dentro del rango oficial: hay gente que sostiene mejor la
+             dieta viendo más proteína en el plato, y una dieta que se sigue
+             vale más que una perfecta que se abandona. -->
+        <div class="sub-section" id="protAjuste" style="display:none;margin-top:1.5rem">
+          <div class="sub-title">🥩 Ajusta tu proteína</div>
+          <p class="sub-desc">
+            Partimos de <strong>1,6 g por kilo</strong>, que es donde el
+            <a href="https://pubmed.ncbi.nlm.nih.gov/28698222/" target="_blank" rel="noopener"
+              >metaanálisis de Morton (2018)</a
+            >, con 49 estudios y 1.863 personas, encontró que dejan de aumentar las ganancias de
+            músculo: por encima de esa cifra, comer más proteína no añadió nada. Puedes bajarlo
+            hasta 1,2, que es el mínimo que recomiendan el
+            <a
+              href="https://www.dietitians.ca/DietitiansOfCanada/media/Documents/Resources/noap-position-paper.pdf?ext=.pdf"
+              target="_blank"
+              rel="noopener">ACSM y las asociaciones de dietistas (2016)</a
+            > para deportistas. Al bajar la proteína suben los carbohidratos: las calorías no cambian.
+          </p>
+          <input
+            type="range"
+            id="protRango"
+            class="rango"
+            min="1.2"
+            max="1.6"
+            step="0.1"
+            value="1.6"
+            oninput="pintarMacros(parseFloat(this.value))"
+            aria-label="Gramos de proteína por kilo de peso"
+          />
+          <p class="sub-note" id="protInfo"></p>
+        </div>
+
         <button class="btn-ghost" id="n3" onclick="goStep(4)">Ver resumen completo →</button>
       </div>
     </div>
@@ -394,41 +441,67 @@ const schema = [
         </div>
       </div>
 
-      <!-- PRODUCTOS -->
+      <!-- PRODUCTOS · enlaces de afiliado de Amazon -->
       <div style="margin-top:3rem">
-        <p class="sec-label" style="margin-bottom:8px">Potencia tus resultados</p>
+        <p class="sec-label" style="margin-bottom:8px">Material que uso</p>
         <div class="prod-grid">
           <a
-            href="https://amzn.to/4sPP1tF"
+            href="https://www.amazon.es/dp/B01N1UX8RW?tag=enrique0-21"
             target="_blank"
-            rel="sponsored noopener"
-            class="prod-card"
-          >
-            <div class="prod-icon">🥛</div>
-            <div class="prod-name">Proteína Whey recomendada</div>
-            <div class="prod-tag">Suplementos →</div>
-          </a>
-          <a
-            href="https://amzn.to/3Pb7v9K"
-            target="_blank"
-            rel="sponsored noopener"
-            class="prod-card"
-          >
-            <div class="prod-icon">⚡</div>
-            <div class="prod-name">Creatina monohidrato</div>
-            <div class="prod-tag">Rendimiento →</div>
-          </a>
-          <a
-            href="https://amzn.to/4sKXI8D"
-            target="_blank"
-            rel="sponsored noopener"
+            rel="sponsored nofollow noopener"
             class="prod-card"
           >
             <div class="prod-icon">⚖️</div>
-            <div class="prod-name">Báscula digital de seguimiento</div>
-            <div class="prod-tag">Herramientas →</div>
+            <div class="prod-name">Báscula de composición corporal</div>
+            <div class="prod-tag">Seguimiento →</div>
+          </a>
+          <a
+            href="https://www.amazon.es/dp/B01MZA1P2P?tag=enrique0-21"
+            target="_blank"
+            rel="sponsored nofollow noopener"
+            class="prod-card"
+          >
+            <div class="prod-icon">⚡</div>
+            <div class="prod-name">Creatina monohidrato Creapure</div>
+            <div class="prod-tag">Rendimiento →</div>
+          </a>
+          <a
+            href="https://www.amazon.es/dp/B06X9NQ8GX?tag=enrique0-21"
+            target="_blank"
+            rel="sponsored nofollow noopener"
+            class="prod-card"
+          >
+            <div class="prod-icon">🍽️</div>
+            <div class="prod-name">Báscula de cocina digital</div>
+            <div class="prod-tag">Pesar la comida →</div>
+          </a>
+          <a
+            href="https://www.amazon.es/dp/B07C674M4F?tag=enrique0-21"
+            target="_blank"
+            rel="sponsored nofollow noopener"
+            class="prod-card"
+          >
+            <div class="prod-icon">📏</div>
+            <div class="prod-name">Cinta métrica</div>
+            <div class="prod-tag">Medir contornos →</div>
+          </a>
+          <a
+            href="https://www.amazon.es/dp/B082W886W9?tag=enrique0-21"
+            target="_blank"
+            rel="sponsored nofollow noopener"
+            class="prod-card"
+          >
+            <div class="prod-icon">📲</div>
+            <div class="prod-name">Cinta métrica digital con app</div>
+            <div class="prod-tag">Guarda el histórico →</div>
           </a>
         </div>
+        <p class="aviso-afiliado">
+          Enlaces de afiliado de Amazon: si compras a través de ellos, esta web recibe una
+          comisión <strong>sin coste adicional para ti</strong>. No cambia lo que
+          recomendamos — el criterio está en
+          <a href="/guias/suplementos-que-merecen-la-pena">qué suplementos merecen la pena</a>.
+        </p>
       </div>
     </div>
 
@@ -479,8 +552,10 @@ const schema = [
         <p class="cs-text">
           El TDEE (<em>Total Daily Energy Expenditure</em>) o gasto energético total diario es
           la cantidad real de calorías que quemas en un día teniendo en cuenta tu nivel de
-          actividad física. Se calcula multiplicando tu BMR por un factor de actividad
-          conocido como <strong>multiplicador de Harris</strong>.
+          actividad física. Se calcula multiplicando tu BMR por un <strong>factor de
+          actividad</strong>. Los valores que usa esta calculadora, de 1,2 a 1,9, son la
+          convención habitual en nutrición deportiva: no proceden de un estudio concreto, y
+          por eso tu cifra hay que confirmarla con la báscula durante unas semanas.
         </p>
         <p class="cs-text">
           Este factor varía desde 1,2 para personas completamente sedentarias hasta 1,9 para
@@ -549,10 +624,16 @@ const schema = [
           saciante, lo que ayuda a controlar el apetito de forma natural.
         </p>
         <p class="cs-text">
-          La cantidad recomendada varía entre 1,2 y 2,2 gramos por kilogramo de peso corporal
-          dependiendo del nivel de actividad, el objetivo y la experiencia de entrenamiento.
-          Para personas sedentarias, 1,6–2,0 g/kg es suficiente y ayuda a preservar la masa
-          muscular. Para deportistas de fuerza en volumen, se puede llegar a 2,0–2,2 g/kg.
+          Las recomendaciones oficiales para personas activas van de
+          <strong>1,2 a 2,0 g por kilo</strong> de peso corporal
+          (<a href="https://pubmed.ncbi.nlm.nih.gov/26920240/" target="_blank" rel="noopener">Colegio
+          Americano de Medicina del Deporte y asociaciones de dietistas, 2016</a>). Esta
+          calculadora parte de <strong>1,6 g/kg</strong> si entrenas fuerza, porque es donde el
+          <a href="https://pubmed.ncbi.nlm.nih.gov/28698222/" target="_blank" rel="noopener">metaanálisis
+          de Morton et al. (2018)</a> encontró que las ganancias de masa muscular dejan de
+          aumentar, y de <strong>1,2 g/kg</strong> si no entrenas fuerza. Puedes ajustarlo
+          dentro de ese rango con el deslizador: lo tienes razonado en
+          <a href="/guias/cuanta-proteina-necesito-al-dia">cuánta proteína necesito al día</a>.
         </p>
 
         <h3 class="cs-h3">Grasas — regulación hormonal y absorción de vitaminas</h3>
@@ -563,8 +644,12 @@ const schema = [
           puede afectar negativamente a los niveles hormonales, especialmente en hombres.
         </p>
         <p class="cs-text">
-          La recomendación general es mantener las grasas entre 0,5 y 1,2 gramos por kilogramo
-          de peso. Las fuentes de grasa de calidad incluyen el aguacate, los frutos secos, el
+          La referencia para personas que entrenan es que la grasa aporte
+          <strong>entre el 20 y el 35 % de las calorías</strong>, y no menos del 20 % de forma
+          continuada
+          (<a href="https://pubmed.ncbi.nlm.nih.gov/26920240/" target="_blank" rel="noopener">ACSM y asociaciones de dietistas, 2016</a>).
+          Esta calculadora parte de unos gramos por kilo según tu actividad y nunca baja de
+          ese 20 %. Las fuentes de grasa de calidad incluyen el aguacate, los frutos secos, el
           aceite de oliva virgen extra, el salmón y los huevos enteros.
         </p>
 
@@ -616,10 +701,15 @@ const schema = [
 
         <h3 class="cs-h3">Déficit calórico — para perder grasa</h3>
         <p class="cs-text">
-          Un déficit de entre 300 y 500 kcal diarias es el rango considerado óptimo para
-          perder grasa de forma sostenible sin sacrificar masa muscular ni rendimiento.
-          Déficits más agresivos (superiores a 700–1000 kcal) pueden provocar pérdida
-          muscular, fatiga crónica, bajada del metabolismo y déficits nutricionales. Nuestra
+          Esta web trabaja con un déficit de <strong>entre 200 y 500 kcal diarias</strong>
+          para perder grasa sin sacrificar músculo ni rendimiento. La referencia es el ritmo de
+          pérdida, no las calorías: los estudios recomiendan bajar entre el 0,5 y el 1&nbsp;%
+          del peso por semana
+          (<a href="https://pubmed.ncbi.nlm.nih.gov/24864135/" target="_blank" rel="noopener">Helms et al., 2014</a>),
+          y en deportistas, bajar al 0,7&nbsp;% semanal conservó más masa magra que hacerlo al
+          1,4&nbsp;%
+          (<a href="https://pubmed.ncbi.nlm.nih.gov/21558571/" target="_blank" rel="noopener">Garthe et al., 2011</a>).
+          Déficits mucho más agresivos disparan el hambre y la pérdida de fuerza. Nuestra
           calculadora aplica un déficit fijo de 400 kcal, que corresponde a perder
           aproximadamente 0,3–0,5 kg de grasa por semana.
         </p>
@@ -644,6 +734,8 @@ const schema = [
       </div>
 
       <!-- SECCIÓN 5: FAQ -->
+      <Fuentes fuentes={fuentes} intro={introFuentes} />
+
       <div class="content-section">
         <div class="cs-tag">Preguntas frecuentes</div>
         <h2 class="cs-title">Preguntas frecuentes sobre calorías y macros</h2>
@@ -899,35 +991,65 @@ function calcObj(){
   document.querySelectorAll('.srail-btn')[2].classList.add('done');
 }
 
+// Proteína: el valor por defecto lo marca la evidencia y el usuario puede
+// ajustarlo dentro del rango oficial. Hasta septiembre de 2026 la proteína
+// BAJABA al subir la actividad (2,0 sedentario → 1,2 alta actividad); era
+// criterio propio y contradecía a Morton (2018) y al ACSM (2016).
+const PROT_MIN = 1.2, PROT_MAX = 1.6;
+
+// Grasa: se parte de los g/kg del método, pero nunca por debajo del 20 % de las
+// calorías objetivo. El ACSM (2016) desaconseja mantener la grasa por debajo del
+// 20 % de la energía; sin este suelo, con actividad moderada o alta el reparto
+// daba un 9-18 %. Decisión de Enrique, 19 sep 2026.
+const GRASA_MIN_PCT = 0.20;
+function gramosGrasa(peso){
+  const porKilo=Math.round(peso*(D.gKg||0.7));
+  const minimo=Math.ceil(D.obj*GRASA_MIN_PCT/9);
+  return Math.max(porKilo,minimo);
+}
+
 function calcMacros(){
   if(!D.obj){alert('Completa los pasos anteriores primero');return}
-  const peso=parseFloat(document.getElementById('peso').value)||70;
-  const obj=document.getElementById('objetivo').value||'mant';
   const act=parseFloat(document.getElementById('actividad').value)||1.2;
-  let pKg,gKg,alerta;
+  // Grasa de partida por kilo según actividad; gramosGrasa() le aplica el suelo del 20 %.
+  let gKg,alerta;
   if(act<=1.2){
-    pKg=2.0;gKg=1.0;
-    alerta='⚠️ Perfil sedentario: priorizamos proteína y grasa porque sin actividad física regular tu cuerpo no demanda glucosa de forma intensa. Los carbohidratos altos en este contexto se almacenan más fácilmente como grasa. Este cálculo se ajusta automáticamente según tu nivel de actividad.';
-  } else if(act<=1.375){
-    pKg=1.8;gKg=0.9;
-    alerta='⚠️ Actividad ligera: carbohidratos moderadamente bajos. Tu cuerpo usa algo de glucosa pero no en grandes cantidades. Proteína y grasa siguen siendo prioritarias. Este cálculo se adapta a tu nivel de actividad.';
-  } else if(act<=1.55){
-    pKg=1.4;gKg=0.7;
-    alerta='✅ Actividad moderada: equilibrio entre los tres macros. Empiezas a necesitar más carbohidratos como combustible para tus entrenamientos. Los macros se ajustan a tu nivel de actividad.';
-  } else {
-    if(obj==='def'){pKg=1.2;gKg=0.5}
-    else if(obj==='vol'){pKg=1.6;gKg=0.8}
-    else{pKg=1.4;gKg=0.6}
-    alerta='🔥 Alta actividad: carbohidratos altos para reponer el glucógeno muscular. Tu cuerpo los necesita y los utiliza eficientemente. Los macros se ajustan también según tu objetivo (déficit / mantenimiento / volumen).';
+    gKg=1.0;
+    alerta='Perfil sedentario: partimos de 1,2 g/kg de proteína, el límite inferior del rango que el ACSM (2016) recomienda para personas que entrenan. Si entrenas fuerza, súbelo abajo.';
+  } else if(act<=1.375){ gKg=0.9; alerta=''; }
+  else if(act<=1.55){ gKg=0.7; alerta=''; }
+  else { gKg=0.5; alerta=''; }
+  if(!alerta) alerta='Partimos de 1,6 g/kg de proteína: es donde el metaanálisis de Morton (2018) encontró que dejan de aumentar las ganancias de músculo. Puedes ajustarlo justo debajo, entre 1,2 y 1,6 g/kg.';
+  D.gKg=gKg;
+  const pesoA=parseFloat(document.getElementById('peso').value)||70;
+  if(gramosGrasa(pesoA)>Math.round(pesoA*gKg)){
+    alerta+=' La grasa se ha subido al 20 % de tus calorías: es el mínimo que recomienda el ACSM (2016) para quien entrena, por las vitaminas y los ácidos grasos esenciales.';
   }
   const alertaEl=document.getElementById('macroAlerta');
   alertaEl.textContent=alerta;alertaEl.style.display='block';
+
+  const pKg=act<=1.2?1.2:1.6;
+  const rango=document.getElementById('protRango');
+  rango.value=pKg;
+  document.getElementById('protAjuste').style.display='block';
+  pintarMacros(pKg);
+
+  document.getElementById('macRow').classList.add('show');
+  show('n3');
+  document.querySelectorAll('.srail-btn')[3].classList.add('done');
+}
+
+// Recalcula y repinta con los gramos de proteína por kilo indicados. Las
+// calorías objetivo no cambian: lo que sube en proteína baja en carbohidratos.
+function pintarMacros(pKg){
+  pKg=Math.min(PROT_MAX,Math.max(PROT_MIN,pKg));
+  const peso=parseFloat(document.getElementById('peso').value)||70;
   const prot=Math.round(peso*pKg);
-  const gras=Math.round(peso*gKg);
+  const gras=gramosGrasa(peso);
   const calP=prot*4,calG=gras*9;
   const calC=Math.max(0,D.obj-calP-calG);
   const carb=Math.round(calC/4);
-  D.prot=prot;D.grasa=gras;D.carb=carb;
+  D.prot=prot;D.grasa=gras;D.carb=carb;D.pKg=pKg;
   const g=v=>v+'g';
   document.getElementById('mp').textContent=g(prot);
   document.getElementById('mg').textContent=g(gras);
@@ -935,12 +1057,13 @@ function calcMacros(){
   document.getElementById('mpc').textContent=calP+' kcal';
   document.getElementById('mgc').textContent=calG+' kcal';
   document.getElementById('mcc').textContent=Math.round(calC)+' kcal';
-  document.getElementById('macRow').classList.add('show');
-  show('n3');
-  document.querySelectorAll('.srail-btn')[3].classList.add('done');
+  const info=document.getElementById('protInfo');
+  if(info){
+    info.textContent=pKg.toFixed(1).replace('.',',')+' g por kilo · '+prot+' g de proteína al día'+
+      (pKg<1.6?' · 1,6 es donde dejan de aumentar las ganancias; por debajo sigues dentro del rango recomendado':'');
+  }
   syncResumen();
 }
-
 function syncResumen(){
   if(!D.bmr)return;
   document.getElementById('sb').textContent=D.bmr||'—';

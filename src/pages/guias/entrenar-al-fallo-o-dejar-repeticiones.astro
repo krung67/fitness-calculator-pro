@@ -1,6 +1,26 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
+
+const S = {
+  robinson: 'https://pubmed.ncbi.nlm.nih.gov/38970765/',
+  refaloRct: 'https://pubmed.ncbi.nlm.nih.gov/38393985/',
+  refaloRir: 'https://pubmed.ncbi.nlm.nih.gov/37967832/',
+  refaloSens: 'https://pubmed.ncbi.nlm.nih.gov/39960821/',
+  carga: 'https://pubmed.ncbi.nlm.nih.gov/29112055/',
+  acsm: 'https://pubmed.ncbi.nlm.nih.gov/41843416/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Robinson ZP, Pelland JC, Remmert JF, et al.', anio: 2024, titulo: 'Exploring the dose-response relationship between estimated resistance training proximity to failure, strength gain, and muscle hypertrophy: a series of meta-regressions', publicacion: 'Sports Medicine', url: S.robinson },
+  { autores: 'Barbosa-Netto S, d\'Acelino-e-Porto OS, Almeida MB', anio: 2021, titulo: 'Self-selected resistance exercise load: implications for research and prescription', publicacion: 'Journal of Strength and Conditioning Research', url: S.carga },
+  { autores: 'Refalo MC, Helms ER, Robinson ZP, et al.', anio: 2024, titulo: 'Similar muscle hypertrophy following eight weeks of resistance training to momentary muscular failure or with repetitions-in-reserve in resistance-trained individuals', publicacion: 'Journal of Sports Sciences', url: S.refaloRct },
+  { autores: 'Refalo MC, Remmert JF, Pelland JC, et al.', anio: 2024, titulo: 'Accuracy of intraset repetitions-in-reserve predictions during the bench press exercise in resistance-trained male and female subjects', publicacion: 'Journal of Strength and Conditioning Research', url: S.refaloRir },
+  { autores: 'Refalo MC, Helms ER, Hamilton DL, Fyfe JJ', anio: 2025, titulo: 'The effect of proximity-to-failure on perceptual responses to resistance training', publicacion: 'European Journal of Sport Science', url: S.refaloSens },
+  { autores: 'Colegio Americano de Medicina del Deporte (ACSM)', anio: 2026, titulo: 'Resistance training prescription for muscle function, hypertrophy, and physical performance in healthy adults: an overview of reviews (Position Stand)', publicacion: 'Medicine & Science in Sports & Exercise', url: S.acsm },
+];
 
 const faq = [
   {
@@ -9,7 +29,7 @@ const faq = [
   },
   {
     p: '¿Un principiante debe entrenar al fallo?',
-    r: 'Sí, en prácticamente todo. La razón es que un principiante todavía no sabe medir su propio esfuerzo: cuando cree que le queda una repetición, muchas veces le quedan cuatro. Si le dices que pare con dos en recámara, en la práctica va a terminar cinco repeticiones antes del límite real y la serie no le va a servir de nada.',
+    r: 'Sí, en prácticamente todo. La razón es que un principiante todavía no sabe medir su propio esfuerzo: y el margen real suele ser mucho mayor del que cree. En un estudio con 160 hombres entrenados, el peso que usaban para diez repeticiones les daba en realidad para dieciséis. Si a alguien así le dices que pare con dos en recámara, va a terminar la serie muy lejos del límite real y esa serie apenas le va a servir.',
   },
   {
     p: '¿Qué es el RIR?',
@@ -36,7 +56,7 @@ const schema = [
     author: { '@id': `${SITE.url}/#persona` },
     publisher: { '@id': `${SITE.url}/#persona` },
     mainEntityOfPage: `${SITE.url}/guias/entrenar-al-fallo-o-dejar-repeticiones`,
-    dateModified: '2026-08-19',
+    dateModified: '2026-09-19',
   },
   {
     '@context': 'https://schema.org',
@@ -82,6 +102,7 @@ const schema = [
   <main id="contenido">
     <div class="wrap">
       <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <Autoria actualizado="2026-09-19" />
         <p class="cs-text">
           De todas las decisiones que tomas en una sesión —cuántas series, qué rango, qué
           ejercicio— <strong>ésta es la que más determina si creces</strong>. Y es también la
@@ -107,10 +128,15 @@ const schema = [
           esfuerzo</strong>.
         </p>
         <p class="cs-text">
-          Cuando alguien que lleva un mes entrenando cree que le queda una repetición, la
-          realidad es que muchas veces le quedan tres o cuatro.
-          <strong>Si a esa persona le dices que pare con dos en recámara, va a terminar la
-          serie cinco repeticiones antes del límite real.</strong> Esa serie no le sirve de
+          Y hay un dato que lo mide bien. Un
+          <a href={S.carga} target="_blank" rel="noopener">estudio con 160 hombres
+          entrenados</a> les preguntó qué peso usaban habitualmente para hacer diez
+          repeticiones en press de banca, y después les pidió hacer con ese peso todas las que
+          pudieran. La media fueron <strong>16 repeticiones</strong> (mediana 15): solo el
+          22&nbsp;% se quedó entre 10 y 12. Es decir, gente con experiencia entrenando con seis
+          repeticiones de margen <strong>creyendo que iba al límite</strong>.
+          <strong>Si a alguien así le dices que pare con dos en recámara, va a terminar la
+          serie mucho antes del límite real.</strong> Esa serie no le sirve de
           nada.
         </p>
         <p class="cs-text">
@@ -191,28 +217,51 @@ const schema = [
         <div class="cs-tag">Qué dice la evidencia</div>
         <h2 class="cs-title">Esto no es una opinión aislada</h2>
         <p class="cs-text">
-          Las revisiones más recientes que han analizado la relación entre cercanía al fallo e
-          hipertrofia apuntan en la misma dirección:
+          La <a href={S.robinson} target="_blank" rel="noopener">meta-regresión de Robinson y
+          colaboradores (2024)</a>, que analizó la cercanía al fallo de forma continua en vez de
+          como un sí o un no, apunta justo en esta dirección:
           <strong>cuanto más cerca del fallo se termina la serie, mayor es el crecimiento
           muscular</strong>, mientras que el efecto sobre la fuerza máxima es prácticamente
           indiferente.
         </p>
         <p class="cs-text">
-          Conviene decir también lo que la evidencia <em>no</em> dice: no dice que sea
-          obligatorio fallar en todas las series para crecer. Se puede progresar sin llegar al
-          fallo. Lo que sostiene el planteamiento de esta página es la parte práctica —que
-          estimar mal el RIR es facilísimo, y que quien se queda corto sistemáticamente entrena
-          durante meses por debajo de lo que necesita.
+          Conviene decir también, y con todas las letras, lo que la evidencia <em>no</em>
+          dice: <strong>no dice que sea obligatorio fallar en todas las series para
+          crecer</strong>. Un <a href={S.refaloRct} target="_blank" rel="noopener">ensayo de
+          ocho semanas</a> comparó entrenar al fallo frente a parar con una o dos repeticiones
+          en reserva y midió prácticamente el mismo crecimiento del cuádriceps (0,181 frente a
+          0,182 cm de grosor). Y la
+          <a href={S.acsm} target="_blank" rel="noopener">declaración de posición del ACSM
+          (2026)</a> concluye que llegar al fallo momentáneo no influyó de forma consistente en
+          los resultados.
         </p>
         <p class="cs-text">
-          Referencia:
-          <a
-            href="https://pubmed.ncbi.nlm.nih.gov/38970765/"
-            rel="noopener nofollow"
-            target="_blank">Robinson et al., meta-regresión sobre proximidad al fallo,
-            hipertrofia y fuerza (2024)</a
-          >.
+          Entonces, ¿por qué esta página insiste en el fallo? Por la parte práctica, no por la
+          teórica. Cuando en un estudio te piden parar a un RIR concreto,
+          <a href={S.refaloRir} target="_blank" rel="noopener">la gente entrenada acierta
+          bastante</a> —se equivoca en menos de una repetición—, pero eso es
+          <em>en un laboratorio y con alguien pidiéndotelo</em>. Suelto en el gimnasio, ese
+          mismo perfil se queda seis repeticiones corto sin enterarse. La diferencia no está en
+          saber calcular: está en querer llegar.
         </p>
+        <div class="antes-ahora">
+          <div class="aa-antes">
+            <div class="aa-etq">El matiz que sí acepta esta guía</div>
+            <p>
+              Entrenar al fallo <strong>se siente peor</strong>: más esfuerzo percibido, más
+              molestia y peores sensaciones que parar a 1-2 RIR
+              (<a href={S.refaloSens} target="_blank" rel="noopener">Refalo, 2025</a>).
+            </p>
+          </div>
+          <div class="aa-ahora">
+            <div class="aa-etq">Qué hacer con eso</div>
+            <p>
+              Si el fallo te está haciendo odiar el gimnasio, deja una repetición y sigue
+              yendo. La adherencia gana a la optimización: el mejor entrenamiento es el que
+              haces durante años.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div class="content-section">
@@ -227,6 +276,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">

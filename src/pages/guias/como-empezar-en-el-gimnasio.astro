@@ -1,6 +1,22 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
+
+const S = {
+  neural: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC7892509/',
+  iraki: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC6680710/',
+  acsm: 'https://pubmed.ncbi.nlm.nih.gov/41843416/',
+  sueno: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4434546/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Colegio Americano de Medicina del Deporte (ACSM)', anio: 2026, titulo: 'Resistance training prescription for muscle function, hypertrophy, and physical performance in healthy adults: an overview of reviews (Position Stand)', publicacion: 'Medicine & Science in Sports & Exercise', url: S.acsm },
+  { autores: 'Škarabot J, Brownstein CG, Casolo A, Del Vecchio A, Ansdell P', anio: 2021, titulo: 'The knowns and unknowns of neural adaptations to resistance training', publicacion: 'European Journal of Applied Physiology', url: S.neural },
+  { autores: 'Iraki J, Fitschen P, Espinar S, Helms E', anio: 2019, titulo: 'Nutrition recommendations for bodybuilders in the off-season: a narrative review', publicacion: 'Sports', url: S.iraki },
+  { autores: 'Watson NF, Badr MS, Belenky G, et al. (AASM y Sleep Research Society)', anio: 2015, titulo: 'Recommended amount of sleep for a healthy adult: a joint consensus statement of the American Academy of Sleep Medicine and Sleep Research Society', publicacion: 'Sleep', url: S.sueno },
+];
 
 const faq = [
   {
@@ -40,7 +56,7 @@ const schema = [
     author: { '@id': `${SITE.url}/#persona` },
     publisher: { '@id': `${SITE.url}/#persona` },
     mainEntityOfPage: `${SITE.url}/guias/como-empezar-en-el-gimnasio`,
-    dateModified: '2026-08-09',
+    dateModified: '2026-09-19',
   },
   {
     '@context': 'https://schema.org',
@@ -86,6 +102,7 @@ const schema = [
   <main id="contenido">
     <div class="wrap">
       <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <Autoria actualizado="2026-09-19" />
         <p class="cs-text">
           Casi todo el mundo empieza buscando <em>la rutina perfecta</em>. Y casi todo el
           mundo abandona a las tres semanas con una rutina perfectamente correcta.
@@ -153,10 +170,22 @@ const schema = [
             </tr>
           </tbody>
         </table>
+        <p class="cs-text">
+          Lo de las primeras semanas no es una manera de hablar: la literatura atribuye los
+          primeros aumentos de fuerza principalmente a <strong>adaptaciones del sistema
+          nervioso</strong>, que aprende a activar mejor el músculo que ya tienes
+          (<a href={S.neural} target="_blank" rel="noopener">Škarabot et al., 2021</a>). El
+          músculo nuevo llega después; lo tienes explicado paso a paso en
+          <a href="/guias/cuanto-tarda-en-notarse-el-gimnasio">cuánto tarda en notarse el
+          gimnasio</a>.
+        </p>
         <div class="cs-highlight">
           <strong>El primer año es, con diferencia, el más rentable que vas a tener.</strong>
-          Un principiante puede ganar entre un 1 % y un 1,5 % de su peso corporal al mes en
-          músculo. Un avanzado, entre un 0,25 % y un 0,5 %. Esa ventaja no vuelve — aprovéchala.
+          La estimación orientativa que usan muchos entrenadores sitúa a un principiante en un
+          1-1,5 % de su peso corporal al mes en músculo, y a un avanzado en un 0,25-0,5 %. La
+          cifra exacta es discutible; la tendencia no: cuanto más lejos estás de tu techo, más
+          rápido creces (<a href={S.iraki} target="_blank" rel="noopener">Iraki y Helms,
+          2019</a>). Esa ventaja no vuelve — aprovéchala.
         </div>
         <p class="cs-text">
           Puedes ver tus cifras concretas en la
@@ -228,7 +257,9 @@ const schema = [
         </p>
         <p class="cs-text">
           <strong>Elige la frecuencia que puedas sostener con tu horario real</strong>, no con
-          el que te gustaría tener. Tres o cuatro días es más que suficiente para progresar
+          el que te gustaría tener. La <a href={S.acsm} target="_blank" rel="noopener">declaración
+          de posición del ACSM (2026)</a> sitúa las mejoras en dos o más sesiones por semana:
+          tres o cuatro días es más que suficiente para progresar
           durante mucho tiempo.
         </p>
 
@@ -251,7 +282,9 @@ const schema = [
         </p>
         <p class="cs-text">
           Antes de gastarte dinero en botes, asegúrate de comer suficiente, dormir siete u ocho
-          horas y ser constante. Eso es el 95 % del resultado.
+          horas —el mínimo de siete es la recomendación conjunta de la
+          <a href={S.sueno} target="_blank" rel="noopener">Academia Americana de Medicina del
+          Sueño (2015)</a>— y ser constante. Eso es lo que decide el resultado.
         </p>
 
         <h3 class="cs-h3">5. Vivir pendiente de la báscula</h3>
@@ -371,6 +404,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">

@@ -1,22 +1,43 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Autoria from '../../components/Autoria.astro';
+import GraficoProteina from '../../components/GraficoProteina.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
 
 // La tabla se genera con los mismos coeficientes que usa la calculadora.
 // Escribirla a mano garantizaría que algún día deje de coincidir.
+const ACTUALIZADO = '2026-09-19';
+
+const S = {
+  morton: 'https://pubmed.ncbi.nlm.nih.gov/28698222/',
+  tagawa: 'https://pubmed.ncbi.nlm.nih.gov/33300582/',
+  acsm: 'https://www.dietitians.ca/DietitiansOfCanada/media/Documents/Resources/noap-position-paper.pdf?ext=.pdf',
+  issn: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5477153/',
+  helms: 'https://pubmed.ncbi.nlm.nih.gov/24864135/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Thomas DT, Erdman KA, Burke LM', anio: 2016, titulo: 'Nutrition and Athletic Performance. Joint position of the Academy of Nutrition and Dietetics, Dietitians of Canada and the American College of Sports Medicine', publicacion: 'Medicine & Science in Sports & Exercise (texto publicado por Dietitians of Canada)', url: S.acsm },
+  { autores: 'Morton RW, et al.', anio: 2018, titulo: 'A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength in healthy adults', publicacion: 'British Journal of Sports Medicine', url: S.morton },
+  { autores: 'Tagawa R, et al.', anio: 2020, titulo: 'Dose-response relationship between protein intake and muscle mass increase: a systematic review and meta-analysis of randomized controlled trials', publicacion: 'Nutrition Reviews', url: S.tagawa },
+  { autores: 'Helms ER, Aragon AA, Fitschen PJ', anio: 2014, titulo: 'Evidence-based recommendations for natural bodybuilding contest preparation: nutrition and supplementation', publicacion: 'Journal of the International Society of Sports Nutrition', url: S.helms },
+  { autores: 'Jäger R, et al.', anio: 2017, titulo: 'International Society of Sports Nutrition Position Stand: protein and exercise', publicacion: 'Journal of the International Society of Sports Nutrition', url: S.issn },
+];
+
 const PESOS = [60, 70, 80, 90, 100];
+// Sustituye al reparto anterior, que bajaba la proteína al subir la actividad.
+// Ahora son los tres puntos del rango oficial del ACSM (2016).
 const PERFILES = [
-  { nombre: 'Sedentario', gkg: 2.0 },
-  { nombre: 'Actividad ligera', gkg: 1.8 },
-  { nombre: 'Actividad moderada', gkg: 1.4 },
-  { nombre: 'Alta actividad · definición', gkg: 1.2 },
-  { nombre: 'Alta actividad · volumen', gkg: 1.6 },
+  { nombre: 'Mínimo · si no entrenas fuerza', gkg: 1.2 },
+  { nombre: 'Intermedio', gkg: 1.4 },
+  { nombre: 'Referencia si entrenas para ganar músculo', gkg: 1.6 },
 ];
 
 const faq = [
   {
     p: '¿Cuánta proteína necesito si peso 70 kilos?',
-    r: 'Depende de tu nivel de actividad. Con nuestro enfoque: 140 g si eres sedentario, 126 g con actividad ligera, 98 g con actividad moderada, 84 g si entrenas duro y estás en definición, y 112 g si entrenas duro y estás en volumen. La cifra baja al subir la actividad porque los carbohidratos pasan a ser prioritarios.',
+    r: 'Entre 84 y 112 g al día. La referencia, si entrenas para ganar músculo, son 112 g (1,6 g/kg): es donde el metaanálisis de Morton (2018) encontró que dejan de aumentar las ganancias. El mínimo son 84 g (1,2 g/kg), el límite inferior que el ACSM y las asociaciones de dietistas (2016) recomiendan para deportistas.',
   },
   {
     p: '¿Es mejor repartir la proteína en varias comidas?',
@@ -51,7 +72,7 @@ const schema = [
     author: { '@id': `${SITE.url}/#persona` },
     publisher: { '@id': `${SITE.url}/#persona` },
     mainEntityOfPage: `${SITE.url}/guias/cuanta-proteina-necesito-al-dia`,
-    dateModified: '2026-08-02',
+    dateModified: ACTUALIZADO,
   },
   {
     '@context': 'https://schema.org',
@@ -97,14 +118,18 @@ const schema = [
   <main id="contenido">
     <div class="wrap">
       <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <Autoria actualizado={ACTUALIZADO} />
         <p class="cs-text">
-          La respuesta corta: <strong>entre 1,2 y 2 gramos por kilo de peso corporal</strong>,
-          y —esto es lo que casi nadie te cuenta— <strong>la cifra baja cuanto más
-          entrenas</strong>, no al revés.
+          La respuesta corta: <strong>entre 1,2 y 1,6 gramos por kilo de peso corporal</strong>.
+          El <a href={S.acsm} target="_blank" rel="noopener">ACSM y las asociaciones de dietistas
+          de Estados Unidos y Canadá (2016)</a> sitúan a los deportistas entre 1,2 y 2,0, pero por
+          encima de <strong>1,6 g/kg</strong> los estudios dejan de encontrar más músculo, así que
+          no tiene sentido pasar de ahí.
         </p>
         <p class="cs-text">
-          Suena contraintuitivo, así que vamos por partes: primero tu número, luego el
-          porqué.
+          Lo interesante no es el número, sino lo que hay detrás: <strong>más proteína no es
+          mejor indefinidamente</strong>, y pasarse tiene un coste que casi nadie cuenta.
+          Primero tu cifra, luego el porqué.
         </p>
       </div>
 
@@ -113,8 +138,9 @@ const schema = [
         <div class="cs-tag">Tu número</div>
         <h2 class="cs-title">Gramos de proteína al día según tu peso</h2>
         <p class="cs-text">
-          Busca tu peso y tu perfil. Estas son las cantidades que aplica nuestra
-          <a href="/" style="color:var(--lime)">calculadora de macros</a>:
+          Busca tu peso. Estas son las tres referencias del rango, y las que usa la
+          <a href="/" style="color:var(--lime)">calculadora de macros</a>, que parte de 1,6 g/kg y
+          te deja ajustarlo:
         </p>
 
         <table class="tabla-legal">
@@ -131,7 +157,9 @@ const schema = [
                   <td>
                     {perfil.nombre}
                     <br />
-                    <span style="color:var(--muted);font-size:0.85em">{perfil.gkg} g/kg</span>
+                    <span style="color:var(--muted);font-size:0.85em">
+                      {perfil.gkg.toFixed(1).replace('.', ',')} g/kg
+                    </span>
                   </td>
                   {PESOS.map((p) => (
                     <td><strong>{Math.round(p * perfil.gkg)} g</strong></td>
@@ -143,20 +171,57 @@ const schema = [
         </table>
 
         <p class="cs-text">
-          ¿No sabes en qué perfil encajas? La
-          <a href="/" style="color:var(--lime)">calculadora</a> te lo asigna a partir de tus
-          días de entrenamiento y tu objetivo, y de paso te da las calorías y el resto de
-          macros.
+          ¿No sabes cuál elegir? Quédate con 1,6 g/kg. La
+          <a href="/" style="color:var(--lime)">calculadora</a> parte de ahí, te da las calorías y
+          el resto de macros, y puedes subir o bajar la proteína con un deslizador: lo que sube en
+          proteína baja en carbohidratos, sin cambiar las calorías.
         </p>
       </div>
 
       <!-- ─────────── POR QUÉ BAJA ─────────── -->
       <div class="content-section">
         <div class="cs-tag">El porqué</div>
-        <h2 class="cs-title">Por qué necesitas menos proteína si entrenas duro</h2>
+        <h2 class="cs-title">Por qué 1,6 y no 2 gramos por kilo</h2>
+
+        <div class="antes-ahora">
+          <div class="aa-antes">
+            <div class="aa-etq">Lo que se repetía en el gimnasio</div>
+            <p>Que hacían falta 2 g por kilo como mínimo, y que cuanta más proteína, mejor.</p>
+          </div>
+          <div class="aa-ahora">
+            <div class="aa-etq">Lo que muestran los estudios</div>
+            <p>
+              Casi todo el beneficio llega antes. Según <a href={S.tagawa} target="_blank" rel="noopener">Tagawa
+              et al. (2020)</a>, cada 0,1 g/kg más se asoció con +0,39 kg de masa magra por debajo
+              de 1,3 g/kg al día, y solo con +0,12 kg por encima. Y
+              <a href={S.morton} target="_blank" rel="noopener">Morton et al. (2018)</a>, con 49
+              estudios y 1.863 personas, no encontró más ganancias pasados los 1,6 g/kg.
+            </p>
+          </div>
+        </div>
+
+        <GraficoProteina />
+
+        <h3 class="cs-h3">Si estás definiendo muy seco, sube</h3>
         <p class="cs-text">
-          Esta es la parte que choca con lo que se repite en la mayoría de sitios, así que
-          conviene explicarla bien.
+          Hay un caso en el que sí conviene ir alto, y las cifras de arriba no lo recogen: cuando
+          ya estás bastante definido y el déficit es agresivo. La revisión de
+          <a href={S.helms} target="_blank" rel="noopener">Helms, Aragon y Fitschen (2014)</a>,
+          hecha sobre preparación de competición natural, recomienda
+          <strong>2,3-3,1 g por kilo de masa magra</strong> —no de peso total— y dice
+          expresamente que <strong>cuanto menos grasa tienes y más agresivo es el recorte, más
+          arriba de ese rango conviene estar</strong>.
+        </p>
+        <p class="cs-text">
+          Traducido: alguien con un 15&nbsp;% de grasa estaría en torno a 2,0-2,6 g por kilo de
+          peso total, bastante por encima del 1,6 con el que trabaja esta calculadora. Es un caso
+          de competición: si estás ahí, necesitas a un profesional que te siga de cerca, no una
+          calculadora.
+        </p>
+
+        <p class="cs-text">
+          Que no sume más no significa que perjudique: por encima de 1,6 g/kg simplemente deja de
+          aportar. Pero sí tiene un coste indirecto, y es la parte que conviene explicar bien.
         </p>
         <p class="cs-text">
           <strong>Lo que preserva tu músculo durante una definición no es la proteína: es el
@@ -177,8 +242,9 @@ const schema = [
           de verdad te protege.
         </p>
         <p class="cs-text">
-          En el rango de 1,2 a 1,6 g/kg sigues cubriendo de sobra la construcción de tejido
-          muscular. Tienes el razonamiento completo, con los números de cada nivel, en
+          Por eso la calculadora parte de 1,6 g/kg y te deja bajarlo hasta 1,2: dentro de ese
+          rango la decisión es tuya. La <a href={S.issn} target="_blank" rel="noopener">ISSN
+          (2017)</a> sitúa su recomendación entre 1,4 y 2,0 g/kg. Tienes el planteamiento completo en
           <a href="/metodo" style="color:var(--lime)">Nuestro método</a>.
         </p>
       </div>
@@ -298,7 +364,9 @@ const schema = [
         <h3 class="cs-h3">«Cuanta más proteína, menos músculo pierdes»</h3>
         <p class="cs-text">
           Tampoco. Pasado cierto punto, subir la proteína <strong>no añade nada</strong>: ni
-          construyes más músculo ni lo proteges mejor.
+          construyes más músculo ni lo proteges mejor. Es justo lo que encontró
+          <a href={S.morton} target="_blank" rel="noopener">Morton et al. (2018)</a> a partir de
+          1,6 g/kg.
         </p>
         <p class="cs-text">
           Lo que lo protege es <strong>entrenar fuerte y mantener las cargas</strong>. Si
@@ -322,6 +390,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">

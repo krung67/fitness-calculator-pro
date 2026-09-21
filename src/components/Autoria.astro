@@ -1,0 +1,37 @@
+---
+/**
+ * Firma de autor y fecha de actualización de una guía.
+ *
+ * Existe porque, tras la denegación de AdSense de septiembre de 2026, se midió
+ * que 0 de 17 guías mostraban quién las escribe ni cuándo se revisaron, y las
+ * pautas de Google sobre contenido útil piden ambas cosas de forma visible.
+ * La fecha debe coincidir con `dateModified` del schema Article de la guía.
+ */
+import { SITE } from '../config/site';
+
+interface Props {
+  /** Fecha ISO (AAAA-MM-DD) de la última revisión real del contenido. */
+  actualizado: string;
+}
+
+const { actualizado } = Astro.props;
+const fecha = new Date(`${actualizado}T12:00:00Z`).toLocaleDateString('es-ES', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<div class="autoria">
+  <p class="autoria-linea">
+    Recopilada y explicada por <a href="/sobre-nosotros">{SITE.titular.nombre}</a> ·
+    Actualizada el{' '}<time datetime={actualizado}>{fecha}</time>
+  </p>
+  <p class="autoria-nota">
+    La información sale de estudios científicos publicados en revistas revisadas por
+    expertos y de organismos oficiales; yo la he reunido, contrastado y explicado. Cada
+    afirmación importante enlaza a su fuente, la lista completa está al final, en
+    <a href="#fuentes">Fuentes</a>, y el proceso lo cuento en
+    <a href="/fuentes">de dónde sale la información</a>.
+  </p>
+</div>

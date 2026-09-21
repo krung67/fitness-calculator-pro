@@ -1,6 +1,20 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
+
+const S = {
+  carga: 'https://pubmed.ncbi.nlm.nih.gov/28834797/',
+  acsm: 'https://pubmed.ncbi.nlm.nih.gov/41843416/',
+  robinson: 'https://pubmed.ncbi.nlm.nih.gov/38970765/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Schoenfeld BJ, Grgic J, Ogborn D, Krieger JW', anio: 2017, titulo: 'Strength and hypertrophy adaptations between low- vs. high-load resistance training: a systematic review and meta-analysis', publicacion: 'Journal of Strength and Conditioning Research', url: S.carga },
+  { autores: 'Colegio Americano de Medicina del Deporte (ACSM)', anio: 2026, titulo: 'Resistance training prescription for muscle function, hypertrophy, and physical performance in healthy adults: an overview of reviews (Position Stand)', publicacion: 'Medicine & Science in Sports & Exercise', url: S.acsm },
+  { autores: 'Robinson ZP, Pelland JC, Remmert JF, et al.', anio: 2024, titulo: 'Exploring the dose-response relationship between estimated resistance training proximity to failure, strength gain, and muscle hypertrophy: a series of meta-regressions', publicacion: 'Sports Medicine', url: S.robinson },
+];
 
 const faq = [
   {
@@ -36,7 +50,7 @@ const schema = [
     author: { '@id': `${SITE.url}/#persona` },
     publisher: { '@id': `${SITE.url}/#persona` },
     mainEntityOfPage: `${SITE.url}/guias/cuantas-repeticiones-para-ganar-musculo`,
-    dateModified: '2026-08-19',
+    dateModified: '2026-09-19',
   },
   {
     '@context': 'https://schema.org',
@@ -82,6 +96,7 @@ const schema = [
   <main id="contenido">
     <div class="wrap">
       <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <Autoria actualizado="2026-09-19" />
         <p class="cs-text">
           Esta es la pregunta con la respuesta más aburrida del gimnasio:
           <strong>importa mucho menos de lo que la gente cree</strong>. No hay un número mágico
@@ -97,6 +112,16 @@ const schema = [
           elige el que te resulte más cómodo y más adherente. El mejor rango es el que sostienes
           durante meses.
         </div>
+        <p class="cs-text">
+          Esto tiene respaldo directo. Un
+          <a href={S.carga} target="_blank" rel="noopener">metaanálisis de Schoenfeld y
+          colaboradores (2017)</a> reunió 21 estudios que comparaban cargas bajas (60&nbsp;% o
+          menos del máximo) con cargas altas, <strong>llevando todas las series al fallo</strong>,
+          y su conclusión es tal cual: la fuerza máxima mejora más con cargas altas, pero
+          <strong>la hipertrofia se consigue por igual en todo el espectro de cargas</strong>.
+          El número de repeticiones no es el interruptor; el esfuerzo sí
+          (<a href={S.robinson} target="_blank" rel="noopener">Robinson, 2024</a>).
+        </p>
       </div>
 
       <div class="content-section">
@@ -133,7 +158,11 @@ const schema = [
           como para no recomendarlo por defecto a quien busca músculo.
         </p>
         <p class="cs-text">
-          Si tu objetivo fuera la fuerza máxima, la conversación sería otra. Para hipertrofia,
+          Si tu objetivo fuera la fuerza máxima, la conversación sería otra: ahí sí manda la
+          carga. La <a href={S.acsm} target="_blank" rel="noopener">declaración de posición del
+          ACSM (2026)</a>, que resume 137 revisiones sistemáticas, sitúa la mejora de fuerza en
+          cargas del <strong>80&nbsp;% del máximo o más</strong>, con recorrido completo y al
+          principio de la sesión. Para hipertrofia,
           pagar con las articulaciones no compensa cuando tienes toda la zona de 6 a 14
           disponible.
         </p>
@@ -239,6 +268,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">

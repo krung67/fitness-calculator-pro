@@ -1,0 +1,83 @@
+---
+/**
+ * Cuánta masa magra añade cada 0,1 g/kg más de proteína, por debajo y por
+ * encima de 1,3 g/kg al día.
+ *
+ * Son las cifras EXACTAS que publica Tagawa et al. (2020), con sus intervalos
+ * de confianza. La versión anterior de este gráfico dibujaba una curva cuya
+ * escala vertical estaba inventada —daba a entender que con 1,2 g/kg se
+ * conseguía "la mitad" de las ganancias, algo que ningún estudio dice—. Si un
+ * dato no está publicado, no se dibuja.
+ */
+const ANCHO = 480,
+  ALTO = 250;
+const BASE = 186,
+  TOPE = 42;
+const MAXY = 0.45; // kg, para escalar las barras
+
+const barras = [
+  { etq: 'Por debajo de 1,3 g/kg', valor: 0.39, ic: '0,36 – 0,41', x: 92, destaca: true },
+  { etq: 'Por encima de 1,3 g/kg', valor: 0.12, ic: '0,11 – 0,14', x: 292, destaca: false },
+];
+const ANCHO_BARRA = 96;
+const y = (v: number) => BASE - (v / MAXY) * (BASE - TOPE);
+---
+
+<figure class="figura">
+  <svg viewBox={`0 0 ${ANCHO} ${ALTO}`} role="img" aria-labelledby="gp-t gp-d" class="figura-svg">
+    <title id="gp-t">Masa magra ganada por cada 0,1 gramos más de proteína por kilo</title>
+    <desc id="gp-d">
+      Por debajo de 1,3 gramos por kilo al día, cada 0,1 gramos más se asoció con 0,39 kg de masa
+      magra. Por encima de esa cifra, con solo 0,12 kg: algo más de tres veces menos.
+    </desc>
+
+    <line x1="40" y1={BASE} x2="450" y2={BASE} stroke="var(--border2)" stroke-width="1"></line>
+
+    {
+      barras.map((b) => (
+        <>
+          <rect
+            x={b.x}
+            y={y(b.valor)}
+            width={ANCHO_BARRA}
+            height={BASE - y(b.valor)}
+            rx="6"
+            fill={b.destaca ? 'var(--lime)' : 'var(--lime-deep)'}
+            stroke={b.destaca ? 'none' : 'var(--lime-dim)'}
+          />
+          <text
+            x={b.x + ANCHO_BARRA / 2}
+            y={y(b.valor) - 22}
+            text-anchor="middle"
+            font-size="22"
+            font-weight="700"
+            fill="var(--text)">+{b.valor.toFixed(2).replace('.', ',')} kg</text>
+          <text
+            x={b.x + ANCHO_BARRA / 2}
+            y={y(b.valor) - 7}
+            text-anchor="middle"
+            font-size="11"
+            fill="var(--text2)">IC 95 %: {b.ic}</text>
+          <text
+            x={b.x + ANCHO_BARRA / 2}
+            y={BASE + 20}
+            text-anchor="middle"
+            font-size="12"
+            fill="var(--text)">{b.etq}</text>
+        </>
+      ))
+    }
+
+    <text x="40" y="24" font-size="12" fill="var(--text2)">
+      Masa magra ganada por cada 0,1 g/kg más de proteína al día
+    </text>
+    <text x="240" y={BASE + 42} text-anchor="middle" font-size="11.5" fill="var(--text2)">
+      Y a partir de ~1,6 g/kg, Morton (2018) no encontró más ganancias.
+    </text>
+  </svg>
+  <figcaption class="figura-pie">
+    Cifras publicadas por <strong>Tagawa et&nbsp;al. (2020)</strong>, metaanálisis de ensayos
+    aleatorizados, con sus intervalos de confianza del 95&nbsp;%. El umbral de 1,3 g/kg es el que
+    identifica ese trabajo; el de 1,6 g/kg, el de Morton et&nbsp;al. (2018).
+  </figcaption>
+</figure>

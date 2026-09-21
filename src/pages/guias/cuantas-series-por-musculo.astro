@@ -1,6 +1,20 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
+
+const S = {
+  dosis: 'https://pubmed.ncbi.nlm.nih.gov/27433992/',
+  acsm: 'https://pubmed.ncbi.nlm.nih.gov/41843416/',
+  frec: 'https://pubmed.ncbi.nlm.nih.gov/27102172/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Schoenfeld BJ, Ogborn D, Krieger JW', anio: 2017, titulo: 'Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis', publicacion: 'Journal of Sports Sciences', url: S.dosis },
+  { autores: 'Colegio Americano de Medicina del Deporte (ACSM)', anio: 2026, titulo: 'Resistance training prescription for muscle function, hypertrophy, and physical performance in healthy adults: an overview of reviews (Position Stand)', publicacion: 'Medicine & Science in Sports & Exercise', url: S.acsm },
+  { autores: 'Schoenfeld BJ, Ogborn D, Krieger JW', anio: 2016, titulo: 'Effects of resistance training frequency on measures of muscle hypertrophy: a systematic review and meta-analysis', publicacion: 'Sports Medicine', url: S.frec },
+];
 
 const faq = [
   {
@@ -36,7 +50,7 @@ const schema = [
     author: { '@id': `${SITE.url}/#persona` },
     publisher: { '@id': `${SITE.url}/#persona` },
     mainEntityOfPage: `${SITE.url}/guias/cuantas-series-por-musculo`,
-    dateModified: '2026-08-19',
+    dateModified: '2026-09-19',
   },
   {
     '@context': 'https://schema.org',
@@ -81,6 +95,7 @@ const schema = [
   <main id="contenido">
     <div class="wrap">
       <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <Autoria actualizado="2026-09-19" />
         <p class="cs-text">
           Antes de hablar de números hay que cambiar la pregunta. La gente pregunta
           <em>cuántas series aguanto</em>, y la pregunta correcta es
@@ -140,6 +155,55 @@ const schema = [
           Quien hace seis series por ejercicio casi nunca puede llevarlas al límite —no le da
           el cuerpo—, así que acaba acumulando repeticiones que pasan por el músculo sin
           pedirle nada.
+        </p>
+        <p class="cs-text">
+          Ese número de dos a tres series por ejercicio coincide con lo que recoge la
+          <a href={S.acsm} target="_blank" rel="noopener">declaración de posición del Colegio
+          Americano de Medicina del Deporte (2026)</a>, el documento más reciente y más amplio
+          que existe sobre entrenamiento de fuerza: resume 137 revisiones sistemáticas y más de
+          30.000 participantes, y sitúa en <strong>2-3 series</strong> el tramo que mejora la
+          fuerza, con cargas altas y al principio de la sesión.
+        </p>
+      </div>
+
+      <!-- ─────────── LA CUENTA DE LA SEMANA ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Haz la cuenta</div>
+        <h2 class="cs-title">Pocas series por ejercicio, no pocas por semana</h2>
+        <p class="cs-text">
+          Aquí es donde mucha gente se lía, y conviene aclararlo porque parece una
+          contradicción y no lo es. Los estudios de volumen <strong>no cuentan series por
+          ejercicio: cuentan series por músculo y semana</strong>. Y ahí el
+          <a href={S.dosis} target="_blank" rel="noopener">metaanálisis de dosis-respuesta de
+          Schoenfeld, Ogborn y Krieger (2017)</a> —34 grupos de tratamiento en 15 estudios—
+          encontró que cada serie semanal añadida se asocia a un <strong>0,37&nbsp;% más de
+          ganancia</strong>, y el ACSM sitúa el umbral de la hipertrofia en
+          <strong>diez o más series semanales</strong> por músculo.
+        </p>
+        <p class="cs-text">
+          ¿Contradice eso lo de «dos series»? No, en cuanto multiplicas:
+        </p>
+        <table class="tabla-legal">
+          <thead>
+            <tr><th>Qué</th><th>Cuánto</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Series por ejercicio</td><td>2</td></tr>
+            <tr><td>Ejercicios por músculo y sesión</td><td>2 o 3</td></tr>
+            <tr><td>Sesiones por músculo y semana</td><td>2 (<a href="/guias/cuantas-veces-entrenar-cada-musculo">frecuencia 2</a>)</td></tr>
+            <tr><td><strong>Total semanal por músculo</strong></td><td><strong>8 a 12 series</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="cs-highlight">
+          <strong>Estás justo en el rango que recomiendan los estudios</strong>, solo que
+          repartido en series que sí puedes llevar al límite.
+        </div>
+        <p class="cs-text">
+          Dicho esto, hay un matiz que los propios autores reconocen y que conviene tener
+          presente: esos metaanálisis miden el volumen <strong>prescrito</strong>, no el
+          volumen del que el participante se recupera. En estudios de dos o tres meses casi
+          nadie llega a acumular la fatiga de meses entrenando así. Por eso «más series es más
+          crecimiento» funciona como tendencia general y falla como norma personal.
         </p>
       </div>
 
@@ -238,6 +302,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">

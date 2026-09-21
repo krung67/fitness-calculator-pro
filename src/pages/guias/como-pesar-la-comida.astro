@@ -1,6 +1,20 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Autoria from '../../components/Autoria.astro';
+import Fuentes, { type Fuente } from '../../components/Fuentes.astro';
 import { SITE } from '../../config/site';
+
+const S = {
+  fdc: 'https://fdc.nal.usda.gov/',
+  rendimientos: 'https://www.ars.usda.gov/ARSUserFiles/80400535/Data/retn/USDA_CookingYields_MeatPoultry02.pdf',
+  lichtman: 'https://pubmed.ncbi.nlm.nih.gov/1454084/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Departamento de Agricultura de Estados Unidos (USDA)', anio: 'Consultado en 2026', titulo: 'FoodData Central: composición de alimentos (pollo y arroz, crudos y cocinados)', publicacion: 'USDA Agricultural Research Service', url: S.fdc },
+  { autores: 'Departamento de Agricultura de Estados Unidos (USDA)', anio: 2014, titulo: 'USDA Table of Cooking Yields for Meat and Poultry, Release 2', publicacion: 'USDA Agricultural Research Service', url: S.rendimientos },
+  { autores: 'Lichtman SW, Pisarska K, Berman ER, et al.', anio: 1992, titulo: 'Discrepancy between self-reported and actual caloric intake and exercise in obese subjects', publicacion: 'The New England Journal of Medicine', url: S.lichtman },
+];
 
 /** Equivalencias orientativas para cuando no hay báscula delante. */
 const A_OJO = [
@@ -16,7 +30,7 @@ const A_OJO = [
 const faq = [
   {
     p: '¿Se pesa la comida cruda o cocida?',
-    r: 'En crudo, porque es como vienen los valores de las tablas y de las etiquetas. Al cocinarse, la carne y el pescado pierden agua y las calorías se concentran: 100 g de pollo crudo se quedan en unos 75 g cocinados, pero siguen teniendo las mismas calorías y la misma proteína. Si pesas en cocinado y aplicas valores de crudo, te dejas fuera alrededor de un 25 %.',
+    r: 'En crudo, porque es como vienen los valores de las tablas y de las etiquetas. Al cocinarse, la carne y el pescado pierden agua y las calorías se concentran: 100 g de pollo crudo se quedan en unos 73 g cocinados, pero siguen teniendo las mismas calorías y la misma proteína. Según los datos del USDA, la pechuga cruda tiene 22,5 g de proteína por 100 g y la asada 31,0 g. Si pesas en cocinado y aplicas valores de crudo, te dejas fuera cerca de un 28 %.',
   },
   {
     p: '¿Cómo peso la comida sin báscula?',
@@ -32,7 +46,7 @@ const faq = [
   },
   {
     p: '¿Peso el arroz y la pasta crudos o cocidos?',
-    r: 'Al revés que la carne, absorben agua al cocerse: 100 g de arroz crudo se convierten en unos 300 g cocidos. Puedes usar cualquiera de las dos referencias, pero tienes que ser coherente y usar el valor correspondiente. Lo más cómodo es pesarlos crudos, porque así lo indican los paquetes.',
+    r: 'Al revés que la carne, absorben agua al cocerse: 100 g de arroz crudo se convierten en unos 280 g cocidos. Puedes usar cualquiera de las dos referencias, pero tienes que ser coherente y usar el valor correspondiente. Lo más cómodo es pesarlos crudos, porque así lo indican los paquetes.',
   },
   {
     p: '¿Qué báscula necesito?',
@@ -51,7 +65,7 @@ const schema = [
     author: { '@id': `${SITE.url}/#persona` },
     publisher: { '@id': `${SITE.url}/#persona` },
     mainEntityOfPage: `${SITE.url}/guias/como-pesar-la-comida`,
-    dateModified: '2026-08-08',
+    dateModified: '2026-09-19',
   },
   {
     '@context': 'https://schema.org',
@@ -97,14 +111,23 @@ const schema = [
   <main id="contenido">
     <div class="wrap">
       <div class="content-section" style="border-top:none;padding-top:2.5rem">
+        <Autoria actualizado="2026-09-19" />
         <p class="cs-text">
           Pesar la comida es lo que separa «creo que estoy en déficit» de «sé que estoy en
           déficit». Y no hace falta hacerlo toda la vida: unas semanas bastan para calibrar
           el ojo.
         </p>
         <p class="cs-text">
-          Pero hay que hacerlo bien, porque <strong>hay un error que descuadra los cálculos en
-          torno a un 25 % y muchísima gente lo arrastra durante meses</strong> sin enterarse.
+          Que la diferencia entre creerlo y saberlo es enorme está medido desde hace décadas.
+          En un <a href={S.lichtman} target="_blank" rel="noopener">estudio publicado en el
+          <em>New England Journal of Medicine</em> (1992)</a> se siguió durante 14 días a
+          personas convencidas de que su metabolismo les impedía adelgazar. Su gasto energético
+          era normal, pero <strong>declaraban un 47 % menos de comida de la que realmente
+          comían</strong>. No mentían: calculaban a ojo.
+        </p>
+        <p class="cs-text">
+          Pero hay que hacerlo bien, porque <strong>hay un error que descuadra los cálculos
+          cerca de un 28 % y muchísima gente lo arrastra durante meses</strong> sin enterarse.
           Empezamos por ahí.
         </p>
       </div>
@@ -124,12 +147,27 @@ const schema = [
           El peso baja, pero las calorías y la proteína siguen ahí. Se concentran.
         </p>
         <div class="cs-highlight">
-          <strong>100 g de pollo crudo → unos 75 g cocinado.</strong><br />
-          Esos 100 g crudos tenían 23 g de proteína. Los 75 g cocinados siguen teniendo esos
-          mismos 23 g.<br /><br />
-          Es decir: <strong>100 g de pollo cocinado equivalen a unos 133 g crudos</strong>. Si
-          apuntas «100 g de pollo» pesándolo cocinado, te estás dejando fuera un 25 %.
+          <strong>100 g de pollo crudo → unos 73 g cocinado.</strong><br />
+          Esos 100 g crudos tenían 22,5 g de proteína. Los 73 g cocinados siguen teniendo esos
+          mismos 22,5 g.<br /><br />
+          Es decir: <strong>100 g de pollo cocinado equivalen a unos 138 g crudos</strong>. Si
+          apuntas «100 g de pollo» pesándolo cocinado, te estás dejando fuera cerca de un 28 %.
         </div>
+        <p class="cs-text">
+          Esas cifras no son un cálculo de servilleta: salen de la base de composición de
+          alimentos del <a href={S.fdc} target="_blank" rel="noopener">Departamento de
+          Agricultura de Estados Unidos</a>, que es la referencia que hay detrás de casi todas
+          las tablas que usas. La pechuga cruda tiene <strong>22,5 g de proteína por 100 g</strong>
+          y la asada <strong>31,0 g</strong>. La proteína no aparece de la nada: es la misma
+          carne con menos agua.
+        </p>
+        <p class="cs-text">
+          El porcentaje exacto depende de cómo lo cocines. La
+          <a href={S.rendimientos} target="_blank" rel="noopener">tabla de rendimientos de
+          cocinado del USDA</a> recoge valores de entre el <strong>65 y el 84 %</strong> para
+          pollo según el corte y el método. Por eso aquí se habla de «unos» 73 g: a la plancha
+          y muy hecho pierde más que al horno y jugoso.
+        </p>
         <p class="cs-text">
           Con un objetivo de 2.000 kcal diarias, un error del 25 % en las proteínas de la
           comida y la cena son varios cientos de calorías al día. <strong>Suficiente para
@@ -138,7 +176,7 @@ const schema = [
 
         <h3 class="cs-h3">Arroz, pasta y legumbres: absorben agua</h3>
         <p class="cs-text">
-          Aquí ocurre lo contrario. <strong>100 g de arroz crudo se convierten en unos 300 g
+          Aquí ocurre lo contrario. <strong>100 g de arroz crudo se convierten en unos 280 g
           cocidos.</strong> Si pesas 100 g de arroz ya hecho creyendo que son 100 g de arroz,
           estás contando el triple de lo que has comido.
         </p>
@@ -267,6 +305,8 @@ const schema = [
           ))
         }
       </div>
+
+      <Fuentes fuentes={fuentes} />
 
       <div class="content-section">
         <p class="cs-text">

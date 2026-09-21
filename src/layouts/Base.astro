@@ -44,6 +44,14 @@ const cleanPath = Astro.url.pathname
   .replace(/\.html$/, '') //         /tdee.html   → /tdee
   .replace(/(.+)\/$/, '$1'); //      /tdee/       → /tdee  (no toca la raíz)
 
+// Título con marca. Google asocia un sitio a su nombre en parte por lo que
+// repiten los títulos: en septiembre de 2026, buscando "calculadora fit" el
+// sitio salía en la posición 12 y la marca no aparecía en 23 de 31 títulos.
+// Se añade solo si no está ya, para no duplicarla.
+const tituloCompleto = title.toLowerCase().includes(SITE.nombre.toLowerCase())
+  ? title
+  : `${title} · ${SITE.nombre}`;
+
 const canonical = new URL(cleanPath, Astro.site);
 const ogImage = new URL(image, Astro.site);
 
@@ -61,6 +69,7 @@ const schemaSitio = [
     '@id': `${SITE.url}/#website`,
     url: SITE.url,
     name: SITE.nombre,
+    alternateName: ['CalculadoraFit', 'Calculadora Fit · calorías y macros'],
     description:
       'Calculadoras gratuitas de calorías, macronutrientes y métricas de nutrición y fitness, con el razonamiento explicado.',
     inLanguage: 'es-ES',
@@ -70,9 +79,15 @@ const schemaSitio = [
     '@context': 'https://schema.org',
     '@type': 'Person',
     '@id': `${SITE.url}/#persona`,
-    name: 'Enrique',
+    // El nombre tiene que ser EXACTAMENTE el de las firmas de las guías: si
+    // aquí pone "Enrique" y en la firma "Xabier Enrique Garcia", Google ve dos
+    // entidades distintas y ninguna acumula autoridad.
+    name: SITE.titular.nombre,
+    alternateName: 'Enrique',
     url: `${SITE.url}/sobre-nosotros`,
     email: SITE.email,
+    description:
+      'Recopila, contrasta y explica estudios científicos publicados sobre nutrición y entrenamiento. Sin titulación sanitaria: la información se apoya en fuentes citadas, no en su opinión.',
     // Declarar de qué se sabe es una señal de E-E-A-T. No inventamos
     // titulaciones: la autoridad aquí viene de la experiencia aplicada.
     knowsAbout: [
@@ -97,7 +112,7 @@ const todosLosSchemas = [...schemaSitio, ...schemasPagina];
         la web, en vez del blanco por defecto que corta con el diseño. */}
     <meta name="theme-color" content="#07090b" />
 
-    <title>{title}</title>
+    <title>{tituloCompleto}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
@@ -107,7 +122,7 @@ const todosLosSchemas = [...schemaSitio, ...schemasPagina];
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Calculadora Fit" />
     <meta property="og:locale" content="es_ES" />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={tituloCompleto} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
@@ -117,7 +132,7 @@ const todosLosSchemas = [...schemaSitio, ...schemasPagina];
     <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={tituloCompleto} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 

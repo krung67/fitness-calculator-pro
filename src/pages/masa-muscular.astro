@@ -1,6 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import Fuentes, { type Fuente } from '../components/Fuentes.astro';
 import { SITE } from '../config/site';
+
+const fuentes: Fuente[] = [
+  { autores: 'Kouri EM, Pope HG, Katz DL, Oliva P', anio: 1995, titulo: 'Fat-free mass index in users and nonusers of anabolic-androgenic steroids', publicacion: 'Clinical Journal of Sport Medicine', url: 'https://pubmed.ncbi.nlm.nih.gov/7496846/' },
+  { autores: 'Iraki J, Fitschen P, Espinar S, Helms E', anio: 2019, titulo: 'Nutrition recommendations for bodybuilders in the off-season: a narrative review', publicacion: 'Sports', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC6680710/' },
+];
+
+const introFuentes =
+  'La fórmula del FFMI y su normalización a 1,80 m son las que publicaron <strong>Kouri y colaboradores en 1995</strong>; yo las he recopilado y explicado. Para que no haya dudas sobre lo demás: el límite de 25 sale de ese estudio, hecho <strong>solo con hombres</strong>; los tramos intermedios de la tabla y los valores para mujeres son referencias orientativas de uso habitual, no de un estudio concreto, igual que la estimación de ganancia mensual por nivel.';
 
 const faq = [
   {
@@ -17,7 +26,7 @@ const faq = [
   },
   {
     p: '¿Por qué se normaliza el FFMI a 1,80 metros?',
-    r: 'Porque con la misma musculatura relativa, las personas altas obtienen un FFMI algo menor: la masa no crece exactamente con el cuadrado de la altura. La normalización corrige ese sesgo sumando 6,1 por cada metro de diferencia respecto a 1,80 m, y permite comparar entre personas de distinta estatura.',
+    r: 'Porque con la misma musculatura relativa, las personas altas obtienen un FFMI algo menor: la masa no crece exactamente con el cuadrado de la altura. La normalización corrige ese sesgo sumando 6,3 por cada metro de diferencia respecto a 1,80 m, y permite comparar entre personas de distinta estatura.',
   },
   {
     p: '¿Es cierto que un FFMI mayor de 25 indica uso de esteroides?',
@@ -25,7 +34,7 @@ const faq = [
   },
   {
     p: '¿Cuánto músculo puedo ganar de forma realista?',
-    r: 'Depende sobre todo de tu experiencia de entrenamiento. Un principiante bien entrenado y bien alimentado puede ganar entre un 1 % y un 1,5 % de su peso corporal al mes; un intermedio, entre 0,5 % y 1 %; un avanzado, entre 0,25 % y 0,5 %. Traducido: los primeros meses son con diferencia los más rentables, y luego el ritmo se frena mucho.',
+    r: 'Depende sobre todo de tu experiencia de entrenamiento. Un principiante bien entrenado y bien alimentado puede ganar entre un 1 % y un 1,5 % de su peso corporal al mes; un intermedio, entre 0,5 % y 1 %; un avanzado, entre 0,25 % y 0,5 %. Son estimaciones orientativas de entrenadores, no cifras de un estudio concreto, pero la tendencia sí está respaldada por la investigación: los primeros meses son con diferencia los más rentables, y luego el ritmo se frena mucho.',
   },
   {
     p: 'Llevo años entrenando y no gano nada. ¿Es normal?',
@@ -307,7 +316,9 @@ const schema = [
           la pena explicar de dónde sale eso y por qué la afirmación es exagerada.
         </p>
         <p class="cs-text">
-          El dato procede de un <strong>estudio de 1995</strong> que analizó la composición
+          El dato procede de un
+          <a href="https://pubmed.ncbi.nlm.nih.gov/7496846/" target="_blank" rel="noopener"><strong>estudio de 1995</strong></a>
+          (Kouri et al.) que analizó la composición
           corporal de 157 hombres, algunos usuarios de esteroides y otros no. Los
           investigadores observaron que los <strong>no usuarios rara vez superaban un FFMI
           normalizado de 25</strong>. De ahí salió la cifra que hoy se repite por todas partes.
@@ -353,12 +364,23 @@ const schema = [
           unos 200-400 gramos al mes siendo avanzado. <strong>No es que lo estés haciendo
           mal</strong>: es que cuanto más cerca estás de tu potencial, más despacio avanzas.
         </p>
+        <p class="cs-text">
+          Conviene ser claro con el origen de esta tabla: es una <strong>estimación
+          orientativa muy usada por entrenadores</strong>, no el resultado de un estudio
+          concreto, y funciona mejor como techo que como promesa. Lo que sí está respaldado es
+          la tendencia: la
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6680710/" target="_blank" rel="noopener">revisión
+          de Iraki y Helms sobre culturistas naturales (2019)</a> señala que quien parte sin
+          entrenar gana músculo más rápido y que el ritmo se frena a medida que avanzas.
+        </p>
         <div class="cs-highlight">
           <strong>La consecuencia práctica:</strong> los primeros dos años son con diferencia
           los más rentables. Si estás empezando, ese es el momento de ser constante — no lo
           desaproveches saltando de rutina en rutina.
         </div>
       </div>
+
+      <Fuentes fuentes={fuentes} intro={introFuentes} />
 
       <div class="content-section">
         <div class="cs-tag">Preguntas frecuentes</div>
@@ -441,7 +463,7 @@ function calcFFMI() {
   const grasaKg = peso - magra;
   const bruto = magra / (altM * altM);
   // Normalización a 1,80 m (Kouri et al., 1995).
-  const norm = bruto + 6.1 * (1.8 - altM);
+  const norm = bruto + 6.3 * (1.8 - altM);
 
   const r = FFMI_ESC[sexo].find(x => norm < x.max);
 
@@ -467,8 +489,8 @@ function calcFFMI() {
  * Invierte la fórmula del FFMI: para una altura dada, cuántos kilos de masa
  * magra corresponden a cada nivel. Responde a "masa muscular ideal en kg".
  *
- *   FFMI_norm = magra / altura² + 6,1 × (1,8 − altura)
- *   →  magra  = (FFMI_norm − 6,1 × (1,8 − altura)) × altura²
+ *   FFMI_norm = magra / altura² + 6,3 × (1,8 − altura)   (Kouri et al., 1995)
+ *   →  magra  = (FFMI_norm − 6,3 × (1,8 − altura)) × altura²
  */
 function pintarObjetivo(sexo, altM, magraActual) {
   const NIVELES = {
@@ -486,7 +508,7 @@ function pintarObjetivo(sexo, altM, magraActual) {
     ],
   }[sexo];
 
-  const magraPara = ffmi => (ffmi - 6.1 * (1.8 - altM)) * altM * altM;
+  const magraPara = ffmi => (ffmi - 6.3 * (1.8 - altM)) * altM * altM;
   const f1 = n => n.toFixed(1).replace('.', ',');
 
   let filas = '<thead><tr><th>Nivel</th><th>Masa magra</th><th>Te faltan</th></tr></thead><tbody>';

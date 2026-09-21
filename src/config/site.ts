@@ -209,6 +209,7 @@ export const GUIAS = [
  */
 export const NAV_LEGAL = [
   { href: '/sobre-nosotros', texto: 'Sobre nosotros' },
+  { href: '/fuentes', texto: 'Fuentes' },
   { href: '/contacto', texto: 'Contacto' },
   { href: '/aviso-legal', texto: 'Aviso legal' },
   { href: '/privacidad', texto: 'Privacidad' },
