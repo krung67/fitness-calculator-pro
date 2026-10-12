@@ -6,6 +6,13 @@
   "installCommand": "npm install",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/guias/como-pesar-la-comida-cruda-o-cocida",
+      "destination": "/guias/como-pesar-la-comida",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/_astro/(.*)",
