@@ -1,0 +1,348 @@
+---
+/**
+ * Calculadora de 1RM (repetición máxima).
+ *
+ * Estima el peso máximo para una repetición a partir de una serie submáxima,
+ * con las fórmulas de Epley (1985) y Brzycki (1993). Añade lo que no tienen las
+ * calculadoras típicas: contar las repeticiones en reserva (RIR), porque una
+ * serie que no llega al fallo subestima el 1RM si se trata como si llegara.
+ *
+ * Elegida por demanda real: «1rm calculadora», «1rm press banca», «1rm formula»
+ * y «1rm que es» aparecen en las sugerencias de Google de España y México
+ * (estudio de búsquedas del 6 nov 2026, ver PLAN-TRAFICO.md).
+ */
+import Base from '../layouts/Base.astro';
+import Fuentes, { type Fuente } from '../components/Fuentes.astro';
+import { SITE } from '../config/site';
+
+const S = {
+  brzycki: 'https://doi.org/10.1080/07303084.1993.10606684',
+  mayhew: 'https://pubmed.ncbi.nlm.nih.gov/18714230/',
+  rir: 'https://pubmed.ncbi.nlm.nih.gov/37967832/',
+};
+
+const fuentes: Fuente[] = [
+  { autores: 'Epley B', anio: 1985, titulo: 'Poundage chart', publicacion: 'Boyd Epley Workout, Lincoln (Nebraska)' },
+  { autores: 'Brzycki M', anio: 1993, titulo: 'Strength testing—predicting a one-rep max from reps-to-fatigue', publicacion: 'Journal of Physical Education, Recreation & Dance', url: S.brzycki },
+  { autores: 'Mayhew JL, Johnson BD, LaMonte MJ, Lauber D, Kemmler W', anio: 2008, titulo: 'Accuracy of prediction equations for determining one repetition maximum bench press in women before and after resistance training', publicacion: 'Journal of Strength and Conditioning Research', url: S.mayhew },
+  { autores: 'Refalo MC, Remmert JF, Pelland JC, et al.', anio: 2024, titulo: 'Accuracy of intraset repetitions-in-reserve predictions during the bench press exercise in resistance-trained male and female subjects', publicacion: 'Journal of Strength and Conditioning Research', url: S.rir },
+];
+
+const introFuentes =
+  'Las dos fórmulas son las de <strong>Epley (1985)</strong> y <strong>Brzycki (1993)</strong>, las más usadas en entrenamiento; yo las he recopilado y explicado. La calculadora muestra la media de ambas. Lo que añadimos nosotros —sumar las repeticiones en reserva y avisar cuando la serie pasa de 10 repeticiones— se apoya en los dos estudios de abajo.';
+
+// Porcentajes del 1RM para la tabla de entrenamiento.
+const PORCENTAJES = [100, 95, 90, 85, 80, 75, 70, 65, 60];
+
+const faq = [
+  {
+    p: '¿Qué es el 1RM?',
+    r: 'Es tu repetición máxima: el peso más alto con el que puedes hacer una sola repetición completa y con buena técnica en un ejercicio. Se usa para medir la fuerza y para programar el entrenamiento en porcentajes, por ejemplo trabajar al 80 % de tu 1RM.',
+  },
+  {
+    p: '¿Cuál es la fórmula para calcular el 1RM?',
+    r: 'Las dos más usadas son la de Epley, 1RM = peso × (1 + repeticiones ÷ 30), y la de Brzycki, 1RM = peso × 36 ÷ (37 − repeticiones). Con pocas repeticiones dan resultados casi iguales; con muchas se separan. Esta calculadora muestra la media de las dos.',
+  },
+  {
+    p: '¿Es fiable calcular el 1RM con una fórmula?',
+    r: 'Es una estimación razonable, no una medición. Un estudio con 103 mujeres encontró que las fórmulas eran más precisas cuando la serie tenía menos de 10 repeticiones (Mayhew et al., 2008). Por eso conviene usar una serie de entre 3 y 8 repeticiones, y la calculadora avisa cuando pasas de 10.',
+  },
+  {
+    p: '¿Cómo calculo mi 1RM en press banca?',
+    r: 'Calienta, carga un peso con el que puedas hacer entre 3 y 8 repeticiones con buena técnica, haz la serie y apunta el peso y las repeticiones. Si paraste antes del fallo, apunta también cuántas te quedaban (RIR). Con esos datos, la calculadora estima tu 1RM.',
+  },
+  {
+    p: '¿Sirve para sentadilla y peso muerto?',
+    r: 'Sí, las fórmulas se aplican a cualquier ejercicio con carga. Pero ten en cuenta que el estudio de validación que citamos se hizo en press de banca, así que en otros ejercicios la precisión puede ser distinta. Tómalo como referencia para programar, no como una cifra exacta.',
+  },
+  {
+    p: '¿Qué es el RIR y por qué cambia el resultado?',
+    r: 'RIR son las repeticiones en reserva: las que podrías haber hecho y no hiciste. Si haces 8 repeticiones dejando 2 en recámara, en realidad podías hacer 10, y tu 1RM es mayor que si hubieras llegado al fallo en la octava. La calculadora suma ese RIR antes de aplicar la fórmula.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Calculadora de 1RM',
+    url: `${SITE.url}/calculadora-rm`,
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Cualquiera (navegador web)',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+    inLanguage: 'es-ES',
+    author: { '@id': `${SITE.url}/#persona` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.p,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Calculadora de 1RM', item: `${SITE.url}/calculadora-rm` },
+    ],
+  },
+];
+---
+
+<Base
+  title="Calculadora de 1RM: Calcula tu Repetición Máxima"
+  description="Calcula tu 1RM en press banca, sentadilla o peso muerto a partir de tus repeticiones. Con las fórmulas de Epley y Brzycki, ajuste por RIR y tabla de porcentajes."
+  schema={schema}
+>
+  <div class="hero hero-sm">
+    <div class="hero-glow"></div>
+    <div class="site-badge">Repetición máxima</div>
+    <h1>Calculadora de 1RM</h1>
+    <p class="hero-sub">
+      Tu peso máximo para una repetición, sin tener que arriesgarte a probarlo — y la tabla
+      de porcentajes para entrenar con él.
+    </p>
+  </div>
+
+  <main id="contenido">
+    <div class="wrap">
+      <div style="padding:2.5rem 0 1rem">
+        <p class="sec-label">Calcula tu 1RM</p>
+        <h2 class="sec-title">Tu serie</h2>
+
+        <div class="fgrid">
+          <div class="field">
+            <label for="rmEjercicio">Ejercicio</label>
+            <select id="rmEjercicio">
+              <option value="press banca">Press banca</option>
+              <option value="sentadilla">Sentadilla</option>
+              <option value="peso muerto">Peso muerto</option>
+              <option value="press militar">Press militar</option>
+              <option value="este ejercicio">Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="rmPeso">Peso levantado (kg)</label>
+            <input type="number" id="rmPeso" placeholder="80" min="1" max="500" step="0.5" />
+          </div>
+          <div class="field">
+            <label for="rmReps">Repeticiones hechas</label>
+            <input type="number" id="rmReps" placeholder="6" min="1" max="15" step="1" />
+          </div>
+          <div class="field">
+            <label for="rmRir">Repeticiones en reserva (RIR)</label>
+            <select id="rmRir">
+              <option value="0">0 — llegué al fallo</option>
+              <option value="1">1 — me quedaba una</option>
+              <option value="2">2 — me quedaban dos</option>
+              <option value="3">3 — me quedaban tres</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-main" id="rmBtn" type="button">Calcular mi 1RM</button>
+
+        <div class="rcard" id="rmRes" aria-live="polite">
+          <div class="rc-label" id="rmEtq">Tu 1RM estimado</div>
+          <div class="rc-big" id="rmValor">—</div>
+          <div class="rc-desc" id="rmDesc"></div>
+          <div class="tip" id="rmAviso" style="display:none;margin-top:1rem"></div>
+
+          <table class="tabla-legal" style="margin-top:1.4rem">
+            <caption class="cs-text" style="text-align:left;margin-bottom:.4rem">
+              Tabla para programar tu entrenamiento
+            </caption>
+            <thead>
+              <tr><th>% del 1RM</th><th>Peso</th><th>Repeticiones aprox.</th></tr>
+            </thead>
+            <tbody id="rmTabla"></tbody>
+          </table>
+        </div>
+
+        <p class="cs-text" style="margin-top:1.5rem">
+          Para que esa fuerza se convierta en músculo, el otro lado es la comida: calcula
+          <a href="/" style="color:var(--lime)">tus calorías y macros</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── QUÉ ES ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Lo básico</div>
+        <h2 class="cs-title">Qué es el 1RM</h2>
+        <p class="cs-text">
+          El <strong>1RM</strong>, o repetición máxima, es el peso más alto con el que puedes
+          hacer <strong>una sola repetición completa</strong> de un ejercicio con buena
+          técnica. Es la forma estándar de medir la fuerza máxima, y sirve para dos cosas:
+          saber si progresas y programar el entrenamiento en porcentajes.
+        </p>
+        <p class="cs-text">
+          Probarlo de verdad exige un calentamiento largo, alguien que te ayude y asumir el
+          riesgo de fallar con la carga más pesada que has movido nunca. Por eso lo habitual
+          es <strong>estimarlo</strong> a partir de una serie más ligera: si sabes cuántas
+          repeticiones haces con un peso, las fórmulas calculan cuánto podrías levantar una
+          sola vez.
+        </p>
+      </div>
+
+      <!-- ─────────── FÓRMULAS ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Las fórmulas</div>
+        <h2 class="cs-title">Cómo se calcula: Epley y Brzycki</h2>
+        <p class="cs-text">Son las dos fórmulas más utilizadas:</p>
+        <div class="cs-highlight">
+          <strong>Epley (1985):</strong> 1RM = peso × (1 + repeticiones ÷ 30)<br />
+          <strong>Brzycki (1993):</strong> 1RM = peso × 36 ÷ (37 − repeticiones)
+        </div>
+        <p class="cs-text">
+          Un ejemplo con 80 kg a 6 repeticiones: Epley da 96 kg y Brzycki, 92,9 kg. Con pocas
+          repeticiones las dos casi coinciden; cuantas más metes, más se separan. Esta
+          calculadora muestra la <strong>media de ambas</strong>, que es una forma sencilla de
+          no depender de una sola.
+        </p>
+      </div>
+
+      <!-- ─────────── FIABILIDAD ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Precisión</div>
+        <h2 class="cs-title">Cuándo es fiable y cuándo no</h2>
+        <p class="cs-text">
+          Es una estimación, y su precisión depende sobre todo de cuántas repeticiones uses.
+          Un <a href={S.mayhew} target="_blank" rel="noopener">estudio con 103 mujeres
+          (Mayhew et al., 2008)</a> comparó las fórmulas con el 1RM medido de verdad, antes y
+          después de 12 semanas de entrenamiento, y encontró que eran
+          <strong>más precisas cuando la serie tenía menos de 10 repeticiones</strong>.
+        </p>
+        <div class="cs-highlight">
+          <strong>La regla práctica:</strong> usa una serie de entre 3 y 8 repeticiones. Con
+          series largas el cansancio general pesa más que la fuerza máxima y el resultado se
+          desvía. Por eso la calculadora te avisa cuando pasas de 10.
+        </div>
+        <p class="cs-text">
+          Un matiz honesto: ese estudio se hizo en press de banca. En sentadilla o peso
+          muerto la fórmula sirve igual como referencia para programar, pero la precisión
+          puede ser distinta.
+        </p>
+      </div>
+
+      <!-- ─────────── RIR ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Lo que añadimos</div>
+        <h2 class="cs-title">Si no llegaste al fallo, cuenta las que te sobraban</h2>
+        <p class="cs-text">
+          Las fórmulas asumen que la serie llegó al fallo. Pero casi nadie entrena así todas
+          las series. Si hiciste 8 repeticiones y te quedaban 2, en realidad podías hacer 10,
+          y tratarlo como un 8 al fallo te da un 1RM más bajo del real.
+        </p>
+        <p class="cs-text">
+          Por eso aquí puedes indicar tus <strong>repeticiones en reserva (RIR)</strong> y la
+          calculadora las suma antes de aplicar la fórmula. ¿Se puede uno fiar de su propia
+          estimación? En gente entrenada, bastante:
+          <a href={S.rir} target="_blank" rel="noopener">al pedirles parar a 1 y a 3 RIR en
+          press de banca, se equivocaron de media en menos de una repetición</a> (Refalo et
+          al., 2024). Si estás empezando, lo más fiable es usar una serie al fallo o casi.
+          Tienes más sobre esto en
+          <a href="/guias/entrenar-al-fallo-o-dejar-repeticiones">entrenar al fallo o dejar
+          repeticiones</a>.
+        </p>
+      </div>
+
+      <!-- ─────────── PORCENTAJES ─────────── -->
+      <div class="content-section">
+        <div class="cs-tag">Para qué sirve</div>
+        <h2 class="cs-title">Cómo usar tu 1RM para entrenar</h2>
+        <p class="cs-text">
+          La tabla del resultado te da el peso para cada porcentaje de tu 1RM y cuántas
+          repeticiones salen aproximadamente con él. Úsala como punto de partida: el día a
+          día cambia con el cansancio, el sueño y la comida.
+        </p>
+        <p class="cs-text">
+          Para ganar músculo no hace falta trabajar cerca del 100 %. Como explicamos en
+          <a href="/guias/cuantas-repeticiones-para-ganar-musculo">cuántas repeticiones para
+          ganar músculo</a>, la hipertrofia se consigue en un rango amplio de cargas si las
+          series se llevan cerca del fallo. Los porcentajes altos, del 85 % para arriba, son
+          sobre todo para la fuerza máxima.
+        </p>
+      </div>
+
+      <Fuentes fuentes={fuentes} intro={introFuentes} />
+
+      <div class="content-section">
+        <div class="cs-tag">Preguntas frecuentes</div>
+        <h2 class="cs-title">Preguntas frecuentes sobre el 1RM</h2>
+        {
+          faq.map((f) => (
+            <div class="faq-item">
+              <div class="faq-q">{f.p}</div>
+              <div class="faq-a">{f.r}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="content-section">
+        <p class="cs-text" style="font-size:.85rem">
+          ⚠️ Si vas a probar tu 1RM real, hazlo con un calentamiento progresivo y con alguien
+          que te ayude en ejercicios como el press de banca o la sentadilla.
+        </p>
+      </div>
+    </div>
+  </main>
+</Base>
+
+<script is:inline define:vars={{ PORCENTAJES }}>
+// Con define:vars el script va envuelto en una función: nada es global y un
+// onclick="" en el HTML fallaría en silencio. Por eso se usa addEventListener.
+const epley = (w, r) => w * (1 + r / 30);
+const brzycki = (w, r) => w * 36 / (37 - r);
+const fmt = (x, d = 1) => x.toFixed(d).replace('.', ',');
+// Repeticiones aproximadas a un porcentaje: inversa de Brzycki.
+const repsA = (pct) => Math.max(1, Math.round(37 - 36 * pct / 100));
+
+document.getElementById('rmBtn').addEventListener('click', () => {
+  const peso = parseFloat(document.getElementById('rmPeso').value);
+  const reps = parseInt(document.getElementById('rmReps').value, 10);
+  const rir = parseInt(document.getElementById('rmRir').value, 10) || 0;
+  const ej = document.getElementById('rmEjercicio').value;
+  const aviso = document.getElementById('rmAviso');
+  // Un error no debe dejar a la vista el resultado de un cálculo anterior.
+  const limpiar = () => {
+    document.getElementById('rmValor').textContent = '—';
+    document.getElementById('rmDesc').textContent = '';
+    document.getElementById('rmTabla').innerHTML = '';
+  };
+
+  if (!peso || peso <= 0 || peso > 500) { limpiar(); aviso.textContent = 'Introduce el peso levantado, entre 1 y 500 kg.'; aviso.style.display = 'block'; document.getElementById('rmRes').classList.add('show'); return; }
+  if (!reps || reps < 1 || reps > 15) { limpiar(); aviso.textContent = 'Introduce entre 1 y 15 repeticiones. Con series más largas la estimación deja de ser útil.'; aviso.style.display = 'block'; document.getElementById('rmRes').classList.add('show'); return; }
+
+  const r = reps + rir; // repeticiones que podías haber hecho
+  const rm = r === 1 ? peso : (epley(peso, r) + brzycki(peso, r)) / 2;
+  const redondeo = Math.round(rm / 2.5) * 2.5;
+
+  document.getElementById('rmEtq').textContent = 'Tu 1RM estimado en ' + ej;
+  document.getElementById('rmValor').textContent = fmt(rm) + ' kg';
+  document.getElementById('rmDesc').textContent =
+    (r === 1 ? 'Has hecho una sola repetición al fallo: ese es tu 1RM. ' :
+      'Epley: ' + fmt(epley(peso, r)) + ' kg · Brzycki: ' + fmt(brzycki(peso, r)) + ' kg. ') +
+    'En discos, unos ' + fmt(redondeo) + ' kg.' +
+    (rir ? ' Calculado como ' + r + ' repeticiones: las ' + reps + ' que hiciste más ' +
+      (rir === 1 ? 'la que te quedaba' : 'las ' + rir + ' que te quedaban') + ' en reserva.' : '');
+
+  if (r > 10) {
+    aviso.innerHTML = '<strong>Ojo con la precisión:</strong> con ' + r + ' repeticiones la estimación es menos fiable. ' +
+      'Las fórmulas funcionan mejor por debajo de 10. Para afinar, repite con un peso que te dé entre 3 y 8.';
+    aviso.style.display = 'block';
+  } else {
+    aviso.style.display = 'none';
+  }
+
+  document.getElementById('rmTabla').innerHTML = PORCENTAJES.map((p) =>
+    '<tr><td>' + p + ' %</td><td><strong>' + fmt(rm * p / 100) + ' kg</strong></td><td>' +
+    (p === 100 ? '1' : '≈ ' + repsA(p)) + '</td></tr>').join('');
+
+  document.getElementById('rmRes').classList.add('show');
+});
+</script>

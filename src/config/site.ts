@@ -67,6 +67,7 @@ export const NAV = [
   { href: '/imc', texto: 'IMC' },
   { href: '/grasa-corporal', texto: 'Grasa corporal' },
   { href: '/masa-muscular', texto: 'Masa muscular' },
+  { href: '/calculadora-rm', texto: 'Tu 1RM' },
   { href: '/generador-dieta', texto: 'Tu dieta' },
   { href: '/metodo', texto: 'Método' },
 ] as const;

@@ -23,7 +23,7 @@ sentadilla, peso muerto), perder grasa abdominal/visceral, culturismo natural.
 Descartado por ahora: noticias de culturismo (exigen publicación diaria y envejecen).
 
 ## Fase 1 — Herramientas
-- [ ] Calculadora de 1RM (`/calculadora-rm`): Epley, Brzycki, opción por RIR, tabla de
+- [x] Calculadora de 1RM (`/calculadora-rm`) — publicada el 6 nov 2026.: Epley, Brzycki, opción por RIR, tabla de
       porcentajes, aviso de precisión >10 repeticiones (Mayhew 2008).
 - [ ] Calculadora de coste de proteína (`/coste-proteina`): precios reales de España
       (Mercadona, Eroski, Alcampo) + modo «mete tus precios» para Latinoamérica.
